@@ -1,0 +1,25 @@
+version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+      - '5000:5000'
+    command: 'python wsgi.py'
+    environment:
+      PYTHONUNBUFFERED: 1
+    depends_on:
+      - 'db'
+    volumes:
+      - '.:/app'
+      - '~/.aws:/root/.aws'
+
+  db:
+    image: 'postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: 'hackerstash'
+      POSTGRES_USER: 'hackerstash'
+      POSTGRES_PASSWORD: 'hackerstash'
+    volumes:
+      - './tmp/postgres-data:/var/lib/postgresql/data'
