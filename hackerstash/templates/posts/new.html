@@ -1,0 +1,42 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Create Post' %}
+
+{% block body %}
+    <div class="page posts new">
+        <header class="header">
+            <h2>New Post</h2>
+        </header>
+
+        <form class="form" action="{{ url_for('posts.create') }}" method="post">
+            <fieldset>
+                <div class="split">
+                    <div class="left">
+                        <label class="label" for="title">Title</label>
+                        <input class="input" type="text" id="title" name="title" required value>
+
+                        <label class="label add-image" for="body">Update</label>
+                        <textarea class="input textarea" id="body" name="body" required rows="10"></textarea>
+                    </div>
+                    <div class="right">
+                        <p><b>💡 Tips</b></p>
+                        <ul>
+                            <li>You can use markdown to format your posts. <a href="#">View the available options here.</a></li>
+                            <li>You’re posting on behalf of your project, if people upvote your post your project earns points too.</li>
+                            <li>Make sure your title is clear and engaging.</li>
+                            <li>Share what you’ve been working on - successes and failures.</li>
+                            <li>If you’ve learned anything that could be helpful to other community members, let them know.</li>
+                            <li>Nobody likes clickbait.</li>
+                            <li>Don’t ask for votes.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="divider">
+                <div class="button-group">
+                    <button class="button" type="submit">Publish</button>
+                    <a class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -1,14 +1,18 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Edit Project' %}
 
-{% from "partials/avatar.html" import avatar_upload %}
+{% from "partials/avatar.html" import avatar, avatar_upload %}
 
 {% set active_tab = request.args.get('tab') or '1' %}
 
 {% block body %}
     <div class="page edit-project">
         <header class="header">
-            <h2>Projects</h2>
+            <h2>Edit Project</h2>
+
+            {% if not project.published %}
+                <span class="tag tertiary">UNPUBLISHED</span>
+            {% endif %}
         </header>
 
         <div class="tabs">
@@ -20,22 +24,398 @@
 
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == '1' }}">
-                    <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}">
+                    <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post">
                         <fieldset>
                             <section class="wrap-620 mt-2">
                                 <h3>Summary</h3>
                                 {{ avatar_upload() }}
+
+                                <label class="label" for="name">Project name</label>
+                                <input class="input" name="name" id="name" placeholder="e.g. Catbook" required value="{{ project.name }}">
+
+                                <label class="label" for="start_month">Project start date</label>
+                                <div class="select-group mb-1">
+                                    <div class="select">
+                                        <select id="start_month" name="start_month">
+                                            <option value="0" {{ 'selected' if project.start_month == 0 }}>January</option>
+                                            <option value="1" {{ 'selected' if project.start_month == 1 }}>February</option>
+                                            <option value="2" {{ 'selected' if project.start_month == 2 }}>March</option>
+                                            <option value="3" {{ 'selected' if project.start_month == 3 }}>April</option>
+                                            <option value="4" {{ 'selected' if project.start_month == 4 }}>May</option>
+                                            <option value="5" {{ 'selected' if project.start_month == 5 }}>June</option>
+                                            <option value="6" {{ 'selected' if project.start_month == 6 }}>July</option>
+                                            <option value="7" {{ 'selected' if project.start_month == 7 }}>August</option>
+                                            <option value="8" {{ 'selected' if project.start_month == 8 }}>September</option>
+                                            <option value="9" {{ 'selected' if project.start_month == 9 }}>October</option>
+                                            <option value="10" {{ 'selected' if project.start_month == 10 }}>November</option>
+                                            <option value="11" {{ 'selected' if project.start_month == 11 }}>December</option>
+                                        </select>
+                                        <i class="icon ri-arrow-drop-down-line"></i>
+                                    </div>
+
+                                    <div class="select">
+                                        <select id="start_year" name="start_year">
+                                            <option value="2020" {{ 'selected' if project.start_year == 2020 }}>2020</option>
+                                            <option value="2019" {{ 'selected' if project.start_year == 2019 }}>2019</option>
+                                            <option value="2018" {{ 'selected' if project.start_year == 2018 }}>2018</option>
+                                            <option value="2017" {{ 'selected' if project.start_year == 2017 }}>2017</option>
+                                            <option value="2016" {{ 'selected' if project.start_year == 2016 }}>2016</option>
+                                            <option value="2015" {{ 'selected' if project.start_year == 2015 }}>2015</option>
+                                            <option value="2014" {{ 'selected' if project.start_year == 2014 }}>2014</option>
+                                            <option value="2013" {{ 'selected' if project.start_year == 2013 }}>2013</option>
+                                            <option value="2012" {{ 'selected' if project.start_year == 2012 }}>2012</option>
+                                            <option value="2011" {{ 'selected' if project.start_year == 2011 }}>2011</option>
+                                            <option value="2010" {{ 'selected' if project.start_year == 2010 }}>2010</option>
+                                        </select>
+                                        <i class="icon ri-arrow-drop-down-line"></i>
+                                    </div>
+                                </div>
+
+                                <label class="label" for="description">Short description</label>
+                                <p>Please describe your project in 100 characters or less.</p>
+                                <textarea class="input textarea" name="description" id="description" rows="4" required>{{ project.description or '' }}</textarea>
+
+                                <label class="label" for="url">Web address <span>(URL)</span></label>
+                                <input class="input" name="url" id="url" placeholder="e.g. catbook.com" value="{{ project.url or '' }}">
+
+                                <label class="label" for="location">Location <span>(city/town/village)</span></label>
+                                <p>Where is the primary location of this project? If the team is remote/distributed then please choose where this project is/would be based if registered as a business.</p>
+                                <input class="input search" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ project.location or '' }}">
                             </section>
+
+                            <hr class="divider mt-1 mb-2">
+
+                            <section class="wrap-620">
+                                <h2 class="mt-2 mb-2">Additional Information</h2>
+                                <label class="label">Platforms and devices</label>
+                                <p>Please tick any platforms or devices that you’re building your project for:</p>
+
+                                <ul class="checkbox-group mb-2">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="android" name="platforms_and_devices" value="android" {{ 'checked' if 'android' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="android">Android</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="browser_plugin" name="platforms_and_devices" value="browser_plugin" {{ 'checked' if 'browser_plugin' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="browser_plugin">Browser plugin</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="desktop" name="platforms_and_devices" value="desktop" {{ 'checked' if 'desktop' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="desktop">Desktop</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="ios" name="platforms_and_devices" value="ios" {{ 'checked' if 'ios' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="ios">iOS</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="mac" name="platforms_and_devices" value="mac" {{ 'checked' if 'mac' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="mac">Mac</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="mobile" name="platforms_and_devices" value="mobile" {{ 'checked' if 'mobile' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="mobile">Mobile</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="pc" name="platforms_and_devices" value="pc" {{ 'checked' if 'pc' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="pc">PC</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="web" name="platforms_and_devices" value="web" {{ 'checked' if 'web' in project.platforms_and_devices }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="web">Web</label>
+                                    </li>
+                                </ul>
+
+                                <label class="label">Business model</label>
+                                <p>How does your project make money (or intend to)?</p>
+                                <ul class="checkbox-group mb-2">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="advertising" name="business_models" value="advertising" {{ 'checked' if 'advertising' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="advertising">Advertising</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="commission" name="business_models" value="commission" {{ 'checked' if 'commission' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="commission">Commission</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="consulting" name="business_models" value="consulting" {{ 'checked' if 'consulting' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="consulting">Consulting</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="donations" name="business_models" value="donations" {{ 'checked' if 'donations' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="donations">Donations</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="free" name="business_models" value="free" {{ 'checked' if 'free' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="free">Free</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="partnership" name="business_models" value="partnership" {{ 'checked' if 'partnership' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="partnership">Partnership</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="sales_and_transactions" name="business_models" value="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="sales_and_transactions">Sales &amp; Transactions</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="subscriptions" name="business_models" value="subscriptions" {{ 'checked' if 'subscriptions' in project.business_models }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="subscriptions">Subscriptions</label>
+                                    </li>
+                                </ul>
+
+                                <label class="label">Funding</label>
+                                <p>How has your project been funded up until now?</p>
+                                <ul class="checkbox-group mb-2">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="accelerator" name="fundings" value="accelerator" {{ 'checked' if 'accelerator' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="accelerator">Accelerator</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="bootstrapped" name="fundings" value="bootstrapped" {{ 'checked' if 'bootstrapped' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="bootstrapped">Bootstrapped</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="crowd_funded" name="fundings" value="crowd_funded" {{ 'checked' if 'crowd_funded' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="crowd_funded">Crowd-funded</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="donation_supported" name="fundings" value="donation_supported" {{ 'checked' if 'donation_supported' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="donation_supported">Donation-supported</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="hackerstash" name="fundings" value="hackerstash" {{ 'checked' if 'hackerstash' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="hackerstash">HackerStash prizes</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="self_funded" name="fundings" value="self_funded" {{ 'checked' if 'self_funded' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="self_funded">Self funded</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="vc_funded" name="fundings" value="vc_funded" {{ 'checked' if 'vc_funded' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="vc_funded">VC funded</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="seed_funded" name="fundings" value="seed_funded" {{ 'checked' if 'seed_funded' in project.fundings }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="seed_funded">Seed funded</label>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <hr class="divider mb-2">
+
+                            <div class="project-actions">
+                                <section class="button-group">
+                                    <button class="button" type="submit">Save changes</button>
+                                    <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
+                                </section>
+
+                                <a href="#TODO" class="button tertiary" type="button">Delete</a>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == '2' }}">
+                    <label class="label mt-1 mb-2">Team members</label>
+                    <p class="wrap-620">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
+                    <ul class="team">
+                        {% for m in project.members %}
+                            <li>
+                                {{ avatar(m.user, 'sm') }}
+                                <p><a href="{{ url_for('users.show', user_id=m.user.id) }}">{{ m.user.first_name }} {{ m.user.last_name }}</a></p>
+                            </li>
+                        {% endfor %}
 
+                        <li class="invite">
+                            <a href="#TODO" class="button link">
+                                <span class="invite-icon"><i class="icon ri-add-line"></i></span>
+                                <span class="text">Add team member</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post">
+                        <fieldset>
+                            <label class="label mt-3">Time commitment</label>
+                            <ul class="radio-group mt-1 mb-3">
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="full-time" name="time_commitment" value="FULL_TIME" {{ 'checked' if project.time_commitment == 'FULL_TIME' }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="full-time">Full time</label>
+                                </li>
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="part-time" name="time_commitment" value="PART_TIME" {{ 'checked' if project.time_commitment == 'PART_TIME' }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="part-time">Side project</label>
+                                </li>
+                            </ul>
+
+                            <div class="button-group">
+                                <button class="button" type="submit">Save changes</button>
+                                <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == '3' }}">
+                    {% if project.published %}
+                        <div class="subscription-published">
+                            <h3 class="mt-2 mb-3">Project Published</h3>
+                            <h4 class="mb-1-5">Payment schedule</h4>
+                            <dl>
+                                <dt>Subscription</dt>
+                                <dd>$12 per month</dd>
+                                <dt>Next payment</dt>
+                                <dd>N/A</dd>
+                            </dl>
 
+                            <h4 class="mt-2 mb-1-5">Payee details</h4>
+                            <dl>
+                                <dt>Name</dt>
+                                <dd>N/A</dd>
+                                <dt>Email</dt>
+                                <dd>N/A</dd>
+                                <dt>Card number</dt>
+                                <dd>XXXX XXXX XXXX 1234</dd>
+                            </dl>
+
+                            <div class="button-group mt-3">
+                                <button class="button">Manage subscription</button>
+                                <a href="{{ url_for('projects.unpublish', project_id=project.id) }}" class="button tertiary">Cancel subscription</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="subscription-card mt-2">
+                            <div class="left">
+                                <h3 class="mb-2">Subscribe to publish <span class="tag primary">$12 per month</span></h3>
+                                <p class="mb-1-5">Use the form below to publish your project and immediately start participating in this months HackerStash tournament.</p>
+                                <p class="mb-1-5">Tournaments start on the 1st day of each month, with payments taking place on the 3rd day of the month. You can enroll any day of the month.</p>
+                                <p class="mb-1-5">If you choose to unpublish within the first 3 days of the month you can avoid participating in that month’s tournaments, payments taken on or after the 3rd of the month are non-refundable.</p>
+
+                                <form class="form" action="{{ url_for('projects.publish', project_id=project.id) }}" method="post">
+                                    <fieldset>
+                                        <div class="row mb-1">
+                                            <div class="col">
+                                                <label class="label" for="name">Name</label>
+                                                <input class="input" id="name" name="name" placeholder="John Doe">
+                                            </div>
+                                            <div class="col">
+                                                <label class="label" for="email">Email</label>
+                                                <input class="input" id="email" name="email" type="email" placeholder="john@hackerstash.com">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col">
+                                                <label class="label" for="card_number">Card number</label>
+                                                <input class="input" id="card_number" name="card_number" placeholder="1234 1234 1234 1234">
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="label" for="expiration">Expiration</label>
+                                                        <input class="input" id="expiration" name="expiration" placeholder="MM / YY">
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="label" for="cvc">CVC</label>
+                                                        <input class="input" id="cvc" name="cvc" placeholder="1234">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <button class="button" type="submit">Subscribe &amp; publish</button>
+                                            <p>$12 per month, cancel any time.</p>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="right">
+                                <div class="learn-more">
+                                    <h4 class="mb-1">Learn more</h4>
+                                    <p class="small">Radical transparency and community spirit form the backbone of the HackerStash tournament.</p>
+                                    <p class="small">If you’re looking for more information, don’t hesitate to visit one of the following pages:</p>
+                                    <p class="small">📜 <a class="ml-0-5" href="{{ url_for('rules.index') }}">Tournament rules</a></p>
+                                    <p class="small mb-0">📄 <a href="#" class="ml-0-5">FAQs</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

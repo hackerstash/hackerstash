@@ -9,10 +9,6 @@ class Post(db.Model):
     title = db.Column(db.String, nullable=False)
     body = db.Column(db.String, nullable=False)
 
-    location = db.Column(db.String)
-    start_month = db.Column(db.Integer)
-    start_year = db.Column(db.Integer)
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     comments = db.relationship('Comment', backref='post')

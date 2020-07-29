@@ -1,10 +1,33 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Posts' %}
 
+{% from "partials/posts.html" import posts %}
+
+{% set active_tab = request.args.get('tab') or 'new' %}
+
 {% block body %}
     <div class="page posts">
         <header class="header">
             <h2>Posts</h2>
+
+            {% if g.user and g.user.member %}
+                <a class="button" href="{{ url_for('posts.new') }}">+ New</a>
+            {% endif %}
         </header>
+
+        <div class="tabs">
+            <div class="tab-header">
+                <a href="?tab=new" class="button {{ 'active' if active_tab == 'new' }}">Newest</a>
+                <a href="?tab=top" class="button {{ 'active' if active_tab == 'top' }}">Top</a>
+            </div>
+            <div class="tab-body">
+                <div class="tab {{ 'active' if active_tab == 'new' }}">
+                    {{ posts(all_posts) }}
+                </div>
+                <div class="tab {{ 'active' if active_tab == 'top' }}">
+                    {{ posts(all_posts) }}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

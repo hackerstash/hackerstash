@@ -67,10 +67,10 @@
                 <div class="title">
                     <h3>Team</h3>
                     {% if project.has_member(g.user) %}
-                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id) }}">Edit</a>
+                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Edit</a>
                     {% endif %}
                 </div>
-                <p class="mt-1-5">There is {{ project.members | length }} person working on {{ project.name }} TODO.</p>
+                <p class="mt-1-5">There is {{ project.members | length }} person working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>
                 <ul>
                     {% for member in project.members %}
                         <li>
@@ -88,7 +88,7 @@
                 <div class="title">
                     <h3>Posts</h3>
                     {% if project.has_member(g.user) %}
-                        <a class="button" href="{{ url_for('posts.create') }}">Add new</a>
+                        <a class="button" href="{{ url_for('posts.new') }}">Add new</a>
                     {% endif %}
                 </div>
                 <div class="list">
@@ -100,12 +100,36 @@
             <div class="grid">
                 <div>
                     <h4>Platforms &amp; devices</h4>
+                    <ul>
+                        {% for p in project.platforms_and_devices %}
+                            <li>
+                                <i class="icon ri-check-line"></i>
+                                {{ p }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div>
                     <h4>Business model</h4>
+                    <ul>
+                        {% for b in project.business_models %}
+                            <li>
+                                <i class="icon ri-check-line"></i>
+                                {{ b }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div>
                     <h4>Funding</h4>
+                    <ul>
+                        {% for f in project.fundings %}
+                            <li>
+                                <i class="icon ri-check-line"></i>
+                                {{ f }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </section>
