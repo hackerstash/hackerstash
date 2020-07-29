@@ -15,7 +15,7 @@
 
     .votes {
       margin: 0 2rem 1.5rem 0;
-      
+
       @include tablet-down {
         margin-bottom: 1.5rem;
         width: 100%;
@@ -94,6 +94,12 @@
       flex: 1;
       height: 20rem;
       padding: 2rem;
+
+      .graph-container {
+        height: calc(100% - 3.5rem);
+        margin-top: 1.5rem;
+        width: 100%;
+      }
 
       h3 {
         span {
@@ -272,6 +278,35 @@
             margin-right: .5rem;
           }
         }
+      }
+    }
+  }
+
+  .votes-received {
+    align-items: center;
+    display: flex;
+    margin-top: 1rem;
+
+    h3 {
+      span {
+        font-size: 1rem;
+        font-weight: $font-weight-normal;
+      }
+    }
+
+    .icon {
+      margin-right: 1rem;
+    }
+
+    &.up {
+      .icon {
+        color: #4EFF8A; // TODO
+      }
+    }
+
+    &.down {
+      .icon {
+        color: $red-500;
       }
     }
   }

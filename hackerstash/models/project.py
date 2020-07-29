@@ -31,3 +31,10 @@ class Project(db.Model):
 
     def __repr__(self):
         return f'<Project {self.name}>'
+
+    def has_member(self, user):
+        if user is None:
+            return False
+
+        match = list(filter(lambda x: x.user.id == user.id, self.members))
+        return len(match) > 0

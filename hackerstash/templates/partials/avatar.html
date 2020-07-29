@@ -7,3 +7,25 @@
         {% endif %}
     </span>
 {% endmacro %}
+
+{% macro avatar_upload() %}
+    <div class="edit-avatar d-flex mb-2 no-image">
+        <span class="avatar lg">
+            <p>$</p>
+        </span>
+        <input type="hidden" id="avatar" name="avatar" readonly="" value="">
+        <input class="input" id="file" type="file" name="file" accept="image/jpg, image/jpeg, image/png">
+
+        <div class="change-options d-flex align-items-center">
+            <label class="label button secondary" for="file">Change</label>
+            <button class="button tertiary delete" type="button">
+                <i class="icon ri-delete-bin-2-line"></i>
+            </button>
+        </div>
+
+        <div class="upload-options d-flex align-items-center">
+            <label class="label button secondary" for="file">Upload</label>
+            <p class="small mb-0">.jpeg and .png file format only.</p>
+        </div>
+    </div>
+{% endmacro %}

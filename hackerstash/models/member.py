@@ -9,7 +9,7 @@ class Member(db.Model):
     owner = db.Column(db.Boolean, default=False)
     role = db.Column(db.String)
 
-    user = db.relationship('User', backref='user', uselist=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())

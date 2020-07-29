@@ -1,0 +1,38 @@
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/vote.html" import vote %}
+
+{% macro posts(list) %}
+    <div class="posts">
+        {% for post in list %}
+            <article class="post-row">
+                <div class="votes mr-1-5">
+                    {{ vote('sm') }}
+                </div>
+                <div class="details">
+                    <p>
+                        <a href="{{ url_for('post.index', post_id=post.id) }}">
+                            {{ post.title }}
+                        </a>
+                    </p>
+                    <p class="small meta">
+                        <span>
+                            <span> update by </span>
+                            {{ avatar(post, 'xx-sm') }}
+                            <a href="{{ url_for('users.show', user_id=post.user.id) }}">
+                                {{ post.user.first_name }} {{ post.user.last_name }}
+                            </a>
+                            <span class="seperator d-none-small">•</span>
+                        </span>
+                        <span>
+                            <span>TODO days ago</span>
+                            <span class="seperator">•</span>
+                            <span>{{ post.comments | length }} comments</span>
+                        </span>
+                    </p>
+                </div>
+            </article>
+        {% else %}
+            {% include "partials/no_results.html" %}
+        {% endfor %}
+    </div>
+{% endmacro %}

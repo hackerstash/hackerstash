@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from hackerstash.db import db
+from hackerstash.lib.decorators import login_required
 from hackerstash.models.user import User
 
 users = Blueprint('users', __name__)
 
 
 @users.route('/users/create', methods=['GET', 'POST'])
+@login_required
 def create():
     if request.method == 'GET':
         return render_template('users/create.html')

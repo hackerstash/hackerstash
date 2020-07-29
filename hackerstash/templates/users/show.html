@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / User' %}
 
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/user_project_card.html" import user_project_card %}
 
 {% block body %}
     <div class="page user">
@@ -35,5 +36,7 @@
                 </article>
             </div>
         {% endif %}
+
+        {{ user_project_card(user) }}
     </div>
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Profile' %}
 
+{% from "partials/avatar" import avatar_upload %}
+
 {% block body %}
     <div class="page user profile">
         <header class="header">
@@ -9,22 +11,7 @@
 
         <form class="form d-flex flex-column wrap-620" action="{{ url_for('profile.update') }}" method="post">
             <fieldset>
-                <div class="edit-avatar d-flex mb-2">
-                    <span class="avatar lg">
-                        <img src="https://images.hackerstash.com/users/lemonjs">
-                    </span>
-                    <input class="input" id="file" type="file" name="file" accept="image/jpg, image/jpeg, image/png">
-                    <div class="change-options d-flex align-items-center">
-                        <label class="label button secondary" for="file">Change</label>
-                        <button class="button tertiary delete" type="button">
-                            <i class="icon ri-delete-bin-2-line"></i>
-                        </button>
-                    </div>
-                    <div class="upload-options d-flex align-items-center">
-                        <label class="label button secondary" for="file">Upload</label>
-                        <p class="small mb-0">.jpeg and .png file format only.</p>
-                    </div>
-                </div>
+                {{ avatar_upload() }}
 
                 <div class="row d-flex">
                     <div class="d-flex flex-column">

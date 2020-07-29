@@ -1,0 +1,113 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Project' %}
+
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/posts.html" import posts %}
+{% from "partials/vote.html" import vote %}
+
+{% block body %}
+    <div class="page project">
+        <header class="header">
+            {{ vote('lg') }}
+            <div class="details">
+                <div>
+                    {{ avatar(project) }}
+                    <h2>{{ project.name }}</h2>
+                </div>
+                <div class="mt-1 meta">
+                    {% if project.start_month and project.start_year %}
+                        <p><i class="icon ri-calendar-line"></i>Started {{ project.start_month }} {{ project.start_year }}</p>
+                    {% endif %}
+                    {% if project.location %}
+                        <p><i class="icon ri-map-pin-2-fill"></i>{{ project.location }}</p>
+                    {% endif %}
+                    {% if project.url %}
+                        <p><a target="blank" rel="nofollow noreferrer" href="{{ project.url }}">{{ project.url }}</a></p>
+                    {% endif %}
+                </div>
+                <div class="mt-2 wrap-620">
+                    <p>{{ project.description or '' }}</p>
+                </div>
+            </div>
+            <div class="button-group">
+                {% if project.has_member(g.user) %}
+                    <a href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
+                {% endif %}
+            </div>
+        </header>
+        <section class="stats">
+            <div class="graph">
+                <h3>Project Score <span>0</span></h3>
+                <div class="graph-container">
+
+                </div>
+            </div>
+            <div class="position">
+                <h3>Current Position</h3>
+                <h1 class="mt-1-5">1<span>st</span></h1>
+                <span class="tag">
+                    <p class="small">
+                        <span>💸 Estimated prize</span>
+                        <span class="total">$0</span>
+                    </p>
+                </span>
+                <h3 class="mt-2">Votes received</h3>
+                <div class="votes-received up">
+                    <i class="icon ri-arrow-up-line"></i>
+                    <h3>0 <span>upvotes</span></h3>
+                </div>
+                <div class="votes-received down">
+                    <i class="icon ri-arrow-down-line"></i>
+                    <h3>0 <span>downvotes</span></h3>
+                </div>
+            </div>
+        </section>
+        <section class="team-posts">
+            <div class="team">
+                <div class="title">
+                    <h3>Team</h3>
+                    {% if project.has_member(g.user) %}
+                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id) }}">Edit</a>
+                    {% endif %}
+                </div>
+                <p class="mt-1-5">There is {{ project.members | length }} person working on {{ project.name }} TODO.</p>
+                <ul>
+                    {% for member in project.members %}
+                        <li>
+                            {{ avatar(member.user, 'sm') }}
+                            <p>
+                                <a href="{{ url_for('users.show', user_id=member.user.id) }}">
+                                    {{ member.user.first_name }} {{ member.user.last_name }}
+                                </a>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="posts">
+                <div class="title">
+                    <h3>Posts</h3>
+                    {% if project.has_member(g.user) %}
+                        <a class="button" href="{{ url_for('posts.create') }}">Add new</a>
+                    {% endif %}
+                </div>
+                <div class="list">
+                    {{ posts(project.posts) }}
+                </div>
+            </div>
+        </section>
+        <section class="lists">
+            <div class="grid">
+                <div>
+                    <h4>Platforms &amp; devices</h4>
+                </div>
+                <div>
+                    <h4>Business model</h4>
+                </div>
+                <div>
+                    <h4>Funding</h4>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

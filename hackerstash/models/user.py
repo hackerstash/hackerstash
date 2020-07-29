@@ -25,7 +25,7 @@ class User(db.Model):
     twitter = db.Column(db.String)
     avatar = db.Column(db.String)
 
-    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
+    member = db.relationship('Member', backref='user', uselist=False)
     comments = db.relationship('Comment', backref='user')
     posts = db.relationship('Post', backref='user')
 

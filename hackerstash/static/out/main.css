@@ -1796,7 +1796,6 @@
     display: none;
     padding: 1rem 0; }
     .tabs .tab-body .tab.active {
-      animation: fade-in 0.5s ease;
       display: block; }
 
   .tag {
@@ -1836,15 +1835,13 @@
 
       .vote {
         align-items: center;
-        background: #21335A;
         border-radius: 0.5rem;
         display: flex;
         flex-direction: column;
         margin: 0;
-        padding: 0.5rem;
         width: 3rem; }
         .vote p {
-          color: #70B0FF;
+          color: #DEE7FF;
           font-weight: 500;
           margin: 0.5rem 0;
           user-select: none;
@@ -1854,27 +1851,56 @@
             display: none !important;
             font-weight: 400; }
         .vote .button {
-          background: none;
+          align-items: center;
+          background: #21335A;
           border: 0;
-          height: auto;
+          border-radius: 0.5rem 0.5rem 0 0;
+          display: flex;
+          font-size: 14px;
+          height: 28px;
+          justify-content: center;
           line-height: 1rem;
           padding: 0;
-          text-decoration: none; }
-          .vote .button i {
-            color: #DEE7FF; }
-            .vote .button:hover i {
-              color: #70B0FF; }
+          text-decoration: none;
+          width: 3rem; }
+          .vote .button:last-of-type {
+            border-radius: 0 0 0.5rem 0.5rem; }
+            .vote .button i {
+              color: #DEE7FF;
+              font-size: 1.5rem;
+              margin: 0 -0.25rem 0 -0.35rem; }
+              .vote .button:hover {
+                background: #344F88; }
+                .vote .button:hover i {
+                  color: #70B0FF; }
           .vote .button:not(:disabled):active {
             transform: scale(1.75); }
           .vote .button:disabled {
             opacity: 0.5;
             pointer-events: none; }
+            .vote .button.upvote, .vote .button.upvote i {
+              color: #3EF57D; }
+              .vote .button.downvote, .vote .button.downvote i {
+                color: #FF3C5F; }
+        .vote.up .downvote, .vote.up .downvote i {
+          color: #101F3E; }
+        .vote.down .upvote, .vote.down .upvote i {
+          color: #101F3E; }
+        .vote.disabled .upvote, .vote.disabled .upvote i, .vote.disabled .downvote,
+        .vote.disabled .downvote i {
+          color: #101F3E; }
         .vote.sm {
           background: none;
           padding: 0;
-          width: 1.5rem; }
+          width: 2rem; }
           .vote.sm p {
-            margin: 0 !important; }
+            margin: 0.3rem 0 !important; }
+            .vote.sm .button {
+              border-radius: 0.25rem 0.25rem 0 0;
+              height: 1.25rem;
+              width: 2rem; }
+              .vote.sm .button:last-of-type {
+                border-radius: 0 0 0.25rem 0.25rem; }
         @media only screen and (max-width: 1024px) {
           .vote:not(.sm) {
             flex-direction: row;
@@ -1884,6 +1910,12 @@
             width: 100%;   }
             .vote:not(.sm) p span {
               display: inline;   }
+            .vote:not(.sm) .button {
+              border-radius: 0.5rem 0 0 0.5rem;
+              height: 28px;
+              width: 40px;   }
+              .vote:not(.sm) .button:last-of-type {
+                border-radius: 0 0.5rem 0.5rem 0;   }
           .vote.sm .button {
             line-height: 0.8rem;   }
             .vote.sm p {
@@ -1897,6 +1929,12 @@
           width: 100%; }
           .vote.horizontal p span {
             display: inline-block !important; }
+          .vote.horizontal .button {
+            border-radius: 0.5rem 0 0 0.5rem;
+            height: 28px;
+            width: 40px; }
+            .vote.horizontal .button:last-of-type {
+              border-radius: 0 0.5rem 0.5rem 0; }
 
   .page.posts.new .divider {
     margin: 1rem 0 2rem 0; }
@@ -2175,7 +2213,6 @@
     padding: 0.15rem 1rem;
     width: calc(100% - 3rem); }
     .page.projects .results {
-      animation: fade-in 0.3s ease;
       display: grid;
       grid-gap: 2rem;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
@@ -2338,8 +2375,12 @@
       flex: 1;
       height: 20rem;
       padding: 2rem; }
-      .page.project .stats .graph h3 span {
-        color: #70B0FF; }
+      .page.project .stats .graph .graph-container {
+        height: calc(100% - 3.5rem);
+        margin-top: 1.5rem;
+        width: 100%; }
+        .page.project .stats .graph h3 span {
+          color: #70B0FF; }
     .page.project .stats .position {
       flex-shrink: 0;
       margin-left: 2rem;
@@ -2452,6 +2493,19 @@
         .page.project .lists .grid ul li i {
           font-size: 1rem;
           margin-right: 0.5rem; }
+  .page.project .votes-received {
+    align-items: center;
+    display: flex;
+    margin-top: 1rem; }
+    .page.project .votes-received h3 span {
+      font-size: 1rem;
+      font-weight: 400; }
+    .page.project .votes-received .icon {
+      margin-right: 1rem; }
+      .page.project .votes-received.up .icon {
+        color: #4EFF8A; }
+    .page.project .votes-received.down .icon {
+      color: #FF3C5F; }
 
   .pages.new-user {
     margin: 7.5rem auto 0 auto;

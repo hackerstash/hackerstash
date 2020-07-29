@@ -1,0 +1,15 @@
+{% macro vote(size) %}
+    <div class="votes">
+        <div class="vote {{ size }}">
+            <button class="button upvote">
+                <i class="icon ri-arrow-drop-up-fill"></i>
+                10
+            </button>
+            <p>10 <span> points</span></p>
+            <button class="button downvote">
+                <i class="icon ri-arrow-drop-down-fill"></i>
+                10
+            </button>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,4 +1,4 @@
-from flask import Flask, session, g, redirect, url_for
+from flask import Flask, session, g, redirect, request, url_for
 from hackerstash.db import db
 from hackerstash.models.user import User
 
@@ -39,7 +39,7 @@ def before_request_func():
     if 'id' in session:
         g.user = User.query.get(session['id'])
 
-        if not g.user.username:
+        if not g.user.username and request.path != url_for('users.create'):
             return redirect(url_for('users.create'))
 
 

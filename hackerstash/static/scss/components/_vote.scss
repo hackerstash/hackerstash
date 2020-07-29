@@ -1,15 +1,13 @@
 .vote {
   align-items: center;
-  background: $darkblue-700;
   border-radius: .5rem;
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: .5rem;
   width: 3rem;
 
   p {
-    color: $blue-500;
+    color: $mauve-500;
     font-weight: $font-weight-bold;
     margin: .5rem 0;
     user-select: none;
@@ -23,18 +21,32 @@
   }
 
   .button {
-    background: none;
+    align-items: center;
+    background: $darkblue-700;
     border: 0;
-    height: auto;
+    border-radius: .5rem .5rem 0 0;
+    display: flex;
+    font-size: 14px;
+    height: 28px;
+    justify-content: center;
     line-height: 1rem;
     padding: 0;
     text-decoration: none;
+    width: 3rem;
+
+    &:last-of-type {
+      border-radius: 0 0 .5rem .5rem;
+    }
 
     i {
       color: $mauve-500;
+      font-size: 1.5rem;
+      margin: 0 -.25rem 0 -.35rem;
     }
 
     &:hover {
+      background: $darkblue-600;
+
       i {
         color: $blue-500;
       }
@@ -50,15 +62,58 @@
       opacity: .5;
       pointer-events: none;
     }
+
+    &.upvote,
+    &.upvote i {
+      color: $green-400;
+    }
+
+    &.downvote,
+    &.downvote i {
+      color: $red-500;
+    }
+  }
+
+  &.up {
+    .downvote,
+    .downvote i {
+      color: $darkblue-800;
+    }
+  }
+
+  &.down {
+    .upvote,
+    .upvote i {
+      color: $darkblue-800;
+    }
+  }
+
+  &.disabled {
+    .upvote,
+    .upvote i,
+    .downvote,
+    .downvote i {
+      color: $darkblue-800;
+    }
   }
 
   &.sm {
     background: none;
     padding: 0;
-    width: 1.5rem;
+    width: 2rem;
 
     p {
-      margin: 0 !important;
+      margin: .3rem 0 !important;
+    }
+
+    .button {
+      border-radius: .25rem .25rem 0 0;
+      height: 1.25rem;
+      width: 2rem;
+
+      &:last-of-type {
+        border-radius: 0 0 .25rem .25rem;
+      }
     }
   }
 
@@ -69,10 +124,20 @@
       justify-content: space-between;
       padding: .5rem 1rem;
       width: 100%;
-    
+
       p {
         span {
           display: inline;
+        }
+      }
+
+      .button {
+        border-radius: .5rem 0 0 .5rem;
+        height: 28px;
+        width: 40px;
+
+        &:last-of-type {
+          border-radius: 0 .5rem .5rem 0;
         }
       }
     }
@@ -98,6 +163,16 @@
     p {
       span {
         display: inline-block !important;
+      }
+    }
+
+    .button {
+      border-radius: .5rem 0 0 .5rem;
+      height: 28px;
+      width: 40px;
+
+      &:last-of-type {
+        border-radius: 0 .5rem .5rem 0;
       }
     }
   }
