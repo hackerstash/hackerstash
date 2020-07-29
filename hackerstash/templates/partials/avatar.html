@@ -1,0 +1,9 @@
+{% macro avatar(item, size = '') %}
+    <span class="avatar {{ size }}">
+        {% if item.avatar %}
+            <img src="https://images.hackerstash.com/{{ item.avatar }}">
+        {% else %}
+            <p>?</p>
+        {% endif %}
+    </span>
+{% endmacro %}

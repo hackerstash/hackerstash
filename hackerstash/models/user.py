@@ -2,8 +2,8 @@ from hackerstash.db import db
 
 follow = db.Table(
     'users_following',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+    db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))
 )
 
 
@@ -12,10 +12,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
 
-    username = db.Column(db.String, unique=True, nullable=False)
+    username = db.Column(db.String, unique=True)
     email = db.Column(db.String, unique=True, nullable=False)
 
     bio = db.Column(db.String)
@@ -25,18 +25,18 @@ class User(db.Model):
     twitter = db.Column(db.String)
     avatar = db.Column(db.String)
 
-    member_id = db.Column(db.Integer, db.ForeignKey('member.id'))
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     comments = db.relationship('Comment', backref='user')
     posts = db.relationship('Post', backref='user')
 
     notifications = db.relationship('Notification', backref='user')
-    notifications_settings = db.relationship('NotificationSettings', backref='user')
+    notifications_settings = db.relationship('NotificationSetting', backref='user', uselist=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<User {self.username or self.email}>'
 
     following = db.relationship(
         'User',

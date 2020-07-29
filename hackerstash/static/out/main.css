@@ -1200,7 +1200,6 @@
   .message {
     background: #344F88;
     border-radius: 0.5rem;
-    display: none;
     margin-bottom: 1.5rem;
     padding: 1rem;
     position: relative; }
@@ -1587,24 +1586,27 @@
           margin-bottom: 0.5rem; }
           .sidebar .prize-pool .row p:last-of-type {
             color: #70b0ff; }
-    .sidebar .user-actions {
-      display: flex;
-      flex-direction: column; }
-      .sidebar .user-actions .button {
-        margin: 1rem 0.5rem 0 0.5rem; }
-        .sidebar .user-actions .user {
-          align-items: center;
-          border-radius: 0.5rem;
-          display: flex;
-          padding: 0.85rem 1rem;
-          text-decoration: none; }
-          .sidebar .user-actions .user p {
-            color: #B0BCDC;
-            margin: 0; }
-            .sidebar .user-actions .user:hover, .sidebar .user-actions .user.active {
-              background: #344F88; }
-              .sidebar .user-actions .user:hover p, .sidebar .user-actions .user.active p {
-                color: #DEE7FF; }
+    .sidebar .divider {
+      background: #21335a;
+      margin: 0.75rem 0; }
+      .sidebar .user-actions {
+        display: flex;
+        flex-direction: column; }
+        .sidebar .user-actions .button {
+          margin: 1rem 0.5rem 0 0.5rem; }
+          .sidebar .user-actions .user {
+            align-items: center;
+            border-radius: 0.5rem;
+            display: flex;
+            padding: 0.85rem 1rem;
+            text-decoration: none; }
+            .sidebar .user-actions .user p {
+              color: #B0BCDC;
+              margin: 0; }
+              .sidebar .user-actions .user:hover, .sidebar .user-actions .user.active {
+                background: #344F88; }
+                .sidebar .user-actions .user:hover p, .sidebar .user-actions .user.active p {
+                  color: #DEE7FF; }
     @media only screen and (max-width: 1024px) {
       .sidebar {
         padding: 1.125rem 1rem;   }
@@ -2498,153 +2500,151 @@
   .page.settings .close-account-link a {
     color: #DEE7FF; }
 
-  .page.user {
-    animation: fade-in 0.3s ease; }
-    .page.user .profile-bio {
-      border-bottom: none;
-      margin-bottom: 0; }
-      .page.user .profile-bio .profile-details {
-        align-items: center; }
-        .page.user .profile-bio .profile-details h2 {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap; }
-          @media only screen and (max-width: 1024px) {
-            .page.user .profile-bio .profile-details {
-              display: block;
-              width: 100%;   }
-              .page.user .profile-bio .profile-details h2 {
-                float: right;
-                margin-bottom: 0.25rem;
-                width: calc(100% - 4.25rem);   }
+  .page.user .profile-bio {
+    border-bottom: none;
+    margin-bottom: 0; }
+    .page.user .profile-bio .profile-details {
+      align-items: center; }
+      .page.user .profile-bio .profile-details h2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+        @media only screen and (max-width: 1024px) {
+          .page.user .profile-bio .profile-details {
+            display: block;
+            width: 100%;   }
+            .page.user .profile-bio .profile-details h2 {
+              float: right;
+              margin-bottom: 0.25rem;
+              width: calc(100% - 4.25rem);   }
 }
-        .page.user .profile-bio .profile-details .username {
-          align-self: flex-end;
-          margin: 0 0 0.5rem 0.75rem; }
-          @media only screen and (max-width: 1024px) {
-            .page.user .profile-bio .profile-details .username {
-              float: left;
-              margin-left: 0.75rem;   }
+      .page.user .profile-bio .profile-details .username {
+        align-self: flex-end;
+        margin: 0 0 0.5rem 0.75rem; }
+        @media only screen and (max-width: 1024px) {
+          .page.user .profile-bio .profile-details .username {
+            float: left;
+            margin-left: 0.75rem;   }
 }
-        .page.user .profile-bio .profile-details .log-out {
-          align-self: flex-end;
-          color: #70B0FF;
-          line-height: 20px;
-          margin: 0 0 0.5rem 0.75rem; }
-          @media only screen and (max-width: 1024px) {
-            .page.user .profile-bio .profile-details .avatar {
-              float: left;   }
+      .page.user .profile-bio .profile-details .log-out {
+        align-self: flex-end;
+        color: #70B0FF;
+        line-height: 20px;
+        margin: 0 0 0.5rem 0.75rem; }
+        @media only screen and (max-width: 1024px) {
+          .page.user .profile-bio .profile-details .avatar {
+            float: left;   }
 }
-      .page.user .profile-bio .profile-actions {
+    .page.user .profile-bio .profile-actions {
+      flex-shrink: 0;
+      margin-top: 0; }
+      .page.user .profile-bio .profile-actions .button {
+        margin-left: 1rem; }
+  .page.user .profile-bio-text {
+    max-width: 630px; }
+    .page.user .profile-stats .button {
+      margin: 0 0.75rem 0 0; }
+      .page.user .profile-stats .button span {
+        color: #70B0FF; }
+    .page.user .profile-stats p {
+      align-items: center;
+      display: flex;
+      font-size: 0.875rem;
+      margin: 0 0.75rem 0 0; }
+      .page.user .profile-stats p a {
+        margin-right: 0.35rem; }
+        .page.user .profile-stats p i {
+          font-size: 0.875rem;
+          margin-right: 0.35rem; }
+    @media only screen and (max-width: 1024px) {
+      .page.user .profile-stats {
+        display: block !important;   }
+        .page.user .profile-stats p {
+          margin-bottom: 0.5rem;
+          width: 100%;   }
+          .page.user .profile-stats p:nth-of-type(1),
+          .page.user .profile-stats p:nth-of-type(2) {
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;   }
+}
+  .page.user .profile-actions {
+    justify-content: space-between;
+    margin-top: 2rem; }
+    @media only screen and (max-width: 1024px) {
+      .page.user .profile-actions {
+        margin-bottom: 2rem;   }
+        .page.user .profile-actions .button {
+          width: calc(50% - .5rem);   }
+}
+  .page.user .project-card {
+    background: #21335A;
+    border-radius: 1rem;
+    max-width: 620px;
+    padding: 2rem; }
+    .page.user .project-card .row {
+      display: flex; }
+      .page.user .project-card .row aside {
         flex-shrink: 0;
-        margin-top: 0; }
-        .page.user .profile-bio .profile-actions .button {
-          margin-left: 1rem; }
-    .page.user .profile-bio-text {
-      max-width: 630px; }
-      .page.user .profile-stats .button {
-        margin: 0 0.75rem 0 0; }
-        .page.user .profile-stats .button span {
-          color: #70B0FF; }
-      .page.user .profile-stats p {
+        margin-right: 1rem;
+        width: 2.75rem; }
+        .page.user .project-card .row aside i {
+          font-size: 2rem;
+          font-style: normal;
+          line-height: 2rem; }
+      .page.user .project-card .row div h3 {
         align-items: center;
         display: flex;
-        font-size: 0.875rem;
-        margin: 0 0.75rem 0 0; }
-        .page.user .profile-stats p a {
-          margin-right: 0.35rem; }
-          .page.user .profile-stats p i {
-            font-size: 0.875rem;
-            margin-right: 0.35rem; }
-      @media only screen and (max-width: 1024px) {
-        .page.user .profile-stats {
-          display: block !important;   }
-          .page.user .profile-stats p {
-            margin-bottom: 0.5rem;
-            width: 100%;   }
-            .page.user .profile-stats p:nth-of-type(1),
-            .page.user .profile-stats p:nth-of-type(2) {
-              display: inline-block;
-              white-space: nowrap;
-              width: auto;   }
-}
-    .page.user .profile-actions {
-      justify-content: space-between;
-      margin-top: 2rem; }
-      @media only screen and (max-width: 1024px) {
-        .page.user .profile-actions {
-          margin-bottom: 2rem;   }
-          .page.user .profile-actions .button {
-            width: calc(50% - .5rem);   }
-}
-    .page.user .project-card {
-      background: #21335A;
-      border-radius: 1rem;
-      max-width: 620px;
-      padding: 2rem; }
-      .page.user .project-card .row {
-        display: flex; }
-        .page.user .project-card .row aside {
-          flex-shrink: 0;
-          margin-right: 1rem;
-          width: 2.75rem; }
-          .page.user .project-card .row aside i {
-            font-size: 2rem;
-            font-style: normal;
-            line-height: 2rem; }
-        .page.user .project-card .row div h3 {
-          align-items: center;
-          display: flex;
-          margin-bottom: 1.5rem; }
-          .page.user .project-card .row div h3 a {
-            color: #DEE7FF;
-            text-decoration: none; }
-            .page.user .project-card .row div h3 a:hover {
-              text-decoration: underline; }
-          .page.user .project-card .row div h3 p {
-            color: #70B0FF;
-            margin: 0 0 0 1rem; }
-        .page.user .project-card .row div p {
+        margin-bottom: 1.5rem; }
+        .page.user .project-card .row div h3 a {
+          color: #DEE7FF;
+          text-decoration: none; }
+          .page.user .project-card .row div h3 a:hover {
+            text-decoration: underline; }
+        .page.user .project-card .row div h3 p {
+          color: #70B0FF;
+          margin: 0 0 0 1rem; }
+      .page.user .project-card .row div p {
+        margin-bottom: 2rem; }
+        .page.user .project-card .row div .markdown {
+          display: block;
           margin-bottom: 2rem; }
-          .page.user .project-card .row div .markdown {
-            display: block;
-            margin-bottom: 2rem; }
-            .page.user .project-card .row div .details {
+          .page.user .project-card .row div .details {
+            align-items: center;
+            display: flex; }
+            .page.user .project-card .row div .details p {
               align-items: center;
-              display: flex; }
-              .page.user .project-card .row div .details p {
-                align-items: center;
-                display: flex;
-                margin: 0 1rem 0 0; }
-                .page.user .project-card .row div .details p span,
-                .page.user .project-card .row div .details p .icon {
-                  color: #70B0FF;
-                  margin-right: 0.25rem; }
-      @media only screen and (max-width: 1024px) {
-        .page.user .project-card {
-          max-width: 100%;   }
-          .page.user .project-card .row aside {
-            display: none;   }
-            .page.user .project-card .row > div {
-              width: 100%;   }
-              .page.user .project-card .row > div h3 {
-                display: block;   }
-                .page.user .project-card .row > div h3 p {
-                  margin: 0;   }
+              display: flex;
+              margin: 0 1rem 0 0; }
+              .page.user .project-card .row div .details p span,
+              .page.user .project-card .row div .details p .icon {
+                color: #70B0FF;
+                margin-right: 0.25rem; }
+    @media only screen and (max-width: 1024px) {
+      .page.user .project-card {
+        max-width: 100%;   }
+        .page.user .project-card .row aside {
+          display: none;   }
+          .page.user .project-card .row > div {
+            width: 100%;   }
+            .page.user .project-card .row > div h3 {
+              display: block;   }
+              .page.user .project-card .row > div h3 p {
+                margin: 0;   }
 }
-    .page.user .profile-tabs {
-      border-top: 1px solid #000920;
-      margin-top: 2rem;
-      padding-top: 1rem; }
-      .page.user .profile-tabs .comment-count {
-        display: none; }
-        .page.user .profile-tabs .comments li {
-          border-bottom: 1px solid #000920;
-          padding: 1rem; }
-          .page.user .profile-tabs .comments li:hover {
-            background: #21335A; }
-            .page.user .profile-tabs .comments li .comment .details p .reply {
-              display: none; }
+  .page.user .profile-tabs {
+    border-top: 1px solid #000920;
+    margin-top: 2rem;
+    padding-top: 1rem; }
+    .page.user .profile-tabs .comment-count {
+      display: none; }
+      .page.user .profile-tabs .comments li {
+        border-bottom: 1px solid #000920;
+        padding: 1rem; }
+        .page.user .profile-tabs .comments li:hover {
+          background: #21335A; }
+          .page.user .profile-tabs .comments li .comment .details p .reply {
+            display: none; }
 
   .follow-modal ul {
     margin: 0;

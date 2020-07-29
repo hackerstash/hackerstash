@@ -1,0 +1,39 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / User' %}
+
+{% from "partials/avatar.html" import avatar %}
+
+{% block body %}
+    <div class="page user">
+        <header class="header profile-bio">
+            <div class="profile-details d-flex">
+                {{ avatar(user) }}
+                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <p class="username">{{ user.username }}</p>
+            </div>
+            <div class="profile-actions d-none-small">
+                {% if g.user and g.user.id == user.id %}
+                    <a href="{{ url_for('settings.index') }}" class="button secondary">Settings</a>
+                    <a href="{{ url_for('profile.index') }}" class="button secondary">Edit Profile</a>
+                {% endif %}
+            </div>
+        </header>
+        <div class="profile-stats d-flex">
+            <button class="button link small"><span>{{ user.followers | length }}</span> followers</button>
+            <button class="button link small"><span>{{ user.following | length }}</span> following</button>
+            {% if user.location %}
+                <p>
+                    <i class="icon ri-map-pin-2-line"></i>
+                    {{ user.location }}
+                </p>
+            {% endif %}
+        </div>
+        {% if user.bio %}
+            <div class="profile-bio-text mt-2 mb-2 wrap-620">
+                <article class="markdown">
+                    <span class="markdown">{{ user.bio }}</span>
+                </article>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

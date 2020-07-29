@@ -13,8 +13,8 @@ class Post(db.Model):
     start_month = db.Column(db.Integer)
     start_year = db.Column(db.Integer)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    project_id = db.Column(db.Interger, db.ForeignKey('project.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     comments = db.relationship('Comment', backref='post')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())

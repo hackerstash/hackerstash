@@ -42,7 +42,7 @@ class NotificationSetting(db.Model):
     you_were_removed_from_a_project_web = db.Column(db.Boolean, default=True)
     you_were_removed_from_a_project_email = db.Column(db.Boolean, default=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())

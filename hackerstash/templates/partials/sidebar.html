@@ -1,0 +1,65 @@
+{% from "partials/avatar.html" import avatar %}
+
+<aside id="sidebar" class="sidebar">
+    <div class="logo">
+        <a href="{{ url_for('home.index') }}">
+            <img src="/static/images/logo.svg">
+        </a>
+        <div class="actions">
+            {% if g.user %}
+                <a class="notification-bell" href="/notifications">
+                    <i class="icon ri-notification-2-line"></i>
+                </a>
+            {% endif %}
+            <i class="icon ri-menu-line hamburger"></i>
+        </div>
+    </div>
+    <div class="prize-pool">
+        <div class="row">
+            <p class="small">Prize pool</p>
+            <p class="small">$80.00</p>
+        </div>
+        <div class="row">
+            <p class="small mb-0">Time remaining</p>
+            <p class="small mb-0">4 days</p>
+        </div>
+    </div>
+    <nav class="routes">
+        <a class="{{ 'active' if request.path == url_for('leaderboard.index') }}" href="{{ url_for('leaderboard.index') }}">
+            <i class="icon ri-trophy-line"></i>
+            Leaderboard
+        </a>
+        <a class="{{ 'active' if request.path == url_for('posts.index') }}" href="{{ url_for('posts.index') }}">
+            <i class="icon ri-flashlight-line"></i>
+            Posts
+        </a>
+        <a class="{{ 'active' if request.path == url_for('projects.index') }}" href="{{ url_for('projects.index') }}">
+            <i class="icon ri-profile-line"></i>
+            Projects
+        </a>
+        <a class="{{ 'active' if request.path == url_for('rules.index') }}" href="{{ url_for('rules.index') }}">
+            <i class="icon ri-lightbulb-line"></i>
+            Rules
+        </a>
+        <a class="{{ 'active' if request.path == url_for('past_results.index') }}" href="{{ url_for('past_results.index') }}">
+            <i class="icon ri-history-line"></i>
+            Past Results
+        </a>
+    </nav>
+    <hr class="divider">
+    <div class="user-actions">
+        {% if g.user %}
+            <a class="user {{ 'active' if request.path == url_for('users.show', user_id=g.user.id) }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
+                {{ avatar(g.user, 'x-sm') }}
+                <p>{{ g.user.first_name }} {{ g.user.last_name }}</p>
+            </a>
+        {% else %}
+            <a class="button" href="{{ url_for('signup.index') }}">
+                Sign Up
+            </a>
+            <a class="button secondary" href="{{ url_for('login.index') }}">
+                Log In
+            </a>
+        {% endif %}
+    </div>
+</aside>

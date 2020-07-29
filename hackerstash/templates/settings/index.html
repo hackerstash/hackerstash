@@ -1,0 +1,42 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Settings' %}
+
+{% block body %}
+    <div class="page user settings">
+        <header class="header">
+            <h2>Edit Settings</h2>
+        </header>
+
+        <form class="form d-flex flex-column" action="{{ url_for('settings.update') }}" method="post">
+            <fieldset>
+                <h3 class="mt-1 mb-1-5">Contact Details</h3>
+                <label class="label" for="email">Email address</label>
+                <input class="input wrap-300" name="email" id="email" type="email" autocomplete="email" value="{{ g.user.email }}">
+
+                <label class="label" for="phone">Phone number</label>
+                <input class="input wrap-300" name="telephone" id="phone" type="tel" autocomplete="tel" placeholder="e.g. +31 681234590" value="{{ g.user.telephone or '' }}">
+
+                <div class="button-group mt-1">
+                    <button class="button" type="submit">Save changes</button>
+                    <a class="button secondary" href="{{ url_for('users.show', user_id=g.user.id) }}">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+
+        <hr class="divider mt-3 mb-3">
+
+        {% if request.args.show_delete %}
+            <div class="close-account-confirm mb-2">
+                <p class="mb-1-5">Are you sure you wish to permanently delete your account, posts, and comments?</p>
+                <div class="button-group">
+                    <a class="button tertiary" href="{{ url_for('settings.destroy') }}">Delete forever</a>
+                    <a class="button secondary" href="{{ url_for('settings.index') }}">Cancel</a>
+                </div>
+            </div>
+        {% else %}
+            <p class="close-account-link">
+                <a href="?show_delete=1">Click here</a> to permanently delete your account, posts, and comments.
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}
