@@ -1,0 +1,55 @@
+.select {
+  background: $darkblue-700;
+  border: solid 2px $darkblue-600;
+  border-radius: .5rem;
+  display: inline-block;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+
+  &:hover {
+    border-color: $blue-500;
+  }
+
+  &:focus {
+    background: $darkblue-900;
+    border-color: $mauve-500;
+  }
+
+  &:disabled {
+    background: $darkblue-700;
+    border-color: $darkblue-700;
+  }
+
+  select {
+    background: none;
+    border: none;
+    height: 100;
+    padding: .5rem 2rem .5rem 1rem;
+    width: 100%;
+  }
+
+  i {
+    color: $mauve-500;
+    right: .75rem;
+    position: absolute;
+    top: .5rem;
+  }
+}
+
+.select-group {
+  display: flex;
+  justify-content: space-between;
+
+  .select {
+    width: calc(50% - 1rem);
+  }
+
+  @include tablet-down {
+    flex-direction: column;
+
+    .select {
+      width: 100%;
+    }
+  }
+}

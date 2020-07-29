@@ -1,0 +1,51 @@
+.page.notifications {
+  .notification-list {
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: flex-start;
+      background: $darkblue-700;
+      border: 2px solid transparent;
+      border-radius: .5rem;
+      display: flex;
+      list-style: none;
+      margin-bottom: .5rem;
+      padding: 1rem;
+      transition: .1s linear;
+
+      &:hover {
+        border-color: $blue-500;
+      }
+
+      a {
+        color: $mauve-500;
+      }
+      
+      .details {
+        flex: 1;
+      }
+
+      .close-button {
+        align-items: center;
+        align-self: center;
+        background: none;
+        border: none;
+        display: flex;
+        height: 2rem;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        width: 2rem;
+
+        i {
+          color: $mauve-500;
+        }
+
+        &:hover {
+          background: $darkblue-800;
+        }
+      }
+    }
+  }
+}

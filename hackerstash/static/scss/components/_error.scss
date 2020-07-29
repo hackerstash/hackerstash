@@ -1,0 +1,13 @@
+.error-view {
+  .header {
+    h2 {
+      align-self: center;
+      display: flex;
+
+      .icon {
+        font-size: 32px;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

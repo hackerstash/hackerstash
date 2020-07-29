@@ -1,0 +1,106 @@
+.input {
+  background: $darkblue-700;
+  border: solid 2px $darkblue-600;
+  border-radius: .5rem;
+  height: 2.5rem;
+  margin-bottom: 1.5rem;
+  padding: .5rem 1rem;
+  transition: .15s ease;
+  width: 100%;
+
+  &:hover {
+    border-color: $blue-500;
+  }
+
+  &:focus {
+    background: $darkblue-900;
+    border-color: $mauve-500;
+  }
+
+  &:disabled {
+    background: $darkblue-700;
+    border-color: $darkblue-700;
+  }
+
+  &.error:not(:focus) {
+    border-color: $red-500;
+  }
+
+  &[type="search"] {
+    -webkit-appearance: textfield;
+  }
+
+  &[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  &:-webkit-autofill {
+    border-color: $darkblue-600;
+    -webkit-text-fill-color: $mauve-500;
+    box-shadow: 0 0 0px 1000px $darkblue-700 inset;
+    -webkit-box-shadow: 0 0 0px 1000px $darkblue-700 inset;
+    transition: background-color 5000s ease-in-out 0s;
+
+    &:hover {
+      border-color: $blue-500;
+    }
+
+    &:focus {
+      border-color: $mauve-500;
+      box-shadow: 0 0 0px 1000px $darkblue-900 inset;
+      -webkit-box-shadow: 0 0 0px 1000px $darkblue-900 inset;
+    }
+  }
+
+  + .validation-error {
+    color: $red-500;
+    display: none;
+    font-size: .875rem;
+    margin: -.5rem 0 1rem 0;
+  }
+
+  &.error:not(:focus) + .validation-error {
+    display: block;
+  }
+
+  + .search-results {
+    position: relative;
+
+    .results {
+      background: white;
+      border-radius: .25rem;
+      left: 0;
+      padding: .5rem;
+      position: absolute;
+      overflow: hidden;
+      top: -1rem;
+      width: 100%;
+
+      .button {
+        appearance: none;
+        background: white;
+        border: none;
+        border-radius: .25rem;
+        color: $darkblue-800;
+        cursor: pointer;
+        font: inherit;
+        padding: .375rem .5rem;
+        text-align: left;
+        width: 100%;
+
+        &:hover {
+          background: $mauve-500;
+          color: $blue-900;
+        }
+      }
+    }
+  }
+
+  @include tablet-down  {
+    width: 100%;
+  }
+
+  &[type=file] {
+    display: none;
+  }
+}

@@ -14,3 +14,10 @@ class Waitlist(db.Model):
 
     def __repr__(self):
         return f'<Waitlist {self.first_name}>'
+
+    @classmethod
+    def create_is_not_exists(cls, **kwargs):
+        if not cls.query.filter_by(email=kwargs['email']).first():
+            obj = cls(**kwargs)
+            db.session.add(obj)
+            db.session.commit()

@@ -138,6 +138,10 @@ cython_debug/
 # Temp
 tmp
 
+# Assets
+static/out
+static/.webassets-cache
+
 # Editors
 .idea
 .vscode

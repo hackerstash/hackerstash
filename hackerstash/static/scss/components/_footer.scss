@@ -1,0 +1,49 @@
+.footer {
+  background: $darkblue-900;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 1rem 2rem;
+
+    p {
+      margin: 0;
+
+      a {
+        color: $mauve-500;
+
+        &:hover {
+          color: $blue-500;
+        }
+      }
+    }
+
+    .seperator {
+      background: $mauve-500;
+      display: inline-block;
+      height: 14px;
+      margin: 0 1rem;
+      vertical-align: middle;
+      width: 1px;
+    }
+
+    @include tablet-down {
+      flex-direction: column;
+      
+      .container {
+        padding: 1rem;
+      }
+
+      p {
+        font-size: 14px;
+        text-align: center;
+
+        &:first-of-type {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}

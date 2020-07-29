@@ -1,0 +1,176 @@
+.home {
+  @include tablet-down {
+    padding: 0 1.5rem;
+  }
+
+  .title {
+    display: flex;
+    margin: 0 auto;
+    max-width: 960px;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
+
+    h1 {
+      flex: 1;
+    }
+
+    .caption {
+      background-color: $darkblue-700;
+      background-image: url('/static/images/moody-girl.svg');
+      background-repeat: no-repeat;
+      background-position: calc(100% - 1.5rem) calc(100% - 1.5rem);
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      justify-content: space-between;
+      min-height: 11.25rem;
+      padding: 1.5rem;
+      width: 20.5rem;
+
+      @include tablet-down {
+        margin-top: 3rem;
+        width: 100%;
+      }
+
+      h3 {
+        font-weight: $font-weight-normal;
+        max-width: 200px;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .register {
+    display: flex;
+    margin: 6rem auto 0 auto;
+    justify-content: space-between;
+    max-width: 960px;
+
+    > * {
+      width: calc(50% - 1.5rem);
+    }
+
+    @include tablet-down {
+      flex-direction: column;
+      margin-top: 3rem;
+
+      > * {
+        width: 100%;
+      }
+    }
+
+    form {
+      background: $darkblue-700;
+      border-radius: 1rem;
+      padding: 3rem;
+
+      @include tablet-down {
+        order: 2;
+        padding: 1.5rem;
+      }
+
+      fieldset {
+        appearance: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .input {
+        background: $darkblue-800;
+
+        &:disabled {
+          color: $mauve-500;
+        }
+      }
+
+      .button {
+        margin-top: .5rem;
+        width: 100%;
+
+        &:disabled {
+          background: $darkblue-800;
+        }
+      }
+
+      .recaptcha {
+        margin: 1rem 0 0 0;
+        text-align: center;
+
+        a {
+          color: $mauve-500;
+        }
+      }
+    }
+
+    .description {
+      .count {
+        margin: 5rem 0 0 3rem;
+        position: relative;
+
+        span {
+          color: $blue-500;
+        }
+
+        img {
+          left: -5.5rem;
+          position: absolute;
+          top: 2rem;
+        }
+      }
+
+      @include tablet-down {
+        margin-bottom: 4rem;
+
+        .count {
+          margin: 2rem 0 0 0;
+
+          img {
+            left: 8rem;
+            top: 2.5rem;
+            transform: rotate(-60deg) scale(.6);
+          }
+        }
+      }
+    }
+  }
+
+  .features {
+    background: $darkblue-900;
+    border: 2px solid $darkblue-600;
+    border-radius: 1rem;
+    padding: 4rem 2rem 5rem 2rem;
+    margin: 5rem auto 0 auto;
+    max-width: 1280px;
+
+    h2 {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-gap: 3rem 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+      margin: 0 auto;
+      max-width: 960px;
+
+      p:not(.small) {
+        align-items: center;
+        display: flex;
+        margin-bottom: 1.25rem;
+
+        i {
+          font-size: 1.75rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}

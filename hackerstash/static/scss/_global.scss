@@ -1,0 +1,70 @@
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: $darkblue-800;
+  color: $mauve-500;
+  font-family: 'Rubik', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.hackerstash {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 2rem 2rem 8rem 2rem;
+  width: 100%;
+
+  main {
+    flex: 1;
+    margin-left: 3rem;
+    min-height: calc(100vh - 212px);
+  }
+
+  @include tablet-down  {
+    flex-direction: column;
+    padding: 1rem;
+
+    main {
+      margin: .5rem 0 0 0;
+      min-height: calc(100vh - 196px);
+      padding: 0 1rem 8rem 1rem;
+    }
+  }
+
+  &.basic {
+    max-width: 100%;
+    padding: 0;
+
+    .sidebar {
+      display: none;
+    }
+
+    main {
+      margin: 0;
+
+      @include tablet-down  {
+        margin: 0 .5rem;
+      }
+    }
+  }
+}
+
+.sb-show-main {
+  padding: 2rem;
+}

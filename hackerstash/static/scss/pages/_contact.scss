@@ -1,0 +1,47 @@
+.page.contact {
+  @include tablet-down {
+    padding: 0 1.5rem;
+  }
+  
+  .contact-form {
+    margin: 0 auto;
+    max-width: 720px;
+    min-height: calc(100vh - 264px);
+
+    @include tablet-down {
+      min-height: calc(100vh - 216px);
+    }
+
+    h2, p {
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      margin: 1rem 0 2rem 0;
+    }
+
+    .message {
+      p {
+        margin: 0;
+      }
+    }
+
+    .recaptcha {
+      margin: 1rem 0 0 0;
+
+      a {
+        color: $mauve-500;
+      }
+    }
+
+    @include tablet-down {
+      .button {
+        width: 100%;
+      }
+
+      .recaptcha {
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+.radio {
+  background: $darkblue-700;
+  border: 2px solid $darkblue-600;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 1rem;
+  position: relative;
+  width: 1rem;
+
+  .input {
+    appearance: none;
+    cursor: pointer;
+    height: 1rem;
+    left: -2px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: -2px;
+    width: 1rem;
+
+    &:checked + .indicator {
+      align-items: center;
+      border: 2px solid $mauve-500;
+      border-radius: 50%;
+      display: flex;
+      height: 1rem;
+      justify-content: center;
+      left: -2px;
+      position: absolute;
+      top: -2px;
+      width: 1rem;
+
+      span {
+        background: $blue-500;
+        border-radius: 50%;
+        height: .5rem;
+        width: .5rem;
+      }
+    }
+  }
+
+  &:hover {
+    border-color: $mauve-500;
+  }
+
+  &:active {
+    transform: scale(1.3);
+    transition: all .1s linear;
+  }
+
+  + .label {
+    cursor: pointer;
+    font-weight: $font-weight-normal;
+  }
+}
+
+.radio-group {
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  li {
+    align-items: center;
+    display: flex;
+    list-style: none;
+
+    &:active {
+      .radio {
+        transform: scale(1.3);
+        transition: all .1s linear;
+      }
+    }
+  }
+
+  .radio {
+    margin-right: .5rem;
+
+    + .label {
+      margin: 0 1.5rem 0 0;
+    }
+  }
+
+  @include tablet-down {
+    flex-direction: column;
+
+    li {
+      margin-bottom: .5rem;
+    }
+  }
+}

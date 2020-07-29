@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or 'HackerStash' }}</title>
+    {% assets "scss_all" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+</head>
+<body>
+    <div class="hackerstash">
+        <aside id="sidebar" class="sidebar">
+            <div class="logo">
+                <a href="{{ url_for('home.index') }}">
+                    <img src="/static/images/logo.svg">
+                </a>
+                <div class="actions">
+                    <i class="icon ri-menu-line hamburger"></i>
+                </div>
+            </div>
+            <div class="prize-pool">
+                <div class="row">
+                    <p class="small">Prize pool</p>
+                    <p class="small">$80.00</p>
+                </div>
+                <div class="row">
+                    <p class="small mb-0">Time remaining</p>
+                    <p class="small mb-0">4 days</p>
+                </div>
+            </div>
+            <nav class="routes">
+                <a class="{{ 'active' if request.path == url_for('leaderboard.index') }}" href="{{ url_for('leaderboard.index') }}">
+                    <i class="icon ri-trophy-line"></i>
+                    Leaderboard
+                </a>
+                <a class="{{ 'active' if request.path == url_for('posts.index') }}" href="{{ url_for('posts.index') }}">
+                    <i class="icon ri-flashlight-line"></i>
+                    Posts
+                </a>
+                <a class="{{ 'active' if request.path == url_for('projects.index') }}" href="{{ url_for('projects.index') }}">
+                    <i class="icon ri-profile-line"></i>
+                    Projects
+                </a>
+                <a class="{{ 'active' if request.path == url_for('rules.index') }}" href="{{ url_for('rules.index') }}">
+                    <i class="icon ri-lightbulb-line"></i>
+                    Rules
+                </a>
+                <a class="{{ 'active' if request.path == url_for('past_results.index') }}" href="{{ url_for('past_results.index') }}">
+                    <i class="icon ri-history-line"></i>
+                    Past Results
+                </a>
+            </nav>
+            <hr class="divider">
+            <div class="user-actions">
+                <a class="button" href="/signup">Sign Up</a>
+                <a class="button secondary" href="/login">Log In</a>
+            </div>
+        </aside>
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

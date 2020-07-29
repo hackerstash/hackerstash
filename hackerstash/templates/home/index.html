@@ -1,6 +1,95 @@
-{% extends 'base.html' %}
+{% extends 'base_simple.html' %}
 {% set title = 'HackerStash' %}
 
 {% block body %}
-    <h1>Hello world</h1>
+    <div class="page home">
+        <header id="sidebar" class="static-header">
+            <div class="logo">
+                <a href="{{ url_for('home.index') }}"><img src="/static/images/logo.svg"></a>
+                <div class="pipe"></div>
+                <p class="small">Funding. hacked.</p>
+            </div>
+            <nav>
+                <div class="links">
+                    <a href="/blog">Blog</a>
+                    <a href="{{ url_for('contact.index') }}">Contact Us</a>
+                </div>
+                <a href="https://twitter.com/HackerStash" target="_blank" rel="nofollow noreferrer" class="twitter">
+                    <i class="icon ri-twitter-fill"></i>
+                </a>
+                <i class="icon ri-menu-line hamburger"></i>
+            </nav>
+        </header>
+        <div class="title">
+            <h1>Community-lead micro finance for hackers and entrepreneurs.</h1>
+            <div class="caption">
+                <h3>“ Finding ways to fund my projects sucks ”</h3>
+                <p class="small">- Every innovator, ever.</p>
+            </div>
+        </div>
+        <div class="register">
+            <form class="form" action="{{ url_for('home.index') }}" method="post">
+                <fieldset {{ "disabled" if added_to_waitlist }}>
+                    <h3 class="mb-1">Get notified when we launch</h3>
+                    <p class="mb-1-5"><b>We’re launching in July</b>, but you can enter your details below to receive pre-launch updates and become one of our first competitors ✨</p>
+                    <label class="label" for="first_name">First name</label>
+                    <input class="input" name="first_name" id="first_name" placeholder="e.g. Holly" autocomplete="fname" required>
+
+                    <label class="label" for="email">Email address</label>
+                    <input type="email" class="input" name="email" id="email" placeholder="e.g. holly@hackerstash.com" autocomplete="email" required>
+
+                    <button class="button">{{ "You're on the waitlist" if added_to_waitlist else "Stay informed" }}</button>
+
+                    <p class="small recaptcha">protected by <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="nofollow noreferrer">reCAPTCHA</a></p>
+                </fieldset>
+            </form>
+            <div class="description">
+                <h2 class="mb-2 mt-2">What is HackerStash</h2>
+                <p>HackerStash is a monthly tournament designed to help you support digital projects and services you love, and keep your own project moving forward too.</p>
+                <p>You’ll share updates on your project and vote on competing projects, with the top 10% winning cash prizes each month to fund their project.</p>
+                <p>A HackerStash subscription will cost $12 per month, and the prize pool gets larger as more projects take part.</p>
+                <p class="count"><img src="/static/images/curved-arrow.svg"><b>Join the <span>{{ waitlist_count }} people</span> who are already waiting to start!</b></p>
+            </div>
+        </div>
+        <section class="features">
+            <h2>Why you should join</h2>
+            <div class="grid">
+                <div>
+                    <p><i class="icon ri-team-line"></i><b>Support great ideas</b></p>
+                    <p class="small">If you love an idea, product or team, vote for their project! If they win the cash prizes will help drive their business forward.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-money-dollar-circle-line"></i><b>Fund your project</b></p>
+                    <p class="small">Every month the top 10% of projects win cash prizes to help fund their projects. The higher you rank, the larger the prize.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-lightbulb-flash-line"></i><b>Validate your ideas</b></p>
+                    <p class="small">When other people vote for your project to win cash rewards it’s incredibly validating, helping to prove the value of your ideas.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-thumb-up-line"></i><b>Achieve more</b></p>
+                    <p class="small">HackerStash will improve your focus and increase productivity, by keeping you accountable to a wider audience.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-heart-line"></i><b>Transparent rules</b></p>
+                    <p class="small">The rules are crystal clear upfront, and we’ll be providing open access to the source code powering that tournament.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-trophy-line"></i><b>You choose who wins</b></p>
+                    <p class="small">Your votes, and those of other community members, determine the winners - no invisible hand tipping the scales.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-calendar-check-fill"></i><b>Monthly prizes</b></p>
+                    <p class="small">Each month the tournament restarts and scores are reset, so nobody gains an advantage from being a member for longer.</p>
+                </div>
+                <div>
+                    <p><i class="icon ri-share-line"></i><b>Connect with others</b></p>
+                    <p class="small">The HackerStash community offers a great opportunity to grow your network and exchange advice with likeminded peers.</p>
+                </div>
+            </div>
+        </section>
+        <footer class="static-footer">
+            <p>© HackerStash, 2020.</p>
+        </footer>
+    </div>
 {% endblock %}

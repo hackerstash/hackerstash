@@ -1,0 +1,54 @@
+.page.leaderboard {
+  .leaderboard-results {
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      border-bottom: 1px solid $darkblue-900;
+      display: flex;
+      list-style: none;
+      padding: .5rem 1rem;
+
+      &:hover {
+        background: $darkblue-700;
+      }
+
+      @include tablet-down {
+        padding: 1rem 0;
+      }
+
+      .position {
+        align-items: center;
+        background: $darkblue-900;
+        border-radius: .25rem;
+        display: flex;
+        height: 2rem;
+        justify-content: center;
+        margin-right: 1.5rem;
+        width: 2rem;
+      }
+
+      .details {
+        flex: 1;
+
+        a {
+          color: $mauve-500;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .title {
+        font-weight: $font-weight-bold;
+      }
+
+      .votes {
+        margin-left: 1.5rem;
+      }
+    }
+  }
+}

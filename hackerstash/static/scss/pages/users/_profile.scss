@@ -1,0 +1,25 @@
+.page.profile {
+  .row {
+    > div {
+      flex: 1;
+
+      &:first-of-type {
+        margin-right: 2rem;
+      }
+    }
+
+    @include tablet-down  {
+      flex-direction: column;
+
+      > div:first-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .button i {
+    @include tablet-down  {
+      margin-right: 0;
+    }
+  }
+}

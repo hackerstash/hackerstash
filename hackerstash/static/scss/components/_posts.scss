@@ -1,0 +1,58 @@
+.post-row {
+  align-items: center;
+  border-bottom: 1px solid $darkblue-900;
+  display: flex;
+  min-height: 80px;
+  padding: .5rem 1rem;
+
+  @include tablet-down {
+    padding: 1rem 0;
+  }
+
+  &:hover {
+    background: $darkblue-700;
+  }
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  p {
+    margin: 0;
+
+    &:first-of-type {
+      margin-bottom: .5rem;
+    }
+
+    &.meta {
+      .avatar {
+        display: inline-block;
+        margin: 0 .3rem 0 0;
+        vertical-align: sub;
+      }
+
+      @include tablet-down {
+        display: flex;
+        flex-direction: column;
+
+        > span:first-of-type {
+          margin-bottom: .25rem;
+        }
+      }
+    }
+
+    a {
+      color: $mauve-500;
+      font-weight: $font-weight-bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .seperator {
+      margin: 0 .5rem;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.no-results {
+  margin: 2rem 0 0 0;
+  text-align: center;
+  
+  .icon {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-weight: $font-weight-bold;
+  }
+}

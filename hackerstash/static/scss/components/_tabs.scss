@@ -1,0 +1,38 @@
+.tabs {
+  .tab-header {
+    border-bottom: 1px solid $darkblue-900;
+    display: flex;
+
+    .button {
+      background: none;
+      border-color: transparent;
+      border-width: 0 0 .25rem 0;
+      border-radius: 0;
+      color: $mauve-500;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: $font-weight-normal;
+      height: auto;
+      margin-right: .5rem;
+      padding: .5rem .5rem 1rem .5rem;
+
+      &.active {
+        border-color: $blue-500;
+      }
+
+      @include tablet-down  {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .tab-body .tab {
+    display: none;
+    padding: 1rem 0;
+
+    &.active {
+      animation: fade-in .5s ease;
+      display: block;
+    }
+  }
+}

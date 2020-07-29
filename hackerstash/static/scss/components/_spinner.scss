@@ -1,0 +1,64 @@
+.spinner {
+  animation: spin 1.1s infinite linear;
+  border-bottom: 1.1em solid $darkblue-800;
+  border-left: 1.1em solid $blue-500;
+  border-right: 1.1em solid $darkblue-800;
+  border-top: 1.1em solid $darkblue-800;
+  font-size: 10px;
+  margin: 60px auto;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+
+  &.sm {
+    margin: 1rem auto;
+  }
+
+  &.md {
+    margin: 2rem auto;
+  }
+
+  &.lg {
+    margin: 3rem auto;
+  }
+}
+
+.spinner,
+.spinner:after {
+  border-radius: 50%;
+  height: 5em;
+  width: 5em;
+}
+
+.spinner.sm,
+.spinner.sm:after {
+  border-radius: 50%;
+  border-width: .4rem;
+  height: 3em;
+  width: 3em;
+}
+
+.spinner.md,
+.spinner.md:after {
+  border-radius: 50%;
+  border-width: .5rem;
+  height: 5em;
+  width: 5em;
+}
+
+.spinner.lg,
+.spinner.lg:after {
+  border-radius: 50%;
+  border-width: .7rem;
+  height: 10em;
+  width: 10em;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

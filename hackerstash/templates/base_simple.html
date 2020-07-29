@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title or 'HackerStash' }}</title>
+    {% assets "scss_all" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 </head>
 <body>
     {% block body %}

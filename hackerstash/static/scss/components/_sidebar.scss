@@ -1,0 +1,191 @@
+.sidebar {
+  align-self: flex-start;
+  background: $darkblue-900;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  position: sticky;
+  top: 2rem;
+  width: 252px;
+
+  @include tablet-down {
+    position: static;
+    top: auto;
+    width: 100%;
+  }
+
+  .logo {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 .75rem;
+
+    img {
+      display: block;
+      height: 2rem;
+    }
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    .actions {
+      align-items: center;
+      display: flex;
+    }
+
+    .hamburger {
+      color: $mauve-900;
+      display: none;
+
+      @include tablet-down  {
+        display: block;
+      }
+    }
+
+    .notification-bell {
+      align-items: center;
+      border-radius: .5rem;
+      color: $mauve-500;
+      display: flex;
+      height: 2.5rem;
+      justify-content: center;
+      position: relative;
+      text-decoration: none;
+      width: 2.5rem;
+
+      &:hover,
+      &.active {
+        background: $darkblue-600;
+      }
+
+      &.unread:after {
+        align-items: center;
+        background: $red-700;
+        border-radius: 50%;
+        content: attr(data-count);
+        display: flex;
+        height: 1.5rem;
+        font-size: 14px;
+        justify-content: center;
+        position: absolute;
+        top: -.3rem;
+        right: -.3rem;
+        width: 1.5rem;
+      }
+
+      @include tablet-down  {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .routes {
+    flex-direction: column;
+    margin-top: 1.5rem;
+
+    a {
+      align-items: center;
+      border-radius: .5rem;
+      color: $mauve-900;
+      cursor: pointer;
+      display: flex;
+      margin-bottom: .25rem;
+      padding: .85rem 1rem;
+      text-decoration: none;
+
+      &:hover,
+      &.active {
+        background: $darkblue-600;
+        color: $mauve-500;
+      }
+
+      i {
+        margin-right: .875rem;
+      }
+    }
+
+    @include tablet-down  {
+      display: none;
+    }
+  }
+
+  .prize-pool {
+    background: #101f3e;
+    border: 2px solid #21335a;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        margin-bottom: .5rem;
+
+        &:last-of-type {
+          color: #70b0ff;
+        }
+      }
+    }
+  }
+
+  .user-actions {
+    display: flex;
+    flex-direction: column;
+
+    .button {
+      margin: 1rem .5rem 0 .5rem;
+    }
+
+    .user {
+      align-items: center;
+      border-radius: .5rem;
+      display: flex;
+      padding: .85rem 1rem;
+      text-decoration: none;
+
+      p {
+        color: $mauve-900;
+        margin: 0;
+      }
+
+      &:hover,
+      &.active {
+        background: #344F88;
+
+        p {
+          color: $mauve-500;
+        }
+      }
+    }
+  }
+
+  @include tablet-down  {
+    padding: 1.125rem 1rem;
+
+    .user-actions {
+      .button:nth-of-type(2),
+      .user {
+        display: none;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    &.menu-open {
+      .user-actions .user,
+      .routes {
+        display: flex;
+      }
+
+      .button:nth-of-type(2) {
+        display: inline-block;
+      }
+    }
+  }
+}

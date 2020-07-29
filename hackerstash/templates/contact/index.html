@@ -1,0 +1,56 @@
+{% extends 'base_simple.html' %}
+{% set title = 'HackerStash / Contact' %}
+
+{% block body %}
+    <div class="page contact">
+        <header id="sidebar" class="static-header">
+            <div class="logo">
+                <a href="{{ url_for('home.index') }}"><img src="/static/images/logo.svg"></a>
+                <div class="pipe"></div>
+                <p class="small">Funding. hacked.</p>
+            </div>
+            <nav>
+                <div class="links">
+                    <a href="/blog">Blog</a>
+                    <a href="{{ url_for('contact.index') }}">Contact Us</a>
+                </div>
+                <a href="https://twitter.com/HackerStash" target="_blank" rel="nofollow noreferrer" class="twitter">
+                    <i class="icon ri-twitter-fill"></i>
+                </a>
+                <i class="icon ri-menu-line hamburger"></i>
+            </nav>
+        </header>
+        <section class="contact-form">
+            <form class="form" action="{{ url_for('contact.index') }}" method="post">
+                <fieldset>
+                    <h2>Contact Us</h2>
+                    <p>If you’d like to get in touch, please use the form below or email <a href="mailto:hello@hackerstash.com">hello@hackerstash.com</a>.</p>
+
+                    <label class="label" for="name">Name</label>
+                    <input class="input" id="name" name="name" placeholder="e.g. Holly" autocomplete="fname" required>
+
+                    <label class="label" for="email">Email address</label>
+                    <input class="input" id="email" name="email" placeholder="e.g. holly@hackerstash.com" autocomplete="email" required=>
+
+                    <label class="label" for="subject">Subject</label>
+                    <input class="input" id="subject" name="subject" placeholder="e.g. I love Hackerstash so much it hurts" required>
+
+                    <label class="label" for="message">Message</label>
+                    <textarea class="input textarea" id="message" name="message" rows="7" required></textarea>
+
+                    <hr class="divider">
+
+                    <div class="button-group">
+                        <button class="button" type="submit">Send message</button>
+                        <a class="button secondary" href="{{ url_for('home.index') }}">Cancel</a>
+                    </div>
+
+                    <p class="small recaptcha">protected by <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="nofollow noreferrer">reCAPTCHA</a></p>
+                </fieldset>
+            </form>
+        </section>
+        <footer class="static-footer">
+            <p>© HackerStash, 2020.</p>
+        </footer>
+    </div>
+{% endblock %}

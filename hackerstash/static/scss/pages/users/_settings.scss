@@ -1,0 +1,17 @@
+.page.settings {
+  .close-account {
+    .close-account-confirm {
+      a {
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .close-account-link {
+    a {
+      color: $mauve-500;
+    }
+  }
+}

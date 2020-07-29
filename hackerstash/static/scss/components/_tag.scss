@@ -1,0 +1,40 @@
+.tag {
+  align-items: center;
+  background: $darkblue-900;
+  border-radius: .25rem;
+  display: inline-flex;
+  font-size: 14px;
+  margin-left: .75rem;
+  padding: .375rem .75rem;
+
+  span {
+    margin-left: .5rem;
+
+    &.name {
+      color: $mauve-500;
+    }
+
+    &.value {
+      color: $blue-500;
+    }
+  }
+
+  > * {
+    margin-bottom: 0;
+  }
+
+  &.primary {
+    background: $darkblue-700;
+    border: 2px solid $blue-500;
+    border-radius: .5rem;
+    color: $mauve-500;
+    font-size: 16px;
+    line-height: 20px;
+    padding: .375rem .75rem;
+  }
+
+  &.tertiary {
+    background: $red-700;
+    color: $mauve-500;
+  }
+}
