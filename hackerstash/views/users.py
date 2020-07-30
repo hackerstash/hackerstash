@@ -13,6 +13,18 @@ def show(user_id):
     return render_template('users/show.html', user=user)
 
 
+@users.route('/users/<user_id>/followers')
+def followers(user_id):
+    user = User.query.get(user_id)
+    return render_template('users/followers/index.html', user=user)
+
+
+@users.route('/users/<user_id>/following')
+def following(user_id):
+    user = User.query.get(user_id)
+    return render_template('users/following/index.html', user=user)
+
+
 @users.route('/users/new')
 @login_required
 def new():

@@ -28,8 +28,8 @@
             </div>
         </header>
         <div class="profile-stats d-flex">
-            <button class="button link small"><span>{{ user.followers | length }}</span> followers</button>
-            <button class="button link small"><span>{{ user.following | length }}</span> following</button>
+            <a href="{{ url_for('users.followers', user_id=user.id) }}" class="button link small"><span>{{ user.followers | length }}</span> followers</a>
+            <a href="{{ url_for('users.following', user_id=user.id) }}" class="button link small"><span>{{ user.following | length }}</span> following</a>
             {% if user.location %}
                 <p>
                     <i class="icon ri-map-pin-2-line"></i>
