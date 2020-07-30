@@ -32,7 +32,7 @@ def create():
     db.session.add(member)
     db.session.commit()
 
-    return redirect(url_for('projects.show', project_id=project.id))
+    return redirect(url_for('projects.edit', project_id=project.id))
 
 
 @projects.route('/projects/<project_id>/edit')

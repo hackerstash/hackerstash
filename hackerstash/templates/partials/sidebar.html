@@ -7,7 +7,7 @@
         </a>
         <div class="actions">
             {% if g.user %}
-                <a class="notification-bell" href="/notifications">
+                <a class="notification-bell" href="{{ url_for('notifications.index') }}">
                     <i class="icon ri-notification-2-line"></i>
                 </a>
             {% endif %}
@@ -55,7 +55,7 @@
             </a>
 
             {% if g.user.member %}
-                <a class="project {{ 'active' if request.path.startswith('/project') }}" href="{{ url_for('projects.show', project_id=g.user.member.project.id) }}">
+                <a class="project {{ 'active' if request.path == url_for('projects.show', project_id=g.user.member.project.id) }}" href="{{ url_for('projects.show', project_id=g.user.member.project.id) }}">
                     {{ avatar(g.user.member.project.avatar, 'x-sm') }}
                     <p class="split">
                         <span>{{ g.user.member.project.name }}</span>

@@ -1,0 +1,24 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Notifications' %}
+
+{% block body %}
+    <div class="page notifications">
+        <header class="header">
+            <h2>Notifications</h2>
+            <a href="{{ url_for('notifications.settings') }}" class="button secondary">Settings</a>
+        </header>
+
+        {% if notifications %}
+            <a href="{{ url_for('notifications.mark_all_as_read') }}" class="mt-2 mb-2">Mark all as read</a>
+            <ul class="notification-list">
+                {% for notification in notifications %}
+                    <li>
+                        TODO
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% include "partials/no_results.html" %}
+        {% endif %}
+    </div>
+{% endblock %}

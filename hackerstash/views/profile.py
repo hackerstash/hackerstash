@@ -5,12 +5,12 @@ from hackerstash.models.user import User
 profile = Blueprint('profile', __name__)
 
 
-@profile.route('/settings')
+@profile.route('/profile')
 def index():
     return render_template('profile/index.html')
 
 
-@profile.route('/settings/update', methods=['POST'])
+@profile.route('/profile/update', methods=['POST'])
 def update():
     user = User.query.get(g.user.id)
 

@@ -101,7 +101,7 @@
                 <div>
                     <h4>Platforms &amp; devices</h4>
                     <ul>
-                        {% for p in project.platforms_and_devices %}
+                        {% for p in project.platforms_and_devices or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ p }}
@@ -112,7 +112,7 @@
                 <div>
                     <h4>Business model</h4>
                     <ul>
-                        {% for b in project.business_models %}
+                        {% for b in project.business_models or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ b }}
@@ -123,7 +123,7 @@
                 <div>
                     <h4>Funding</h4>
                     <ul>
-                        {% for f in project.fundings %}
+                        {% for f in project.fundings or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ f }}

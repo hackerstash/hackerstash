@@ -20,9 +20,3 @@ def update():
     user.telephone = request.form['telephone']
     db.session.commit()
     return redirect(url_for('users.show', user_id=user.id))
-
-
-@settings.route('/settings/destroy')
-@login_required
-def destroy():
-    return redirect(url_for('home.index'))

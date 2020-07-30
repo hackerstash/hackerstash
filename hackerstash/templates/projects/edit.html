@@ -93,56 +93,56 @@
                                 <ul class="checkbox-group mb-2">
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="android" name="platforms_and_devices" value="android" {{ 'checked' if 'android' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="android" name="platforms_and_devices" value="android" {{ 'checked' if 'android' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="android">Android</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="browser_plugin" name="platforms_and_devices" value="browser_plugin" {{ 'checked' if 'browser_plugin' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="browser_plugin" name="platforms_and_devices" value="browser_plugin" {{ 'checked' if 'browser_plugin' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="browser_plugin">Browser plugin</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="desktop" name="platforms_and_devices" value="desktop" {{ 'checked' if 'desktop' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="desktop" name="platforms_and_devices" value="desktop" {{ 'checked' if 'desktop' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="desktop">Desktop</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="ios" name="platforms_and_devices" value="ios" {{ 'checked' if 'ios' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="ios" name="platforms_and_devices" value="ios" {{ 'checked' if 'ios' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="ios">iOS</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="mac" name="platforms_and_devices" value="mac" {{ 'checked' if 'mac' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="mac" name="platforms_and_devices" value="mac" {{ 'checked' if 'mac' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="mac">Mac</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="mobile" name="platforms_and_devices" value="mobile" {{ 'checked' if 'mobile' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="mobile" name="platforms_and_devices" value="mobile" {{ 'checked' if 'mobile' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="mobile">Mobile</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="pc" name="platforms_and_devices" value="pc" {{ 'checked' if 'pc' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="pc" name="platforms_and_devices" value="pc" {{ 'checked' if 'pc' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="pc">PC</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="web" name="platforms_and_devices" value="web" {{ 'checked' if 'web' in project.platforms_and_devices }}>
+                                            <input type="checkbox" id="web" name="platforms_and_devices" value="web" {{ 'checked' if 'web' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="web">Web</label>
@@ -154,56 +154,56 @@
                                 <ul class="checkbox-group mb-2">
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="advertising" name="business_models" value="advertising" {{ 'checked' if 'advertising' in project.business_models }}>
+                                            <input type="checkbox" id="advertising" name="business_models" value="advertising" {{ 'checked' if 'advertising' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="advertising">Advertising</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="commission" name="business_models" value="commission" {{ 'checked' if 'commission' in project.business_models }}>
+                                            <input type="checkbox" id="commission" name="business_models" value="commission" {{ 'checked' if 'commission' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="commission">Commission</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="consulting" name="business_models" value="consulting" {{ 'checked' if 'consulting' in project.business_models }}>
+                                            <input type="checkbox" id="consulting" name="business_models" value="consulting" {{ 'checked' if 'consulting' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="consulting">Consulting</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="donations" name="business_models" value="donations" {{ 'checked' if 'donations' in project.business_models }}>
+                                            <input type="checkbox" id="donations" name="business_models" value="donations" {{ 'checked' if 'donations' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="donations">Donations</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="free" name="business_models" value="free" {{ 'checked' if 'free' in project.business_models }}>
+                                            <input type="checkbox" id="free" name="business_models" value="free" {{ 'checked' if 'free' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="free">Free</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="partnership" name="business_models" value="partnership" {{ 'checked' if 'partnership' in project.business_models }}>
+                                            <input type="checkbox" id="partnership" name="business_models" value="partnership" {{ 'checked' if 'partnership' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="partnership">Partnership</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="sales_and_transactions" name="business_models" value="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in project.business_models }}>
+                                            <input type="checkbox" id="sales_and_transactions" name="business_models" value="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="sales_and_transactions">Sales &amp; Transactions</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="subscriptions" name="business_models" value="subscriptions" {{ 'checked' if 'subscriptions' in project.business_models }}>
+                                            <input type="checkbox" id="subscriptions" name="business_models" value="subscriptions" {{ 'checked' if 'subscriptions' in (project.business_models or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="subscriptions">Subscriptions</label>
@@ -215,56 +215,56 @@
                                 <ul class="checkbox-group mb-2">
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="accelerator" name="fundings" value="accelerator" {{ 'checked' if 'accelerator' in project.fundings }}>
+                                            <input type="checkbox" id="accelerator" name="fundings" value="accelerator" {{ 'checked' if 'accelerator' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="accelerator">Accelerator</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="bootstrapped" name="fundings" value="bootstrapped" {{ 'checked' if 'bootstrapped' in project.fundings }}>
+                                            <input type="checkbox" id="bootstrapped" name="fundings" value="bootstrapped" {{ 'checked' if 'bootstrapped' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="bootstrapped">Bootstrapped</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="crowd_funded" name="fundings" value="crowd_funded" {{ 'checked' if 'crowd_funded' in project.fundings }}>
+                                            <input type="checkbox" id="crowd_funded" name="fundings" value="crowd_funded" {{ 'checked' if 'crowd_funded' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="crowd_funded">Crowd-funded</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="donation_supported" name="fundings" value="donation_supported" {{ 'checked' if 'donation_supported' in project.fundings }}>
+                                            <input type="checkbox" id="donation_supported" name="fundings" value="donation_supported" {{ 'checked' if 'donation_supported' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="donation_supported">Donation-supported</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="hackerstash" name="fundings" value="hackerstash" {{ 'checked' if 'hackerstash' in project.fundings }}>
+                                            <input type="checkbox" id="hackerstash" name="fundings" value="hackerstash" {{ 'checked' if 'hackerstash' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="hackerstash">HackerStash prizes</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="self_funded" name="fundings" value="self_funded" {{ 'checked' if 'self_funded' in project.fundings }}>
+                                            <input type="checkbox" id="self_funded" name="fundings" value="self_funded" {{ 'checked' if 'self_funded' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="self_funded">Self funded</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="vc_funded" name="fundings" value="vc_funded" {{ 'checked' if 'vc_funded' in project.fundings }}>
+                                            <input type="checkbox" id="vc_funded" name="fundings" value="vc_funded" {{ 'checked' if 'vc_funded' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="vc_funded">VC funded</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="seed_funded" name="fundings" value="seed_funded" {{ 'checked' if 'seed_funded' in project.fundings }}>
+                                            <input type="checkbox" id="seed_funded" name="fundings" value="seed_funded" {{ 'checked' if 'seed_funded' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
                                         <label class="label" for="seed_funded">Seed funded</label>

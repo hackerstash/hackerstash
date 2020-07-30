@@ -25,12 +25,12 @@ class User(db.Model):
     twitter = db.Column(db.String)
     avatar = db.Column(db.String)
 
-    member = db.relationship('Member', backref='user', uselist=False)
-    comments = db.relationship('Comment', backref='user')
-    posts = db.relationship('Post', backref='user')
+    member = db.relationship('Member', backref='user', uselist=False, cascade='all,delete')
+    comments = db.relationship('Comment', backref='user', cascade='all,delete')
+    posts = db.relationship('Post', backref='user', cascade='all,delete')
 
-    notifications = db.relationship('Notification', backref='user')
-    notifications_settings = db.relationship('NotificationSetting', backref='user', uselist=False)
+    notifications = db.relationship('Notification', backref='user', cascade='all,delete')
+    notifications_settings = db.relationship('NotificationSetting', backref='user', uselist=False, cascade='all,delete')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())

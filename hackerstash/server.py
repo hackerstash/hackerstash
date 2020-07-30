@@ -9,6 +9,7 @@ from hackerstash.views.contact import contact
 from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
 from hackerstash.views.login import login
+from hackerstash.views.notifications import notifications
 from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
 from hackerstash.views.profile import profile
@@ -27,6 +28,7 @@ app.register_blueprint(contact)
 app.register_blueprint(home)
 app.register_blueprint(leaderboard)
 app.register_blueprint(login)
+app.register_blueprint(notifications)
 app.register_blueprint(past_results)
 app.register_blueprint(posts)
 app.register_blueprint(profile)
@@ -43,8 +45,8 @@ def before_request_func():
     if 'id' in session:
         g.user = User.query.get(session['id'])
 
-        if not g.user.username and request.path != url_for('users.create'):
-            return redirect(url_for('users.create'))
+        if not g.user.username and request.path not in [url_for('users.new'), url_for('users.create')]:
+            return redirect(url_for('users.new'))
 
 
 def create_app():

@@ -1,7 +1,7 @@
 {% extends 'base_simple.html' %}
 {% set title = 'HackerStash / Create User' %}
 
-{% from "partials/avatar" import avatar_upload %}
+{% from "partials/avatar.html" import avatar_upload %}
 
 {% block body %}
     <div class="pages new-user">
@@ -11,6 +11,15 @@
                 <h1>Welcome to HackerStash</h1>
                 <hr class="divider mt-2 mb-2">
                 <p class="mb-2">To log in and get started using HackerStash, please complete the basic profile information below.</p>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="message failure">
+                            <p>{{ messages[0] }}</p>
+                            <i class="icon ri-close-line"></i>
+                        </div>
+                    {% endif %}
+                {% endwith %}
 
                 <label class="label label mb-1-5 d-block">Profile image</label>
                 {{ avatar_upload() }}

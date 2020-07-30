@@ -1,0 +1,281 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Notification Settings' %}
+
+{% set active_tab = request.args.tab or 'web' %}
+
+{% block body %}
+    <div class="page notifications settings">
+        <header class="header">
+            <h2>Notification Settings</h2>
+        </header>
+
+        <p class="wrap-620 mt-3 mb-2">Notifications can be received via email and on the website. You can manage these settings using the options below.</p>
+
+        <div class="tabs">
+            <div class="tab-header">
+                <a href="?tab=web" class="button {{ 'active' if active_tab == 'web' }}">Website notifications</a>
+                <a href="?tab=email" class="button {{ 'active' if active_tab == 'email' }}">Email notifications</a>
+            </div>
+             <div class="tab-body">
+                 <div class="tab {{ 'active' if active_tab == 'web' }}">
+                    <form class="form" action="{{ url_for('notifications.update') }}" method="post">
+                        <fieldset class="mt-2">
+                            <label class="label">Followers &amp; Following</label>
+                            <p class="mb-1-5">Send a notification when:</p>
+
+                            <ul class="checkbox-group stacked">
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="you_have_a_new_follower_web" id="you_have_a_new_follower_web" value="true" {{ 'checked' if g.user.notifications_settings.you_have_a_new_follower_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="you_have_a_new_follower_web" value="false">
+                                    </span>
+                                    <label class="label" for="you_have_a_new_follower_web">You have a new follower</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="a_follower_posts_an_update_web" id="a_follower_posts_an_update_web" value="true" {{ 'checked' if g.user.notifications_settings.a_follower_posts_an_update_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="a_follower_posts_an_update_web" value="false">
+                                    </span>
+                                    <label class="label" for="a_follower_posts_an_update_web">A follower posts an update</label>
+                                </li>
+                            </ul>
+
+                            <hr class="divider mb-2 mt-2">
+
+                            <label class="label">Comments &amp; Mentions</label>
+                            <p class="mb-1-5">Send a notification when:</p>
+
+                            <ul class="checkbox-group stacked">
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_comments_on_your_post_web" id="someone_comments_on_your_post_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_comments_on_your_post_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_comments_on_your_post_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_comments_on_your_post_web">Someone comments on your post</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_replies_to_your_comment_web" id="someone_replies_to_your_comment_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_replies_to_your_comment_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_replies_to_your_comment_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_replies_to_your_comment_web">Someone replies to your comment</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_upvotes_your_post_web" id="someone_upvotes_your_post_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_upvotes_your_post_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_upvotes_your_post_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_upvotes_your_post_web">Someone upvotes your post</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_downvotes_your_post_web" id="someone_downvotes_your_post_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_downvotes_your_post_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_downvotes_your_post_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_downvotes_your_post_web">Someone downvotes your post</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_upvotes_your_comment_web" id="someone_upvotes_your_comment_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_upvotes_your_comment_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_upvotes_your_comment_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_upvotes_your_comment_web">Someone upvotes your comment</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="someone_downvotes_your_comment_web" id="someone_downvotes_your_comment_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_downvotes_your_comment_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_downvotes_your_comment_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_downvotes_your_comment_web">Someone downvotes your comment</label>
+                                </li>
+                            </ul>
+
+                            <hr class="divider mb-2 mt-2">
+
+                            <label class="label">Project &amp; Team</label>
+                            <p class="mb-1-5">Send a notification when:</p>
+
+                            <ul class="checkbox-group stacked">
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="you_were_invited_to_join_a_project_web" id="you_were_invited_to_join_a_project_web" value="true" {{ 'checked' if g.user.notifications_settings.you_were_invited_to_join_a_project_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="you_were_invited_to_join_a_project_web" value="false">
+                                    </span>
+                                    <label class="label" for="you_were_invited_to_join_a_project_web">You were invited to join a project</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="you_were_removed_from_a_project_web" id="you_were_removed_from_a_project_web" value="true" {{ 'checked' if g.user.notifications_settings.you_were_removed_from_a_project_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="you_were_removed_from_a_project_web" value="false">
+                                    </span>
+                                    <label class="label" for="you_were_removed_from_a_project_web">You were removed from a project</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="a_team_member_joined_your_project_web" id="a_team_member_joined_your_project_web" value="true" {{ 'checked' if g.user.notifications_settings.a_team_member_joined_your_project_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="a_team_member_joined_your_project_web" value="false">
+                                    </span>
+                                    <label class="label" for="a_team_member_joined_your_project_web">A team member joined your project</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="a_team_member_left_your_project_web" id="a_team_member_left_your_project_web" value="true" {{ 'checked' if g.user.notifications_settings.a_team_member_left_your_project_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="a_team_member_left_your_project_web" value="false">
+                                    </span>
+                                    <label class="label" for="a_team_member_left_your_project_web">A team member left your project</label>
+                                </li>
+                            </ul>
+
+                            <hr class="divider mb-2 mt-2">
+                            <div class="button-group">
+                                <button class="button" type="submit">Save changes</button>
+                                <a class="button secondary" href="{{ url_for('notifications.index') }}">Cancel</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                 </div>
+                 <div class="tab {{ 'active' if active_tab == 'email' }}">
+                      <form class="form" action="{{ url_for('notifications.update') }}" method="post">
+                          <fieldset class="mt-2">
+                                <label class="label">Followers &amp; Following</label>
+                                <p class="mb-1-5">Send a notification when:</p>
+
+                                <ul class="checkbox-group stacked">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="you_have_a_new_follower_email" id="you_have_a_new_follower_email" value="true" {{ 'checked' if g.user.notifications_settings.you_have_a_new_follower_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="you_have_a_new_follower_email" value="false">
+                                        </span>
+                                        <label class="label" for="you_have_a_new_follower_email">You have a new follower</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="a_follower_posts_an_update_email" id="a_follower_posts_an_update_email" value="true" {{ 'checked' if g.user.notifications_settings.a_follower_posts_an_update_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="a_follower_posts_an_update_email" value="false">
+                                        </span>
+                                        <label class="label" for="a_follower_posts_an_update_email">A follower posts an update</label>
+                                    </li>
+                                </ul>
+
+                                <hr class="divider mb-2 mt-2">
+
+                                <label class="label">Comments &amp; Mentions</label>
+                                <p class="mb-1-5">Send a notification when:</p>
+
+                                <ul class="checkbox-group stacked">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_comments_on_your_post_email" id="someone_comments_on_your_post_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_comments_on_your_post_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_comments_on_your_post_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_comments_on_your_post_email">Someone comments on your post</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_replies_to_your_comment_email" id="someone_replies_to_your_comment_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_replies_to_your_comment_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_replies_to_your_comment_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_replies_to_your_comment_email">Someone replies to your comment</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_upvotes_your_post_email" id="someone_upvotes_your_post_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_upvotes_your_post_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_upvotes_your_post_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_upvotes_your_post_email">Someone upvotes your post</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_downvotes_your_post_email" id="someone_downvotes_your_post_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_downvotes_your_post_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_downvotes_your_post_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_downvotes_your_post_email">Someone downvotes your post</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_upvotes_your_comment_email" id="someone_upvotes_your_comment_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_upvotes_your_comment_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_upvotes_your_comment_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_upvotes_your_comment_email">Someone upvotes your comment</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_downvotes_your_comment_email" id="someone_downvotes_your_comment_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_downvotes_your_comment_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_downvotes_your_comment_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_downvotes_your_comment_email">Someone downvotes your comment</label>
+                                    </li>
+                                </ul>
+
+                                <hr class="divider mb-2 mt-2">
+
+                                <label class="label">Project &amp; Team</label>
+                                <p class="mb-1-5">Send a notification when:</p>
+
+                                <ul class="checkbox-group stacked">
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="you_were_invited_to_join_a_project_email" id="you_were_invited_to_join_a_project_email" value="true" {{ 'checked' if g.user.notifications_settings.you_were_invited_to_join_a_project_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="you_were_invited_to_join_a_project_email" value="false">
+                                        </span>
+                                        <label class="label" for="you_were_invited_to_join_a_project_email">You were invited to join a project</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="you_were_removed_from_a_project_email" id="you_were_removed_from_a_project_email" value="true" {{ 'checked' if g.user.notifications_settings.you_were_removed_from_a_project_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="you_were_removed_from_a_project_email" value="false">
+                                        </span>
+                                        <label class="label" for="you_were_removed_from_a_project_email">You were removed from a project</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="a_team_member_joined_your_project_email" id="a_team_member_joined_your_project_email" value="true" {{ 'checked' if g.user.notifications_settings.a_team_member_joined_your_project_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="a_team_member_joined_your_project_email" value="false">
+                                        </span>
+                                        <label class="label" for="a_team_member_joined_your_project_email">A team member joined your project</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="a_team_member_left_your_project_email" id="a_team_member_left_your_project_email" value="true" {{ 'checked' if g.user.notifications_settings.a_team_member_left_your_project_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="a_team_member_left_your_project_email" value="false">
+                                        </span>
+                                        <label class="label" for="a_team_member_left_your_project_email">A team member left your project</label>
+                                    </li>
+                                </ul>
+
+                                <hr class="divider mb-2 mt-2">
+                                <div class="button-group">
+                                    <button class="button" type="submit">Save changes</button>
+                                    <a class="button secondary" href="{{ url_for('notifications.index') }}">Cancel</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+             </div>
+        </div>
+    </div>
+{% endblock %}
