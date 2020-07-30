@@ -10,7 +10,7 @@
         <header class="header">
             {{ vote('lg') }}
             <div class="details">
-                <p class="small">TODO days ago</p>
+                <p class="small">{{ post.created_at | to_human_date }}</p>
                 <h2>{{ post.title }}</h2>
                 <p class="small">
                     <a href="{{ url_for('projects.show', project_id=post.project.id) }}">{{ post.project.name }}</a>
@@ -28,7 +28,9 @@
         </header>
 
         <div class="post-body wrap-620">
-            {{ post.body }}
+            <div class="markdown">
+                {{ post.body | to_markdown | safe }}
+            </div>
         </div>
 
         <hr class="divider mt-3 mb-3">

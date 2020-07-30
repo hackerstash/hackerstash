@@ -26,9 +26,9 @@
 
     &.meta {
       .avatar {
-        display: inline-block;
+        display: inline-flex;
         margin: 0 .3rem 0 0;
-        vertical-align: sub;
+        vertical-align: middle;
       }
 
       @include tablet-down {

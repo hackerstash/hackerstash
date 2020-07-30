@@ -16,7 +16,7 @@
                 </div>
                 <div class="mt-1 meta">
                     {% if project.start_month and project.start_year %}
-                        <p><i class="icon ri-calendar-line"></i>Started {{ project.start_month }} {{ project.start_year }}</p>
+                        <p><i class="icon ri-calendar-line"></i>Started {{ project.start_month | to_named_month }} {{ project.start_year }}</p>
                     {% endif %}
                     {% if project.location %}
                         <p><i class="icon ri-map-pin-2-fill"></i>{{ project.location }}</p>
@@ -26,7 +26,9 @@
                     {% endif %}
                 </div>
                 <div class="mt-2 wrap-620">
-                    <p>{{ project.description or '' }}</p>
+                    <div class="markdown">
+                        {{ project.description | to_markdown | safe }}
+                    </div>
                 </div>
             </div>
             <div class="button-group">

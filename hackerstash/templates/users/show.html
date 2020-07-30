@@ -39,9 +39,9 @@
         </div>
         {% if user.bio %}
             <div class="profile-bio-text mt-2 mb-2 wrap-620">
-                <article class="markdown">
-                    <span class="markdown">{{ user.bio }}</span>
-                </article>
+                <div class="markdown">
+                    {{ user.bio | to_markdown | safe }}
+                </div>
             </div>
         {% endif %}
 

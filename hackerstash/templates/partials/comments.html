@@ -15,7 +15,7 @@
                                 {{ comment.user.first_name }} {{ comment.user.last_name }}
                             </a>
                             <span class="seperator">•</span>
-                            <span>TODO days ago</span>
+                            <span>{{ comment.created_at | to_human_date }}</span>
                             <span class="seperator reply">•</span>
                             <span class="reply add-reply">
                                 <i class="icon ri-reply-line"></i>

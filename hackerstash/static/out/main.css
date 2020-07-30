@@ -673,7 +673,7 @@
       object-fit: cover;
       object-position: center;
       width: 100%; }
-      .avatar p {
+      .avatar .placeholder {
         color: #DEE7FF;
         font-size: 1.25rem;
         font-weight: 500;
@@ -684,7 +684,7 @@
           width: 1rem; }
           .avatar.xx-sm img {
             height: 1rem; }
-            .avatar.xx-sm p {
+            .avatar.xx-sm .placeholder {
               font-size: 0.5rem;
               line-height: 0.75rem; }
     .avatar.x-sm {
@@ -692,7 +692,7 @@
       width: 1.25rem; }
       .avatar.x-sm img {
         height: 1.25rem; }
-        .avatar.x-sm p {
+        .avatar.x-sm .placeholder {
           font-size: 0.75rem;
           line-height: 1rem; }
     .avatar.sm {
@@ -700,7 +700,7 @@
       width: 2rem; }
       .avatar.sm img {
         height: 2rem; }
-        .avatar.sm p {
+        .avatar.sm .placeholder {
           font-size: 1rem;
           line-height: 1.25rem; }
     .avatar.lg {
@@ -708,7 +708,7 @@
       width: 4rem; }
       .avatar.lg img {
         height: 4rem; }
-        .avatar.lg p {
+        .avatar.lg .placeholder {
           font-size: 1.75rem;
           line-height: 2rem; }
 
@@ -982,9 +982,9 @@
               .comments li .comment .details p {
                 margin: 0.25rem 0 0 0; }
                 .comments li .comment .details p .avatar {
-                  display: inline-block;
+                  display: inline-flex;
                   margin: 0 0.3rem 0 0;
-                  vertical-align: sub; }
+                  vertical-align: middle; }
                   .comments li .comment .details p:first-of-type {
                     margin-bottom: 0.5rem; }
                     .comments li .comment .details p a {
@@ -1363,9 +1363,9 @@
             .post-row p:first-of-type {
               margin-bottom: 0.5rem; }
               .post-row p.meta .avatar {
-                display: inline-block;
+                display: inline-flex;
                 margin: 0 0.3rem 0 0;
-                vertical-align: sub; }
+                vertical-align: middle; }
                 @media only screen and (max-width: 1024px) {
                   .post-row p.meta {
                     display: flex;
@@ -2071,9 +2071,9 @@
           width: 100%;   }
 }
     .page.posts.show .header .avatar {
-      display: inline-block;
+      display: inline-flex;
       margin: 0 0.3rem 0 0;
-      vertical-align: sub; }
+      vertical-align: middle; }
       .page.posts.show .header .details {
         flex: 1; }
         .page.posts.show .header .details p {

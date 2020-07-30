@@ -24,7 +24,7 @@
                             <span class="seperator d-none-small">•</span>
                         </span>
                         <span>
-                            <span>TODO days ago</span>
+                            <span>{{ post.created_at | to_human_date }}</span>
                             <span class="seperator">•</span>
                             <span>{{ post.comments | length }} comments</span>
                         </span>

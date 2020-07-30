@@ -17,7 +17,7 @@
     width: 100%;
   }
 
-  p {
+  .placeholder {
     color: $mauve-500;
     font-size: 1.25rem;
     font-weight: $font-weight-bold;
@@ -33,7 +33,7 @@
       height: 1rem;
     }
 
-    p {
+    .placeholder {
       font-size: .5rem;
       line-height: .75rem;
     }
@@ -47,7 +47,7 @@
       height: 1.25rem;
     }
 
-    p {
+    .placeholder {
       font-size: .75rem;
       line-height: 1rem;
     }
@@ -61,7 +61,7 @@
       height: 2rem;
     }
 
-    p {
+    .placeholder {
       font-size: 1rem;
       line-height: 1.25rem;
     }
@@ -75,7 +75,7 @@
       height: 4rem;
     }
 
-    p {
+    .placeholder {
       font-size: 1.75rem;
       line-height: 2rem;
     }

@@ -3,6 +3,7 @@ from hackerstash.db import db
 from hackerstash.models.user import User
 
 from hackerstash.utils.assets import assets
+from hackerstash.utils.filters import to_markdown, to_human_date, to_named_month
 
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
@@ -22,6 +23,10 @@ from hackerstash.views.users import users
 
 app = Flask(__name__)
 app.config.from_object('hackerstash.config.DevelopmentConfig')
+
+app.jinja_env.filters['to_markdown'] = to_markdown
+app.jinja_env.filters['to_human_date'] = to_human_date
+app.jinja_env.filters['to_named_month'] = to_named_month
 
 app.register_blueprint(challenges)
 app.register_blueprint(contact)

@@ -3,7 +3,7 @@
         {% if item.avatar %}
             <img src="https://images.hackerstash.com/{{ item.avatar }}">
         {% else %}
-            <span>?</span>
+            <span class="placeholder">?</span>
         {% endif %}
     </span>
 {% endmacro %}
@@ -14,7 +14,7 @@
             {% if item.avatar %}
                 <img src="https://images.hackerstash.com/{{ item.avatar }}">
             {% else %}
-                <p>$</p>
+                <span class="placeholder">$</span>
             {% endif %}
         </span>
         <input class="input" id="avatar" type="file" name="file" accept="image/jpg, image/jpeg, image/png">

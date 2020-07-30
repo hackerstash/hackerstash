@@ -12,7 +12,7 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index():
     tab = request.args.get('tab', 'new')
-    print(tab)
+    # TODO order by tab
     posts = Post.query.all()
     return render_template('posts/index.html', all_posts=posts)
 
@@ -49,6 +49,19 @@ def edit(post_id):
     # TODO auth
     post = Post.query.get(post_id)
     return render_template('posts/edit.html', post=post)
+
+
+@posts.route('/posts/<post_id>/update', methods=['POST'])
+@login_required
+def update(post_id):
+    # TODO auth
+    post = Post.query.get(post_id)
+
+    post.title = request.form['title']
+    post.body = request.form['body']
+    db.session.commit()
+
+    return render_template('posts/show.html', post=post)
 
 
 @posts.route('/posts/<post_id>/destroy')
