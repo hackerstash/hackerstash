@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request
 from hackerstash.db import db
 from hackerstash.lib.decorators import login_required
+from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
@@ -48,6 +49,13 @@ def edit(project_id):
 def update(project_id):
     # TODO auth
     project = Project.query.get(project_id)
+
+    if 'file' in request.files:
+        key = upload_image(request.files['file'])
+        project.avatar = key
+    elif project.avatar:
+        delete_image(project.avatar)
+        project.avatar = None
 
     for key, value in request.form.items():
         if key != 'file':

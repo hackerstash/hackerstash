@@ -7,6 +7,7 @@ services:
     command: 'python wsgi.py'
     environment:
       PYTHONUNBUFFERED: 1
+      AWS_PROFILE: lemon
     depends_on:
       - 'db'
     volumes:

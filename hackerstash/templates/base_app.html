@@ -15,5 +15,9 @@
             {% endblock %}
         </main>
     </div>
+
+    {% assets "js_all" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 </body>
 </html>

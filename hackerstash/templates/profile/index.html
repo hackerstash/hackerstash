@@ -6,12 +6,12 @@
 {% block body %}
     <div class="page user profile">
         <header class="header">
-            <h2>Edit Settings</h2>
+            <h2>Edit Profile</h2>
         </header>
 
-        <form class="form d-flex flex-column wrap-620" action="{{ url_for('profile.update') }}" method="post">
+        <form class="form d-flex flex-column wrap-620" action="{{ url_for('profile.update') }}" method="post" enctype="multipart/form-data">
             <fieldset>
-                {{ avatar_upload() }}
+                {{ avatar_upload(g.user) }}
 
                 <div class="row d-flex">
                     <div class="d-flex flex-column">
