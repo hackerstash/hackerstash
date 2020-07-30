@@ -11,10 +11,16 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-    comments = db.relationship('Comment', backref='post')
+    comments = db.relationship('Comment', backref='comments')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __repr__(self):
         return f'<Post {self.title}>'
+
+    def has_author(self, user):
+        if not user:
+            return None
+
+        return self.user.id == user.id

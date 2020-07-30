@@ -1,10 +1,49 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Posts' %}
 
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/comments.html" import comments %}
+{% from "partials/vote.html" import vote %}
+
 {% block body %}
-    <div class="page post">
+    <div class="page posts show">
         <header class="header">
-            <h2>Posts</h2>
+            {{ vote('lg') }}
+            <div class="details">
+                <p class="small">TODO days ago</p>
+                <h2>{{ post.title }}</h2>
+                <p class="small">
+                    <a href="{{ url_for('projects.show', project_id=post.project.id) }}">{{ post.project.name }}</a>
+                    <span>update by </span>
+                    {{ avatar(post.user, 'xx-sm') }}
+                    <a href="{{ url_for('users.show', user_id=post.user.id) }}">{{ post.user.first_name }} {{ post.user.last_name }}</a>
+                </p>
+            </div>
+            <div class="button-group">
+                {% if post.has_author(g.user) %}
+                    <a href="{{ url_for('posts.edit', post_id=post.id) }}" class="button secondary">Edit</a>
+                    <a href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
+                {% endif %}
+            </div>
         </header>
+
+        <div class="post-body wrap-620">
+            {{ post.body }}
+        </div>
+
+        <hr class="divider mt-3 mb-3">
+
+        <form class="form wrap-620 comment-form" action="{{ url_for('posts.comment', post_id=post.id) }}" method="post">
+            <fieldset>
+                <input type="hidden" name="parent_comment_id" id="parent_comment_id">
+                <label class="label" for="body">New comment</label>
+                <textarea class="input textarea mb-1" id="body" name="body" rows="4"></textarea>
+                <button class="button" type="submit">Comment</button>
+            </fieldset>
+        </form>
+
+        <label class="label comment-count mt-3 mb-3">0 Comments</label>
+
+        {{ comments(post.comments) }}
     </div>
 {% endblock %}

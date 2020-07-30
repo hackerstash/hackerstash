@@ -11,6 +11,8 @@ class Project(db.Model):
     url = db.Column(db.String)
     description = db.Column(db.String)
 
+    avatar = db.Column(db.String)
+
     location = db.Column(db.String)
     start_month = db.Column(db.Integer)
     start_year = db.Column(db.Integer)

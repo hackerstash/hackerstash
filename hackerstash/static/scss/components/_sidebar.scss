@@ -81,9 +81,30 @@
     }
   }
 
+  .prize-pool {
+    background: $darkblue-800;
+    border: 2px solid $darkblue-700;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        margin-bottom: .5rem;
+
+        &:last-of-type {
+          color: $blue-500;
+        }
+      }
+    }
+  }
+
   .routes {
     flex-direction: column;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 
     a {
       align-items: center;
@@ -111,31 +132,10 @@
     }
   }
 
-  .prize-pool {
-    background: #101f3e;
-    border: 2px solid #21335a;
-    border-radius: .5rem;
-    margin-top: 1rem;
-    padding: 1rem;
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-
-      p {
-        margin-bottom: .5rem;
-
-        &:last-of-type {
-          color: #70b0ff;
-        }
-      }
-    }
+  .divider {
+    background: $darkblue-700;
+    margin: .75rem 0;
   }
-
-   .divider {
-      background: #21335a;
-      margin: .75rem 0;
-    }
 
   .user-actions {
     display: flex;
@@ -145,16 +145,43 @@
       margin: 1rem .5rem 0 .5rem;
     }
 
-    .user {
+    .user, .project, .challenges {
       align-items: center;
       border-radius: .5rem;
       display: flex;
+      margin-bottom: 0.25rem;
       padding: .85rem 1rem;
       text-decoration: none;
 
       p {
         color: $mauve-900;
         margin: 0;
+      }
+
+      .avatar {
+        height: 1.5rem;
+        width: 1.5rem;
+
+        img {
+          height: 1.5rem;
+        }
+      }
+
+      .icon {
+        color: #FFD983;
+        font-size: 1.5rem;
+        margin-right: 0.875rem;
+      }
+
+      .split {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        span:nth-of-type(2) {
+          color: $blue-500;
+          font-size: 14px;
+        }
       }
 
       &:hover,
@@ -171,9 +198,19 @@
   @include tablet-down  {
     padding: 1.125rem 1rem;
 
+    .prize-pool {
+      display: none;
+    }
+
+    .divider {
+      display: none;
+    }
+
     .user-actions {
       .button:nth-of-type(2),
-      .user {
+      .user,
+      .project,
+      .challenges {
         display: none;
       }
 
@@ -184,8 +221,22 @@
 
     &.menu-open {
       .user-actions .user,
-      .routes {
+      .routes,
+      .project,
+      .challenges{
         display: flex;
+      }
+
+      .routes {
+        margin-top: .5rem;
+      }
+
+      .prize-pool {
+        display: block;
+      }
+
+      .divider {
+        display: block;
       }
 
       .button:nth-of-type(2) {

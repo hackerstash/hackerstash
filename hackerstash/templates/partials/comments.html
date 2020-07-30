@@ -1,0 +1,32 @@
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/vote.html" import vote %}
+
+{% macro comments(list) %}
+    <ul class="comments">
+        {% for comment in list %}
+            <li id="{{ comment.id }}">
+                <div class="comment wrap-620">
+                    {{ vote('sm') }}
+                    <div class="details">
+                        <span class="markdown inline">{{ comment.body }}</span>
+                        <p class="small">
+                            {{ avatar(comment.user, 'xx-sm') }}
+                            <a href="{{ url_for('users.show', user_id=comment.user.id) }}">
+                                {{ comment.user.first_name }} {{ comment.user.last_name }}
+                            </a>
+                            <span class="seperator">•</span>
+                            <span>TODO days ago</span>
+                            <span class="seperator reply">•</span>
+                            <span class="reply add-reply">
+                                <i class="icon ri-reply-line"></i>
+                                <button class="button link small" disabled="">Reply</button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            {% include "partials/no_results.html" %}
+        {% endfor %}
+    </ul>
+{% endmacro %}

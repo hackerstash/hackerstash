@@ -23,10 +23,14 @@
                         {{ avatar(user.member.project, 'md') }}
                     </aside>
                     <div>
-                        <a href="{{ url_for('projects.show', project_id=user.member.project.id) }}">
-                            {{ user.member.project.name }}
-                        </a>
+                        <h3>
+                            <a href="{{ url_for('projects.show', project_id=user.member.project.id) }}">{{ user.member.project.name }}</a>
+                        </h3>
                         <p>{{ user.member.project.description }}</p>
+                        <div class="details">
+                            <p><span>{{ user.member.project.members | length }}</span> Team members</p>
+                            <p><i class="icon ri-focus-2-line"></i>Points: TODO</p>
+                        </div>
                     </div>
                 </div>
             {% else %}

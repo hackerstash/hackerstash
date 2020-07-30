@@ -2,7 +2,12 @@
 {% set title = 'HackerStash / User' %}
 
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/comments.html" import comments %}
+{% from "partials/posts.html" import posts %}
 {% from "partials/user_project_card.html" import user_project_card %}
+
+{% set is_self = g.user and g.user.id == user.id %}
+{% set active_tab = request.args.tab or 'posts' %}
 
 {% block body %}
     <div class="page user">
@@ -11,9 +16,12 @@
                 {{ avatar(user) }}
                 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                 <p class="username">{{ user.username }}</p>
+                {% if is_self %}
+                    <a class="small log-out" href="{{ url_for('signout.index') }}">Log out</a>
+                {% endif %}
             </div>
             <div class="profile-actions d-none-small">
-                {% if g.user and g.user.id == user.id %}
+                {% if is_self %}
                     <a href="{{ url_for('settings.index') }}" class="button secondary">Settings</a>
                     <a href="{{ url_for('profile.index') }}" class="button secondary">Edit Profile</a>
                 {% endif %}
@@ -38,5 +46,24 @@
         {% endif %}
 
         {{ user_project_card(user) }}
+
+        <div class="tabs profile-tabs">
+            <div class="tab-header">
+                <a href="?tab=posts" class="button {{ 'active' if active_tab == 'posts' }}">Posts</a>
+                <a href="?tab=comments" class="button {{ 'active' if active_tab == 'comments' }}">Comments</a>
+                <a href="?tab=votes" class="button {{ 'active' if active_tab == 'votes' }}">Voting history</a>
+            </div>
+            <div class="tab-body">
+                <div class="tab {{ 'active' if active_tab == 'posts' }}">
+                    {{ posts(user.posts) }}
+                </div>
+                <div class="tab {{ 'active' if active_tab == 'comments' }}">
+                    {{ comments(user.comments) }}
+                </div>
+                <div class="tab {{ 'active' if active_tab == 'votes' }}">
+
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -1552,9 +1552,22 @@
                 .sidebar .logo .notification-bell {
                   margin-right: 1rem;   }
 }
+    .sidebar .prize-pool {
+      background: #101F3E;
+      border: 2px solid #21335A;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      padding: 1rem; }
+      .sidebar .prize-pool .row {
+        display: flex;
+        justify-content: space-between; }
+        .sidebar .prize-pool .row p {
+          margin-bottom: 0.5rem; }
+          .sidebar .prize-pool .row p:last-of-type {
+            color: #70B0FF; }
     .sidebar .routes {
       flex-direction: column;
-      margin-top: 1.5rem; }
+      margin-top: 1rem; }
       .sidebar .routes a {
         align-items: center;
         border-radius: 0.5rem;
@@ -1573,51 +1586,81 @@
         .sidebar .routes {
           display: none;   }
 }
-    .sidebar .prize-pool {
-      background: #101f3e;
-      border: 2px solid #21335a;
-      border-radius: 0.5rem;
-      margin-top: 1rem;
-      padding: 1rem; }
-      .sidebar .prize-pool .row {
-        display: flex;
-        justify-content: space-between; }
-        .sidebar .prize-pool .row p {
-          margin-bottom: 0.5rem; }
-          .sidebar .prize-pool .row p:last-of-type {
-            color: #70b0ff; }
     .sidebar .divider {
-      background: #21335a;
+      background: #21335A;
       margin: 0.75rem 0; }
       .sidebar .user-actions {
         display: flex;
         flex-direction: column; }
         .sidebar .user-actions .button {
           margin: 1rem 0.5rem 0 0.5rem; }
-          .sidebar .user-actions .user {
+          .sidebar .user-actions .user, .sidebar .user-actions .project,
+          .sidebar .user-actions .challenges {
             align-items: center;
             border-radius: 0.5rem;
             display: flex;
+            margin-bottom: 0.25rem;
             padding: 0.85rem 1rem;
             text-decoration: none; }
-            .sidebar .user-actions .user p {
+            .sidebar .user-actions .user p, .sidebar .user-actions .project p,
+            .sidebar .user-actions .challenges p {
               color: #B0BCDC;
               margin: 0; }
-              .sidebar .user-actions .user:hover, .sidebar .user-actions .user.active {
-                background: #344F88; }
-                .sidebar .user-actions .user:hover p, .sidebar .user-actions .user.active p {
-                  color: #DEE7FF; }
+              .sidebar .user-actions .user .avatar, .sidebar .user-actions .project .avatar,
+              .sidebar .user-actions .challenges .avatar {
+                height: 1.5rem;
+                width: 1.5rem; }
+                .sidebar .user-actions .user .avatar img,
+                .sidebar .user-actions .project .avatar img,
+                .sidebar .user-actions .challenges .avatar img {
+                  height: 1.5rem; }
+            .sidebar .user-actions .user .icon, .sidebar .user-actions .project .icon,
+            .sidebar .user-actions .challenges .icon {
+              color: #FFD983;
+              font-size: 1.5rem;
+              margin-right: 0.875rem; }
+              .sidebar .user-actions .user .split, .sidebar .user-actions .project .split,
+              .sidebar .user-actions .challenges .split {
+                display: flex;
+                justify-content: space-between;
+                width: 100%; }
+                .sidebar .user-actions .user .split span:nth-of-type(2),
+                .sidebar .user-actions .project .split span:nth-of-type(2),
+                .sidebar .user-actions .challenges .split span:nth-of-type(2) {
+                  color: #70B0FF;
+                  font-size: 14px; }
+            .sidebar .user-actions .user:hover, .sidebar .user-actions .user.active,
+            .sidebar .user-actions .project:hover, .sidebar .user-actions .project.active,
+            .sidebar .user-actions .challenges:hover, .sidebar .user-actions .challenges.active {
+              background: #344F88; }
+              .sidebar .user-actions .user:hover p, .sidebar .user-actions .user.active p,
+              .sidebar .user-actions .project:hover p, .sidebar .user-actions .project.active p,
+              .sidebar .user-actions .challenges:hover p,
+              .sidebar .user-actions .challenges.active p {
+                color: #DEE7FF; }
     @media only screen and (max-width: 1024px) {
       .sidebar {
         padding: 1.125rem 1rem;   }
-        .sidebar .user-actions .button:nth-of-type(2), .sidebar .user-actions .user {
+        .sidebar .prize-pool {
           display: none;   }
-          .sidebar .user-actions p {
-            font-size: 1rem;   }
-        .sidebar.menu-open .user-actions .user, .sidebar.menu-open .routes {
+          .sidebar .divider {
+            display: none;   }
+            .sidebar .user-actions .button:nth-of-type(2), .sidebar .user-actions .user,
+            .sidebar .user-actions .project, .sidebar .user-actions .challenges {
+              display: none;   }
+              .sidebar .user-actions p {
+                font-size: 1rem;   }
+        .sidebar.menu-open .user-actions .user, .sidebar.menu-open .routes,
+        .sidebar.menu-open .project, .sidebar.menu-open .challenges {
           display: flex;   }
-          .sidebar.menu-open .button:nth-of-type(2) {
-            display: inline-block;   }
+          .sidebar.menu-open .routes {
+            margin-top: 0.5rem;   }
+            .sidebar.menu-open .prize-pool {
+              display: block;   }
+              .sidebar.menu-open .divider {
+                display: block;   }
+                .sidebar.menu-open .button:nth-of-type(2) {
+                  display: inline-block;   }
 }
 
   .skeleton {

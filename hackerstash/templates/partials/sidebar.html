@@ -25,23 +25,23 @@
         </div>
     </div>
     <nav class="routes">
-        <a class="{{ 'active' if request.path == url_for('leaderboard.index') }}" href="{{ url_for('leaderboard.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/leaderboard') }}" href="{{ url_for('leaderboard.index') }}">
             <i class="icon ri-trophy-line"></i>
             Leaderboard
         </a>
-        <a class="{{ 'active' if request.path == url_for('posts.index') }}" href="{{ url_for('posts.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/posts') }}" href="{{ url_for('posts.index') }}">
             <i class="icon ri-flashlight-line"></i>
             Posts
         </a>
-        <a class="{{ 'active' if request.path == url_for('projects.index') }}" href="{{ url_for('projects.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/projects') }}" href="{{ url_for('projects.index') }}">
             <i class="icon ri-profile-line"></i>
             Projects
         </a>
-        <a class="{{ 'active' if request.path == url_for('rules.index') }}" href="{{ url_for('rules.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/rules') }}" href="{{ url_for('rules.index') }}">
             <i class="icon ri-lightbulb-line"></i>
             Rules
         </a>
-        <a class="{{ 'active' if request.path == url_for('past_results.index') }}" href="{{ url_for('past_results.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/past_results') }}" href="{{ url_for('past_results.index') }}">
             <i class="icon ri-history-line"></i>
             Past Results
         </a>
@@ -49,10 +49,28 @@
     <hr class="divider">
     <div class="user-actions">
         {% if g.user %}
-            <a class="user {{ 'active' if request.path == url_for('users.show', user_id=g.user.id) }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
+            <a class="user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
                 {{ avatar(g.user, 'x-sm') }}
                 <p>{{ g.user.first_name }} {{ g.user.last_name }}</p>
             </a>
+
+            {% if g.user.member %}
+                <a class="project {{ 'active' if request.path.startswith('/project') }}" href="{{ url_for('projects.show', project_id=g.user.member.project.id) }}">
+                    {{ avatar(g.user.member.project.avatar, 'x-sm') }}
+                    <p class="split">
+                        <span>{{ g.user.member.project.name }}</span>
+                        <span>TODO</span>
+                    </p>
+                </a>
+
+                <a class="challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
+                    <i class="icon ri-medal-2-line"></i>
+                    <p class="split">
+                        <span>Challenges</span>
+                        <span>TODO/11</span>
+                    </p>
+                </a>
+            {% endif %}
         {% else %}
             <a class="button" href="{{ url_for('signup.index') }}">
                 Sign Up

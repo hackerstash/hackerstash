@@ -4,12 +4,15 @@ from hackerstash.lib.decorators import login_required
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
+from hackerstash.models.comment import Comment
 
 posts = Blueprint('posts', __name__)
 
 
 @posts.route('/posts')
 def index():
+    tab = request.args.get('tab', 'new')
+    print(tab)
     posts = Post.query.all()
     return render_template('posts/index.html', all_posts=posts)
 
@@ -38,3 +41,40 @@ def create():
     db.session.commit()
 
     return redirect(url_for('posts.show', post_id=post.id))
+
+
+@posts.route('/posts/<post_id>/edit')
+@login_required
+def edit(post_id):
+    # TODO auth
+    post = Post.query.get(post_id)
+    return render_template('posts/edit.html', post=post)
+
+
+@posts.route('/posts/<post_id>/destroy')
+@login_required
+def destroy(post_id):
+    # TODO auth
+    post = Post.query.get(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('posts.index'))
+
+
+@posts.route('/posts/<post_id>/comment', methods=['POST'])
+@login_required
+def comment(post_id):
+    user = User.query.get(g.user.id)
+    post = Post.query.get(post_id)
+
+    comment = Comment(
+        body=request.form['body'],
+        parent_comment_id=request.form['parent_comment_id'] or None,
+        user=user,
+        post_id=post.id
+    )
+
+    post.comments.append(comment)
+    db.session.commit()
+
+    return redirect(url_for('posts.show', post_id=post_id))
