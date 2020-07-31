@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for
 from hackerstash.db import db
-from hackerstash.lib.auth_helpers import login_required
 from hackerstash.models.user import User
+from hackerstash.models.notification import Notification
+from hackerstash.utils.auth import login_required
 
 notifications = Blueprint('notifications', __name__)
 
@@ -9,7 +10,9 @@ notifications = Blueprint('notifications', __name__)
 @notifications.route('/notifications')
 @login_required
 def index():
-    return render_template('notifications/index.html')
+    all_notifications = g.user.notifications
+    read_notifications = list(filter(lambda x: not x.read, all_notifications))
+    return render_template('notifications/index.html', notifications=read_notifications)
 
 
 @notifications.route('/notifications/settings')

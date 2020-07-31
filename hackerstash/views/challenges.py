@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from hackerstash.lib.auth_helpers import login_required
+from hackerstash.utils.auth import login_required
 
 challenges = Blueprint('challenges', __name__)
 

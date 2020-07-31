@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request
 from hackerstash.db import db
-from hackerstash.lib.auth_helpers import login_required, member_required, published_project_required
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link
+from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
+from hackerstash.utils.auth import login_required, author_required, published_project_required
 
 projects = Blueprint('projects', __name__)
 
@@ -105,6 +107,7 @@ def add_members(project_id):
 @member_required
 def invite_member(project_id):
     email = request.form['email']
+    link = generate_invite_link(email)
     user = User.query.filter_by(email=email).first()
     project = Project.query.get(project_id)
     is_already_member = user and user.member
@@ -114,11 +117,16 @@ def invite_member(project_id):
             email=email,
             first_name=request.form['first_name'],
             role=request.form['role'],
-            link=generate_invite_link(email),
+            link=link,
             project=project
         )
         db.session.add(invite)
         db.session.commit()
+
+        if user:
+            NotificationFactory.create('MEMBER_INVITED', {'invite': invite, 'user': user}).publish()
+        else:
+            EmailFactory.create('INVITE_TO_PROJECT', email, {'invite': invite}).send()
 
     return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
 

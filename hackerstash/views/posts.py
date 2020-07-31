@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for
 from hackerstash.db import db
-from hackerstash.lib.auth_helpers import login_required, author_required, published_project_required
+from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.comment import Comment
+from hackerstash.utils.auth import login_required, author_required, published_project_required
 
 posts = Blueprint('posts', __name__)
 
@@ -43,6 +44,8 @@ def create():
     post = Post(title=request.form['title'], body=request.form['body'], user=user, project=project)
     db.session.add(post)
     db.session.commit()
+
+    NotificationFactory.create('POST_CREATED', {'post': post}).publish()
 
     return redirect(url_for('posts.show', post_id=post.id))
 
@@ -94,6 +97,8 @@ def comment(post_id):
     post.comments.append(comment)
     db.session.commit()
 
+    NotificationFactory.create('COMMENT_CREATED', {'comment': comment}).publish()
+
     return redirect(url_for('posts.show', post_id=post_id))
 
 
@@ -102,9 +107,11 @@ def comment(post_id):
 @published_project_required
 def post_vote(post_id):
     post = Post.query.get(post_id)
+    direction = request.args.get('direction', 'up')
 
     if post.project.id != g.user.member.project.id:
-        post.vote(g.user, request.args.get('direction', 'up'))
+        post.vote(g.user, direction)
+        NotificationFactory.create('POST_VOTED', {'post': post, 'direction': direction}).publish()
 
     return redirect(url_for('posts.show', post_id=post.id))
 
@@ -114,8 +121,10 @@ def post_vote(post_id):
 @published_project_required
 def comment_vote(post_id, comment_id):
     comment = Comment.query.get(comment_id)
+    direction = request.args.get('direction', 'up')
 
     if comment.post.project.id != g.user.member.project.id:
-        comment.vote(g.user, request.args.get('direction', 'up'))
+        comment.vote(g.user, direction)
+        NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction}).publish()
 
     return redirect(url_for('posts.show', post_id=post_id))
