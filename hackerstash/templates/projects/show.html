@@ -106,7 +106,7 @@
                         {% for p in project.platforms_and_devices or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
-                                {{ p }}
+                                {{ p | platforms_and_devices }}
                             </li>
                         {% endfor %}
                     </ul>
@@ -117,7 +117,7 @@
                         {% for b in project.business_models or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
-                                {{ b }}
+                                {{ b | business_models }}
                             </li>
                         {% endfor %}
                     </ul>
@@ -128,7 +128,7 @@
                         {% for f in project.fundings or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
-                                {{ f }}
+                                {{ f | fundings }}
                             </li>
                         {% endfor %}
                     </ul>
