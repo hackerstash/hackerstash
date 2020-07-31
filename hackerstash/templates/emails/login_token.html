@@ -1,0 +1,9 @@
+{% extends "base_email.html" %}
+{% from "partials/token_box.html" import token_box %}
+
+{% block body %}
+    <h1>Log in to HackerStash</h1>
+    <p>We received your log in code request. Please use the following temporary login code to access your account:</p>
+    {{ token_box(token) }}
+    <p>(If you didn't try to log in, you can safely ignore this email.)</p>
+{% endblock %}

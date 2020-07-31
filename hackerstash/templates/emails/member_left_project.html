@@ -1,0 +1,7 @@
+{% extends "base_email.html" %}
+{% from "partials/manage_notifications.html" import manage_notifications %}
+
+{% block body %}
+    <h1><a href="{{ config.host }}/users/{{ username }}">{{ username }}</a> has left the <a href="{{ config.host }}/projects/{{ project_id }}">{{ name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
+    {{ manage_notifications(config.host) }}
+{% endblock %}

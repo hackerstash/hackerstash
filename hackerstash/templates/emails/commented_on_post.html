@@ -1,0 +1,7 @@
+{% extends "base_email.html" %}
+{% from "partials/manage_notifications.html" import manage_notifications %}
+
+{% block body %}
+    <h1><a href="{{ config.host }}/users/{{ username }}">{{ username }}</a> has commented on your post: <a href="{{ config.host }}/posts/{{ post_id }}">{{ title }}</a> on <a href="{{ config.host }}">HackerStash</a></h1>
+    {{ manage_notifications(config.host) }}
+{% endblock %}
