@@ -3,12 +3,12 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
-{% from "partials/vote.html" import vote %}
+{% from "partials/vote.html" import post_vote %}
 
 {% block body %}
     <div class="page posts show">
         <header class="header">
-            {{ vote('lg') }}
+            {{ post_vote('lg', post) }}
             <div class="details">
                 <p class="small">{{ post.created_at | to_human_date }}</p>
                 <h2>{{ post.title }}</h2>

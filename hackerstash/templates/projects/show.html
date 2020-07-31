@@ -3,12 +3,12 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
-{% from "partials/vote.html" import vote %}
+{% from "partials/vote.html" import project_vote %}
 
 {% block body %}
     <div class="page project">
         <header class="header">
-            {{ vote('lg') }}
+            {{ project_vote('lg', project) }}
             <div class="details">
                 <div>
                     {{ avatar(project) }}

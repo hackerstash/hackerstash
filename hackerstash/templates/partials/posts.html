@@ -1,12 +1,12 @@
 {% from "partials/avatar.html" import avatar %}
-{% from "partials/vote.html" import vote %}
+{% from "partials/vote.html" import post_vote %}
 
 {% macro posts(list) %}
     <div class="posts">
         {% for post in list %}
             <article class="post-row">
                 <div class="votes mr-1-5">
-                    {{ vote('sm') }}
+                    {{ post_vote('sm', post) }}
                 </div>
                 <div class="details">
                     <p>

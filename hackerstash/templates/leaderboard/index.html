@@ -1,10 +1,28 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Leaderboard' %}
 
+{% from "partials/vote.html" import project_vote %}
+
 {% block body %}
     <div class="page leaderboard">
         <header class="header mb-0">
             <h2>Leaderboard</h2>
         </header>
+        <ul class="leaderboard-results">
+            {% for project in projects %}
+                <li>
+                    <div class="position">{{ loop.index }}</div>
+                    <div class="details">
+                        <p class="title mb-0-5">
+                            <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
+                        </p>
+                        <p class="small mb-0">{{ project.description }}</p>
+                    </div>
+                    {{ project_vote('sm', project) }}
+                </li>
+            {% else %}
+                {% include "partials/no_results.html" %}
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

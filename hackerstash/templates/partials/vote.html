@@ -1,15 +1,47 @@
-{% macro vote(size) %}
+{% macro project_vote(size, project) %}
     <div class="votes">
         <div class="vote {{ size }}">
-            <button class="button upvote">
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up') }}" class="button upvote">
                 <i class="icon ri-arrow-drop-up-fill"></i>
                 10
-            </button>
-            <p>10 <span> points</span></p>
-            <button class="button downvote">
+            </a>
+            <p>{{ project.vote_score }} <span> points</span></p>
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down') }}" class="button downvote">
                 <i class="icon ri-arrow-drop-down-fill"></i>
                 10
-            </button>
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro post_vote(size, post) %}
+    <div class="votes">
+        <div class="vote {{ size }}">
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up') }}" class="button upvote">
+                <i class="icon ri-arrow-drop-up-fill"></i>
+                5
+            </a>
+            <p>{{ post.vote_score }} <span> points</span></p>
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down') }}" class="button downvote">
+                <i class="icon ri-arrow-drop-down-fill"></i>
+                5
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro comment_vote(size, comment) %}
+    <div class="votes">
+        <div class="vote {{ size }}">
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" class="button upvote">
+                <i class="icon ri-arrow-drop-up-fill"></i>
+                1
+            </a>
+            <p>{{ comment.vote_score }} <span> points</span></p>
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" class="button downvote">
+                <i class="icon ri-arrow-drop-down-fill"></i>
+                1
+            </a>
         </div>
     </div>
 {% endmacro %}

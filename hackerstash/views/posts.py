@@ -91,3 +91,21 @@ def comment(post_id):
     db.session.commit()
 
     return redirect(url_for('posts.show', post_id=post_id))
+
+
+@posts.route('/posts/<post_id>/vote')
+@login_required
+def post_vote(post_id):
+    # TODO auth
+    post = Post.query.get(post_id)
+    post.vote(g.user, request.args.get('direction', 'up'))
+    return redirect(url_for('posts.show', post_id=post.id))
+
+
+@posts.route('/posts/<post_id>/comment/<comment_id>')
+@login_required
+def comment_vote(post_id, comment_id):
+    # TODO auth
+    comment = Comment.query.get(comment_id)
+    comment.vote(g.user, request.args.get('direction', 'up'))
+    return redirect(url_for('posts.show', post_id=post_id))

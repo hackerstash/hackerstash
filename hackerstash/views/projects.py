@@ -95,3 +95,13 @@ def unpublish(project_id):
     db.session.commit()
 
     return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/vote')
+@login_required
+@member_required
+def vote_project(project_id):
+    project = Project.query.get(project_id)
+    project.vote(g.user, request.args.get('direction', 'up'))
+
+    return redirect(url_for('projects.show', project_id=project.id))

@@ -1,12 +1,12 @@
 {% from "partials/avatar.html" import avatar %}
-{% from "partials/vote.html" import vote %}
+{% from "partials/vote.html" import comment_vote %}
 
 {% macro comments(list) %}
     <ul class="comments">
         {% for comment in list %}
             <li id="{{ comment.id }}">
                 <div class="comment wrap-620">
-                    {{ vote('sm') }}
+                    {{ comment_vote('sm', comment) }}
                     <div class="details">
                         <span class="markdown inline">{{ comment.body }}</span>
                         <p class="small">
