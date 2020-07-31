@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for
 from hackerstash.db import db
-from hackerstash.lib.decorators import login_required
+from hackerstash.lib.auth_helpers import login_required
 from hackerstash.models.user import User
 
 notifications = Blueprint('notifications', __name__)

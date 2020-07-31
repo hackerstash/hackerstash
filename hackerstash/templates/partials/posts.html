@@ -17,7 +17,7 @@
                     <p class="small meta">
                         <span>
                             <span> update by </span>
-                            {{ avatar(post, 'xx-sm') }}
+                            {{ avatar(post.user, 'xx-sm') }}
                             <a href="{{ url_for('users.show', user_id=post.user.id) }}">
                                 {{ post.user.first_name }} {{ post.user.last_name }}
                             </a>

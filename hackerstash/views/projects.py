@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request
 from hackerstash.db import db
-from hackerstash.lib.decorators import login_required
+from hackerstash.lib.auth_helpers import login_required, member_required
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
@@ -11,8 +11,8 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index():
-    projects = Project.query.filter_by(published=True)
-    return render_template('projects/index.html', projects=projects)
+    all_projects = Project.query.filter_by(published=True)
+    return render_template('projects/index.html', projects=all_projects)
 
 
 @projects.route('/projects/<project_id>')
@@ -38,16 +38,16 @@ def create():
 
 @projects.route('/projects/<project_id>/edit')
 @login_required
+@member_required
 def edit(project_id):
-    # TODO auth
     project = Project.query.get(project_id)
     return render_template('projects/edit.html', project=project)
 
 
 @projects.route('/projects/<project_id>/update', methods=['POST'])
 @login_required
+@member_required
 def update(project_id):
-    # TODO auth
     project = Project.query.get(project_id)
 
     # Flask adds the empty file for some reason
@@ -75,8 +75,8 @@ def update(project_id):
 
 @projects.route('/projects/<project_id>/publish', methods=['POST'])
 @login_required
+@member_required
 def publish(project_id):
-    # TODO auth
     project = Project.query.get(project_id)
 
     project.published = True
@@ -87,8 +87,8 @@ def publish(project_id):
 
 @projects.route('/projects/<project_id>/unpublish')
 @login_required
+@member_required
 def unpublish(project_id):
-    # TODO auth
     project = Project.query.get(project_id)
 
     project.published = False

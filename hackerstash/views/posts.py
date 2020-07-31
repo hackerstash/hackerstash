@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for
 from hackerstash.db import db
-from hackerstash.lib.decorators import login_required
+from hackerstash.lib.auth_helpers import login_required, author_required
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
@@ -13,8 +13,8 @@ posts = Blueprint('posts', __name__)
 def index():
     tab = request.args.get('tab', 'new')
     # TODO order by tab
-    posts = Post.query.all()
-    return render_template('posts/index.html', all_posts=posts)
+    all_posts = Post.query.all()
+    return render_template('posts/index.html', all_posts=all_posts)
 
 
 @posts.route('/posts/<post_id>')
@@ -45,16 +45,16 @@ def create():
 
 @posts.route('/posts/<post_id>/edit')
 @login_required
+@author_required
 def edit(post_id):
-    # TODO auth
     post = Post.query.get(post_id)
     return render_template('posts/edit.html', post=post)
 
 
 @posts.route('/posts/<post_id>/update', methods=['POST'])
 @login_required
+@author_required
 def update(post_id):
-    # TODO auth
     post = Post.query.get(post_id)
 
     post.title = request.form['title']
@@ -66,8 +66,8 @@ def update(post_id):
 
 @posts.route('/posts/<post_id>/destroy')
 @login_required
+@author_required
 def destroy(post_id):
-    # TODO auth
     post = Post.query.get(post_id)
     db.session.delete(post)
     db.session.commit()

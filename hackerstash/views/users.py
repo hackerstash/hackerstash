@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
-from hackerstash.lib.decorators import login_required
+from hackerstash.lib.auth_helpers import login_required
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 

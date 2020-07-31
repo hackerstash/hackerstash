@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request
 from hackerstash.db import db
-from hackerstash.lib.decorators import login_required
+from hackerstash.lib.auth_helpers import login_required
 from hackerstash.models.user import User
 
 settings = Blueprint('settings', __name__)
