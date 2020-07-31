@@ -15,15 +15,16 @@ def index():
 def update():
     user = User.query.get(g.user.id)
 
-    if 'file' in request.files:
+    # Flask adds the empty file for some reason
+    if 'file' in request.files and request.files['file'].filename != '':
         key = upload_image(request.files['file'])
         user.avatar = key
-    elif user.avatar:
+    elif not request.form['avatar'] and user.avatar:
         delete_image(user.avatar)
         user.avatar = None
 
     for key, value in request.form.items():
-        if key != 'file':
+        if key not in ['file', 'avatar']:
             setattr(user, key, value)
 
     db.session.commit()

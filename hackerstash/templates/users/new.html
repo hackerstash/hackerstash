@@ -5,7 +5,7 @@
 
 {% block body %}
     <div class="pages new-user">
-        <form action="{{ url_for('users.create') }}" method="post" class="form new-user">
+        <form action="{{ url_for('users.create') }}" method="post" class="form new-user" enctype="multipart/form-data">
             <fieldset>
                 <img class="mb-1" src="/static/images/logo.svg">
                 <h1>Welcome to HackerStash</h1>

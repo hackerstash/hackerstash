@@ -1,6 +1,8 @@
+from random import randint
 from hackerstash.db import db
 
 
+# TODO rename
 class Tokens(db.Model):
     __tablename__ = 'tokens'
 
@@ -14,3 +16,29 @@ class Tokens(db.Model):
 
     def __repr__(self):
         return f'<Token {self.email}>'
+
+    @classmethod
+    def generate(cls, email):
+        code = randint(100000, 999999)
+        existing = cls.query.filter_by(email=email).first()
+
+        if existing:
+            existing.token = code
+        else:
+            token = cls(email=email, token=code)
+            db.session.add(token)
+
+        db.session.commit()
+
+        return code
+
+    @classmethod
+    def verify(cls, email, code):
+        token = cls.query.filter_by(email=email).first()
+        return token.token == int(code) if token else False
+
+    @classmethod
+    def delete(cls, email):
+        token = cls.query.filter_by(email=email).first()
+        db.session.delete(token)
+        db.session.commit()

@@ -3,8 +3,6 @@ var hamburger = document.querySelector('.hamburger');
 var openHamburgerIcon = 'ri-menu-line';
 var closeHamburgerIcon = 'ri-close-line';
 
-console.log(hamburger);
-
 if (hamburger) {
     hamburger.addEventListener('click', function(event) {
         var element = event.target;

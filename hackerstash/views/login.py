@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from hackerstash.models.user import User
+from hackerstash.models.token import Tokens
+from hackerstash.lib.emails.factory import EmailFactory
 
 login = Blueprint('login', __name__)
 
@@ -22,8 +24,16 @@ def index():
         step = 2
 
         if code:
-            # validate_token TODO
-            session['id'] = user.id
-            return redirect(url_for('users.show', user_id=user.id))
+            valid = Tokens.verify(email, code)
+
+            if valid:
+                session['id'] = user.id
+                Tokens.delete(email)
+                return redirect(url_for('users.show', user_id=user.id))
+
+            flash('The token is invalid')
+        else:
+            code = Tokens.generate(email)
+            EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
 
     return render_template('login/index.html', step=step, email=email)

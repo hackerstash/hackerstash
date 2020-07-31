@@ -1,14 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from hackerstash.db import db
 from hackerstash.models.user import User
+from hackerstash.models.token import Tokens
+from hackerstash.lib.emails.factory import EmailFactory
 
 # TODO remove when in use
-from hackerstash.models.member import Member
-from hackerstash.models.project import Project
-from hackerstash.models.comment import Comment
-from hackerstash.models.post import Post
 from hackerstash.models.notification import Notification
-from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.models.invite import Invite
 
 signup = Blueprint('signup', __name__)
@@ -32,11 +29,19 @@ def index():
         step = 2
 
         if code:
-            # validate_token TODO
-            user = User(email=email)
-            db.session.add(user)
-            db.session.commit()
-            session['id'] = user.id
-            return redirect(url_for('users.show', user_id=user.id))
+            valid = Tokens.verify(email, code)
+
+            if valid:
+                user = User(email=email)
+                db.session.add(user)
+                db.session.commit()
+                session['id'] = user.id
+                Tokens.delete(email)
+                return redirect(url_for('users.show', user_id=user.id))
+
+            flash('The token is invalid')
+        else:
+            code = Tokens.generate(email)
+            EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
 
     return render_template('signup/index.html', step=step, email=email)

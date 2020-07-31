@@ -1,6 +1,6 @@
 import boto3
 
-ses = boto3.client('ses')
+ses = boto3.client('ses', region_name='eu-west-1')
 
 
 class Base:

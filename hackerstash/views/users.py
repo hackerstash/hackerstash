@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
+from hackerstash.lib.images import upload_image
 from hackerstash.lib.decorators import login_required
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
@@ -43,6 +44,12 @@ def create():
     user.last_name = request.form['last_name']
     user.username = request.form['username']
     user.notifications_settings = NotificationSetting()
+
+    # Flask adds the empty file for some reason
+    if 'file' in request.files and request.files['file'].filename != '':
+        key = upload_image(request.files['file'])
+        user.avatar = key
+
     db.session.commit()
 
     return redirect(url_for('users.show', user_id=user.id))

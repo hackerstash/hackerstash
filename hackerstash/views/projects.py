@@ -50,15 +50,16 @@ def update(project_id):
     # TODO auth
     project = Project.query.get(project_id)
 
-    if 'file' in request.files:
+    # Flask adds the empty file for some reason
+    if 'file' in request.files and request.files['file'].filename != '':
         key = upload_image(request.files['file'])
         project.avatar = key
-    elif project.avatar:
+    elif not request.form['avatar'] and project.avatar:
         delete_image(project.avatar)
         project.avatar = None
 
     for key, value in request.form.items():
-        if key != 'file':
+        if key not in ['file', 'avatar']:
             setattr(project, key, value)
 
     lists = ['fundings', 'business_models', 'platforms_and_devices']
