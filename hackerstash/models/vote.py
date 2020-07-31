@@ -6,7 +6,6 @@ class Vote(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    # TODO enum
     type = db.Column(db.String)
     contest = db.Column(db.String)
     score = db.Column(db.Integer)

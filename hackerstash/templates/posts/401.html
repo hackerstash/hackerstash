@@ -1,0 +1,17 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Post unavailable' %}
+
+{% block body %}
+    <div class="page post">
+        <div class="error-view">
+            <header class="header">
+                <h2><i class="icon ri-error-warning-line"></i>Post Unavailable</h2>
+            </header>
+            <p class="mt-3 mb-2">You do not have the required permissions to view this post.</p>
+            <div class="button-group">
+                <a class="button" href="{{ url_for('posts.index') }}">All Posts</a>
+                <button onclick="history.back()" class="button secondary">Go back</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

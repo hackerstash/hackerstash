@@ -25,7 +25,7 @@
   }
 
   &.success {
-    background: #27ae60; // TODO: Make variable
+    background: $green-500;
   }
 
   &.failure {

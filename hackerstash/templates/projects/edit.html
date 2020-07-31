@@ -297,8 +297,19 @@
                             </li>
                         {% endfor %}
 
+                        {% for i in project.invites %}
+                            <li>
+                                {{ avatar({}, 'sm') }}
+                                <p>{{ i.first_name }}</p>
+                                <p><i>Invite sent</i></p>
+                                <p class="edit">
+                                    <a href="{{ url_for('projects.remove_invite', project_id=i.project.id, invite_id=i.id) }}">Remove</a>
+                                </p>
+                            </li>
+                        {% endfor %}
+
                         <li class="invite">
-                            <a href="#TODO" class="button link">
+                            <a href="{{ url_for('projects.add_members', project_id=project.id) }}" class="button link">
                                 <span class="invite-icon"><i class="icon ri-add-line"></i></span>
                                 <span class="text">Add team member</span>
                             </a>

@@ -4,6 +4,7 @@ from hackerstash.models.user import User
 
 from hackerstash.utils.assets import assets
 from hackerstash.utils import filters
+from hackerstash.utils.sidebar import sidebar_data
 
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
@@ -48,6 +49,10 @@ def before_request_func():
 
         if not g.user.username and request.path not in [url_for('users.new'), url_for('users.create')]:
             return redirect(url_for('users.new'))
+
+    prize_pool, time_remaining = sidebar_data()
+    g.prize_pool = prize_pool
+    g.time_remaining = time_remaining
 
 
 @app.errorhandler(404)

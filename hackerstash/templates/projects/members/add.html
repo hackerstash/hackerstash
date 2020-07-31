@@ -1,0 +1,31 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Add Team Member' %}
+
+{% block body %}
+    <div class="page rules">
+        <header class="header">
+            <h2>Add Team Member</h2>
+            <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Back</a>
+        </header>
+
+        <form class="form mt-4" action="{{ url_for('projects.invite_member', project_id=project.id) }}" method="post">
+            <fieldset>
+                <div class="wrap-300 mb-1">
+                    <label class="label" for="first_name">First name</label>
+                    <input class="input" type="text" id="first_name" name="first_name" placeholder="e.g. Holly" required>
+
+                    <label class="label" for="email">Email address</label>
+                    <input class="input" type="email" id="email" name="email" placeholder="e.g. holly@hackerstash.com" required>
+
+                    <label class="label" for="role">Role</label>
+                    <input class="input" type="text" id="role" name="role" placeholder="e.g. Cofounder" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="button">Send invitation</button>
+                    <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

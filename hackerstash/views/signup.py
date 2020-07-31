@@ -6,7 +6,6 @@ from hackerstash.lib.emails.factory import EmailFactory
 
 # TODO remove when in use
 from hackerstash.models.notification import Notification
-from hackerstash.models.invite import Invite
 
 signup = Blueprint('signup', __name__)
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for
 from hackerstash.db import db
-from hackerstash.lib.auth_helpers import login_required, author_required
+from hackerstash.lib.auth_helpers import login_required, author_required, published_project_required
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
@@ -35,8 +35,8 @@ def new():
 
 @posts.route('/posts/create', methods=['POST'])
 @login_required
+@published_project_required
 def create():
-    # TODO auth
     user = User.query.get(g.user.id)
     project = Project.query.get(g.user.member.project_id)
 
@@ -84,8 +84,6 @@ def comment(post_id):
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
-    print(request.form)
-
     comment = Comment(
         body=request.form['body'],
         parent_comment_id=request.form['parent_comment_id'] or None,
@@ -101,17 +99,23 @@ def comment(post_id):
 
 @posts.route('/posts/<post_id>/vote')
 @login_required
+@published_project_required
 def post_vote(post_id):
-    # TODO auth
     post = Post.query.get(post_id)
-    post.vote(g.user, request.args.get('direction', 'up'))
+
+    if post.project.id != g.user.member.project.id:
+        post.vote(g.user, request.args.get('direction', 'up'))
+
     return redirect(url_for('posts.show', post_id=post.id))
 
 
 @posts.route('/posts/<post_id>/comment/<comment_id>')
 @login_required
+@published_project_required
 def comment_vote(post_id, comment_id):
-    # TODO auth
     comment = Comment.query.get(comment_id)
-    comment.vote(g.user, request.args.get('direction', 'up'))
+
+    if comment.post.project.id != g.user.member.project.id:
+        comment.vote(g.user, request.args.get('direction', 'up'))
+
     return redirect(url_for('posts.show', post_id=post_id))

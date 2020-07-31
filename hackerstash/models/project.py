@@ -19,7 +19,7 @@ class Project(db.Model):
     location = db.Column(db.String)
     start_month = db.Column(db.Integer)
     start_year = db.Column(db.Integer)
-    time_commitment = db.Column(db.String)  # TODO
+    time_commitment = db.Column(db.String)
 
     business_models = db.Column(ARRAY(db.String))
     fundings = db.Column(ARRAY(db.String))
@@ -60,6 +60,9 @@ class Project(db.Model):
             )
             self.votes.append(vote)
         db.session.commit()
+
+    def has_member_with_email(self, email):
+        pass
 
     @property
     def vote_score(self):

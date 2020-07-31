@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request
 from hackerstash.db import db
-from hackerstash.lib.auth_helpers import login_required, member_required
+from hackerstash.lib.auth_helpers import login_required, member_required, published_project_required
 from hackerstash.lib.images import upload_image, delete_image
+from hackerstash.lib.invites import generate_invite_link
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
+from hackerstash.models.invite import Invite
 
 projects = Blueprint('projects', __name__)
 
@@ -90,6 +92,47 @@ def destroy(project_id):
     return redirect(url_for('projects.index'))
 
 
+@projects.route('/projects/<project_id>/members/add')
+@login_required
+@member_required
+def add_members(project_id):
+    project = Project.query.get(project_id)
+    return render_template('projects/members/add.html', project=project)
+
+
+@projects.route('/projects/<project_id>/members/create', methods=['POST'])
+@login_required
+@member_required
+def invite_member(project_id):
+    email = request.form['email']
+    user = User.query.filter_by(email=email).first()
+    project = Project.query.get(project_id)
+    is_already_member = user and user.member
+
+    if not project.has_member_with_email(email) and not is_already_member:
+        invite = Invite(
+            email=email,
+            first_name=request.form['first_name'],
+            role=request.form['role'],
+            link=generate_invite_link(email),
+            project=project
+        )
+        db.session.add(invite)
+        db.session.commit()
+
+    return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
+
+
+@projects.route('/projects/<project_id>/members/<invite_id>/delete')
+@login_required
+@member_required
+def remove_invite(project_id, invite_id):
+    invite = Invite.query.get(invite_id)
+    db.session.delete(invite)
+    db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+
+
 @projects.route('/projects/<project_id>/publish', methods=['POST'])
 @login_required
 @member_required
@@ -116,9 +159,11 @@ def unpublish(project_id):
 
 @projects.route('/projects/<project_id>/vote')
 @login_required
+@published_project_required
 def vote_project(project_id):
-    # TODO auth
     project = Project.query.get(project_id)
-    project.vote(g.user, request.args.get('direction', 'up'))
+
+    if project.id != g.user.member.project.id:
+        project.vote(g.user, request.args.get('direction', 'up'))
 
     return redirect(url_for('projects.show', project_id=project.id))
