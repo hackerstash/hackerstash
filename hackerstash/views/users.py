@@ -32,6 +32,18 @@ def new():
     return render_template('users/new.html')
 
 
+@users.route('/users/<user_id>/follow')
+@login_required
+def follow(user_id):
+    user = User.query.get(user_id)
+    if user.is_following(g.user):
+        user.unfollow(g.user)
+    else:
+        user.follow(g.user)
+    db.session.commit()
+    return redirect(url_for('users.show', user_id=user.id))
+
+
 @users.route('/users/create', methods=['POST'])
 @login_required
 def create():

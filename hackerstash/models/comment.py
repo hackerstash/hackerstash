@@ -3,12 +3,6 @@ from hackerstash.models.vote import Vote
 from hackerstash.utils.contests import get_contest_name
 from hackerstash.utils.votes import sum_of_votes
 
-votes = db.Table(
-    'comments_votes',
-    db.Column('vote_id', db.Integer, db.ForeignKey('votes.id'), primary_key=True),
-    db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'), primary_key=True)
-)
-
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -20,7 +14,7 @@ class Comment(db.Model):
 
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    votes = db.relationship('Vote', secondary=votes, lazy='subquery', backref=db.backref('comment', lazy=True))
+    votes = db.relationship('Vote', backref='comment', cascade='all,delete')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -33,7 +27,7 @@ class Comment(db.Model):
         existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
 
         if existing_vote:
-            self.votes.remove(existing_vote)
+            db.session.delete(existing_vote)
         else:
             vote = Vote(
                 type='comment',

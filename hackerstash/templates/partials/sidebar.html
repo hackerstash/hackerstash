@@ -59,7 +59,7 @@
                     {{ avatar(g.user.member.project, 'x-sm') }}
                     <p class="split">
                         <span>{{ g.user.member.project.name }}</span>
-                        <span>TODO</span>
+                        <span>{{ g.user.member.project.vote_score }}</span>
                     </p>
                 </a>
 
@@ -67,7 +67,7 @@
                     <i class="icon ri-medal-2-line"></i>
                     <p class="split">
                         <span>Challenges</span>
-                        <span>TODO/11</span>
+                        <span>0/11</span>
                     </p>
                 </a>
             {% endif %}

@@ -39,7 +39,7 @@
         </header>
         <section class="stats">
             <div class="graph">
-                <h3>Project Score <span>0</span></h3>
+                <h3>Project Score <span>{{ project.vote_score }}</span></h3>
                 <div class="graph-container">
 
                 </div>
@@ -56,11 +56,11 @@
                 <h3 class="mt-2">Votes received</h3>
                 <div class="votes-received up">
                     <i class="icon ri-arrow-up-line"></i>
-                    <h3>0 <span>upvotes</span></h3>
+                    <h3>{{ project.upvotes }} <span>upvotes</span></h3>
                 </div>
                 <div class="votes-received down">
                     <i class="icon ri-arrow-down-line"></i>
-                    <h3>0 <span>downvotes</span></h3>
+                    <h3>{{ project.downvotes }} <span>downvotes</span></h3>
                 </div>
             </div>
         </section>

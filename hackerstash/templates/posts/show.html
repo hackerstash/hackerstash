@@ -37,15 +37,17 @@
 
         <form class="form wrap-620 comment-form" action="{{ url_for('posts.comment', post_id=post.id) }}" method="post">
             <fieldset>
-                <input type="hidden" name="parent_comment_id" id="parent_comment_id">
                 <label class="label" for="body">New comment</label>
                 <textarea class="input textarea mb-1" id="body" name="body" rows="4"></textarea>
-                <button class="button" type="submit">Comment</button>
+                <div class="button-group">
+                    <button class="button" type="submit">Comment</button>
+                    <button class="button secondary cancel" type="button">Cancel</button>
+                </div>
             </fieldset>
         </form>
 
         <label class="label comment-count mt-3 mb-3">0 Comments</label>
 
-        {{ comments(post.comments) }}
+        {{ comments(post.comments, true) }}
     </div>
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / User Followers' %}
 
+{% from "partials/follows.html" import follows %}
+
 {% block body %}
     <div class="page user follow">
         <header class="header">
@@ -8,14 +10,6 @@
             <a href="{{ url_for('users.show', user_id=user.id) }}" class="button secondary">Back</a>
         </header>
 
-        <ul class="follow-list mt-3">
-            {% for user in user.following %}
-                <li>
-                    TODO
-                </li>
-            {% else %}
-                {% include "partials/no_results.html" %}
-            {% endfor %}
-        </ul>
+        {{ follows(user.followers) }}
     </div>
 {% endblock %}

@@ -3,12 +3,6 @@ from hackerstash.models.vote import Vote
 from hackerstash.utils.contests import get_contest_name
 from hackerstash.utils.votes import sum_of_votes
 
-votes = db.Table(
-    'posts_votes',
-    db.Column('vote_id', db.Integer, db.ForeignKey('votes.id'), primary_key=True),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
-)
-
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -20,8 +14,8 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-    comments = db.relationship('Comment', backref='comments', cascade='all,delete')
-    votes = db.relationship('Vote', secondary=votes, lazy='subquery', backref=db.backref('post', lazy=True))
+    comments = db.relationship('Comment', backref='post', cascade='all,delete')
+    votes = db.relationship('Vote', backref='post', cascade='all,delete')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -40,7 +34,7 @@ class Post(db.Model):
         existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
 
         if existing_vote:
-            self.votes.remove(existing_vote)
+            db.session.delete(existing_vote)
         else:
             vote = Vote(
                 type='post',

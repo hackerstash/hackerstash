@@ -7,6 +7,7 @@ def init_app(app):
     app.jinja_env.filters['to_markdown'] = to_markdown
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_named_month'] = to_named_month
+    app.jinja_env.filters['nest_comments'] = nest_comments
     app.jinja_env.filters['platforms_and_devices'] = platforms_and_devices
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
@@ -26,6 +27,26 @@ def to_named_month(month):
     return calendar.month_name[index]
 
 
+def nest_comments(comments, should_nest):
+    if not should_nest:
+        return comments
+
+    def generate_nesting(array, parent=None):
+        out = []
+
+        for comment in array:
+            if comment.parent_comment_id == parent:
+                children = generate_nesting(array, comment.id)
+
+                if len(children):
+                    comment.children = children
+
+                out.append(comment)
+        return out
+
+    return generate_nesting(comments)
+
+
 def platforms_and_devices(value):
     items = {
         'android': 'Android',
@@ -42,7 +63,7 @@ def platforms_and_devices(value):
 
 def business_models(value):
     items = {
-        'advertisement': 'Advertisement',
+        'advertising': 'Advertising',
         'commission': 'Commission',
         'consulting': 'Consulting',
         'donations': 'Donations',

@@ -8,7 +8,9 @@ styles = [
 
 scripts = [
     'js/avatar.js',
-    'js/menu.js'
+    'js/comments.js',
+    'js/menu.js',
+    'js/votes.js'
 ]
 
 js = Bundle(*scripts, output='out/main.js')

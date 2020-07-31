@@ -4,6 +4,7 @@
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
 {% from "partials/posts.html" import posts %}
+{% from "partials/votes.html" import votes %}
 {% from "partials/user_project_card.html" import user_project_card %}
 
 {% set is_self = g.user and g.user.id == user.id %}
@@ -24,6 +25,13 @@
                 {% if is_self %}
                     <a href="{{ url_for('settings.index') }}" class="button secondary">Settings</a>
                     <a href="{{ url_for('profile.index') }}" class="button secondary">Edit Profile</a>
+                {% else %}
+                    {% if g.user %}
+                        <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if user.is_following(g.user) }}">
+                            {{ 'Unfollow' if user.is_following(g.user) else 'Follow' }}
+                        </a>
+                    {% endif %}
+
                 {% endif %}
             </div>
         </header>
@@ -61,7 +69,8 @@
                     {{ comments(user.comments) }}
                 </div>
                 <div class="tab {{ 'active' if active_tab == 'votes' }}">
-
+                    <p class="wrap-620 mb-2-5">Record of points @{{ user.username }} has awarded to projects, posts and comments of competitors</p>
+                    {{ votes(user.votes) }}
                 </div>
             </div>
         </div>

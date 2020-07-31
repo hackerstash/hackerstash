@@ -18,7 +18,7 @@ if (file) {
 }
 
 if (deleteAvatarButton) {
-    deleteAvatarButton.addEventListener('click', function () {
+    deleteAvatarButton.addEventListener('click', function() {
         var container = document.querySelector('.edit-avatar');
         var icon = container.querySelector('.avatar');
         icon.innerHTML = '<span class="placeholder">$</span>';

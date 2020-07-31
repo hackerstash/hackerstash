@@ -5,7 +5,7 @@ from flask import g, request, redirect, url_for
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if g.user is None:
+        if 'user' not in g:
             return redirect(url_for('login.index', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
@@ -14,7 +14,7 @@ def login_required(f):
 def member_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if g.user.member.project.id != int(kwargs['project_id']):
+        if 'user' not in g or g.user.member.project.id != int(kwargs['project_id']):
             # TODO proper page
             return redirect(url_for('leaderboard.index'))
         return f(*args, **kwargs)
@@ -24,6 +24,9 @@ def member_required(f):
 def author_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if 'user' not in g:
+            return redirect(url_for('leaderboard.index'))
+
         match = list(filter(lambda x: x.id == int(kwargs['post_id']), g.user.posts))
         if len(match) < 1:
             # TODO proper page

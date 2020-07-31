@@ -4,12 +4,6 @@ from hackerstash.models.vote import Vote
 from hackerstash.utils.contests import get_contest_name
 from hackerstash.utils.votes import sum_of_project_votes
 
-votes = db.Table(
-    'projects_votes',
-    db.Column('vote_id', db.Integer, db.ForeignKey('votes.id'), primary_key=True),
-    db.Column('project_id', db.Integer, db.ForeignKey('projects.id'), primary_key=True)
-)
-
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -31,10 +25,10 @@ class Project(db.Model):
     fundings = db.Column(ARRAY(db.String))
     platforms_and_devices = db.Column(ARRAY(db.String))
 
-    members = db.relationship('Member', backref='project')
-    invites = db.relationship('Invite', backref='project')
-    posts = db.relationship('Post', backref='project')
-    votes = db.relationship('Vote', secondary=votes, lazy='subquery', backref=db.backref('project', lazy=True))
+    members = db.relationship('Member', backref='project', cascade='all,delete')
+    invites = db.relationship('Invite', backref='project', cascade='all,delete')
+    posts = db.relationship('Post', backref='project', cascade='all,delete')
+    votes = db.relationship('Vote', backref='project', cascade='all,delete')
 
     published = db.Column(db.Boolean, default=False)
 
@@ -45,7 +39,7 @@ class Project(db.Model):
         return f'<Project {self.name}>'
 
     def has_member(self, user):
-        if user is None:
+        if not user:
             return False
 
         match = list(filter(lambda x: x.user.id == user.id, self.members))
@@ -56,7 +50,7 @@ class Project(db.Model):
         existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
 
         if existing_vote:
-            self.votes.remove(existing_vote)
+            db.session.delete(existing_vote)
         else:
             vote = Vote(
                 type='project',
@@ -70,3 +64,13 @@ class Project(db.Model):
     @property
     def vote_score(self):
         return sum_of_project_votes(self)
+
+    @property
+    def upvotes(self):
+        votes = list(filter(lambda x: x.score > 0, self.votes))
+        return len(votes)
+
+    @property
+    def downvotes(self):
+        votes = list(filter(lambda x: x.score < 0, self.votes))
+        return len(votes)

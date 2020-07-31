@@ -198,7 +198,7 @@
 
           h3 {
             display: block;
-  
+
             p {
               margin: 0;
             }
@@ -235,6 +235,60 @@
             }
           }
         }
+      }
+    }
+
+    .votes-list {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        margin-bottom: 1.5rem;
+      }
+
+      .date {
+        color: $mauve-1000;
+        margin-bottom: .25rem;
+      }
+
+      .vote-message,
+      .score {
+        align-items: center;
+        display: flex;
+      }
+
+      .score {
+        color: $red-500;
+        margin: 0 .5rem 0 .25rem;
+
+        i {
+          color: $red-500;
+        }
+
+        &.positive {
+          color: $green-500;
+
+          i {
+            color: $green-500;
+          }
+        }
+      }
+
+      .project-message {
+        display: flex;
+
+        .avatar {
+          margin: 0 .5rem;
+        }
+
+        a {
+          margin: 0 .25rem;
+        }
+      }
+
+      a {
+        color: $mauve-500;
       }
     }
   }

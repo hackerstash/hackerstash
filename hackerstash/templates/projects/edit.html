@@ -280,7 +280,7 @@
                                     <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
                                 </section>
 
-                                <a href="#TODO" class="button tertiary" type="button">Delete</a>
+                                <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete</a>
                             </div>
                         </fieldset>
                     </form>

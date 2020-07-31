@@ -61,9 +61,9 @@
           margin: .25rem 0 0 0;
 
           .avatar {
-            display: inline-flex;
+            display: inline-block;
             margin: 0 .3rem 0 0;
-            vertical-align: middle;
+            vertical-align: sub;
           }
 
           &:first-of-type {
@@ -104,6 +104,18 @@
           }
         }
       }
+    }
+  }
+}
+
+.comment-form {
+  .cancel {
+    display: none;
+  }
+
+  &.reply-form {
+    .cancel {
+      display: inline-block;
     }
   }
 }

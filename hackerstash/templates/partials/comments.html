@@ -1,13 +1,17 @@
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/vote.html" import comment_vote %}
 
-{% macro comments(list) %}
+{% macro comments(list, nest=false) %}
     <ul class="comments">
-        {% for comment in list %}
+        {% for comment in list | nest_comments(nest) %}
             <li id="{{ comment.id }}">
+                {% if comment.children %}
+                    <button class="button link collapse"><span></span></button>
+                {% endif %}
+
                 <div class="comment wrap-620">
                     {{ comment_vote('sm', comment) }}
-                    <div class="details">
+                    <div class="details ml-1-5">
                         <span class="markdown inline">{{ comment.body }}</span>
                         <p class="small">
                             {{ avatar(comment.user, 'xx-sm') }}
@@ -19,11 +23,22 @@
                             <span class="seperator reply">•</span>
                             <span class="reply add-reply">
                                 <i class="icon ri-reply-line"></i>
-                                <button class="button link small" disabled="">Reply</button>
+                                <button class="button link small" data-id="{{ comment.id }}">Reply</button>
                             </span>
+
+                            {% if comment.children %}
+                                <span class="seperator reply">&bull;</span>
+                                <span class="collapse-comments">
+                                    <button class="button link small">Collapse comments</button>
+                                </span>
+                            {% endif %}
                         </p>
                     </div>
                 </div>
+
+                {% if comment.children %}
+                    {{ comments(comment.children) }}
+                {% endif %}
             </li>
         {% else %}
             {% include "partials/no_results.html" %}

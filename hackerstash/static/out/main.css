@@ -650,67 +650,60 @@
                                                                                                                                                                                                                                                   .pr-5-5 {
                                                                                                                                                                                                                                                     padding-right: 5.5rem !important; }
 
-                                                                                                                                                                                                                                                    @keyframes fade-in {
-                                                                                                                                                                                                                                                      from {
-                                                                                                                                                                                                                                                        opacity: 0;   }
-                                                                                                                                                                                                                                                        to {
-                                                                                                                                                                                                                                                          opacity: 1;   }
-}
-
-  .avatar {
-    align-items: center;
-    background: #2472D3;
-    border-radius: 50%;
-    display: flex;
-    flex-shrink: 0;
-    height: 2.5rem;
-    justify-content: center;
-    margin-right: 1rem;
-    overflow: hidden;
-    width: 2.5rem; }
-    .avatar img {
-      height: 2.5rem;
-      object-fit: cover;
-      object-position: center;
-      width: 100%; }
-      .avatar .placeholder {
-        color: #DEE7FF;
-        font-size: 1.25rem;
-        font-weight: 500;
-        line-height: 1.5rem;
-        margin: 0 !important; }
-        .avatar.xx-sm {
-          height: 1rem;
-          width: 1rem; }
-          .avatar.xx-sm img {
-            height: 1rem; }
-            .avatar.xx-sm .placeholder {
-              font-size: 0.5rem;
-              line-height: 0.75rem; }
-    .avatar.x-sm {
-      height: 1.25rem;
-      width: 1.25rem; }
-      .avatar.x-sm img {
-        height: 1.25rem; }
-        .avatar.x-sm .placeholder {
-          font-size: 0.75rem;
-          line-height: 1rem; }
-    .avatar.sm {
-      height: 2rem;
-      width: 2rem; }
-      .avatar.sm img {
-        height: 2rem; }
-        .avatar.sm .placeholder {
-          font-size: 1rem;
-          line-height: 1.25rem; }
-    .avatar.lg {
-      height: 4rem;
-      width: 4rem; }
-      .avatar.lg img {
-        height: 4rem; }
-        .avatar.lg .placeholder {
-          font-size: 1.75rem;
-          line-height: 2rem; }
+                                                                                                                                                                                                                                                    .avatar {
+                                                                                                                                                                                                                                                      align-items: center;
+                                                                                                                                                                                                                                                      background: #2472D3;
+                                                                                                                                                                                                                                                      border-radius: 50%;
+                                                                                                                                                                                                                                                      display: flex;
+                                                                                                                                                                                                                                                      flex-shrink: 0;
+                                                                                                                                                                                                                                                      height: 2.5rem;
+                                                                                                                                                                                                                                                      justify-content: center;
+                                                                                                                                                                                                                                                      margin-right: 1rem;
+                                                                                                                                                                                                                                                      overflow: hidden;
+                                                                                                                                                                                                                                                      width: 2.5rem; }
+                                                                                                                                                                                                                                                      .avatar img {
+                                                                                                                                                                                                                                                        height: 2.5rem;
+                                                                                                                                                                                                                                                        object-fit: cover;
+                                                                                                                                                                                                                                                        object-position: center;
+                                                                                                                                                                                                                                                        width: 100%; }
+                                                                                                                                                                                                                                                        .avatar .placeholder {
+                                                                                                                                                                                                                                                          color: #DEE7FF;
+                                                                                                                                                                                                                                                          font-size: 1.25rem;
+                                                                                                                                                                                                                                                          font-weight: 500;
+                                                                                                                                                                                                                                                          line-height: 1.5rem;
+                                                                                                                                                                                                                                                          margin: 0 !important; }
+                                                                                                                                                                                                                                                          .avatar.xx-sm {
+                                                                                                                                                                                                                                                            height: 1rem;
+                                                                                                                                                                                                                                                            width: 1rem; }
+                                                                                                                                                                                                                                                            .avatar.xx-sm img {
+                                                                                                                                                                                                                                                              height: 1rem; }
+                                                                                                                                                                                                                                                              .avatar.xx-sm .placeholder {
+                                                                                                                                                                                                                                                                font-size: 0.5rem;
+                                                                                                                                                                                                                                                                line-height: 0.75rem; }
+                                                                                                                                                                                                                                                      .avatar.x-sm {
+                                                                                                                                                                                                                                                        height: 1.25rem;
+                                                                                                                                                                                                                                                        width: 1.25rem; }
+                                                                                                                                                                                                                                                        .avatar.x-sm img {
+                                                                                                                                                                                                                                                          height: 1.25rem; }
+                                                                                                                                                                                                                                                          .avatar.x-sm .placeholder {
+                                                                                                                                                                                                                                                            font-size: 0.75rem;
+                                                                                                                                                                                                                                                            line-height: 1rem; }
+                                                                                                                                                                                                                                                      .avatar.sm {
+                                                                                                                                                                                                                                                        height: 2rem;
+                                                                                                                                                                                                                                                        width: 2rem; }
+                                                                                                                                                                                                                                                        .avatar.sm img {
+                                                                                                                                                                                                                                                          height: 2rem; }
+                                                                                                                                                                                                                                                          .avatar.sm .placeholder {
+                                                                                                                                                                                                                                                            font-size: 1rem;
+                                                                                                                                                                                                                                                            line-height: 1.25rem; }
+                                                                                                                                                                                                                                                      .avatar.lg {
+                                                                                                                                                                                                                                                        height: 4rem;
+                                                                                                                                                                                                                                                        width: 4rem; }
+                                                                                                                                                                                                                                                        .avatar.lg img {
+                                                                                                                                                                                                                                                          height: 4rem; }
+                                                                                                                                                                                                                                                          .avatar.lg .placeholder {
+                                                                                                                                                                                                                                                            font-size: 1.75rem;
+                                                                                                                                                                                                                                                            line-height: 2rem; }
 
   .edit-avatar .upload-options {
     display: none; }
@@ -982,9 +975,9 @@
               .comments li .comment .details p {
                 margin: 0.25rem 0 0 0; }
                 .comments li .comment .details p .avatar {
-                  display: inline-flex;
+                  display: inline-block;
                   margin: 0 0.3rem 0 0;
-                  vertical-align: middle; }
+                  vertical-align: sub; }
                   .comments li .comment .details p:first-of-type {
                     margin-bottom: 0.5rem; }
                     .comments li .comment .details p a {
@@ -1006,6 +999,11 @@
                   color: #DEE7FF;
                   font-style: normal;
                   text-decoration: none; }
+
+  .comment-form .cancel {
+    display: none; }
+    .comment-form.reply-form .cancel {
+      display: inline-block; }
 
   .divider {
     background: #000920;
@@ -2550,6 +2548,9 @@
     .page.project .votes-received.down .icon {
       color: #FF3C5F; }
 
+  .follow-list li {
+    list-style: none; }
+
   .pages.new-user {
     margin: 7.5rem auto 0 auto;
     max-width: 630px;
@@ -2742,6 +2743,36 @@
           background: #21335A; }
           .page.user .profile-tabs .comments li .comment .details p .reply {
             display: none; }
+    .page.user .profile-tabs .votes-list {
+      margin: 0;
+      padding: 0; }
+      .page.user .profile-tabs .votes-list li {
+        list-style: none;
+        margin-bottom: 1.5rem; }
+        .page.user .profile-tabs .votes-list .date {
+          color: #7D8CB6;
+          margin-bottom: 0.25rem; }
+          .page.user .profile-tabs .votes-list .vote-message,
+          .page.user .profile-tabs .votes-list .score {
+            align-items: center;
+            display: flex; }
+            .page.user .profile-tabs .votes-list .score {
+              color: #FF3C5F;
+              margin: 0 0.5rem 0 0.25rem; }
+              .page.user .profile-tabs .votes-list .score i {
+                color: #FF3C5F; }
+                .page.user .profile-tabs .votes-list .score.positive {
+                  color: #4EFF8A; }
+                  .page.user .profile-tabs .votes-list .score.positive i {
+                    color: #4EFF8A; }
+      .page.user .profile-tabs .votes-list .project-message {
+        display: flex; }
+        .page.user .profile-tabs .votes-list .project-message .avatar {
+          margin: 0 0.5rem; }
+          .page.user .profile-tabs .votes-list .project-message a {
+            margin: 0 0.25rem; }
+      .page.user .profile-tabs .votes-list a {
+        color: #DEE7FF; }
 
   .follow-modal ul {
     margin: 0;

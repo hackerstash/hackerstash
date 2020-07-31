@@ -54,7 +54,7 @@ def update(project_id):
     if 'file' in request.files and request.files['file'].filename != '':
         key = upload_image(request.files['file'])
         project.avatar = key
-    elif not request.form['avatar'] and project.avatar:
+    elif 'avatar' in request.form and not request.form['avatar'] and project.avatar:
         delete_image(project.avatar)
         project.avatar = None
 
@@ -71,6 +71,16 @@ def update(project_id):
 
     db.session.commit()
     return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/delete')
+@login_required
+@member_required
+def destroy(project_id):
+    project = Project.query.get(project_id)
+    db.session.delete(project)
+    db.session.commit()
+    return redirect(url_for('projects.index'))
 
 
 @projects.route('/projects/<project_id>/publish', methods=['POST'])

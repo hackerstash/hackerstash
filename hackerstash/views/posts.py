@@ -80,6 +80,8 @@ def comment(post_id):
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
+    print(request.form)
+
     comment = Comment(
         body=request.form['body'],
         parent_comment_id=request.form['parent_comment_id'] or None,
