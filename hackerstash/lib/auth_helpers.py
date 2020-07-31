@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import g, request, redirect, url_for
+from flask import g, request, redirect, url_for, render_template
 
 
 def login_required(f):
@@ -15,8 +15,7 @@ def member_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user' not in g or g.user.member.project.id != int(kwargs['project_id']):
-            # TODO proper page
-            return redirect(url_for('leaderboard.index'))
+            return render_template('projects/400.html')
         return f(*args, **kwargs)
     return decorated_function
 

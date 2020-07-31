@@ -18,6 +18,10 @@ def index():
 @projects.route('/projects/<project_id>')
 def show(project_id):
     project = Project.query.get(project_id)
+
+    if not project:
+        return render_template('projects/404.html')
+
     return render_template('projects/show.html', project=project)
 
 
@@ -25,6 +29,9 @@ def show(project_id):
 @login_required
 def create():
     user = User.query.get(g.user.id)
+
+    if user.member:
+        return redirect(url_for('projects.show', project_id=user.member.project.id))
 
     project = Project(name='Untitled')
     member = Member(owner=True, user=user, project=project)
@@ -109,8 +116,8 @@ def unpublish(project_id):
 
 @projects.route('/projects/<project_id>/vote')
 @login_required
-@member_required
 def vote_project(project_id):
+    # TODO auth
     project = Project.query.get(project_id)
     project.vote(g.user, request.args.get('direction', 'up'))
 

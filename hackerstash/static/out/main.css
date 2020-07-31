@@ -2549,7 +2549,16 @@
       color: #FF3C5F; }
 
   .follow-list li {
+    display: flex;
     list-style: none; }
+    .follow-list li a {
+      color: #DEE7FF;
+      margin-bottom: 0.5rem;
+      text-decoration: none; }
+      .follow-list li a:hover {
+        text-decoration: underline; }
+    .follow-list li .details {
+      flex: 1; }
 
   .pages.new-user {
     margin: 7.5rem auto 0 auto;

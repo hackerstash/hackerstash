@@ -1,4 +1,4 @@
-from flask import Flask, session, g, redirect, request, url_for
+from flask import Flask, session, g, redirect, request, url_for, render_template
 from hackerstash.db import db
 from hackerstash.models.user import User
 
@@ -48,6 +48,11 @@ def before_request_func():
 
         if not g.user.username and request.path not in [url_for('users.new'), url_for('users.create')]:
             return redirect(url_for('users.new'))
+
+
+@app.errorhandler(404)
+def page_not_found(_error):
+    return render_template('404.html'), 404
 
 
 def create_app():

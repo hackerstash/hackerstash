@@ -20,6 +20,10 @@ def index():
 @posts.route('/posts/<post_id>')
 def show(post_id):
     post = Post.query.get(post_id)
+
+    if not post:
+        return render_template('posts/404.html')
+
     return render_template('posts/show.html', post=post)
 
 

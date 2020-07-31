@@ -11,6 +11,10 @@ users = Blueprint('users', __name__)
 @users.route('/users/<user_id>')
 def show(user_id):
     user = User.query.get(user_id)
+
+    if not user:
+        return render_template('users/404.html')
+
     return render_template('users/show.html', user=user)
 
 
