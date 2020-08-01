@@ -5,7 +5,9 @@
     <div class="posts">
         {% for post in list %}
             <article class="post-row">
-                {{ post_vote('sm', post) }}
+                <div class="post-votes">
+                    {{ post_vote('sm', post) }}
+                </div>
                 <div class="details ml-1-5">
                     <p>
                         <a href="{{ url_for('posts.show', post_id=post.id) }}">

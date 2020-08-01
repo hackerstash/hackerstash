@@ -15,7 +15,7 @@
                     {{ user.bio | to_markdown | safe }}
                 </div>
                 {% if not is_self and g.user %}
-                    <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if user.is_following(g.user) }}">
+                    <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if g.user.is_following(user) }}">
                         {{ 'Unfollow' if user.is_following(g.user) else 'Follow' }}
                     </a>
                 {% endif %}

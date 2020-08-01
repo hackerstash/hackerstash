@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g, request, redirect, url_for
+from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute
 from hackerstash.db import db
 from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
@@ -13,8 +13,9 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index():
     tab = request.args.get('tab', 'new')
-    # TODO order by tab
     all_posts = Post.query.all()
+    all_posts = sorted(all_posts, key=lambda x: x.created_at if tab == 'new' else x.vote_score, reverse=True)
+
     return render_template('posts/index.html', all_posts=all_posts)
 
 
@@ -107,13 +108,18 @@ def comment(post_id):
 @published_project_required
 def post_vote(post_id):
     post = Post.query.get(post_id)
+    size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
 
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
         NotificationFactory.create('POST_VOTED', {'post': post, 'direction': direction}).publish()
 
-    return redirect(url_for('posts.show', post_id=post.id))
+    if request.headers.get('X-Requested-With') == 'fetch':
+        partial = get_template_attribute('partials/vote.html', 'post_vote')
+        return partial(size, post)
+    else:
+        return redirect(url_for('posts.show', post_id=post.id))
 
 
 @posts.route('/posts/<post_id>/comment/<comment_id>')
@@ -127,4 +133,9 @@ def comment_vote(post_id, comment_id):
         comment.vote(g.user, direction)
         NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction}).publish()
 
-    return redirect(url_for('posts.show', post_id=post_id))
+    if request.headers.get('X-Requested-With') == 'fetch':
+        # post = Post.query.get(post_id)
+        partial = get_template_attribute('partials/comments.html', 'comments')
+        return partial(comment.post.comments, True)
+    else:
+        return redirect(url_for('posts.show', post_id=post_id))

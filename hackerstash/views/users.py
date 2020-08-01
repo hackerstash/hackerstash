@@ -41,10 +41,10 @@ def new():
 @login_required
 def follow(user_id):
     user = User.query.get(user_id)
-    if user.is_following(g.user):
-        user.unfollow(g.user)
+    if g.user.is_following(user):
+        g.user.unfollow(user)
     else:
-        user.follow(g.user)
+        g.user.follow(user)
         NotificationFactory.create('FOLLOWER_CREATED', {'user': user}).publish()
     db.session.commit()
     return redirect(url_for('users.show', user_id=user.id))

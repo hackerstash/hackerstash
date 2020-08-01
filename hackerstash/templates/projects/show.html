@@ -8,7 +8,9 @@
 {% block body %}
     <div class="page project">
         <header class="header">
-            {{ project_vote('lg', project) }}
+            <div class="project-votes">
+                 {{ project_vote('lg', project) }}
+            </div>
             <div class="details">
                 <div>
                     {{ avatar(project) }}
@@ -46,7 +48,7 @@
             </div>
             <div class="position">
                 <h3>Current Position</h3>
-                <h1 class="mt-1-5">1<span>st</span></h1>
+                <h1 class="mt-1-5">TODO<span>st</span></h1>
                 <span class="tag">
                     <p class="small">
                         <span>💸 Estimated prize</span>

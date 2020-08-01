@@ -1,12 +1,12 @@
 {% macro project_vote(size, project) %}
     <div class="votes">
         <div class="vote {{ size }}">
-            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up') }}" class="button upvote">
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up', size=size) }}" data-parent="project-votes" class="button vote-button upvote">
                 <i class="icon ri-arrow-drop-up-fill"></i>
                 10
             </a>
             <p>{{ project.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down') }}" class="button downvote">
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down', size=size) }}" data-parent="project-votes" class="button vote-button downvote">
                 <i class="icon ri-arrow-drop-down-fill"></i>
                 10
             </a>
@@ -17,12 +17,12 @@
 {% macro post_vote(size, post) %}
     <div class="votes">
         <div class="vote {{ size }}">
-            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up') }}" class="button upvote">
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up', size=size) }}" data-parent="post-votes" class="button vote-button upvote">
                 <i class="icon ri-arrow-drop-up-fill"></i>
                 5
             </a>
             <p>{{ post.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down') }}" class="button downvote">
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down', size=size) }}" data-parent="post-votes" class="button vote-button downvote">
                 <i class="icon ri-arrow-drop-down-fill"></i>
                 5
             </a>
@@ -33,12 +33,12 @@
 {% macro comment_vote(size, comment) %}
     <div class="votes">
         <div class="vote {{ size }}">
-            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" class="button upvote">
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" data-parent="comments" class="button vote-button upvote">
                 <i class="icon ri-arrow-drop-up-fill"></i>
                 1
             </a>
             <p>{{ comment.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" class="button downvote">
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" data-parent="comments" class="button vote-button downvote">
                 <i class="icon ri-arrow-drop-down-fill"></i>
                 1
             </a>

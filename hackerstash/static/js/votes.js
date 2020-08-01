@@ -1,26 +1,30 @@
-var votes = document.querySelectorAll('.votes a');
+// Fetch the partials from the server so that voting
+// does not cause a page refresh. If JS is disabled
+// then voting will still work
 
-votes.forEach(function(vote) {
-    vote.addEventListener('click', function(event) {
-//        event.preventDefault();
-//
-//        var link = event.target.getAttribute('href');
-//
-//        var options = {
-//            credentials: 'include',
-//            headers: {
-//                'x-requested-with': 'fetch'
-//            }
-//        };
-//
-//        fetch(link, options)
-//            .then(function(response) {
-//                if (response.ok) {
-//                    return response.text()
-//                }
-//            })
-//            .then(function(response) {
-//                console.log(response);
-//            });
-    });
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.vote-button')) {
+        event.preventDefault();
+
+         var button = event.target.closest('.button')
+         var link = button.getAttribute('href');
+         var parent = button.getAttribute('data-parent');
+
+         var options = {
+             credentials: 'include',
+             headers: {
+                 'x-requested-with': 'fetch'
+             }
+        };
+
+        fetch(link, options)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.text()
+                }
+            })
+            .then(function(response) {
+                document.querySelector('.' + parent).innerHTML = response;
+            });
+    }
 });

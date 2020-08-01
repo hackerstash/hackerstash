@@ -5,4 +5,5 @@ class Base:
 
     def publish(self):
         print(f'Publishing notifications!')
+        print(self.notifications_to_send)
         pass

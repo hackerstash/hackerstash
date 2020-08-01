@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, g, request, flash
+from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
@@ -135,7 +135,11 @@ def delete_member(project_id, member_id):
 
     db.session.delete(member)
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+
+    if g.user.id == member.user.id:
+        return redirect(url_for('users.show', user_id=member.user.id))
+    else:
+        return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
 
 
 @projects.route('/projects/<project_id>/members/create', methods=['POST'])
@@ -206,11 +210,17 @@ def unpublish(project_id):
 @published_project_required
 def vote_project(project_id):
     project = Project.query.get(project_id)
+    size = request.args.get('size', 'lg')
+    direction = request.args.get('direction', 'up')
 
     if project.id != g.user.member.project.id:
-        project.vote(g.user, request.args.get('direction', 'up'))
+        project.vote(g.user, direction)
 
-    return redirect(url_for('projects.show', project_id=project.id))
+    if request.headers.get('X-Requested-With') == 'fetch':
+        partial = get_template_attribute('partials/vote.html', 'project_vote')
+        return partial(size, project)
+    else:
+        return redirect(url_for('projects.show', project_id=project.id))
 
 
 @projects.route('/projects/invites/<invite_token>')
