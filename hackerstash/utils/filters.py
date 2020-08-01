@@ -11,6 +11,7 @@ def init_app(app):
     app.jinja_env.filters['platforms_and_devices'] = platforms_and_devices
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
+    app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
 
 
 def to_markdown(value):
@@ -87,3 +88,7 @@ def fundings(value):
         'seed_funded': 'Seed Funded'
     }
     return items.get(value, value)
+
+
+def to_ordinal_ending(number):
+    return "tsnrhtdd"[(number / 10 % 10 != 1) * (number % 10 < 4) * number % 10::4]

@@ -62,7 +62,17 @@ class Project(db.Model):
         db.session.commit()
 
     def has_member_with_email(self, email):
+        # TODO
         pass
+
+    @property
+    def position(self):
+        # NOTICE: Be aware that calling this will make an additional
+        # call to the database! Don't use it in a loop
+        projects = self.query.filter_by(published=True).all()
+        projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
+        # Where is Array.findIndex() 🤦‍
+        return [index for index, project in enumerate(projects) if project.id == self.id][0] + 1
 
     @property
     def vote_score(self):
