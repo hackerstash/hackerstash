@@ -23,12 +23,14 @@ from hackerstash.views.signout import signout
 from hackerstash.views.signup import signup
 from hackerstash.views.users import users
 
+from hackerstash.lib.oauth import google_blueprint
+
 app = Flask(__name__)
 
 app.debug = config['debug']
 app.secret_key = config['secret']
-app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['SQLALCHEMY_TRACK_MODIFICATIONS']
+app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
 
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
@@ -45,6 +47,8 @@ app.register_blueprint(settings)
 app.register_blueprint(signout)
 app.register_blueprint(signup)
 app.register_blueprint(users)
+
+app.register_blueprint(google_blueprint)
 
 
 @app.before_request

@@ -139,7 +139,7 @@ cython_debug/
 tmp
 
 # Assets
-static/out/
+hackerstash/static/out/
 static/.webassets-cache
 
 # Editors

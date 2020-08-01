@@ -27,19 +27,16 @@
                 <div class="row d-flex">
                     <div class="d-flex flex-column">
                         <label class="label" for="first_name">First name</label>
-                        <input class="input" name="first_name" id="first_name" autocomplete="fname" required>
-                        <p class="validation-error">This field is required</p>
+                        <input class="input" name="first_name" id="first_name" autocomplete="fname" value="{{ g.user.first_name or '' }}" required>
                     </div>
                     <div class="d-flex flex-column">
                         <label class="label" for="last_name">Last name</label>
-                        <input class="input" name="last_name" id="last_name" autocomplete="lname" required=>
-                        <p class="validation-error">This field is required</p>
+                        <input class="input" name="last_name" id="last_name" autocomplete="lname" value="{{ g.user.last_name or '' }}" required>
                     </div>
                 </div>
                 <label class="label" for="username">Username</label>
                 <div class="username">
                     <input class="input" name="username" id="username" required=>
-                    <p class="validation-error">This field is required</p>
                 </div>
                 <hr class="divider mt-4 mb-2">
                 <div class="button-group">
