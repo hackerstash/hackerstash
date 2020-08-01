@@ -34,8 +34,8 @@ document.addEventListener('click', function(event) {
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
     }
 
-    if (event.target.closest('.collapse')) {
-        console.log('Collapse');
+    if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
+        event.target.closest('li').classList.toggle('collapsed');
     }
 });
 

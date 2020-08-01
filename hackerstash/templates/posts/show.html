@@ -48,7 +48,7 @@
             </fieldset>
         </form>
 
-        <label class="label comment-count mt-3 mb-3">0 Comments</label>
+        <label class="label comment-count mt-3 mb-3">{{ post.comments | length }} Comments</label>
 
         {{ comments(post.comments, true) }}
     </div>

@@ -10,6 +10,7 @@ scripts = [
     'js/avatar.js',
     'js/comments.js',
     'js/menu.js',
+    'js/modals.js',
     'js/votes.js'
 ]
 

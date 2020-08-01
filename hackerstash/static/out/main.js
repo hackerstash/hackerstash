@@ -63,8 +63,8 @@ document.addEventListener('click', function(event) {
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
     }
 
-    if (event.target.closest('.collapse')) {
-        console.log('Collapse');
+    if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
+        event.target.closest('li').classList.toggle('collapsed');
     }
 });
 
@@ -112,6 +112,29 @@ if (hamburger) {
         document.getElementById('sidebar').classList.toggle('menu-open');
     });
 }
+var openModalButtons = document.querySelectorAll('.modal-open');
+var closeModalButtons = document.querySelectorAll('.modal-close');
+
+openModalButtons.forEach(function(element) {
+    element.addEventListener('click', function(event) {
+        var selector = event.target.closest('.modal-open').getAttribute('data-modal');
+        document.querySelector('#' + selector).classList.add('open');
+    });
+});
+
+closeModalButtons.forEach(function(element) {
+    element.addEventListener('click', function(event) {
+        event.target.closest('.modal').classList.remove('open');
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.modal')) {
+        if (!event.target.closest('.modal-body')) {
+            event.target.closest('.modal').classList.remove('open');
+        }
+    }
+});
 // Fetch the partials from the server so that voting
 // does not cause a page refresh. If JS is disabled
 // then voting will still work

@@ -101,6 +101,32 @@
               font-style: normal;
               text-decoration: none;
             }
+
+            .show {
+                display: none;
+            }
+          }
+        }
+      }
+    }
+
+    &.collapsed {
+      ul {
+        display: none;
+      }
+
+      .comment {
+        .details {
+          p {
+            .collapse-comments {
+              .hide {
+                display: none;
+              }
+
+              .show {
+                display: inline;
+              }
+            }
           }
         }
       }
