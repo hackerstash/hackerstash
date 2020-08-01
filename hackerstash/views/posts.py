@@ -90,7 +90,7 @@ def comment(post_id):
 
     comment = Comment(
         body=request.form['body'],
-        parent_comment_id=request.form['parent_comment_id'] or None,
+        parent_comment_id=request.form.get('parent_comment_id'),
         user=user,
         post_id=post.id
     )
@@ -100,7 +100,11 @@ def comment(post_id):
 
     NotificationFactory.create('COMMENT_CREATED', {'comment': comment}).publish()
 
-    return redirect(url_for('posts.show', post_id=post_id))
+    if request.headers.get('X-Requested-With') == 'fetch':
+        partial = get_template_attribute('partials/comments.html', 'comments')
+        return partial(comment.post.comments, True)
+    else:
+        return redirect(url_for('posts.show', post_id=post_id))
 
 
 @posts.route('/posts/<post_id>/vote')
@@ -129,12 +133,11 @@ def comment_vote(post_id, comment_id):
     comment = Comment.query.get(comment_id)
     direction = request.args.get('direction', 'up')
 
-    if comment.post.project.id != g.user.member.project.id:
+    if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)
         NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
-        # post = Post.query.get(post_id)
         partial = get_template_attribute('partials/comments.html', 'comments')
         return partial(comment.post.comments, True)
     else:

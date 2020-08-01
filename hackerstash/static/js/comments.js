@@ -1,8 +1,5 @@
-var replies = document.querySelectorAll('.add-reply');
-var collapses = document.querySelectorAll('.collapse');
-
-replies.forEach(function(reply) {
-    reply.addEventListener('click', function(event) {
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.add-reply')) {
         // Delete all the other forms
         document.querySelectorAll('.comment-reply').forEach(function(element) {
             element.remove();
@@ -35,11 +32,39 @@ replies.forEach(function(reply) {
         });
 
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
-    });
+    }
+
+    if (event.target.closest('.collapse')) {
+        console.log('Collapse');
+    }
 });
 
-collapses.forEach(function(collapse) {
-    collapse.addEventListener('click', function(event) {
-        console.log(event.target);
-    });
+document.addEventListener('submit', function(event) {
+    if (event.target.classList.contains('comment-form')) {
+        event.preventDefault();
+
+        var form = new FormData(event.target);
+        var link = event.target.getAttribute('action');
+
+        var options = {
+            method: 'post',
+            credentials: 'include',
+            headers: {
+                'x-requested-with': 'fetch'
+            },
+            body: form
+        };
+
+        event.target.querySelector('.textarea').value = '';
+
+        fetch(link, options)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.text()
+                }
+            })
+            .then(function(response) {
+                document.querySelector('.comments').innerHTML = response;
+            });
+    }
 });
