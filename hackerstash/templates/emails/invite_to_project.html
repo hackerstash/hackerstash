@@ -3,7 +3,7 @@
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
 {% block body %}
-    <h1><a href="{{ config.host }}/users/{{ username }}">{{ username }}</a> has invited you to join the <a href="{{ config.host }}/projects/{{ project_id }}">{{ name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
-    {{ button(link, 'Join Now') }}
+    <h1><a href="{{ config.host }}/{{ url_for('users.show', user_id=inviter.id) }}">{{ inviter.first_name }} {{ inviter.last_name }}</a> has invited you to join the <a href="{{ config.host }}/projects/{{ invite.project.id }}">{{ invite.project.name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
+    {{ button(invite.link, 'Join Now') }}
     {{ manage_notifications(config.host) }}
 {% endblock %}

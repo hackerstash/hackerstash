@@ -7,7 +7,11 @@ services:
     command: 'python wsgi.py'
     environment:
       PYTHONUNBUFFERED: 1
-      AWS_PROFILE: lemon
+      AWS_PROFILE: 'lemon'
+      HOST: 'http://localhost:5000'
+      DEBUG: 'true'
+      SECRET: 'teapot'
+      SQLALCHEMY_DATABASE_URI: 'postgresql://hackerstash:hackerstash@db/hackerstash'
     depends_on:
       - 'db'
     volumes:

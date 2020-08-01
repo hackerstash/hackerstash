@@ -18,6 +18,6 @@ def index():
         'message': request.form['message']
     }
 
-    EmailFactory.create('CONTACT', payload).send()
+    EmailFactory.create('CONTACT', request.form['email'], payload).send()
 
     return render_template('contact/index.html')

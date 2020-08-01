@@ -2,7 +2,10 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from hackerstash.db import db
 from hackerstash.models.user import User
 from hackerstash.models.token import Tokens
+from hackerstash.models.invite import Invite
+from hackerstash.models.member import Member
 from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.lib.notifications.factory import NotificationFactory
 
 signup = Blueprint('signup', __name__)
 
@@ -33,6 +36,25 @@ def index():
                 db.session.commit()
                 session['id'] = user.id
                 Tokens.delete(email)
+
+                invite = Invite.query.filter_by(email=email).first()
+
+                if invite:
+                    # User has invited to a project and they
+                    # didn't yet have an account
+                    member = Member(
+                        owner=False,
+                        role=invite.role,
+                        user=user,
+                        project=invite.project
+                    )
+
+                    db.session.add(member)
+                    db.session.delete(invite)
+                    db.session.commit()
+
+                    NotificationFactory.create('MEMBER_VERIFIED', {'member': member}).publish()
+
                 return redirect(url_for('users.show', user_id=user.id))
 
             flash('The token is invalid')

@@ -1,5 +1,6 @@
-from flask import render_template
+from flask import render_template, g
 from hackerstash.lib.emails.base import Base
+from hackerstash.config import config
 
 
 class InviteToProject(Base):
@@ -12,11 +13,11 @@ class InviteToProject(Base):
 
     @property
     def body(self):
-        return render_template('emails/invite_to_project.html', **self.payload)
+        return render_template('emails/invite_to_project.html', **self.payload, inviter=g.user, config=config)
 
     @property
     def text(self):
-        return f'Click this link to accept your invite: {self.payload["link"]}'
+        return f'Click this link to accept your invite: {self.payload["invite"].link}'
 
     @property
     def subject(self):

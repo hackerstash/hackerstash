@@ -11,7 +11,6 @@ class Invite(db.Model):
     link = db.Column(db.String)
     role = db.Column(db.String)
 
-    # invited_by_user = {} TODO
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())

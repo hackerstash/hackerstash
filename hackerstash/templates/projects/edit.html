@@ -294,6 +294,11 @@
                             <li>
                                 {{ avatar(m.user, 'sm') }}
                                 <p><a href="{{ url_for('users.show', user_id=m.user.id) }}">{{ m.user.first_name }} {{ m.user.last_name }}</a></p>
+                                {% if m.user.id == g.user.id %}
+                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
+                                {% else %}
+                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Manage</a></p>
+                                {% endif %}
                             </li>
                         {% endfor %}
 

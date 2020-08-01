@@ -1,14 +1,14 @@
-from flask import Blueprint, render_template, redirect, url_for, g, request
+from flask import Blueprint, render_template, redirect, url_for, g, request, flash
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
-from hackerstash.lib.invites import generate_invite_link
+from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import EmailFactory
 from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
-from hackerstash.utils.auth import login_required, author_required, published_project_required
+from hackerstash.utils.auth import login_required, member_required, published_project_required
 
 projects = Blueprint('projects', __name__)
 
@@ -102,6 +102,42 @@ def add_members(project_id):
     return render_template('projects/members/add.html', project=project)
 
 
+@projects.route('/projects/<project_id>/members/<member_id>/edit')
+@login_required
+@member_required
+def edit_member(project_id, member_id):
+    project = Project.query.get(project_id)
+    match = [m for m in project.members if m.id == int(member_id)]
+    return render_template('projects/members/edit.html', project=project, member=match[0])
+
+
+@projects.route('/projects/<project_id>/members/<member_id>/edit', methods=['POST'])
+@login_required
+@member_required
+def update_member(project_id, member_id):
+    member = Member.query.get(member_id)
+    member.role = request.form['role']
+    db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+
+
+@projects.route('/projects/<project_id>/members/<member_id>/delete')
+@login_required
+@member_required
+def delete_member(project_id, member_id):
+    member = Member.query.get(member_id)
+
+    if member.owner:
+        flash('The project owner can\'t be deleted')
+        return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
+
+    NotificationFactory.create('MEMBER_REMOVED', {'member': member}).publish()
+
+    db.session.delete(member)
+    db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+
+
 @projects.route('/projects/<project_id>/members/create', methods=['POST'])
 @login_required
 @member_required
@@ -131,7 +167,7 @@ def invite_member(project_id):
     return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
 
 
-@projects.route('/projects/<project_id>/members/<invite_id>/delete')
+@projects.route('/projects/<project_id>/invites/<invite_id>/delete')
 @login_required
 @member_required
 def remove_invite(project_id, invite_id):
@@ -175,3 +211,33 @@ def vote_project(project_id):
         project.vote(g.user, request.args.get('direction', 'up'))
 
     return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/invites/<invite_token>')
+def accept_invite(invite_token):
+    data = decrypt_invite_link(invite_token)
+    user = User.query.filter_by(email=data['email']).first()
+    invite = Invite.query.filter_by(email=data['email']).first()
+
+    if not invite:
+        # The invite has been removed
+        return redirect(url_for('home.index'))
+
+    if user:
+        member = Member(
+            owner=False,
+            role=invite.role,
+            user=user,
+            project=invite.project
+        )
+
+        db.session.add(member)
+        db.session.delete(invite)
+        db.session.commit()
+
+        NotificationFactory.create('MEMBER_VERIFIED', {'member': member}).publish()
+
+        return redirect(url_for('projects.show', project_id=invite.project.id))
+    else:
+        # They need to create an account first
+        return redirect(url_for('signup.index'))

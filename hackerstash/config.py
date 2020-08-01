@@ -1,18 +1,9 @@
-class Config(object):
-    DEBUG = False
-    TESTING = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+import os
 
-
-class ProductionConfig(Config):
-    pass
-
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    SECRET_KEY = 'teapot'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://hackerstash:hackerstash@db/hackerstash'
-
-
-class TestingConfig(Config):
-    TESTING = True
+config = {
+    'host': os.environ.get('HOST'),
+    'debug': os.environ.get('DEBUG'),
+    'secret': os.environ.get('SECRET'),
+    'SQLALCHEMY_DATABASE_URI': os.environ.get('SQLALCHEMY_DATABASE_URI'),
+    'SQLALCHEMY_TRACK_MODIFICATIONS': False
+}

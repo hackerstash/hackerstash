@@ -1,4 +1,5 @@
 from flask import Flask, session, g, redirect, request, url_for, render_template
+from hackerstash.config import config
 from hackerstash.db import db
 from hackerstash.models.user import User
 
@@ -23,7 +24,11 @@ from hackerstash.views.signup import signup
 from hackerstash.views.users import users
 
 app = Flask(__name__)
-app.config.from_object('hackerstash.config.DevelopmentConfig')
+
+app.debug = config['debug']
+app.secret_key = config['secret']
+app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['SQLALCHEMY_TRACK_MODIFICATIONS']
 
 app.register_blueprint(challenges)
 app.register_blueprint(contact)

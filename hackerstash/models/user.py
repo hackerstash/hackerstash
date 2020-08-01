@@ -44,8 +44,7 @@ class User(db.Model):
         secondary=follow,
         primaryjoin=(follow.c.follower_id == id),
         secondaryjoin=(follow.c.followed_id == id),
-        backref=db.backref('users_following', lazy='select'),
-        lazy='select'
+        backref='users_following'
     )
 
     followers = db.relationship(
@@ -53,8 +52,7 @@ class User(db.Model):
         secondary=follow,
         primaryjoin=(follow.c.followed_id == id),
         secondaryjoin=(follow.c.follower_id == id),
-        backref=db.backref('users_followers', lazy='select'),
-        lazy='select'
+        viewonly=True
     )
 
     def follow(self, user):

@@ -4,4 +4,5 @@ class Base:
         self.notifications_to_send = []
 
     def publish(self):
+        print(f'Publishing notifications!')
         pass
