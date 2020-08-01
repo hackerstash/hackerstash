@@ -23,7 +23,7 @@ from hackerstash.views.signout import signout
 from hackerstash.views.signup import signup
 from hackerstash.views.users import users
 
-from hackerstash.lib.oauth import google_blueprint
+from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
 
 app = Flask(__name__)
 
@@ -49,6 +49,7 @@ app.register_blueprint(signup)
 app.register_blueprint(users)
 
 app.register_blueprint(google_blueprint)
+app.register_blueprint(twitter_blueprint)
 
 
 @app.before_request

@@ -9,5 +9,9 @@ config = {
 
     # Google
     'google_client_id': os.environ.get('google_client_id'),
-    'google_client_secret': os.environ.get('google_client_secret')
+    'google_client_secret': os.environ.get('google_client_secret'),
+
+    # Twitter
+    'twitter_api_key': os.environ.get('twitter_api_key'),
+    'twitter_api_secret': os.environ.get('twitter_api_secret')
 }

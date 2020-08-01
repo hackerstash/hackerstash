@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_dance.contrib.google import google
+from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
@@ -47,6 +48,11 @@ def google_login():
     return redirect(url_for('google.login'))
 
 
+@login.route('/login/twitter')
+def twitter_login():
+    return redirect(url_for('twitter.login'))
+
+
 @login.route('/login/google/callback')
 def google_callback():
     resp = google.get('/oauth2/v1/userinfo')
@@ -59,6 +65,30 @@ def google_callback():
         return redirect(url_for('users.show', user_id=user.id))
 
     user = User(first_name=google_user['given_name'], last_name=google_user['family_name'], email=google_user['email'])
+    db.session.add(user)
+    db.session.commit()
+    session['id'] = user.id
+
+    # If the user was invited but didn't have an
+    # account, we can add them to the project now
+    verify_invite(user)
+
+    return redirect(url_for('users.new'))
+
+
+@login.route('/login/twitter/callback')
+def twitter_callback():
+    resp = twitter.get('account/verify_credentials.json')
+    twitter_user = resp.json()
+
+    user = User.query.filter_by(email=twitter['email']).first()
+
+    if user:
+        session['id'] = user.id
+        return redirect(url_for('users.show', user_id=user.id))
+
+    first_name, last_name = twitter_user['name'].split(' ')
+    user = User(first_name=first_name, last_name=last_name, email=twitter['email'])
     db.session.add(user)
     db.session.commit()
     session['id'] = user.id
