@@ -14,8 +14,25 @@
                         <label class="label" for="title">Title</label>
                         <input class="input" type="text" id="title" name="title" required value="{{ post.title }}">
 
-                        <label class="label add-image" for="body">Update</label>
+                        <label class="label add-image" for="body">
+                            Update
+                            <input class="input" id="file" type="file" name="file" accept="image/jpg, image/jpeg, image/png" multiple>
+                            <input class="input" type="hidden" id="filenames_to_upload" name="filenames_to_upload" value="{{ image_list }}">
+                            <label class="label button upload link" for="file">Add images</label>
+                        </label>
                         <textarea class="input textarea" id="body" name="body" required rows="10">{{ post.body }}</textarea>
+                        <ul class="images post-images">
+                            {% for image in post.images %}
+                                <li>
+                                    <div class="image">
+                                        <img src="https://images.hackerstash.com/{{ image.key }}">
+                                    </div>
+                                    <button class="button link delete-image" type="button" data-file-name="{{ image.file_name }}">
+                                        <i class="icon ri-close-line"></i>
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="right">
                         <p><b>💡 Tips</b></p>

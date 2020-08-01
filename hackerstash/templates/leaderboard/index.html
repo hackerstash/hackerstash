@@ -8,17 +8,33 @@
         <header class="header mb-0">
             <h2>Leaderboard</h2>
         </header>
+        <div class="leaderboard-header">
+            <p class="small">RANK</p>
+            <p class="small">PROJECT NAME</p>
+            <p class="small">URL</p>
+            <p class="small">SCORE</p>
+            <p class="small">EXPECTED PRIZE</p>
+        </div>
         <ul class="leaderboard-results">
             {% for project in projects %}
                 <li>
-                    <div class="position">{{ loop.index }}</div>
-                    <div class="details">
-                        <p class="title mb-0-5">
-                            <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
-                        </p>
-                        <p class="small mb-0">{{ project.description }}</p>
-                    </div>
-                    {{ project_vote('sm', project) }}
+                    <p class="position">
+                        <span>{{ loop.index }}</span>
+                    </p>
+                    <p class="title">
+                        <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
+                    </p>
+                    <p class="url small">
+                        <a href="{{ project.url }}" target="_blank" rel="nofollow noreferrer">
+                            {{ project.url }}
+                        </a>
+                    </p>
+                    <p class="score small">
+                        <i>{{ project.vote_score }} points</i>
+                    </p>
+                    <p class="prize">
+
+                    </p>
                 </li>
             {% else %}
                 {% include "partials/no_results.html" %}

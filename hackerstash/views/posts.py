@@ -76,7 +76,8 @@ def create():
 @author_required
 def edit(post_id):
     post = Post.query.get(post_id)
-    return render_template('posts/edit.html', post=post)
+    image_list = json.dumps([image.file_name for image in post.images])
+    return render_template('posts/edit.html', post=post, image_list=image_list)
 
 
 @posts.route('/posts/<post_id>/update', methods=['POST'])
@@ -84,6 +85,8 @@ def edit(post_id):
 @author_required
 def update(post_id):
     post = Post.query.get(post_id)
+
+    # TODO work out old/new images
 
     post.title = request.form['title']
     post.body = request.form['body']
