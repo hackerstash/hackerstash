@@ -6,8 +6,13 @@ if (file) {
     file.addEventListener('change', function(event) {
         var file = event.target.files[0];
         var container = document.querySelector('.edit-avatar');
-        var icon = container.querySelector('.avatar');
 
+        // There are multiple image uploads, if the
+        // avatar container is not available it's likely
+        // something else (e.g. posts)
+        if (!container) return null;
+
+        var icon = container.querySelector('.avatar');
         var img = document.createElement('img');
         img.src = URL.createObjectURL(file);
 

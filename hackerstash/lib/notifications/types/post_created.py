@@ -10,7 +10,7 @@ class PostCreated(Base):
         for follower in post.user.followers:
             self.notifications_to_send.append({
                 # TODO
-                'email': follower.user.email,
+                'email': follower.email,
                 'email_type': 'FOLLOWER_CREATED_POST',
                 'notification_type': 'a_follower_posts_an_update'
             })

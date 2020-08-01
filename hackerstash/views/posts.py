@@ -1,10 +1,13 @@
-from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute
+import json
+from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash
 from hackerstash.db import db
+from hackerstash.lib.images import upload_image
 from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.comment import Comment
+from hackerstash.models.image import Image
 from hackerstash.utils.auth import login_required, author_required, published_project_required
 
 posts = Blueprint('posts', __name__)
@@ -31,6 +34,7 @@ def show(post_id):
 
 @posts.route('/posts/new')
 @login_required
+@published_project_required
 def new():
     return render_template('posts/new.html')
 
@@ -42,7 +46,23 @@ def create():
     user = User.query.get(g.user.id)
     project = Project.query.get(g.user.member.project_id)
 
+    if 'title' not in request.form or 'body' not in request.form:
+        flash('All fields are required')
+        return render_template('posts/new.html')
+
     post = Post(title=request.form['title'], body=request.form['body'], user=user, project=project)
+
+    # filenames_to_upload will contain a list of images
+    # that the user has not deleted. FileList is readonly
+    # on the front end.
+    file_names = json.loads(request.form.get('filenames_to_upload', '[]'))
+
+    for file in request.files.getlist('file'):
+        if file.filename in file_names:
+            key = upload_image(file)
+            image = Image(key=key, file_name=file.filename)
+            post.images.append(image)
+
     db.session.add(post)
     db.session.commit()
 

@@ -1,3 +1,4 @@
+import re
 import arrow
 import calendar
 from markdown import markdown
@@ -12,6 +13,7 @@ def init_app(app):
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
+    app.jinja_env.filters['to_post_body'] = to_post_body
 
 
 def to_markdown(value):
@@ -26,6 +28,20 @@ def to_human_date(date):
 def to_named_month(month):
     index = int(month) + 1
     return calendar.month_name[index]
+
+
+def to_post_body(post):
+    body = to_markdown(post.body)
+
+    def build_image_url_from_filename(file_name):
+        try:
+            image = [i for i in post.images if i.file_name == file_name][0]
+            return f'src="https://images.hackerstash.com/{image.key}"'
+        except Exception as e:
+            print(e)
+            return 'src=""'
+
+    return re.sub(r'src="(.*)"', lambda x: build_image_url_from_filename(x.group(1)), body)
 
 
 def nest_comments(comments, should_nest):

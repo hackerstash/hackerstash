@@ -7,15 +7,23 @@
             <h2>New Post</h2>
         </header>
 
-        <form class="form" action="{{ url_for('posts.create') }}" method="post">
+        <form class="form" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 <div class="split">
                     <div class="left">
                         <label class="label" for="title">Title</label>
                         <input class="input" type="text" id="title" name="title" required value>
 
-                        <label class="label add-image" for="body">Update</label>
+                        <label class="label add-image" for="body">
+                            Update
+                            <input class="input" id="file" type="file" name="file" accept="image/jpg, image/jpeg, image/png" multiple>
+                            <input class="input" type="hidden" id="filenames_to_upload" name="filenames_to_upload" value="[]">
+                            <label class="label button upload link" for="file">Add images</label>
+                        </label>
                         <textarea class="input textarea" id="body" name="body" required rows="10"></textarea>
+                        <ul class="images post-images">
+
+                        </ul>
                     </div>
                     <div class="right">
                         <p><b>💡 Tips</b></p>

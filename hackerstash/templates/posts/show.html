@@ -31,7 +31,7 @@
 
         <div class="post-body wrap-620">
             <div class="markdown">
-                {{ post.body | to_markdown | safe }}
+                {{ post | to_post_body | safe }}
             </div>
         </div>
 

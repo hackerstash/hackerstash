@@ -11,6 +11,7 @@ scripts = [
     'js/comments.js',
     'js/menu.js',
     'js/modals.js',
+    'js/posts.js',
     'js/votes.js'
 ]
 
