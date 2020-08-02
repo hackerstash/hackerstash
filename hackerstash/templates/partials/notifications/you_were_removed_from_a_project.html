@@ -1,0 +1,3 @@
+{%- from "partials/avatar.html" import avatar -%}
+
+{{ avatar(remover, 'x-sm') }}<a href="{{ url_for('users.show', user_id=remover.id) }}">{{ remover.first_name }} {{ remover.last_name }}</a> removed you from <a href="{{ url_for('projects.show', project_id=member.project.id) }}">{{ member.project.name }}</a>

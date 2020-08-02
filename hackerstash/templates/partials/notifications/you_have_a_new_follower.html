@@ -1,0 +1,3 @@
+{%- from "partials/avatar.html" import avatar -%}
+
+{{ avatar(follower, 'x-sm') }}<a href="{{ url_for('users.show', user_id=follower.id) }}">{{ follower.first_name }} {{ follower.last_name }}</a> started following you

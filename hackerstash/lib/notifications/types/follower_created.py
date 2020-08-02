@@ -12,5 +12,5 @@ class FollowerCreated(Base):
             'payload': payload,
             'email_type': 'NEW_FOLLOWER',
             'notification_type': 'you_have_a_new_follower',
-            'notification_message': 'TODO'
+            'notification_message': self.render_notification_message('you_have_a_new_follower')
         })

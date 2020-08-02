@@ -12,5 +12,5 @@ class MemberInvited(Base):
             'payload': payload,
             'email_type': 'INVITE_TO_PROJECT',
             'notification_type': 'you_were_invited_to_join_a_project',
-            'notification_message': 'TODO'
+            'notification_message': self.render_notification_message('you_were_invited_to_join_a_project')
         })

@@ -13,7 +13,7 @@ class CommentCreated(Base):
             'payload': payload,
             'email_type': 'COMMENTED_ON_POST',
             'notification_type': 'someone_comments_on_your_post',
-            'notification_message': 'TODO'
+            'notification_message': self.render_notification_message('someone_comments_on_your_post')
         })
 
         if comment.parent_comment_id:
@@ -24,5 +24,5 @@ class CommentCreated(Base):
                 'payload': payload,
                 'email_type': 'REPLIED_TO_COMMENT',
                 'notification_type': 'someone_replies_to_your_comment',
-                'notification_message': 'TODO'
+                'notification_message': self.render_notification_message('someone_replies_to_your_comment')
             })

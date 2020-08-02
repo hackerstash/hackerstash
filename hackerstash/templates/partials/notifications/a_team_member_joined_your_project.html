@@ -1,0 +1,3 @@
+{%- from "partials/avatar.html" import avatar -%}
+
+{{ avatar(member.user, 'x-sm') }}<a href="{{ url_for('users.show', user_id=member.user.id) }}">{{ member.user.first_name }} {{ member.user.last_name }}</a> has joined <a href="{{ url_for('projects.show', project_id=member.project.id) }}">{{ member.project.name }}</a>

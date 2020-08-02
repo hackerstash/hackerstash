@@ -14,5 +14,5 @@ class MemberVerified(Base):
                     'payload': payload,
                     'email_type': 'MEMBER_JOINED_PROJECT',
                     'notification_type': 'a_team_member_joined_your_project',
-                    'notification_message': 'TODO'
+                    'notification_message': self.render_notification_message('a_team_member_joined_your_project')
                 })

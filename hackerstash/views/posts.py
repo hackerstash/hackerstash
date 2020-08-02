@@ -140,7 +140,7 @@ def post_vote(post_id):
 
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
-        NotificationFactory.create('POST_VOTED', {'post': post, 'direction': direction}).publish()
+        NotificationFactory.create('POST_VOTED', {'post': post, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'post_vote')
@@ -158,7 +158,7 @@ def comment_vote(post_id, comment_id):
 
     if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)
-        NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction}).publish()
+        NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/comments.html', 'comments')

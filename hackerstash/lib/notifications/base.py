@@ -1,6 +1,9 @@
+from flask import render_template
 from hackerstash.db import db
 from hackerstash.lib.emails.factory import EmailFactory
 from hackerstash.models.notification import Notification
+
+base_template_path = 'partials/notifications/'
 
 
 def notification_enabled(notification, notification_type):
@@ -43,3 +46,7 @@ class Base:
             if notification_enabled(notification, 'email'):
                 print('Creating email notification')
                 create_email_notification(notification)
+
+    def render_notification_message(self, name):
+        file = f'{base_template_path}{name}.html'
+        return render_template(file, **self.payload)

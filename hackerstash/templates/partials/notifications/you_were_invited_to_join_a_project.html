@@ -1,0 +1,3 @@
+{%- from "partials/avatar.html" import avatar -%}
+
+{{ avatar(inviter, 'x-sm') }}<a href="{{ url_for('users.show', user_id=inviter.id) }}">{{ inviter.first_name }} {{ inviter.last_name }}</a> invited you to join <a href="{{ url_for('projects.show', project_id=invite.project.id) }}">{{ invite.project.name }}</a> - <a href="{{ invite.link }}">Accept</a>

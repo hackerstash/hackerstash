@@ -1,5 +1,11 @@
-from flask import g
 from hackerstash.lib.notifications.base import Base
+
+
+def get_notification_type(direction):
+    if direction == 'up':
+        return 'someone_upvotes_your_post'
+    else:
+        return 'someone_downvotes_your_post'
 
 
 class PostVoted(Base):
@@ -11,17 +17,8 @@ class PostVoted(Base):
 
         self.notifications_to_send.append({
             'user': post.user,
-            'payload': {
-                **payload,
-                'voter': g.user
-            },
+            'payload': payload,
             'email_type': 'VOTED_ON_POST',
-            'notification_type': self.get_notification_type(direction),
-            'notification_message': 'TODO'
+            'notification_type': get_notification_type(direction),
+            'notification_message': self.render_notification_message('someone_voted_your_post')
         })
-
-    def get_notification_type(self, direction):
-        if direction == 'up':
-            return 'someone_upvotes_your_post'
-        else:
-            return 'someone_downvotes_your_post'

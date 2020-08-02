@@ -131,7 +131,7 @@ def delete_member(project_id, member_id):
         flash('The project owner can\'t be deleted')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 
-    NotificationFactory.create('MEMBER_REMOVED', {'member': member}).publish()
+    NotificationFactory.create('MEMBER_REMOVED', {'member': member, 'remover': g.user}).publish()
 
     db.session.delete(member)
     db.session.commit()

@@ -26,6 +26,16 @@
         flex: 1;
       }
 
+      .avatar {
+        display: inline-block;
+        margin-right: .5rem;
+        vertical-align: sub;
+      }
+
+      .small {
+         margin-left: 2rem;
+      }
+
       .close-button {
         align-items: center;
         align-self: center;
