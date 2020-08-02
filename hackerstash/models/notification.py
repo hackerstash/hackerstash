@@ -10,8 +10,7 @@ class Notification(db.Model):
     type = db.Column(db.String)
     read = db.Column(db.Boolean, default=False)
     read_at = db.Column(db.DateTime)
-
-    payload = db.Column(JSON)
+    message = db.Column(db.String)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

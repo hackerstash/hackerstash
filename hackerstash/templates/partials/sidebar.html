@@ -7,7 +7,7 @@
         </a>
         <div class="actions">
             {% if g.user %}
-                <a data-count="{{ g.user.unread_notifications | length }}" class="notification-bell" href="{{ url_for('notifications.index') }}">
+                <a data-count="{{ g.user.unread_notifications | length }}" class="notification-bell {{ 'unread' if g.user.unread_notifications }}" href="{{ url_for('notifications.index') }}">
                     <i class="icon ri-notification-2-line"></i>
                 </a>
             {% endif %}

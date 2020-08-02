@@ -1,5 +1,4 @@
 from flask import g
-from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -14,11 +13,11 @@ class PostVoted(Base):
             'user': post.user,
             'payload': {
                 **payload,
-                'voter': g.user,
-                'config': config
+                'voter': g.user
             },
             'email_type': 'VOTED_ON_POST',
-            'notification_type': self.get_notification_type(direction)
+            'notification_type': self.get_notification_type(direction),
+            'notification_message': 'TODO'
         })
 
     def get_notification_type(self, direction):

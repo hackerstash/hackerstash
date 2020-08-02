@@ -1,4 +1,3 @@
-from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -13,9 +12,9 @@ class PostCreated(Base):
                 'user': follower,
                 'payload': {
                     **payload,
-                    'follower': follower,
-                    'config': config
+                    'follower': follower
                 },
                 'email_type': 'FOLLOWER_CREATED_POST',
-                'notification_type': 'a_follower_posts_an_update'
+                'notification_type': 'a_follower_posts_an_update',
+                'notification_message': 'TODO'
             })

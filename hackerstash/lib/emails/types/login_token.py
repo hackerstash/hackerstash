@@ -1,4 +1,5 @@
 from flask import render_template
+from hackerstash.config import config
 from hackerstash.lib.emails.base import Base
 
 
@@ -12,7 +13,7 @@ class LoginToken(Base):
 
     @property
     def body(self):
-        return render_template('emails/login_token.html', **self.payload)
+        return render_template('emails/login_token.html', **self.payload, host=config['host'])
 
     @property
     def text(self):

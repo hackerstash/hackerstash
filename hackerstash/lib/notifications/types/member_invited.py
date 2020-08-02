@@ -1,5 +1,3 @@
-from flask import g
-from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -11,11 +9,8 @@ class MemberInvited(Base):
 
         self.notifications_to_send.append({
             'user': user,
-            'payload': {
-                **payload,
-                'inviter': g.user,
-                'config': config
-            },
+            'payload': payload,
             'email_type': 'INVITE_TO_PROJECT',
-            'notification_type': 'you_were_invited_to_join_a_project'
+            'notification_type': 'you_were_invited_to_join_a_project',
+            'notification_message': 'TODO'
         })

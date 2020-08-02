@@ -2,6 +2,6 @@
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
 {% block body %}
-    <h1><a href="{{ config.host }}{{ url_for('users.show', user_id=member.user.id) }}">{{ member.user.first_name }} {{ member.user.last_name }}</a> has joined the <a href="{{ config.host }}{{ url_for('projects.show', project_id=member.project.id) }}">{{ member.project.name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
-    {{ manage_notifications(config.host) }}
+    <h1><a href="{{ host }}{{ url_for('users.show', user_id=member.user.id) }}">{{ member.user.first_name }} {{ member.user.last_name }}</a> has joined the <a href="{{ host }}{{ url_for('projects.show', project_id=member.project.id) }}">{{ member.project.name }}</a> team on <a href="{{ host }}">HackerStash</a></h1>
+    {{ manage_notifications(host) }}
 {% endblock %}

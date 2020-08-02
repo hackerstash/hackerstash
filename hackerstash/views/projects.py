@@ -164,9 +164,9 @@ def invite_member(project_id):
         db.session.commit()
 
         if user:
-            NotificationFactory.create('MEMBER_INVITED', {'invite': invite, 'user': user}).publish()
+            NotificationFactory.create('MEMBER_INVITED', {'invite': invite, 'user': user, 'inviter': g.user}).publish()
         else:
-            EmailFactory.create('INVITE_TO_PROJECT', email, {'invite': invite}).send()
+            EmailFactory.create('INVITE_TO_PROJECT', email, {'invite': invite, 'inviter': g.user}).send()
 
     return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
 

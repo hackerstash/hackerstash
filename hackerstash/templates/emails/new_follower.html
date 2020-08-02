@@ -2,6 +2,6 @@
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
 {% block body %}
-    <h1><a href="{{ config.host }}{{ url_for('users.show', user_id=follower.id) }}">{{ follower.first_name }} {{ follower.last_name }}</a> has started following you on <a href="{{ config.host }}">HackerStash</a></h1>
-    {{ manage_notifications(config.host) }}
+    <h1><a href="{{ host }}{{ url_for('users.show', user_id=follower.id) }}">{{ follower.first_name }} {{ follower.last_name }}</a> has started following you on <a href="{{ host }}">HackerStash</a></h1>
+    {{ manage_notifications(host) }}
 {% endblock %}

@@ -31,3 +31,25 @@ def update():
 
     db.session.commit()
     return redirect(url_for('notifications.index'))
+
+
+@notifications.route('/notifications/mark_ass_read')
+@login_required
+def mark_as_read():
+    user = User.query.get(g.user.id)
+    mark_all = request.args.get('all')
+    now = db.func.now()
+
+    if mark_all:
+        for notification in user.notifications:
+            notification.read = True
+            notification.read_at = now
+    else:
+        notification_id = request.args.get('notification_id')
+        notification = Notification.query.get(notification_id)
+        notification.read = True
+        notification.read_at = now
+
+    db.session.commit()
+
+    return redirect(url_for('notifications.index'))

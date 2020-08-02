@@ -2,6 +2,6 @@
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
 {% block body %}
-    <h1><a href="{{ config.host }}{{ url_for('users.show', user_id=voter.id) }}">{{ voter.first_name }} {{ voter.last_name }}</a> has {{ direction | lower }}voted your <a href="{{ config.host }}{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on <a href="{{ config.host }}/{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a> on <a href="{{ config.host }}">HackerStash</a></h1>
-    {{ manage_notifications(config.host) }}
+    <h1><a href="{{ host }}{{ url_for('users.show', user_id=voter.id) }}">{{ voter.first_name }} {{ voter.last_name }}</a> has {{ direction | lower }}voted your <a href="{{ host }}{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on <a href="{{ host }}{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a> on <a href="{{ host }}">HackerStash</a></h1>
+    {{ manage_notifications(host) }}
 {% endblock %}
