@@ -1,3 +1,4 @@
+from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -10,8 +11,11 @@ class MemberVerified(Base):
         for m in member.project.members:
             if m.id != member.id:
                 self.notifications_to_send.append({
-                    # TODO
-                    'email': m.user.email,
+                    'user': m.user,
+                    'payload': {
+                        **payload,
+                        'config': config
+                    },
                     'email_type': 'MEMBER_JOINED_PROJECT',
                     'notification_type': 'a_team_member_joined_your_project'
                 })

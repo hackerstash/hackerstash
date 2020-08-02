@@ -1,3 +1,4 @@
+from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -8,8 +9,11 @@ class FollowerCreated(Base):
         user = payload['user']
 
         self.notifications_to_send.append({
-            # TODO
-            'email': user.email,
+            'user': user,
+            'payload': {
+                **payload,
+                'config': config
+            },
             'email_type': 'NEW_FOLLOWER',
             'notification_type': 'you_have_a_new_follower'
         })

@@ -1,3 +1,4 @@
+from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 from hackerstash.models.comment import Comment
 
@@ -9,8 +10,11 @@ class CommentCreated(Base):
         comment = payload['comment']
 
         self.notifications_to_send.append({
-            # TODO
-            'email': comment.user.email,
+            'user': comment.post.user,
+            'payload': {
+                **payload,
+                'config': config
+            },
             'email_type': 'COMMENTED_ON_POST',
             'notification_type': 'someone_comments_on_your_post'
         })
@@ -19,8 +23,11 @@ class CommentCreated(Base):
             parent_comment = Comment.query.get(comment.parent_comment_id)
 
             self.notifications_to_send.append({
-                # TODO
-                'email': parent_comment.user.email,
+                'user': parent_comment.user,
+                'payload': {
+                    **payload,
+                    'config': config
+                },
                 'email_type': 'REPLIED_TO_COMMENT',
                 'notification_type': 'someone_replies_to_your_comment'
             })

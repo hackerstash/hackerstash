@@ -1,3 +1,4 @@
+from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -9,8 +10,12 @@ class PostCreated(Base):
 
         for follower in post.user.followers:
             self.notifications_to_send.append({
-                # TODO
-                'email': follower.email,
+                'user': follower,
+                'payload': {
+                    **payload,
+                    'follower': follower,
+                    'config': config
+                },
                 'email_type': 'FOLLOWER_CREATED_POST',
                 'notification_type': 'a_follower_posts_an_update'
             })

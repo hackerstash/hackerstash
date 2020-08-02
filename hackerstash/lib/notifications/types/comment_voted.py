@@ -1,3 +1,5 @@
+from flask import g
+from hackerstash.config import config
 from hackerstash.lib.notifications.base import Base
 
 
@@ -9,8 +11,12 @@ class CommentVoted(Base):
         direction = payload['direction']
 
         self.notifications_to_send.append({
-            # TODO
-            'email': comment.user.email,
+            'user': comment.user,
+            'payload': {
+                **payload,
+                'voter': g.user,
+                'config': config
+            },
             'email_type': 'VOTED_ON_COMMENT',
             'notification_type': self.get_notification_type(direction)
         })

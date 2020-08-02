@@ -73,3 +73,7 @@ class User(db.Model):
                 following = True
 
         return following
+
+    @property
+    def unread_notifications(self):
+        return list(filter(lambda x: not x.read, self.notifications))

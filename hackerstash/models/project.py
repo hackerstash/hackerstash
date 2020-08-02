@@ -67,6 +67,8 @@ class Project(db.Model):
 
     @property
     def position(self):
+        if not self.published:
+            return -1
         # NOTICE: Be aware that calling this will make an additional
         # call to the database! Don't use it in a loop
         projects = self.query.filter_by(published=True).all()

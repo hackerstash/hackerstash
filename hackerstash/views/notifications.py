@@ -27,7 +27,6 @@ def update():
     user = User.query.get(g.user.id)
 
     for key, value in request.form.items():
-        print(key, value)
         setattr(user.notifications_settings, key, value == 'true')
 
     db.session.commit()

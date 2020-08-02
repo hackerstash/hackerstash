@@ -45,7 +45,7 @@ def follow(user_id):
         g.user.unfollow(user)
     else:
         g.user.follow(user)
-        NotificationFactory.create('FOLLOWER_CREATED', {'user': user}).publish()
+        NotificationFactory.create('FOLLOWER_CREATED', {'user': user, 'follower': g.user}).publish()
     db.session.commit()
     return redirect(url_for('users.show', user_id=user.id))
 

@@ -2,7 +2,7 @@
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
 {% block body %}
-    <h1>You have been removed from the <a href="{{ config.host }}/projects/{{ project_id }}">{{ name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
-    <p>If you believe you may have been removed in error, please contact the team owner, <a href="{{ config.host }}/users/{{ username }}">{{ username }}</a>.</p>
+    <h1>You have been removed from the <a href="{{ config.host }}{{ url_for('projects.show', project_id=member.project.id) }}">{{ member.project.name }}</a> team on <a href="{{ config.host }}">HackerStash</a></h1>
+    <p>If you believe you may have been removed in error, please contact the team owner.</p>
     {{ manage_notifications(config.host) }}
 {% endblock %}
