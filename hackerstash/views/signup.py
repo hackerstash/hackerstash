@@ -3,7 +3,7 @@ from flask_dance.contrib.google import google
 from hackerstash.db import db
 from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
-from hackerstash.models.token import Tokens
+from hackerstash.models.token import Token
 from hackerstash.lib.emails.factory import EmailFactory
 
 signup = Blueprint('signup', __name__)
@@ -27,14 +27,14 @@ def index():
         step = 2
 
         if code:
-            valid = Tokens.verify(email, code)
+            valid = Token.verify(email, code)
 
             if valid:
                 user = User(email=email)
                 db.session.add(user)
                 db.session.commit()
                 session['id'] = user.id
-                Tokens.delete(email)
+                Token.delete(email)
 
                 # If the user was invited but didn't have an
                 # account, we can add them to the project now
@@ -44,7 +44,7 @@ def index():
 
             flash('The token is invalid')
         else:
-            code = Tokens.generate(email)
+            code = Token.generate(email)
             EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
 
     return render_template('signup/index.html', step=step, email=email)

@@ -2,8 +2,7 @@ from random import randint
 from hackerstash.db import db
 
 
-# TODO rename
-class Tokens(db.Model):
+class Token(db.Model):
     __tablename__ = 'tokens'
 
     id = db.Column(db.Integer, primary_key=True)

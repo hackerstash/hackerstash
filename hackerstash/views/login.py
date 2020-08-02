@@ -4,7 +4,7 @@ from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
-from hackerstash.models.token import Tokens
+from hackerstash.models.token import Token
 from hackerstash.lib.emails.factory import EmailFactory
 
 login = Blueprint('login', __name__)
@@ -28,16 +28,16 @@ def index():
         step = 2
 
         if code:
-            valid = Tokens.verify(email, code)
+            valid = Token.verify(email, code)
 
             if valid:
                 session['id'] = user.id
-                Tokens.delete(email)
+                Token.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
             flash('The token is invalid')
         else:
-            code = Tokens.generate(email)
+            code = Token.generate(email)
             EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
 
     return render_template('login/index.html', step=step, email=email)
