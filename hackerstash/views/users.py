@@ -77,6 +77,11 @@ def create():
 @login_required
 def destroy():
     user = User.query.get(g.user.id)
+
+    # Can't think of a way to cascade this at the db level
+    if user.member and len(user.member.project.members) == 1:
+        db.session.delete(user.member.project)
+
     db.session.delete(user)
     db.session.commit()
     session.pop('id', None)

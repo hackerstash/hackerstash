@@ -35,4 +35,5 @@ google_client_id=
 google_client_secret=
 twitter_api_key=
 twitter_api_secret=
+admin_api_key=teapot
 ```

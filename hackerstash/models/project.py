@@ -62,8 +62,8 @@ class Project(db.Model):
         db.session.commit()
 
     def has_member_with_email(self, email):
-        # TODO
-        pass
+        member = next((x for x in self.members if x.user.email == email), None)
+        return bool(member)
 
     @property
     def position(self):

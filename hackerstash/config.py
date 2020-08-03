@@ -13,5 +13,8 @@ config = {
 
     # Twitter
     'twitter_api_key': os.environ.get('twitter_api_key'),
-    'twitter_api_secret': os.environ.get('twitter_api_secret')
+    'twitter_api_secret': os.environ.get('twitter_api_secret'),
+
+    # Admin
+    'admin_api_key': os.environ.get('admin_api_key')
 }
