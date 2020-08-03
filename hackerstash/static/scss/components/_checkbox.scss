@@ -63,11 +63,6 @@
     cursor: default;
   }
 
-  &:active {
-    transform: scale(1.3);
-    transition: all .1s linear;
-  }
-
   + label {
     cursor: pointer;
     font-weight: $font-weight-normal;
@@ -88,13 +83,6 @@
     list-style: none;
     margin-bottom: .5rem;
     width: 50%;
-
-    &:active {
-      .checkbox {
-        transform: scale(1.3);
-        transition: all .1s linear;
-      }
-    }
   }
 
   &.inline {

@@ -42,7 +42,7 @@ def create():
     if user.member:
         return redirect(url_for('projects.show', project_id=user.member.project.id))
 
-    project = Project(name='Untitled')
+    project = Project(name='Untitled', time_commitment='FULL_TIME')
     member = Member(owner=True, user=user, project=project)
 
     db.session.add(project)

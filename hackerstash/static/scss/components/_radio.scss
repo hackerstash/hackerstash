@@ -43,11 +43,6 @@
     border-color: $mauve-500;
   }
 
-  &:active {
-    transform: scale(1.3);
-    transition: all .1s linear;
-  }
-
   + .label {
     cursor: pointer;
     font-weight: $font-weight-normal;
@@ -63,13 +58,6 @@
     align-items: center;
     display: flex;
     list-style: none;
-
-    &:active {
-      .radio {
-        transform: scale(1.3);
-        transition: all .1s linear;
-      }
-    }
   }
 
   .radio {

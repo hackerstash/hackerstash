@@ -14,7 +14,6 @@
   }
 
   .modal-body {
-    animation: pop-in .1s ease;
     background: $darkblue-800;
     border-radius: 1rem;
     display: flex;
@@ -22,7 +21,6 @@
     max-height: calc(100% - 6rem);
     max-width: 960px;
     overflow: hidden;
-    transform: scale(0.95);
     width: 100%;
 
     &.sm {
@@ -52,11 +50,6 @@
         color: $mauve-900;
         cursor: pointer;
         font-size: 1.5rem;
-
-        &:active {
-          transform: scale(1.5);
-          transition: all .1s linear;
-        }
       }
     }
 
@@ -105,14 +98,5 @@
         }
       }
     }
-  }
-}
-
-@keyframes pop-in {
-  from {
-    transform: scale(0.95); 
-  }
-  to {
-    transform: scale(1); 
   }
 }

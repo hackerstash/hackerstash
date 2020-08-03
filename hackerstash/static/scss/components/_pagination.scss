@@ -10,7 +10,6 @@
     height: 2rem;
     list-style: none;
     margin-right: .25rem;
-    transition: .15s ease;
     width: 2rem;
 
     &.active,
@@ -20,11 +19,6 @@
 
     &:last-of-type {
       margin-right: 0;
-    }
-
-    &:active {
-      transform: scale(1.3);
-      transition: all .1s linear;
     }
 
     &.disabled {
