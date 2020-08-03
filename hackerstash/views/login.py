@@ -78,17 +78,17 @@ def google_callback():
 
 @login.route('/login/twitter/callback')
 def twitter_callback():
-    resp = twitter.get('account/verify_credentials.json')
+    resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
 
-    user = User.query.filter_by(email=twitter['email']).first()
+    user = User.query.filter_by(email=twitter_user['email']).first()
 
     if user:
         session['id'] = user.id
         return redirect(url_for('users.show', user_id=user.id))
 
     first_name, last_name = twitter_user['name'].split(' ')
-    user = User(first_name=first_name, last_name=last_name, email=twitter['email'])
+    user = User(first_name=first_name, last_name=last_name, email=twitter_user['email'])
     db.session.add(user)
     db.session.commit()
     session['id'] = user.id
