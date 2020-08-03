@@ -69,7 +69,7 @@
       }
 
       &:hover {
-        background: $darkblue-800;
+        background: $darkblue-700;
       }
     }
 
@@ -120,6 +120,10 @@
     .button {
       height: 1.75rem;
       width: 2rem;
+
+      &:hover {
+        background: $darkblue-800;
+      }
     }
   }
 

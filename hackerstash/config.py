@@ -2,7 +2,7 @@ import os
 
 config = {
     'host': os.environ.get('host'),
-    'debug': os.environ.get('debug'),
+    'debug': os.environ.get('debug') == 'true',
     'secret': os.environ.get('secret'),
     'sqlalchemy_database_uri': os.environ.get('sqlalchemy_database_uri'),
     'sqlalchemy_track_notifications': False,
