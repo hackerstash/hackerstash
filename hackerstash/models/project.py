@@ -41,7 +41,6 @@ class Project(db.Model):
     def has_member(self, user):
         if not user:
             return False
-
         match = list(filter(lambda x: x.user.id == user.id, self.members))
         return len(match) > 0
 
@@ -64,6 +63,14 @@ class Project(db.Model):
     def has_member_with_email(self, email):
         member = next((x for x in self.members if x.user.email == email), None)
         return bool(member)
+
+    def vote_status(self, user):
+        if self.has_member(user):
+            return 'disabled'
+
+        # TODO upvoted/downvoted
+
+        return None
 
     @property
     def position(self):

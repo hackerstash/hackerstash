@@ -1,3 +1,3 @@
 {%- from "partials/avatar.html" import avatar -%}
 
-{{ avatar(voter, 'x-sm') }}<a href="{{ url_for('users.show', user_id=voter.id) }}"></a> {{ direction | lower }}voted your <a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on <a href="{{ url_for('post.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a>
+{{ avatar(voter, 'x-sm') }}<a href="{{ url_for('users.show', user_id=voter.id) }}"></a> {{ direction | lower }}voted your <a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on <a href="{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a>

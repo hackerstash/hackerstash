@@ -27,8 +27,17 @@ class Post(db.Model):
     def has_author(self, user):
         if not user:
             return None
-
         return self.user.id == user.id
+
+    def vote_status(self, user):
+        if not user or not user.member:
+            return 'disabled'
+        if self.project.id == user.member.project.id:
+            return 'disabled'
+
+        # TODO upvoted/downvoted
+
+        return None
 
     def vote(self, user, direction):
         score = 5 if direction == 'up' else -5

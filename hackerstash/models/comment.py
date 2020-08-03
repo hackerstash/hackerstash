@@ -38,6 +38,16 @@ class Comment(db.Model):
             self.votes.append(vote)
         db.session.commit()
 
+    def vote_status(self, user):
+        if not user or not user.member:
+            return 'disabled'
+        if self.user.member.project.id == user.member.project.id:
+            return 'disabled'
+
+        # TODO upvoted/downvoted
+
+        return None
+
     @property
     def vote_score(self):
         return sum_of_votes(self.votes)
