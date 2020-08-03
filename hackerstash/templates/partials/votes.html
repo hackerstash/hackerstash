@@ -5,7 +5,7 @@
         {% for vote in list %}
             {% set positive = vote.score > 0 %}
             <li>
-                <p class="small date">• July 27 at 8:49AM</p>
+                <p class="small date">• {{ vote.created_at | to_nice_date }}</p>
                 <div class="vote-message">
                     <span class="score {{ 'positive' if positive else 'negative' }}">
                         <i class="icon ri-arrow-drop-{{ 'up' if positive else 'down' }}-fill"></i>

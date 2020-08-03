@@ -7,8 +7,10 @@ from markdown import markdown
 def init_app(app):
     app.jinja_env.filters['to_markdown'] = to_markdown
     app.jinja_env.filters['to_human_date'] = to_human_date
+    app.jinja_env.filters['to_nice_date'] = to_nice_date
     app.jinja_env.filters['to_named_month'] = to_named_month
     app.jinja_env.filters['nest_comments'] = nest_comments
+    app.jinja_env.filters['flatten_comments'] = flatten_comments
     app.jinja_env.filters['platforms_and_devices'] = platforms_and_devices
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
@@ -23,6 +25,11 @@ def to_markdown(value):
 def to_human_date(date):
     d = arrow.get(date)
     return d.humanize()
+
+
+def to_nice_date(date):
+    d = arrow.get(date)
+    return d.format('MMMM D [at] h:mA')
 
 
 def to_named_month(month):
@@ -62,6 +69,17 @@ def nest_comments(comments, should_nest):
         return out
 
     return generate_nesting(comments)
+
+
+def flatten_comments(comments):
+    out = []
+
+    for comment in comments:
+        out.append(comment)
+        children = getattr(comment, 'children', [])
+        [out.append(x) for x in flatten_comments(children)]
+
+    return out
 
 
 def platforms_and_devices(value):
