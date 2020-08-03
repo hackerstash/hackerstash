@@ -1,15 +1,17 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
+from hackerstash.config import config
 from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.utils.recaptcha import recaptcha_required
 
 contact = Blueprint('contact', __name__)
 
 
 @contact.route('/contact', methods=['GET', 'POST'])
+@recaptcha_required
 def index():
     if request.method == 'GET':
-        return render_template('contact/index.html')
-
-    # TODO recaptcha
+        recaptcha_site_key = config['recaptcha_site_key']
+        return render_template('contact/index.html', recaptcha_site_key=recaptcha_site_key)
 
     payload = {
         'name': request.form['name'],
@@ -20,4 +22,4 @@ def index():
 
     EmailFactory.create('CONTACT', request.form['email'], payload).send()
 
-    return render_template('contact/index.html')
+    return redirect(url_for('contact.index', success=True))

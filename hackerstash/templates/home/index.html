@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="register">
-            <form class="form" action="{{ url_for('home.index') }}" method="post">
+            <form id="recatpcha-form" class="form" action="{{ url_for('home.index') }}" method="post">
                 <fieldset {{ "disabled" if added_to_waitlist }}>
                     <h3 class="mb-1">Get notified when we launch</h3>
                     <p class="mb-1-5"><b>We’re launching in July</b>, but you can enter your details below to receive pre-launch updates and become one of our first competitors ✨</p>
@@ -38,7 +38,9 @@
                     <label class="label" for="email">Email address</label>
                     <input type="email" class="input" name="email" id="email" placeholder="e.g. holly@hackerstash.com" autocomplete="email" required>
 
-                    <button class="button">{{ "You're on the waitlist" if added_to_waitlist else "Stay informed" }}</button>
+                    <button class="button g-recaptcha" data-sitekey="{{ recaptcha_site_key }}" data-callback="handleCaptchaSubmit" data-action="submit" type="submit">
+                        {{ "You're on the waitlist" if added_to_waitlist else "Stay informed" }}
+                    </button>
 
                     <p class="small recaptcha">protected by <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="nofollow noreferrer">reCAPTCHA</a></p>
                 </fieldset>
@@ -92,4 +94,8 @@
             <p>© HackerStash, 2020.</p>
         </footer>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 {% endblock %}

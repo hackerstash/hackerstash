@@ -12,6 +12,7 @@ scripts = [
     'js/menu.js',
     'js/modals.js',
     'js/posts.js',
+    'js/recaptcha.js',
     'js/votes.js'
 ]
 

@@ -1,23 +1,26 @@
 from flask import Blueprint, render_template, request, redirect, url_for, make_response
+from hackerstash.config import config
 from hackerstash.models.waitlist import Waitlist
 from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.utils.recaptcha import recaptcha_required
 
 home = Blueprint('home', __name__)
 
 
 @home.route('/', methods=['GET', 'POST'])
+@recaptcha_required
 def index():
     if request.method == 'GET':
         waitlist_count = Waitlist.query.count()
         added_to_waitlist = request.cookies.get('added_to_waitlist')
+        recaptcha_site_key = config['recaptcha_site_key']
 
         return render_template(
             'home/index.html',
             waitlist_count=waitlist_count,
-            added_to_waitlist=added_to_waitlist
+            added_to_waitlist=added_to_waitlist,
+            recaptcha_site_key=recaptcha_site_key
         )
-
-    # TODO recaptcha
 
     first_mame = request.form['first_name']
     email = request.form['email']

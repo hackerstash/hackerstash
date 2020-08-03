@@ -21,10 +21,17 @@
             </nav>
         </header>
         <section class="contact-form">
-            <form class="form" action="{{ url_for('contact.index') }}" method="post">
+            <form id="recatpcha-form" class="form" action="{{ url_for('contact.index') }}" method="post">
                 <fieldset>
                     <h2>Contact Us</h2>
                     <p>If you’d like to get in touch, please use the form below or email <a href="mailto:hello@hackerstash.com">hello@hackerstash.com</a>.</p>
+
+                    {% if request.args.success %}
+                        <div class="message success">
+                            <p>Your message has been sent</p>
+                            <i class="icon ri-close-line"></i>
+                        </div>
+                    {% endif %}
 
                     <label class="label" for="name">Name</label>
                     <input class="input" id="name" name="name" placeholder="e.g. Holly" autocomplete="fname" required>
@@ -41,7 +48,7 @@
                     <hr class="divider">
 
                     <div class="button-group">
-                        <button class="button" type="submit">Send message</button>
+                        <button class="button g-recaptcha" data-sitekey="{{ recaptcha_site_key }}" data-callback="handleCaptchaSubmit" data-action="submit" type="submit">Send message</button>
                         <a class="button secondary" href="{{ url_for('home.index') }}">Cancel</a>
                     </div>
 
@@ -53,4 +60,8 @@
             <p>© HackerStash, 2020.</p>
         </footer>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 {% endblock %}
