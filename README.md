@@ -33,9 +33,11 @@ secret=teapot
 sqlalchemy_database_uri=postgresql://hackerstash:hackerstash@db:5432/hackerstash
 recaptcha_site_key=
 recaptcha_secret_key=
+google_api_key=
 google_client_id=
 google_client_secret=
 twitter_api_key=
 twitter_api_secret=
 admin_api_key=teapot
+OAUTHLIB_INSECURE_TRANSPORT=true
 ```

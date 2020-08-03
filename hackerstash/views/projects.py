@@ -26,6 +26,11 @@ def show(project_id):
     if not project:
         return render_template('projects/404.html')
 
+    # You shouldn't ever see the project page until
+    # it's published
+    if not project.published:
+        return redirect(url_for('projects.edit', project_id=project.id))
+
     return render_template('projects/show.html', project=project)
 
 
@@ -186,6 +191,16 @@ def remove_invite(project_id, invite_id):
 @member_required
 def publish(project_id):
     project = Project.query.get(project_id)
+
+    required_fields = [
+        'name', 'start_month', 'start_year', 'description',
+        'url', 'location', 'platforms_and_devices', 'business_models', 'fundings'
+    ]
+
+    for field in required_fields:
+        if not getattr(project, field):
+            flash(f'Please fill out all of the fields on the details tab')
+            return redirect(url_for('projects.edit', project_id=project_id, tab=3))
 
     project.published = True
     db.session.commit()

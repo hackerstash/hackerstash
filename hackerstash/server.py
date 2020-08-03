@@ -8,6 +8,7 @@ from hackerstash.utils import filters
 from hackerstash.utils.sidebar import sidebar_data
 
 from hackerstash.views.api.admin import api_admin
+from hackerstash.views.api.locations import api_locations
 
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
@@ -35,6 +36,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
 
 app.register_blueprint(api_admin)
+app.register_blueprint(api_locations)
 
 app.register_blueprint(challenges)
 app.register_blueprint(contact)

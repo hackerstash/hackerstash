@@ -10,9 +10,11 @@ scripts = [
     'js/avatar.js',
     'js/comments.js',
     'js/menu.js',
+    'js/messages.js',
     'js/modals.js',
     'js/posts.js',
     'js/recaptcha.js',
+    'js/typeaheads.js',
     'js/votes.js'
 ]
 

@@ -12,6 +12,7 @@ config = {
     'recaptcha_secret_key': os.environ.get('recaptcha_secret_key'),
 
     # Google
+    'google_api_key': os.environ.get('google_api_key'),
     'google_client_id': os.environ.get('google_client_id'),
     'google_client_secret': os.environ.get('google_client_secret'),
 

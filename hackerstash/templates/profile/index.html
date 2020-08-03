@@ -28,7 +28,8 @@
                 <input class="input" name="username" id="username" value="{{ g.user.username }}">
 
                 <label class="label" for="location">Location <span>(city/town/village)</span></label>
-                <input class="input search" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ g.user.location or '' }}">
+                <input class="input search location-typeahead" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ g.user.location or '' }}">
+                <div class="search-results"></div>
 
                 <label class="label" for="twitter">Twitter handle</label>
                 <input class="input" name="twitter" id="twitter" placeholder="e.g. @hackerstash" value="{{ g.user.twitter or '' }}">
