@@ -33,7 +33,7 @@ def update():
     return redirect(url_for('notifications.index'))
 
 
-@notifications.route('/notifications/mark_ass_read')
+@notifications.route('/notifications/mark_as_read')
 @login_required
 def mark_as_read():
     user = User.query.get(g.user.id)

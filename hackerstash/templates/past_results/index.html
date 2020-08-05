@@ -1,10 +1,42 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Past Results' %}
 
+{% from "partials/avatar.html" import avatar %}
+
 {% block body %}
     <div class="page past-results">
         <header class="header mb-0">
             <h2>Past Results</h2>
         </header>
+
+        <div class="table">
+            <div class="table-header">
+                <p class="col-1">Year</p>
+                <p class="col-2">Tournament</p>
+                <p class="col-4">Dates</p>
+                <p class="col-3">Winner</p>
+                <p class="col-2"></p>
+            </div>
+            <ul class="table-body">
+                {% for contest in contests %}
+                    <li>
+                        <p class="col-1">{{ contest.year }}</p>
+                        <p class="col-2">#{{ contest.tournament }}</p>
+                        <p class="col-4 small">{{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}</p>
+                        <p class="col-3">
+                            {% if contest.winner %}
+                                {{ avatar(contest.winner.project, 'x-sm') }}
+                                <a href="{{ url_for('projects.show', project_id=contest.winner.project.id) }}">
+                                    {{ contest.winner.project.name }}
+                                </a>
+                            {% endif %}
+                        </p>
+                        <p class="col-2"><a href="{{ url_for('past_results.show', contest_id=contest.id) }}">View full results</a></p>
+                    </li>
+                {% else %}
+                    {% include "partials/no_results.html" %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}

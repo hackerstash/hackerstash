@@ -11,7 +11,7 @@
     padding-right: 1.5rem;
   }
 
-  i {
+  .close-message {
     color: white !important;
     cursor: pointer;
     position: absolute;
@@ -21,6 +21,24 @@
 
   &.success {
     background: $green-500;
+  }
+
+  &.warning {
+    align-items: center;
+    background: $darkblue-700;
+    border: 2px solid $red-500;
+    display: flex;
+    padding: .75rem 1rem;
+
+    i {
+      color: $red-500;
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    p {
+      padding: 0;
+    }
   }
 
   &.failure {

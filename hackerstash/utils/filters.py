@@ -8,6 +8,7 @@ def init_app(app):
     app.jinja_env.filters['to_markdown'] = to_markdown
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_nice_date'] = to_nice_date
+    app.jinja_env.filters['to_contest_date'] = to_contest_date
     app.jinja_env.filters['to_named_month'] = to_named_month
     app.jinja_env.filters['nest_comments'] = nest_comments
     app.jinja_env.filters['flatten_comments'] = flatten_comments
@@ -30,6 +31,11 @@ def to_human_date(date):
 def to_nice_date(date):
     d = arrow.get(date)
     return d.format('MMMM D [at] h:mA')
+
+
+def to_contest_date(date):
+    d = arrow.get(date)
+    return d.format('Do MMMM, YYYY')
 
 
 def to_named_month(month):

@@ -1,11 +1,10 @@
-from flask import Flask, session, g, redirect, request, url_for, render_template
+from flask import Flask
 from hackerstash.config import config
 from hackerstash.db import db
-from hackerstash.models.user import User
 
 from hackerstash.utils.assets import assets
 from hackerstash.utils import filters
-from hackerstash.utils.sidebar import sidebar_data
+from hackerstash.utils import hooks
 
 from hackerstash.views.api.admin import api_admin
 from hackerstash.views.api.locations import api_locations
@@ -58,28 +57,11 @@ app.register_blueprint(google_blueprint)
 app.register_blueprint(twitter_blueprint)
 
 
-@app.before_request
-def before_request_func():
-    if 'id' in session:
-        g.user = User.query.get(session['id'])
-
-        if not g.user.username and request.path not in [url_for('users.new'), url_for('users.create')]:
-            return redirect(url_for('users.new'))
-
-    prize_pool, time_remaining = sidebar_data()
-    g.prize_pool = prize_pool
-    g.time_remaining = time_remaining
-
-
-@app.errorhandler(404)
-def page_not_found(_error):
-    return render_template('404.html'), 404
-
-
 def create_app():
     db.init_app(app)
     assets.init_app(app)
     filters.init_app(app)
+    hooks.init_app(app)
 
     with app.app_context():
         db.create_all()

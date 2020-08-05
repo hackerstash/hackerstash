@@ -8,37 +8,36 @@
         <header class="header mb-0">
             <h2>Leaderboard</h2>
         </header>
-        <div class="leaderboard-header">
-            <p class="small">RANK</p>
-            <p class="small">PROJECT NAME</p>
-            <p class="small">URL</p>
-            <p class="small">SCORE</p>
-            <p class="small">EXPECTED PRIZE</p>
-        </div>
-        <ul class="leaderboard-results">
-            {% for project in projects %}
-                <li>
-                    <p class="position">
-                        <span>{{ loop.index }}</span>
-                    </p>
-                    <p class="title">
-                        <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
-                    </p>
-                    <p class="url small">
-                        <a href="{{ project.url }}" target="_blank" rel="nofollow noreferrer">
-                            {{ project.url }}
-                        </a>
-                    </p>
-                    <p class="score small">
-                        <i>{{ project.vote_score }} points</i>
-                    </p>
-                    <p class="prize">
 
-                    </p>
-                </li>
-            {% else %}
-                {% include "partials/no_results.html" %}
-            {% endfor %}
-        </ul>
+        <div class="table">
+            <div class="table-header">
+                <p class="col-1">Rank</p>
+                <p class="col-4">Project name</p>
+                <p class="col-2">Url</p>
+                <p class="col-3">Score</p>
+                <p class="col-2">Expected prize</p>
+            </div>
+            <ul class="table-body">
+                {% for project in projects %}
+                    <li>
+                        <p class="col-1 position"><span>{{ loop.index }}</span></p>
+                        <p class="col-4">
+                            <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
+                        </p>
+                        <p class="col-2 small">
+                            <a href="{{ project.url }}" target="_blank" rel="nofollow noreferrer">
+                                {{ project.url }}
+                            </a>
+                        </p>
+                        <p class="col-3 small">
+                            <i>{{ project.vote_score }} points</i>
+                        </p>
+                        <p class="col-2"></p>
+                    </li>
+                {% else %}
+                    {% include "partials/no_results.html" %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}

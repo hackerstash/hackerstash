@@ -29,6 +29,7 @@ class Project(db.Model):
     invites = db.relationship('Invite', backref='project', cascade='all,delete')
     posts = db.relationship('Post', backref='project', cascade='all,delete')
     votes = db.relationship('Vote', backref='project', cascade='all,delete')
+    past_results = db.relationship('PastResult', backref='project')
 
     published = db.Column(db.Boolean, default=False)
 

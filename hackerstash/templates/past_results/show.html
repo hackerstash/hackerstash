@@ -1,0 +1,45 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Past Results' %}
+
+{% block body %}
+    <div class="page past-results result">
+        <header class="header mb-0">
+            <h2>
+                Past Results
+                <span>{{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}</span>
+            </h2>
+        </header>
+
+        <div class="message warning mt-3">
+            <i class="ri-error-warning-line"></i>
+            <p><b>Please note:</b> you are viewing the leaderboard from a closed tournament. <a href="{{ url_for('leaderboard.index') }}">Click here</a> to visit the live leaderboard</p>
+        </div>
+
+        <div class="table">
+            <div class="table-header">
+                <p class="col-1">Rank</p>
+                <p class="col-3">Project name</p>
+                <p class="col-2">Url</p>
+                <p class="col-4">Score</p>
+                <p class="col-2">Prize</p>
+            </div>
+            <ul class="table-body">
+                {% for past_result in contest.past_results %}
+                    <li>
+                        <p class="col-1">{{ past_result.rank + 1 }}</p>
+                        <p class="col-3">
+                            <a href="{{ url_for('projects.show', project_id=past_result.project.id) }}">{{ past_result.project.name }}</a>
+                        </p>
+                        <p class="col-2 small">
+                            <a href="{{ past_result.project.url }}" target="_blank" rel="nofollow noreferrer">{{ past_result.project.url }}</a>
+                        </p>
+                        <p class="col-4 small">{{ past_result.score }} points</p>
+                        <p class="col-2"></p>
+                    </li>
+                {% else %}
+                    {% include "partials/no_results.html" %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
