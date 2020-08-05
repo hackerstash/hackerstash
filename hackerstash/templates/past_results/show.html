@@ -10,7 +10,7 @@
             </h2>
         </header>
 
-        <div class="message warning mt-3">
+        <div class="message warning mt-3 mb-2">
             <i class="ri-error-warning-line"></i>
             <p><b>Please note:</b> you are viewing the leaderboard from a closed tournament. <a href="{{ url_for('leaderboard.index') }}">Click here</a> to visit the live leaderboard</p>
         </div>
@@ -26,14 +26,18 @@
             <ul class="table-body">
                 {% for past_result in contest.past_results %}
                     <li>
-                        <p class="col-1">{{ past_result.rank + 1 }}</p>
-                        <p class="col-3">
+                        <p class="col-1 position">
+                            <span>{{ past_result.rank + 1 }}</span>
+                        </p>
+                        <p class="col-3 project">
                             <a href="{{ url_for('projects.show', project_id=past_result.project.id) }}">{{ past_result.project.name }}</a>
                         </p>
                         <p class="col-2 small">
                             <a href="{{ past_result.project.url }}" target="_blank" rel="nofollow noreferrer">{{ past_result.project.url }}</a>
                         </p>
-                        <p class="col-4 small">{{ past_result.score }} points</p>
+                        <p class="col-4 small score">
+                            <i>{{ past_result.score }} points</i>
+                        </p>
                         <p class="col-2"></p>
                     </li>
                 {% else %}

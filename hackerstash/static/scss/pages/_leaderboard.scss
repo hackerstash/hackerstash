@@ -2,4 +2,20 @@
   .header {
     border-bottom: none;
   }
+
+  .project {
+    a {
+      color: $mauve-500;
+      font-weight: $font-weight-bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .score {
+    color: $mauve-1000;
+  }
 }

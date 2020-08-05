@@ -13,4 +13,43 @@
       border-bottom: 1px solid $darkblue-900;
     }
   }
+
+  .project {
+    a {
+      color: $mauve-500;
+      font-weight: $font-weight-bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .winner {
+    align-items: center;
+    display: flex;
+
+    .avatar {
+      margin-right: .75rem;
+    }
+
+    a {
+      color: $mauve-500;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .year,
+  .tournament {
+    color: $mauve-500;
+  }
+
+  .score {
+    color: $mauve-1000;
+  }
 }
