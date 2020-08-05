@@ -16,7 +16,7 @@
             <div class="profile-details d-flex">
                 {{ avatar(user) }}
                 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-                <p class="username">{{ user.username }}</p>
+                <p class="username">@{{ user.username }}</p>
                 {% if is_self %}
                     <a class="small log-out" href="{{ url_for('signout.index') }}">Log out</a>
                 {% endif %}

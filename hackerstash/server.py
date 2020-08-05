@@ -34,9 +34,11 @@ app.secret_key = config['secret']
 app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
 
+# Add API blueprints
 app.register_blueprint(api_admin)
 app.register_blueprint(api_locations)
 
+# Add regular blueprints
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
 app.register_blueprint(home)
@@ -53,6 +55,7 @@ app.register_blueprint(signout)
 app.register_blueprint(signup)
 app.register_blueprint(users)
 
+# Add blueprints for flask_dance
 app.register_blueprint(google_blueprint)
 app.register_blueprint(twitter_blueprint)
 

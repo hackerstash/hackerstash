@@ -1,6 +1,5 @@
 from hackerstash.db import db
 from hackerstash.models.vote import Vote
-from hackerstash.utils.contests import get_contest_name
 from hackerstash.utils.votes import sum_of_votes
 
 
@@ -29,12 +28,7 @@ class Comment(db.Model):
         if existing_vote:
             db.session.delete(existing_vote)
         else:
-            vote = Vote(
-                type='comment',
-                contest=get_contest_name(),
-                score=score,
-                user=user
-            )
+            vote = Vote(type='comment', score=score, user=user)
             self.votes.append(vote)
         db.session.commit()
 

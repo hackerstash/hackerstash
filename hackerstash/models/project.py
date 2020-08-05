@@ -1,7 +1,6 @@
 from hackerstash.db import db
 from sqlalchemy.types import ARRAY
 from hackerstash.models.vote import Vote
-from hackerstash.utils.contests import get_contest_name
 from hackerstash.utils.votes import sum_of_project_votes
 
 
@@ -52,12 +51,7 @@ class Project(db.Model):
         if existing_vote:
             db.session.delete(existing_vote)
         else:
-            vote = Vote(
-                type='project',
-                contest=get_contest_name(),
-                score=score,
-                user=user
-            )
+            vote = Vote(type='project', score=score, user=user)
             self.votes.append(vote)
         db.session.commit()
 

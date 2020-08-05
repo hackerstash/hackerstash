@@ -4,6 +4,7 @@ from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import EmailFactory
 from hackerstash.lib.notifications.factory import NotificationFactory
+from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
@@ -15,8 +16,8 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index():
-    all_projects = Project.query.filter_by(published=True)
-    return render_template('projects/index.html', projects=all_projects)
+    filtered_projects = project_filtering(request.args)
+    return render_template('projects/index.html', projects=filtered_projects)
 
 
 @projects.route('/projects/<project_id>')

@@ -6,6 +6,17 @@
       font-size: 1rem;
       font-weight: $font-weight-normal;
     }
+
+    @include tablet-down {
+      span {
+        display: block;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .message {
+    margin: 3rem 0 2rem 0;
   }
 
   &.result {
@@ -51,5 +62,43 @@
 
   .score {
     color: $mauve-1000;
+  }
+
+  @include tablet-down {
+    .table-header {
+      display: none;
+    }
+
+    .table-body {
+      li {
+        flex-direction: column;
+        padding: 0 0 0 3rem;
+        position: relative;
+
+        p {
+          margin: 0 0 .5rem 0;
+          padding: 0;
+
+          &:nth-of-type(3) {
+            order: 1;
+          }
+
+          &:nth-of-type(5) {
+            order: 5;
+          }
+        }
+
+        .position {
+          left: 0;
+          position: absolute;
+          top: 0;
+        }
+      }
+    }
+
+    .message {
+      align-items: flex-start;
+      margin: 2rem 0;
+    }
   }
 }
