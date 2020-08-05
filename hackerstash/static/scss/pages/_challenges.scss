@@ -1,0 +1,86 @@
+.page.challenges {
+  .header {
+    margin-bottom: 3rem;
+  }
+
+  .split {
+    display: flex;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
+
+    .left {
+      flex: 1;
+    }
+
+    .right {
+      flex-shrink: 0;
+      margin-left: 2.5rem;
+      width: 260px;
+
+      @include tablet-down {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      p {
+        border-bottom: 1px solid $darkblue-900;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+      }
+
+      ul {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin: 0 0 .75rem 1rem;
+        }
+      }
+    }
+  }
+
+  .challenge-lists {
+    margin: 0;
+    padding: 0;
+
+    li {
+      background: $darkblue-700;
+      border-radius: .5rem;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      margin: 0 0 .5rem 0;
+      padding: 1rem;
+
+      p {
+        margin: 0;
+      }
+
+      .description {
+        align-items: center;
+        color: $mauve-500;
+        display: flex;
+
+        span {
+          color: $mauve-1000;
+          font-size: 14px;
+          display: inline-flex;
+          width: 2.5rem;
+        }
+
+        i {
+          color: $darkblue-800;
+          font-size: 1.5rem;
+          margin-right: 1rem;
+        }
+      }
+
+      .points {
+        color: $blue-500;
+      }
+    }
+  }
+}
