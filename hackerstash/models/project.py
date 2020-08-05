@@ -44,9 +44,12 @@ class Project(db.Model):
         match = list(filter(lambda x: x.user.id == user.id, self.members))
         return len(match) > 0
 
+    def has_voted(self, user):
+        return next((x for x in self.votes if x.user.id == user.id), None)
+
     def vote(self, user, direction):
         score = 10 if direction == 'up' else -10
-        existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
+        existing_vote = self.has_voted(user)
 
         if existing_vote:
             db.session.delete(existing_vote)
@@ -63,8 +66,10 @@ class Project(db.Model):
         if self.has_member(user):
             return 'disabled'
 
-        # TODO upvoted/downvoted
+        existing_vote = self.has_voted(user)
 
+        if existing_vote:
+            return 'upvoted' if existing_vote.score > 0 else 'downvoted'
         return None
 
     @property

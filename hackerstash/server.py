@@ -12,8 +12,10 @@ from hackerstash.views.api.locations import api_locations
 from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
+from hackerstash.views.developers import developers
 from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
+from hackerstash.views.legal import legal
 from hackerstash.views.notifications import notifications
 from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
@@ -38,8 +40,10 @@ app.register_blueprint(api_locations)
 app.register_blueprint(auth)
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
+app.register_blueprint(developers)
 app.register_blueprint(home)
 app.register_blueprint(leaderboard)
+app.register_blueprint(legal)
 app.register_blueprint(notifications)
 app.register_blueprint(past_results)
 app.register_blueprint(posts)

@@ -28,14 +28,20 @@ class Post(db.Model):
             return None
         return self.user.id == user.id
 
+    def has_voted(self, user):
+        return next((x for x in self.votes if x.user.id == user.id), None)
+
     def vote_status(self, user):
         if not user or not user.member:
             return 'disabled'
+
         if self.project.id == user.member.project.id:
             return 'disabled'
 
-        # TODO upvoted/downvoted
+        existing_vote = self.has_voted(user)
 
+        if existing_vote:
+            return 'upvoted' if existing_vote.score > 0 else 'downvoted'
         return None
 
     def vote(self, user, direction):

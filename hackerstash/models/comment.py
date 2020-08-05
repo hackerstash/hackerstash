@@ -21,6 +21,9 @@ class Comment(db.Model):
     def __repr__(self):
         return f'<Comment {self.id}>'
 
+    def has_voted(self, user):
+        return next((x for x in self.votes if x.user.id == user.id), None)
+
     def vote(self, user, direction):
         score = 1 if direction == 'up' else -1
         existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
@@ -38,8 +41,10 @@ class Comment(db.Model):
         if self.user.member.project.id == user.member.project.id:
             return 'disabled'
 
-        # TODO upvoted/downvoted
+        existing_vote = self.has_voted(user)
 
+        if existing_vote:
+            return 'upvoted' if existing_vote.score > 0 else 'downvoted'
         return None
 
     @property
