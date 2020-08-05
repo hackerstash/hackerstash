@@ -1,0 +1,79 @@
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/vote.html" import project_vote %}
+
+{% macro projects(list, display) %}
+    <div class="results">
+        {% for project in list %}
+            <div class="project-card {{ 'extended' if display }}">
+                <a href="{{ url_for('projects.show', project_id=project.id) }}">
+                    <div class="title">
+                        {{ avatar(project) }}
+                        <h4 class="name">{{ project.name }}</h4>
+                    </div>
+                    <p class="small description">{{ project.description }}</p>
+                    {% if display %}
+                        <div class="project-votes-{{ project.id }}">
+                            {{ project_vote('horizontal', project) }}
+                        </div>
+                        <ul class="display-options">
+                            {% if 'member_count' in display %}
+                                <li>
+                                    <p class="small">Team members</p>
+                                    <p class="small">{{ project.members | length }}</p>
+                                </li>
+                            {% endif %}
+                            {% if 'location' in display %}
+                                <li>
+                                    <p class="small">Location</p>
+                                    <p class="small truncate">{{ project.location }}</p>
+                                </li>
+                            {% endif %}
+                            {% if 'url' in display %}
+                                <li>
+                                    <p class="small">Website (URL)</p>
+                                    <p class="small truncate"><a target="_blank" rel="nofollow noreferrer" href="{{ project.url }}">{{ project.url }}</a></p>
+                                </li>
+                            {% endif %}
+                            {% if 'time_commitment' in display %}
+                                <li>
+                                    <p class="small">Time commitment</p>
+                                    <p class="small">{{ 'Full time' if project.time_commitment == 'FULL_TIME' else 'Part time' }}</p>
+                                </li>
+                            {% endif %}
+                            {% if 'fundings' in display %}
+                                <li>
+                                    <p class="small">Funding</p>
+                                    <p class="small">
+                                        {% for f in project.fundings %}{{ f | fundings }}{% if not loop.last %}, {% endif %}{% endfor %}
+                                    </p>
+                                </li>
+                            {% endif %}
+                            {% if 'business_models' in display %}
+                                <li>
+                                    <p class="small">Business Models</p>
+                                    <p class="small">
+                                        {% for b in project.business_models %}{{ b | business_models }}{% if not loop.last %}, {% endif %}{% endfor %}
+                                    </p>
+                                </li>
+                            {% endif %}
+                            {% if 'platforms_and_devices' in display %}
+                                <li>
+                                    <p class="small">Platforms/devices</p>
+                                    <p class="small">
+                                        {% for p in project.platforms_and_devices %}{{ p | platforms_and_devices }}{% if not loop.last %}, {% endif %}{% endfor %}
+                                    </p>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% else %}
+                        <div class="meta">
+                            <p><span>{{ project.members | length }}</span> members</p>
+                        </div>
+                    {% endif %}
+                </a>
+            </div>
+        {% else %}
+            {% include "partials/no_results.html" %}
+        {% endfor %}
+    </div>
+{% endmacro %}

@@ -9,20 +9,16 @@ from hackerstash.utils import hooks
 from hackerstash.views.api.admin import api_admin
 from hackerstash.views.api.locations import api_locations
 
+from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
 from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
-from hackerstash.views.login import login
 from hackerstash.views.notifications import notifications
 from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
-from hackerstash.views.profile import profile
 from hackerstash.views.projects import projects
 from hackerstash.views.rules import rules
-from hackerstash.views.settings import settings
-from hackerstash.views.signout import signout
-from hackerstash.views.signup import signup
 from hackerstash.views.users import users
 
 from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
@@ -39,20 +35,16 @@ app.register_blueprint(api_admin)
 app.register_blueprint(api_locations)
 
 # Add regular blueprints
+app.register_blueprint(auth)
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
 app.register_blueprint(home)
 app.register_blueprint(leaderboard)
-app.register_blueprint(login)
 app.register_blueprint(notifications)
 app.register_blueprint(past_results)
 app.register_blueprint(posts)
-app.register_blueprint(profile)
 app.register_blueprint(projects)
 app.register_blueprint(rules)
-app.register_blueprint(settings)
-app.register_blueprint(signout)
-app.register_blueprint(signup)
 app.register_blueprint(users)
 
 # Add blueprints for flask_dance

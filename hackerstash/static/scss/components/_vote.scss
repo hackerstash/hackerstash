@@ -164,15 +164,17 @@
   }
 
   &.horizontal {
-    background: $darkblue-800;
     flex-direction: row;
     justify-content: space-between;
     padding: .5rem 1rem;
     width: 100%;
 
     p {
+      width: 7rem;
+
       span {
         display: inline-block !important;
+        margin-left: .25rem;
       }
     }
 

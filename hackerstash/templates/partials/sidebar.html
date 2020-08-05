@@ -72,8 +72,8 @@
                 </a>
             {% endif %}
         {% else %}
-            <a class="button" href="{{ url_for('signup.index') }}">Sign Up</a>
-            <a class="button secondary" href="{{ url_for('login.index') }}">Log In</a>
+            <a class="button" href="{{ url_for('auth.signup') }}">Sign Up</a>
+            <a class="button secondary" href="{{ url_for('auth.login') }}">Log In</a>
         {% endif %}
     </div>
 </aside>

@@ -1,10 +1,10 @@
 {% extends 'base_app.html' %}
-{% set title = 'HackerStash / Log In' %}
+{% set title = 'HackerStash / Sign Up' %}
 
 {% block body %}
-    <div class="page login">
+    <div class="page signup">
         <header class="header">
-            <h2>Log In</h2>
+            <h2>Sign Up</h2>
         </header>
 
         {% with messages = get_flashed_messages() %}
@@ -17,7 +17,7 @@
         {% endwith %}
 
         {% if step == 1 %}
-            <form class="form login-form mt-1" action="{{ url_for('login.index') }}" method="post">
+            <form class="form signup-form mt-1" action="{{ url_for('auth.signup') }}" method="post">
                 <fieldset>
                     <div class="email">
                         <label class="label" for="email">Email address</label>
@@ -29,18 +29,18 @@
                 </fieldset>
             </form>
         {% elif step == 2 %}
-            <form class="form login-form mt-1" action="{{ url_for('login.index') }}" method="post">
+            <form class="form signup-form mt-1" action="{{ url_for('auth.signup') }}" method="post">
                 <fieldset>
                     <div class="email">
                         <label class="label" for="email">Email address</label>
                         <input class="input wrap-300 mb-1" id="email" name="email" type="email" autocomplete="email" required value="{{ email }}">
 
                         <p class="check-inbox">We’ve just sent you a <b>temporary log in code</b>. <i>Please check your inbox.</i></p>
-                        <label class="label" for="code">Log in code</label>
+                        <label class="label" for="code">Sign up code</label>
                         <input class="input wrap-300" id="code" name="code" type="text" autocomplete="none" required>
 
                         <button class="button button secondary wrap-300" type="submit">
-                            Continue with login code
+                            Continue with signup code
                         </button>
                     </div>
                 </fieldset>
@@ -48,15 +48,17 @@
         {% else %}
             <label class="label mt-3">Continue with:</label>
             <div class="button-group">
-                <a href="{{ url_for('login.google_login') }}" class="button has-icon mb-2 google">
+                <a href="{{ url_for('auth.google_login') }}" class="button has-icon mb-2 google">
                     <i class="google-icon"></i> Google
                 </a>
-                <a href="{{ url_for('login.twitter_login') }}" class="button has-icon mb-2 twitter">
+                <a href="{{ url_for('auth.twitter_login') }}" class="button has-icon mb-2 twitter">
                     <i class="icon ri-twitter-fill"></i> Twitter
                 </a>
             </div>
 
             <p>Or, use your <a href="?use_email=1">email address</a></p>
         {% endif %}
+
+        <p class="legal small wrap-620 mt-5 mb-0">By clicking “Continue with Google/Twitter/Email” above, you acknowledge that you have read, understood, and agree to the HackerStash <a>Terms of Use</a> and <a>Privacy Policy</a>.</p>
     </div>
 {% endblock %}

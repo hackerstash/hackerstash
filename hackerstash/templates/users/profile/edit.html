@@ -9,7 +9,7 @@
             <h2>Edit Profile</h2>
         </header>
 
-        <form class="form d-flex flex-column wrap-620" action="{{ url_for('profile.update') }}" method="post" enctype="multipart/form-data">
+        <form class="form d-flex flex-column wrap-620" action="{{ url_for('users.update_profile') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 {{ avatar_upload(g.user) }}
 

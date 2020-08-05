@@ -8,7 +8,7 @@
 {% block body %}
     <div class="page project">
         <header class="header">
-            <div class="project-votes">
+            <div class="project-votes-{{ project.id }}">
                  {{ project_vote('lg', project) }}
             </div>
             <div class="details">

@@ -24,6 +24,7 @@ document.addEventListener('click', function(event) {
                 }
             })
             .then(function(response) {
+                console.log(parent);
                 document.querySelector('.' + parent).innerHTML = response;
             });
     }

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
-from hackerstash.lib.images import upload_image
+from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.notifications.factory import NotificationFactory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
@@ -87,3 +87,44 @@ def destroy():
     session.pop('id', None)
 
     return redirect(url_for('home.index'))
+
+
+@users.route('/users/settings')
+@login_required
+def edit_settings():
+    return render_template('users/settings/edit.html')
+
+
+@users.route('/users/settings/update', methods=['POST'])
+@login_required
+def update_settings():
+    user = User.query.get(g.user.id)
+    user.email = request.form['email']
+    user.telephone = request.form['telephone']
+    db.session.commit()
+    return redirect(url_for('users.show', user_id=user.id))
+
+
+@users.route('/users/profile')
+def edit_profile():
+    return render_template('users/profile/edit.html')
+
+
+@users.route('/users/profile/update', methods=['POST'])
+def update_profile():
+    user = User.query.get(g.user.id)
+
+    # Flask adds the empty file for some reason
+    if 'file' in request.files and request.files['file'].filename != '':
+        key = upload_image(request.files['file'])
+        user.avatar = key
+    elif not request.form['avatar'] and user.avatar:
+        delete_image(user.avatar)
+        user.avatar = None
+
+    for key, value in request.form.items():
+        if key not in ['file', 'avatar']:
+            setattr(user, key, value)
+
+    db.session.commit()
+    return redirect(url_for('users.show', user_id=user.id))

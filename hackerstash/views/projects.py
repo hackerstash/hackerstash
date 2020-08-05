@@ -16,8 +16,10 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index():
+    display = request.args.getlist('display')
+    print(request.args)
     filtered_projects = project_filtering(request.args)
-    return render_template('projects/index.html', projects=filtered_projects)
+    return render_template('projects/index.html', filtered_projects=filtered_projects, display=display)
 
 
 @projects.route('/projects/<project_id>')
@@ -266,4 +268,4 @@ def accept_invite(invite_token):
         return redirect(url_for('projects.show', project_id=invite.project.id))
     else:
         # They need to create an account first
-        return redirect(url_for('signup.index'))
+        return redirect(url_for('auth.signup'))

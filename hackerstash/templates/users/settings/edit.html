@@ -7,7 +7,7 @@
             <h2>Edit Settings</h2>
         </header>
 
-        <form class="form d-flex flex-column" action="{{ url_for('settings.update') }}" method="post">
+        <form class="form d-flex flex-column" action="{{ url_for('users.update_settings') }}" method="post">
             <fieldset>
                 <h3 class="mt-1 mb-1-5">Contact Details</h3>
                 <label class="label" for="email">Email address</label>
@@ -30,7 +30,7 @@
                 <p class="mb-1-5">Are you sure you wish to permanently delete your account, posts, and comments?</p>
                 <div class="button-group">
                     <a class="button tertiary" href="{{ url_for('users.destroy') }}">Delete forever</a>
-                    <a class="button secondary" href="{{ url_for('settings.index') }}">Cancel</a>
+                    <a class="button secondary" href="{{ url_for('users.edit_settings') }}">Cancel</a>
                 </div>
             </div>
         {% else %}

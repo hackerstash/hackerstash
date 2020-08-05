@@ -43,7 +43,9 @@
                 {% endif %}
             </li>
         {% else %}
-            {% include "partials/no_results.html" %}
+            <li class="wrap-620">
+                {% include "partials/no_results.html" %}
+            </li>
         {% endfor %}
     </ul>
 {% endmacro %}

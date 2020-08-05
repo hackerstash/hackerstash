@@ -1,7 +1,7 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Projects' %}
 
-{% from "partials/avatar.html" import avatar %}
+{% from "partials/projects.html" import projects %}
 
 {% block body %}
     <div class="page projects">
@@ -34,24 +34,7 @@
             </div>
         </header>
 
-        <div class="results">
-            {% for project in projects %}
-                <div class="project-card">
-                    <a href="{{ url_for('projects.show', project_id=project.id) }}">
-                        <div class="title">
-                            {{ avatar(project) }}
-                            <h4 class="name">{{ project.name }}</h4>
-                        </div>
-                        <p class="small description">{{ project.description }}</p>
-                        <div class="meta">
-                            <p><span>{{ project.members | length }}</span> members</p>
-                        </div>
-                    </a>
-                </div>
-            {% else %}
-                {% include "partials/no_results.html" %}
-            {% endfor %}
-        </div>
+        {{ projects(filtered_projects, display) }}
     </div>
 
     <div id="filter-modal" class="modal">
@@ -551,49 +534,49 @@
                         <ul class="checkbox-group stacked mb-3">
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="member_count" type="checkbox" id="display_member_count">
+                                    <input name="display" value="member_count" type="checkbox" id="display_member_count" {{ 'checked' if 'member_count' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_member_count">Team member count</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="time_commitment" type="checkbox" id="display_time_commitment">
+                                    <input name="display" value="time_commitment" type="checkbox" id="display_time_commitment" {{ 'checked' if 'time_commitment' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_time_commitment">Time commitment</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="location" type="checkbox" id="display_location">
+                                    <input name="display" value="location" type="checkbox" id="display_location" {{ 'checked' if 'location' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_location">Location</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="url" type="checkbox" id="display_url">
+                                    <input name="display" value="url" type="checkbox" id="display_url" {{ 'checked' if 'url' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_url">Website (URL)</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="platforms_and_devices" type="checkbox" id="display_platforms_and_devices">
+                                    <input name="display" value="platforms_and_devices" type="checkbox" id="display_platforms_and_devices" {{ 'checked' if 'platforms_and_devices' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_platforms_and_devices">Platforms and devices</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="business_models" type="checkbox" id="display_business_models">
+                                    <input name="display" value="business_models" type="checkbox" id="display_business_models" {{ 'checked' if 'business_models' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_business_models">Business model</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="display" value="fundings" type="checkbox" id="display_fudings">
+                                    <input name="display" value="fundings" type="checkbox" id="display_fudings" {{ 'checked' if 'fundings' in display }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="display_fudings">Fundings</label>

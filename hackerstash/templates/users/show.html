@@ -18,13 +18,13 @@
                 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                 <p class="username">@{{ user.username }}</p>
                 {% if is_self %}
-                    <a class="small log-out" href="{{ url_for('signout.index') }}">Log out</a>
+                    <a class="small log-out" href="{{ url_for('auth.signout') }}">Log out</a>
                 {% endif %}
             </div>
             <div class="profile-actions d-none-small">
                 {% if is_self %}
-                    <a href="{{ url_for('settings.index') }}" class="button secondary">Settings</a>
-                    <a href="{{ url_for('profile.index') }}" class="button secondary">Edit Profile</a>
+                    <a href="{{ url_for('users.edit_settings') }}" class="button secondary">Settings</a>
+                    <a href="{{ url_for('users.edit_profile') }}" class="button secondary">Edit Profile</a>
                 {% else %}
                     {% if g.user %}
                         <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if g.user.is_following(user) }}">

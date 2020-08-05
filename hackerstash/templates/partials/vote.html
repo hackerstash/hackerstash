@@ -1,9 +1,9 @@
 {% macro project_vote(size, project) %}
     <div class="votes">
         <div class="vote {{ size }} {{ project.vote_status(g.user) or '' }}">
-            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up', size=size) }}" data-parent="project-votes" class="button vote-button upvote">+10</a>
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up', size=size) }}" data-parent="project-votes-{{ project.id }}" class="button vote-button upvote">+10</a>
             <p>{{ project.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down', size=size) }}" data-parent="project-votes" class="button vote-button downvote">-10</a>
+            <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down', size=size) }}" data-parent="project-votes-{{ project.id }}" class="button vote-button downvote">-10</a>
         </div>
     </div>
 {% endmacro %}
