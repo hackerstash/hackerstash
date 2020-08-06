@@ -1,10 +1,10 @@
-var messages = document.querySelectorAll('.message');
+const messages = document.querySelectorAll('.message');
 
-messages.forEach(function(message) {
-    var close = message.querySelector('.close-message');
+messages.forEach((message) => {
+    const close = message.querySelector('.close-message');
 
     if (close) {
-        close.addEventListener('click', function(event) {
+        close.addEventListener('click', (event) => {
             event.target.closest('.message').remove();
         });
     }

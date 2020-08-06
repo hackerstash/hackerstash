@@ -1,0 +1,5 @@
+{% macro project_preview(project) %}
+    <a href="{{ url_for('projects.show', project_id=project.id) }}" class="project-preview" data-project="{{ project.preview_json }}">
+        {{ project.name }}
+    </a>
+{% endmacro %}

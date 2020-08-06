@@ -1,8 +1,8 @@
-var projectSorting = document.querySelector('#sorting');
+const projectSorting = document.querySelector('#sorting');
 
 if (projectSorting) {
-    projectSorting.addEventListener('change', function(event) {
-        var searchParams = new URLSearchParams(window.location.search);
+    projectSorting.addEventListener('change', (event) => {
+        const searchParams = new URLSearchParams(window.location.search);
         searchParams.set('sorting', event.target.value);
         window.location.search = searchParams.toString();
     });

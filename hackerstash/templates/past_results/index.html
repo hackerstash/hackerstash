@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Past Results' %}
 
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import project_preview %}
 
 {% block body %}
     <div class="page past-results">
@@ -32,9 +33,7 @@
                         <p class="col-3 winner">
                             {% if contest.winner %}
                                 {{ avatar(contest.winner.project, 'x-sm') }}
-                                <a href="{{ url_for('projects.show', project_id=contest.winner.project.id) }}">
-                                    {{ contest.winner.project.name }}
-                                </a>
+                                {{ project_preview(contest.winner.project) }}
                             {% endif %}
                         </p>
                         <p class="col-2">

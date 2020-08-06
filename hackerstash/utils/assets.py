@@ -13,6 +13,7 @@ scripts = [
     'js/messages.js',
     'js/modals.js',
     'js/posts.js',
+    'js/previews.js',
     'js/projects.js',
     'js/recaptcha.js',
     'js/typeaheads.js',

@@ -1,11 +1,11 @@
-var hamburger = document.querySelector('.hamburger');
+const hamburger = document.querySelector('.hamburger');
 
-var openHamburgerIcon = 'ri-menu-line';
-var closeHamburgerIcon = 'ri-close-line';
+const openHamburgerIcon = 'ri-menu-line';
+const closeHamburgerIcon = 'ri-close-line';
 
 if (hamburger) {
-    hamburger.addEventListener('click', function(event) {
-        var element = event.target;
+    hamburger.addEventListener('click', (event) => {
+        const element = event.target;
 
         element.classList.toggle(openHamburgerIcon);
         element.classList.toggle(closeHamburgerIcon);

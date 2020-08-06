@@ -1,15 +1,15 @@
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     if (event.target.closest('.add-reply')) {
         // Delete all the other forms
-        document.querySelectorAll('.comment-reply').forEach(function(element) {
+        document.querySelectorAll('.comment-reply').forEach((element) => {
             element.remove();
         });
 
-        var parent = event.target.closest('li');
-        var form = document.querySelector('.comment-form').cloneNode(true);
-        var input = document.createElement('input');
-        var wrapper = document.createElement('div');
-        var cancel = form.querySelector('.cancel');
+        const parent = event.target.closest('li');
+        const form = document.querySelector('.comment-form').cloneNode(true);
+        const input = document.createElement('input');
+        const wrapper = document.createElement('div');
+        const cancel = form.querySelector('.cancel');
 
         // Create a hidden input field with the parent comment id
         input.type = 'hidden';
@@ -27,7 +27,7 @@ document.addEventListener('click', function(event) {
         wrapper.appendChild(form);
 
         // Remove on cancel
-        cancel.addEventListener('click', function(event) {
+        cancel.addEventListener('click', (event) => {
           event.target.closest('.comment-reply').remove();
         });
 
@@ -39,14 +39,14 @@ document.addEventListener('click', function(event) {
     }
 });
 
-document.addEventListener('submit', function(event) {
+document.addEventListener('submit', (event) => {
     if (event.target.classList.contains('comment-form')) {
         event.preventDefault();
 
-        var form = new FormData(event.target);
-        var link = event.target.getAttribute('action');
+        const form = new FormData(event.target);
+        const link = event.target.getAttribute('action');
 
-        var options = {
+        const options = {
             method: 'post',
             credentials: 'include',
             headers: {
@@ -58,12 +58,12 @@ document.addEventListener('submit', function(event) {
         event.target.querySelector('.textarea').value = '';
 
         fetch(link, options)
-            .then(function(response) {
+            .then((response) => {
                 if (response.ok) {
                     return response.text()
                 }
             })
-            .then(function(response) {
+            .then((response) => {
                 document.querySelector('.comments').innerHTML = response;
             });
     }

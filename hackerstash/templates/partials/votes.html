@@ -1,4 +1,5 @@
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import project_preview %}
 
 {% macro votes(list) %}
     <ul class="votes-list">
@@ -16,7 +17,7 @@
                             {% set project = vote.project %}
                             for the project
                             {{ avatar(project, 'xx-sm') }}
-                            <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
+                            {{ project_preview(project) }}
                         {% elif vote.type == 'post' %}
                             {% set post = vote.post %}
                             for the post

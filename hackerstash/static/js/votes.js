@@ -2,15 +2,15 @@
 // does not cause a page refresh. If JS is disabled
 // then voting will still work
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     if (event.target.closest('.vote-button')) {
         event.preventDefault();
 
-         var button = event.target.closest('.button')
-         var link = button.getAttribute('href');
-         var parent = button.getAttribute('data-parent');
+         const button = event.target.closest('.button')
+         const link = button.getAttribute('href');
+         const parent = button.getAttribute('data-parent');
 
-         var options = {
+         const options = {
              credentials: 'include',
              headers: {
                  'x-requested-with': 'fetch'
@@ -18,12 +18,12 @@ document.addEventListener('click', function(event) {
         };
 
         fetch(link, options)
-            .then(function(response) {
+            .then((response) => {
                 if (response.ok) {
                     return response.text()
                 }
             })
-            .then(function(response) {
+            .then((response) => {
                 console.log(parent);
                 document.querySelector('.' + parent).innerHTML = response;
             });

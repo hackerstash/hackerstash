@@ -1,3 +1,4 @@
+import json
 from hackerstash.db import db
 from sqlalchemy.types import ARRAY
 from hackerstash.models.vote import Vote
@@ -96,3 +97,16 @@ class Project(db.Model):
     def downvotes(self):
         votes = list(filter(lambda x: x.score < 0, self.votes))
         return len(votes)
+
+    @property
+    def preview_json(self):
+        data = {
+            'name': self.name,
+            'avatar': self.avatar,
+            'description': self.description,
+            'vote_score': self.vote_score,
+            'team_members': len(self.members),
+            'url': self.url,
+            'position': self.position
+        }
+        return json.dumps(data)

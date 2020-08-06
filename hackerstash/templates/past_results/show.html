@@ -1,6 +1,8 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Past Results' %}
 
+{% from "partials/previews.html" import project_preview %}
+
 {% block body %}
     <div class="page past-results result">
         <header class="header mb-0">
@@ -30,7 +32,7 @@
                             <span>{{ past_result.rank + 1 }}</span>
                         </p>
                         <p class="col-3 project">
-                            <a href="{{ url_for('projects.show', project_id=past_result.project.id) }}">{{ past_result.project.name }}</a>
+                            {{ project_preview(past_result.project) }}
                         </p>
                         <p class="col-2 small">
                             <a href="{{ past_result.project.url }}" target="_blank" rel="nofollow noreferrer">{{ past_result.project.url }}</a>

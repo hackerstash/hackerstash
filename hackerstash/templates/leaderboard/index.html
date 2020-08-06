@@ -1,6 +1,7 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Leaderboard' %}
 
+{% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
 
 {% block body %}
@@ -24,7 +25,7 @@
                             <span>{{ loop.index }}</span>
                         </p>
                         <p class="col-3 project">
-                            <a href="{{ url_for('projects.show', project_id=project.id) }}">{{ project.name }}</a>
+                            {{ project_preview(project) }}
                         </p>
                         <p class="col-2 small">
                             <a href="{{ project.url }}" target="_blank" rel="nofollow noreferrer">
