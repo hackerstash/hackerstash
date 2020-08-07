@@ -62,7 +62,4 @@ def create_app():
     filters.init_app(app)
     hooks.init_app(app)
 
-    # with app.app_context():
-    #     db.create_all()
-
     return app
