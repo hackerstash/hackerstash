@@ -5,7 +5,7 @@ from hackerstash.db import db
 from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
 from hackerstash.models.token import Token
-from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.lib.emails.factory import email_factory
 
 auth = Blueprint('auth', __name__)
 
@@ -38,7 +38,7 @@ def login():
             flash('The token is invalid')
         else:
             code = Token.generate(email)
-            EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
+            email_factory('login_token', email, {'token': code}).send()
 
     return render_template('auth/login/index.html', step=step, email=email)
 
@@ -79,7 +79,7 @@ def signup():
             flash('The token is invalid')
         else:
             code = Token.generate(email)
-            EmailFactory.create('LOGIN_TOKEN', email, {'token': code}).send()
+            email_factory('login_token', email, {'token': code}).send()
 
     return render_template('auth/signup/index.html', step=step, email=email)
 

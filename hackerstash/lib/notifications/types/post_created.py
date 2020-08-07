@@ -11,7 +11,7 @@ class PostCreated(Base):
             self.notifications_to_send.append({
                 'user': follower,
                 'payload': payload,
-                'email_type': 'FOLLOWER_CREATED_POST',
+                'email_type': 'follower_created_post',
                 'notification_type': 'a_follower_posts_an_update',
                 'notification_message': self.render_notification_message('a_follower_posts_an_update')
             })

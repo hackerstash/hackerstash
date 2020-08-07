@@ -1,3 +1,5 @@
+import json
+import arrow
 from hackerstash.db import db
 
 follow = db.Table(
@@ -77,3 +79,31 @@ class User(db.Model):
     @property
     def unread_notifications(self):
         return list(filter(lambda x: not x.read, self.notifications))
+
+    @property
+    def preview_json(self):
+        data = {
+            'name': f'{self.first_name} {self.last_name}',
+            'avatar': self.avatar,
+            'description': self.bio,
+            'lists': [
+                {
+                    'key': 'Username',
+                    'value': f'@{self.username}'
+                },
+                {
+                    'key': 'Project',
+                    'value': self.member.project.name if self.member else 'None'
+                },
+                {
+                    'key': 'Joined',
+                    'value': arrow.get(self.created_at).humanize()
+                },
+                {
+                    'key': 'Location',
+                    'value': self.location or 'Unknown'
+                }
+            ]
+
+        }
+        return json.dumps(data)

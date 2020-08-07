@@ -3,6 +3,7 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
+{% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
 
 {% block body %}
@@ -12,9 +13,10 @@
                  {{ project_vote('lg', project) }}
             </div>
             <div class="details">
-                <div>
+                <div class="project-details">
                     {{ avatar(project) }}
                     <h2>{{ project.name }}</h2>
+                    <p>@{{ project.name | lower }}</p>
                 </div>
                 <div class="mt-1 meta">
                     {% if project.start_month and project.start_year %}
@@ -80,9 +82,7 @@
                         <li>
                             {{ avatar(member.user, 'sm') }}
                             <p>
-                                <a href="{{ url_for('users.show', user_id=member.user.id) }}">
-                                    {{ member.user.first_name }} {{ member.user.last_name }}
-                                </a>
+                                {{ user_preview(member.user) }}
                             </p>
                         </li>
                     {% endfor %}

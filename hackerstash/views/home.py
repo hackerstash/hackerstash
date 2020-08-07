@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, make_response
 from hackerstash.config import config
 from hackerstash.models.waitlist import Waitlist
-from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.lib.emails.factory import email_factory
 from hackerstash.utils.recaptcha import recaptcha_required
 
 home = Blueprint('home', __name__)
@@ -26,7 +26,7 @@ def index():
     email = request.form['email']
 
     Waitlist.create_is_not_exists(first_name=first_mame, email=email)
-    EmailFactory.create('WAITLIST_CONFIRMATION', email, {'first_name': first_mame, 'email': email}).send()
+    email_factory('waitlist_confirmation', email, {'first_name': first_mame, 'email': email}).send()
 
     resp = make_response(redirect(url_for('home.index')))
     resp.set_cookie('added_to_waitlist', '1', max_age=31557600)

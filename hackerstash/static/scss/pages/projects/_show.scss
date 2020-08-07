@@ -29,6 +29,16 @@
         display: flex;
       }
 
+      .project-details {
+        align-items: center;
+        display: flex;
+
+        p {
+          align-self: flex-end;
+          margin: 0 0 0.5rem 0.75rem;
+        }
+      }
+
       p {
         margin-bottom: 0;
       }
@@ -111,7 +121,7 @@
     .project-position {
       flex-shrink: 0;
       margin-left: 2rem;
-      width: 13.5rem;
+      width: 18.75rem;
 
       h1 {
         span {
@@ -174,7 +184,7 @@
 
     .team {
       flex-shrink: 0;
-      width: 23rem;
+      width: 18.75rem;
 
       ul {
         margin: 1.5rem 0 0 0;

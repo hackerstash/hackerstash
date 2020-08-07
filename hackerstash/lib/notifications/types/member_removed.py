@@ -12,7 +12,7 @@ class MemberRemoved(Base):
                 self.notifications_to_send.append({
                     'user': m.user,
                     'payload': payload,
-                    'email_type': 'REMOVED_FROM_PROJECT',
+                    'email_type': 'removed_from_project',
                     'notification_type': 'you_were_removed_from_a_project',
                     'notification_message': self.render_notification_message('you_were_removed_from_a_project')
                 })
@@ -20,7 +20,7 @@ class MemberRemoved(Base):
                 self.notifications_to_send.append({
                     'user': m.user,
                     'payload': payload,
-                    'email_type': 'MEMBER_LEFT_PROJECT',
+                    'email_type': 'member_left_project',
                     'notification_type': 'a_team_member_left_your_project',
                     'notification_message': self.render_notification_message('a_team_member_left_your_project')
                 })

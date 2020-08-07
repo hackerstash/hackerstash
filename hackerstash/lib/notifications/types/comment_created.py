@@ -15,7 +15,7 @@ class CommentCreated(Base):
             self.notifications_to_send.append({
                 'user': comment.post.user,
                 'payload': payload,
-                'email_type': 'COMMENTED_ON_POST',
+                'email_type': 'commented_on_post',
                 'notification_type': 'someone_comments_on_your_post',
                 'notification_message': self.render_notification_message('someone_comments_on_your_post')
             })
@@ -26,7 +26,7 @@ class CommentCreated(Base):
                 self.notifications_to_send.append({
                     'user': parent_comment.user,
                     'payload': payload,
-                    'email_type': 'REPLIED_TO_COMMENT',
+                    'email_type': 'replied_to_comment',
                     'notification_type': 'someone_replies_to_your_comment',
                     'notification_message': self.render_notification_message('someone_replies_to_your_comment')
                 })

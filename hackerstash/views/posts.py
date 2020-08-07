@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
-from hackerstash.lib.notifications.factory import NotificationFactory
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
@@ -66,7 +66,7 @@ def create():
     db.session.add(post)
     db.session.commit()
 
-    NotificationFactory.create('POST_CREATED', {'post': post}).publish()
+    notification_factory('post_created', {'post': post}).publish()
 
     return redirect(url_for('posts.show', post_id=post.id))
 
@@ -121,7 +121,7 @@ def comment(post_id):
     post.comments.append(comment)
     db.session.commit()
 
-    NotificationFactory.create('COMMENT_CREATED', {'comment': comment}).publish()
+    notification_factory('comment_created', {'comment': comment}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/comments.html', 'comments')
@@ -140,7 +140,7 @@ def post_vote(post_id):
 
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
-        NotificationFactory.create('POST_VOTED', {'post': post, 'direction': direction, 'voter': g.user}).publish()
+        notification_factory('post_voted', {'post': post, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'post_vote')
@@ -158,7 +158,7 @@ def comment_vote(post_id, comment_id):
 
     if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)
-        NotificationFactory.create('COMMENT_VOTED', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
+        notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/comments.html', 'comments')

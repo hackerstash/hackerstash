@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
-from hackerstash.lib.notifications.factory import NotificationFactory
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
@@ -45,7 +45,7 @@ def follow(user_id):
         g.user.unfollow(user)
     else:
         g.user.follow(user)
-        NotificationFactory.create('FOLLOWER_CREATED', {'user': user, 'follower': g.user}).publish()
+        notification_factory('follower_created', {'user': user, 'follower': g.user}).publish()
     db.session.commit()
     return redirect(url_for('users.show', user_id=user.id))
 

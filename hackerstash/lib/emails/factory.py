@@ -15,38 +15,36 @@ from hackerstash.lib.emails.types.invite_to_project import InviteToProject
 from hackerstash.lib.emails.types.waitlist_confirmation import WaitlistConfirmation
 
 
-class EmailFactory:
-    @staticmethod
-    def create(email_type, email, payload):
-        if email_type == 'CLOSE_ACCOUNT':
-            return CloseAccount(email, payload)
-        if email_type == 'COMMENTED_ON_POST':
-            return CommentedOnPost(email, payload)
-        if email_type == 'CONTACT':
-            return Contact(email, payload)
-        if email_type == 'FOLLOWER_CREATED_POST':
-            return FollowerCreatedPost(email, payload)
-        if email_type == 'LOGIN_TOKEN':
-            return LoginToken(email, payload)
-        if email_type == 'MEMBER_JOINED_PROJECT':
-            return MemberJoinedProject(email, payload)
-        if email_type == 'MEMBER_LEFT_PROJECT':
-            return MemberLeftProject(email, payload)
-        if email_type == 'NEW_FOLLOWER':
-            return NewFollower(email, payload)
-        if email_type == 'REMOVED_FROM_PROJECT':
-            return RemovedFromProject(email, payload)
-        if email_type == 'REPLIED_TO_COMMENT':
-            return RepliedToComment(email, payload)
-        if email_type == 'SIGNUP_TOKEN':
-            return SignupToken(email, payload)
-        if email_type == 'INVITE_TO_PROJECT':
-            return InviteToProject(email, payload)
-        if email_type == 'VOTED_ON_COMMENT':
-            return VotedOnComment(email, payload)
-        if email_type == 'VOTED_ON_POST':
-            return VotedOnPost(email, payload)
-        if email_type == 'WAITLIST_CONFIRMATION':
-            return WaitlistConfirmation(email, payload)
+def email_factory(email_type, email, payload):
+    if email_type == 'close_account':
+        return CloseAccount(email, payload)
+    if email_type == 'commented_on_post':
+        return CommentedOnPost(email, payload)
+    if email_type == 'contact':
+        return Contact(email, payload)
+    if email_type == 'follower_created_post':
+        return FollowerCreatedPost(email, payload)
+    if email_type == 'login_token':
+        return LoginToken(email, payload)
+    if email_type == 'member_joined_project':
+        return MemberJoinedProject(email, payload)
+    if email_type == 'member_left_project':
+        return MemberLeftProject(email, payload)
+    if email_type == 'new_follower':
+        return NewFollower(email, payload)
+    if email_type == 'removed_from_project':
+        return RemovedFromProject(email, payload)
+    if email_type == 'replied_to_comment':
+        return RepliedToComment(email, payload)
+    if email_type == 'signup_token':
+        return SignupToken(email, payload)
+    if email_type == 'invite_to_project':
+        return InviteToProject(email, payload)
+    if email_type == 'voted_on_comment':
+        return VotedOnComment(email, payload)
+    if email_type == 'voted_on_post':
+        return VotedOnPost(email, payload)
+    if email_type == 'waitlist_confirmation':
+        return WaitlistConfirmation(email, payload)
 
-        raise Exception(f'{email_type} is not a valid email type')
+    raise Exception(f'{email_type} is not a valid email type')

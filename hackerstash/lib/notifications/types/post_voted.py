@@ -18,7 +18,7 @@ class PostVoted(Base):
         self.notifications_to_send.append({
             'user': post.user,
             'payload': payload,
-            'email_type': 'VOTED_ON_POST',
+            'email_type': 'voted_on_post',
             'notification_type': get_notification_type(direction),
             'notification_message': self.render_notification_message('someone_voted_your_post')
         })

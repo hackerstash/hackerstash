@@ -1,6 +1,6 @@
 from flask import render_template
 from hackerstash.db import db
-from hackerstash.lib.emails.factory import EmailFactory
+from hackerstash.lib.emails.factory import email_factory
 from hackerstash.models.notification import Notification
 
 base_template_path = 'partials/notifications/'
@@ -23,11 +23,7 @@ def create_web_notification(notification):
 
 
 def create_email_notification(notification):
-    EmailFactory.create(
-        notification['email_type'],
-        notification['user'].email,
-        notification['payload']
-    ).send()
+    email_factory(notification['email_type'], notification['user'].email, notification['payload']).send()
 
 
 class Base:

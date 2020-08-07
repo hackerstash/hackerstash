@@ -10,7 +10,7 @@ class FollowerCreated(Base):
         self.notifications_to_send.append({
             'user': user,
             'payload': payload,
-            'email_type': 'NEW_FOLLOWER',
+            'email_type': 'new_follower',
             'notification_type': 'you_have_a_new_follower',
             'notification_message': self.render_notification_message('you_have_a_new_follower')
         })

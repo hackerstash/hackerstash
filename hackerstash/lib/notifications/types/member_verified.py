@@ -12,7 +12,7 @@ class MemberVerified(Base):
                 self.notifications_to_send.append({
                     'user': m.user,
                     'payload': payload,
-                    'email_type': 'MEMBER_JOINED_PROJECT',
+                    'email_type': 'member_joined_project',
                     'notification_type': 'a_team_member_joined_your_project',
                     'notification_message': self.render_notification_message('a_team_member_joined_your_project')
                 })

@@ -3,7 +3,7 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
-{% from "partials/previews.html" import project_preview %}
+{% from "partials/previews.html" import project_preview, user_preview %}
 {% from "partials/vote.html" import post_vote %}
 
 {% block body %}
@@ -19,7 +19,7 @@
                     {{ project_preview(post.project) }}
                     <span>update by </span>
                     {{ avatar(post.user, 'xx-sm') }}
-                    <a href="{{ url_for('users.show', user_id=post.user.id) }}">{{ post.user.first_name }} {{ post.user.last_name }}</a>
+                    {{ user_preview(post.user) }}
                 </p>
             </div>
             <div class="button-group">

@@ -8,24 +8,22 @@ from hackerstash.lib.notifications.types.post_created import PostCreated
 from hackerstash.lib.notifications.types.post_voted import PostVoted
 
 
-class NotificationFactory:
-    @staticmethod
-    def create(notification_type, payload):
-        if notification_type == 'COMMENT_CREATED':
-            return CommentCreated(payload)
-        if notification_type == 'COMMENT_VOTED':
-            return CommentVoted(payload)
-        if notification_type == 'FOLLOWER_CREATED':
-            return FollowerCreated(payload)
-        if notification_type == 'MEMBER_INVITED':
-            return MemberInvited(payload)
-        if notification_type == 'MEMBER_REMOVED':
-            return MemberRemoved(payload)
-        if notification_type == 'MEMBER_VERIFIED':
-            return MemberVerified(payload)
-        if notification_type == 'POST_CREATED':
-            return PostCreated(payload)
-        if notification_type == 'POST_VOTED':
-            return PostVoted(payload)
+def notification_factory(notification_type, payload):
+    if notification_type == 'comment_created':
+        return CommentCreated(payload)
+    if notification_type == 'comment_voted':
+        return CommentVoted(payload)
+    if notification_type == 'follower_created':
+        return FollowerCreated(payload)
+    if notification_type == 'member_invited':
+        return MemberInvited(payload)
+    if notification_type == 'member_removed':
+        return MemberRemoved(payload)
+    if notification_type == 'member_verified':
+        return MemberVerified(payload)
+    if notification_type == 'post_created':
+        return PostCreated(payload)
+    if notification_type == 'post_voted':
+        return PostVoted(payload)
 
-        raise Exception(f'{notification_type} is not a valid notification type')
+    raise Exception(f'{notification_type} is not a valid notification type')

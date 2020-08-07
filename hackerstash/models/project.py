@@ -104,9 +104,24 @@ class Project(db.Model):
             'name': self.name,
             'avatar': self.avatar,
             'description': self.description,
-            'vote_score': self.vote_score,
-            'team_members': len(self.members),
-            'url': self.url,
-            'position': self.position
+            'lists': [
+                {
+                    'key': 'Tournament position',
+                    'value': self.position
+                },
+                {
+                    'key': 'Points',
+                    'value': self.vote_score
+                },
+                {
+                    'key': 'Team members',
+                    'value': len(self.members)
+                },
+                {
+                    'key': 'Website (URL)',
+                    'value': self.url
+                }
+            ]
+
         }
         return json.dumps(data)

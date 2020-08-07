@@ -1,9 +1,9 @@
-const projectPreviews = document.querySelectorAll('.project-preview');
+const previews = document.querySelectorAll('.preview');
 
-projectPreviews.forEach((preview) => {
+previews.forEach((preview) => {
     preview.addEventListener('mouseenter', (event) => {
-        const element = event.target.closest('.project-preview')
-        const data = JSON.parse(element.getAttribute('data-project'));
+        const element = event.target.closest('.preview')
+        const data = JSON.parse(element.getAttribute('data-preview'));
         const coords = element.getBoundingClientRect();
         const card = document.createElement('div');
 
@@ -17,22 +17,12 @@ projectPreviews.forEach((preview) => {
             </div>
             <p class="small">${data.description}</p>
             <ul class="display-options">
-                <li>
-                    <p class="small">Tournament position</p>
-                    <p class="small">${data.position}</p>
-                </li>
-                <li>
-                    <p class="small">Points</p>
-                    <p class="small">${data.vote_score}</p>
-                </li>
-                <li>
-                    <p class="small">Team members</p>
-                    <p class="small">${data.team_members}</p>
-                </li>
-                <li>
-                    <p class="small">Website (URL)</p>
-                    <p class="small truncate">${data.url}</p>
-                </li>
+                ${data.lists.map(l => `
+                    <li>
+                        <p class="small">${l.key}</p>
+                        <p class="small truncate">${l.value}</p>
+                    </li>
+                `).join('')}
             </ul>
         `;
         card.style.left = coords.left + 'px';

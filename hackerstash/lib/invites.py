@@ -4,7 +4,7 @@ from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.models.invite import Invite
 from hackerstash.models.member import Member
-from hackerstash.lib.notifications.factory import NotificationFactory
+from hackerstash.lib.notifications.factory import notification_factory
 
 
 def generate_invite_link(email):
@@ -34,4 +34,4 @@ def verify_invite(user):
         db.session.delete(invite)
         db.session.commit()
 
-        NotificationFactory.create('MEMBER_VERIFIED', {'member': member}).publish()
+        notification_factory('member_verified', {'member': member}).publish()

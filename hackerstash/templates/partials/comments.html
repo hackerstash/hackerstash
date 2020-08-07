@@ -1,4 +1,5 @@
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import comment_vote %}
 
 {% macro comments(list, nest=false) %}
@@ -15,9 +16,7 @@
                         <span class="markdown inline">{{ comment.body }}</span>
                         <p class="small">
                             {{ avatar(comment.user, 'xx-sm') }}
-                            <a href="{{ url_for('users.show', user_id=comment.user.id) }}">
-                                {{ comment.user.first_name }} {{ comment.user.last_name }}
-                            </a>
+                            {{ user_preview(comment.user) }}
                             <span class="seperator">•</span>
                             <span>{{ comment.created_at | to_human_date }}</span>
                             <span class="seperator reply">•</span>

@@ -1,5 +1,11 @@
 {% macro project_preview(project) %}
-    <a href="{{ url_for('projects.show', project_id=project.id) }}" class="project-preview" data-project="{{ project.preview_json }}">
+    <a href="{{ url_for('projects.show', project_id=project.id) }}" class="preview" data-preview="{{ project.preview_json }}">
         {{ project.name }}
+    </a>
+{% endmacro %}
+
+{% macro user_preview(user) %}
+    <a href="{{ url_for('users.show', user_id=user.id) }}" class="preview" data-preview="{{ user.preview_json }}">
+        {{ user.first_name }} {{ user.last_name }}
     </a>
 {% endmacro %}

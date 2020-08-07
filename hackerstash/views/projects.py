@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, g, request, fla
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
-from hackerstash.lib.emails.factory import EmailFactory
-from hackerstash.lib.notifications.factory import NotificationFactory
+from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
@@ -139,7 +139,7 @@ def delete_member(project_id, member_id):
         flash('The project owner can\'t be deleted')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 
-    NotificationFactory.create('MEMBER_REMOVED', {'member': member, 'remover': g.user}).publish()
+    notification_factory('member_removed', {'member': member, 'remover': g.user}).publish()
 
     db.session.delete(member)
     db.session.commit()
@@ -172,9 +172,9 @@ def invite_member(project_id):
         db.session.commit()
 
         if user:
-            NotificationFactory.create('MEMBER_INVITED', {'invite': invite, 'user': user, 'inviter': g.user}).publish()
+            notification_factory('member_invited', {'invite': invite, 'user': user, 'inviter': g.user}).publish()
         else:
-            EmailFactory.create('INVITE_TO_PROJECT', email, {'invite': invite, 'inviter': g.user}).send()
+            email_factory('invite_to_project', email, {'invite': invite, 'inviter': g.user}).send()
 
     return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
 
@@ -263,7 +263,7 @@ def accept_invite(invite_token):
         db.session.delete(invite)
         db.session.commit()
 
-        NotificationFactory.create('MEMBER_VERIFIED', {'member': member}).publish()
+        notification_factory('member_verified', {'member': member}).publish()
 
         return redirect(url_for('projects.show', project_id=invite.project.id))
     else:

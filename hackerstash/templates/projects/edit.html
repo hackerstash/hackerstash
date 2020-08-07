@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Edit Project' %}
 
 {% from "partials/avatar.html" import avatar, avatar_upload %}
+{% from "partials/previews.html" import user_preview %}
 
 {% set active_tab = request.args.get('tab') or '1' %}
 
@@ -294,7 +295,7 @@
                         {% for m in project.members %}
                             <li>
                                 {{ avatar(m.user, 'sm') }}
-                                <p><a href="{{ url_for('users.show', user_id=m.user.id) }}">{{ m.user.first_name }} {{ m.user.last_name }}</a></p>
+                                <p>{{ user_preview(m.user) }}</p>
                                 {% if m.user.id == g.user.id %}
                                     <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
                                 {% else %}
