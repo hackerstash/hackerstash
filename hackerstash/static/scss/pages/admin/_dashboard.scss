@@ -1,0 +1,31 @@
+.page.admin.dashboard {
+  .admin-users {
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      border-bottom: 1px solid $darkblue-900;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 1rem 0;
+
+      p {
+        margin: .25rem 0 0 0;
+      }
+    }
+  }
+
+  .create-admin-form {
+    fieldset {
+      display: flex;
+      flex-wrap: wrap;
+
+      .col {
+        margin-right: 1rem;
+        width: calc(25% - 1rem);
+      }
+    }
+  }
+}

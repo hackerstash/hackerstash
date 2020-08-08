@@ -1,7 +1,8 @@
 from functools import wraps
-from flask import g, request, redirect, url_for, render_template
+from flask import g, request, redirect, url_for, render_template, session
 from werkzeug.exceptions import Unauthorized
 from hackerstash.config import config
+from hackerstash.models.admin import Admin
 
 
 def login_required(f):
@@ -50,5 +51,16 @@ def admin_api_key_required(f):
     def decorated_function(*args, **kwargs):
         if 'x-api-key' not in request.headers or request.headers['x-api-key'] != config['admin_api_key']:
             raise Unauthorized()
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def admin_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        admin_user = Admin.query.get(session['admin_id']) if session.get('admin_id') else None
+        if not admin_user:
+            return redirect(url_for('home.index'))
+        g.admin_user = admin_user
         return f(*args, **kwargs)
     return decorated_function

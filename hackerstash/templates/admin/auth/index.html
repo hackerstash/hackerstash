@@ -1,0 +1,31 @@
+{% extends 'base_simple.html' %}
+{% set title = 'HackerStash / Admin Login' %}
+
+{% block body %}
+    <div class="page admin login">
+        <div class="login-form">
+            <form class="form" method="post" action="{{ url_for('admin_auth.index') }}">
+                <fieldset>
+                    <h3 class="mb-2">Admin Login</h3>
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="message failure wrap-620">
+                                <p>{{ messages[0] }}</p>
+                                <i class="icon ri-close-line close-message"></i>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+                    <label class="label" for="email">Email</label>
+                    <input class="input" name="email" id="email" type="email">
+
+                    <label class="label" for="password">Password</label>
+                    <input class="input mb-2" name="password" id="password" type="password">
+
+                    <button class="button w-100" type="submit">Login</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

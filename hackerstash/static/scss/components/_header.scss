@@ -5,4 +5,23 @@
   justify-content: space-between;
   margin-bottom: 1.5rem;
   padding: 1.5rem 0;
+
+  .container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1024px;
+    padding: 0 1.5rem;
+    width: 100%;
+
+    a {
+      color: $mauve-500;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }

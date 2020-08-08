@@ -1,0 +1,81 @@
+{% extends 'base_simple.html' %}
+{% set title = 'HackerStash / Admin Dashboard' %}
+
+{% set active_tab = request.args.tab or 'overview' %}
+
+{% block body %}
+    <div class="page admin dashboard">
+        <header class="header">
+            <div class="container">
+                <a href="{{ url_for('admin_dashboard.index') }}">
+                    <img src="/static/images/logo.svg">
+                </a>
+                <nav>
+                    <a href="{{ url_for('admin_auth.signout') }}">Sign out</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="wrapper">
+            <h3>Hello, {{ g.admin_user.first_name }} {{ g.admin_user.last_name }}</h3>
+
+            <div class="tabs mt-2">
+                <div class="tab-header">
+                    <a href="?tab=overview" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
+                    <a href="?tab=admins" class="button {{ 'active' if active_tab == 'admins' }}">Admin Users</a>
+                    <a href="?tab=contests" class="button {{ 'active' if active_tab == 'contests' }}">Contests</a>
+                </div>
+                <div class="tab-body">
+                    <div class="tab {{ 'active' if active_tab == 'overview' }}">
+
+                    </div>
+                    <div class="tab {{ 'active' if active_tab == 'admins' }}">
+                        <h4 class="mt-2">Admin users:</h4>
+                        <ul class="admin-users">
+                            {% for admin in admins %}
+                                <li>
+                                    <div class="details">
+                                        <h4>{{ admin.first_name }} {{ admin.last_name }}</h4>
+                                        <p>{{ admin.email }}</p>
+                                    </div>
+                                    {% if not admin.root %}
+                                        <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=admin.id) }}" class="button tertiary">Delete</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <h4 class="mb-1 mt-3">Create new user:</h4>
+                        <form class="form create-admin-form" method="post" action="{{ url_for('admin_dashboard.create_admin_user') }}">
+                            <fieldset>
+                                <div class="col">
+                                    <label class="label" for="first_name">First name</label>
+                                    <input class="input" name="first_name" id="first_name" required>
+                                </div>
+
+                                <div class="col">
+                                    <label class="label" for="last_name">Last name</label>
+                                    <input class="input" name="last_name" id="last_name" required>
+                                </div>
+
+                                <div class="col">
+                                    <label class="label" for="email">Email</label>
+                                    <input class="input" name="email" id="email" type="email" required>
+                                </div>
+
+                                <div class="col">
+                                    <label class="label" for="password">Password</label>
+                                    <input class="input" name="password" id="password" type="password" required>
+                                </div>
+
+                                <button class="button" type="submit">Create</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab {{ 'active' if active_tab == 'contests' }}">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

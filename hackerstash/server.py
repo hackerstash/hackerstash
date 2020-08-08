@@ -9,6 +9,9 @@ from hackerstash.utils import hooks
 from hackerstash.views.api.admin import api_admin
 from hackerstash.views.api.locations import api_locations
 
+from hackerstash.views.admin.auth import admin_auth
+from hackerstash.views.admin.dashboard import admin_dashboard
+
 from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
@@ -35,6 +38,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifica
 # Add API blueprints
 app.register_blueprint(api_admin)
 app.register_blueprint(api_locations)
+
+# Add Admin blueprints
+app.register_blueprint(admin_auth)
+app.register_blueprint(admin_dashboard)
 
 # Add regular blueprints
 app.register_blueprint(auth)
