@@ -108,5 +108,37 @@ $table-column-width-lg: calc(916px / 12);
     .col-12 {
       width: 100%;
     }
+
+    .table-header {
+      display: none;
+    }
+
+    .table-body {
+      li {
+        flex-direction: column;
+        padding: 1rem 0 1rem 3rem;
+        position: relative;
+
+        p {
+          margin: 0 0 .5rem 0;
+          padding: 0;
+
+          &:nth-of-type(3) {
+            order: 1;
+          }
+
+          &:nth-of-type(5) {
+            order: 5;
+          }
+        }
+
+        .position,
+        .tournament {
+          left: 0;
+          position: absolute;
+          top: .75rem;
+        }
+      }
+    }
   }
 }

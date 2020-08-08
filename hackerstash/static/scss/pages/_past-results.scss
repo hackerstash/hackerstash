@@ -65,40 +65,34 @@
   }
 
   @include tablet-down {
-    .table-header {
-      display: none;
-    }
-
-    .table-body {
-      li {
-        flex-direction: column;
-        padding: 0 0 0 3rem;
-        position: relative;
-
-        p {
-          margin: 0 0 .5rem 0;
-          padding: 0;
-
-          &:nth-of-type(3) {
-            order: 1;
-          }
-
-          &:nth-of-type(5) {
-            order: 5;
-          }
-        }
-
-        .position {
-          left: 0;
-          position: absolute;
-          top: 0;
-        }
-      }
-    }
-
     .message {
       align-items: flex-start;
       margin: 2rem 0;
+    }
+
+    .tournament {
+      align-items: center;
+      background: $darkblue-900;
+      border-radius: .25rem;
+      display: flex;
+      height: 2rem;
+      justify-content: center;
+      margin-right: 1.5rem;
+      width: 2rem;
+    }
+
+    .year {
+      display: none;
+    }
+
+    .winner {
+      .avatar {
+        display: none;
+      }
+
+      a {
+        font-weight: $font-weight-bold;
+      }
     }
   }
 }

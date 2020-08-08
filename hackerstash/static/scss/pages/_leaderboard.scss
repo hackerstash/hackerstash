@@ -1,8 +1,4 @@
 .page.leaderboard {
-  .header {
-    border-bottom: none;
-  }
-
   .project {
     a {
       color: $mauve-500;
@@ -17,5 +13,11 @@
 
   .score {
     color: $mauve-1000;
+  }
+
+  @include tablet-up {
+    .header {
+      border-bottom: none;
+    }
   }
 }
