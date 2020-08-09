@@ -36,8 +36,9 @@ class Comment(db.Model):
         db.session.commit()
 
     def vote_status(self, user):
-        if not user or not user.member:
+        if not user or not user.member or not user.member.project.published:
             return 'disabled'
+
         if self.user.member.project.id == user.member.project.id:
             return 'disabled'
 

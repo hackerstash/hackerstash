@@ -64,7 +64,7 @@ class Project(db.Model):
         return bool(member)
 
     def vote_status(self, user):
-        if self.has_member(user):
+        if self.has_member(user) or not user.member or not user.member.project.published:
             return 'disabled'
 
         existing_vote = self.has_voted(user)
