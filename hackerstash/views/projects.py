@@ -15,15 +15,14 @@ projects = Blueprint('projects', __name__)
 
 
 @projects.route('/projects')
-def index():
+def index() -> str:
     display = request.args.getlist('display')
-    print(request.args)
     filtered_projects = project_filtering(request.args)
     return render_template('projects/index.html', filtered_projects=filtered_projects, display=display)
 
 
 @projects.route('/projects/<project_id>')
-def show(project_id):
+def show(project_id: str) -> str:
     project = Project.query.get(project_id)
 
     if not project:
@@ -39,7 +38,7 @@ def show(project_id):
 
 @projects.route('/projects/create')
 @login_required
-def create():
+def create() -> str:
     user = User.query.get(g.user.id)
 
     if user.member:
@@ -58,7 +57,7 @@ def create():
 @projects.route('/projects/<project_id>/edit')
 @login_required
 @member_required
-def edit(project_id):
+def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
     return render_template('projects/edit.html', project=project)
 
@@ -66,7 +65,7 @@ def edit(project_id):
 @projects.route('/projects/<project_id>/update', methods=['POST'])
 @login_required
 @member_required
-def update(project_id):
+def update(project_id: str) -> str:
     project = Project.query.get(project_id)
 
     # Flask adds the empty file for some reason
@@ -95,7 +94,7 @@ def update(project_id):
 @projects.route('/projects/<project_id>/delete')
 @login_required
 @member_required
-def destroy(project_id):
+def destroy(project_id: str) -> str:
     project = Project.query.get(project_id)
     db.session.delete(project)
     db.session.commit()
@@ -105,7 +104,7 @@ def destroy(project_id):
 @projects.route('/projects/<project_id>/members/add')
 @login_required
 @member_required
-def add_members(project_id):
+def add_members(project_id: str) -> str:
     project = Project.query.get(project_id)
     return render_template('projects/members/add.html', project=project)
 
@@ -113,7 +112,7 @@ def add_members(project_id):
 @projects.route('/projects/<project_id>/members/<member_id>/edit')
 @login_required
 @member_required
-def edit_member(project_id, member_id):
+def edit_member(project_id: str, member_id: str) -> str:
     project = Project.query.get(project_id)
     match = [m for m in project.members if m.id == int(member_id)]
     return render_template('projects/members/edit.html', project=project, member=match[0])
@@ -122,7 +121,7 @@ def edit_member(project_id, member_id):
 @projects.route('/projects/<project_id>/members/<member_id>/edit', methods=['POST'])
 @login_required
 @member_required
-def update_member(project_id, member_id):
+def update_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
     member.role = request.form['role']
     db.session.commit()
@@ -132,7 +131,7 @@ def update_member(project_id, member_id):
 @projects.route('/projects/<project_id>/members/<member_id>/delete')
 @login_required
 @member_required
-def delete_member(project_id, member_id):
+def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
 
     if member.owner:
@@ -153,7 +152,7 @@ def delete_member(project_id, member_id):
 @projects.route('/projects/<project_id>/members/create', methods=['POST'])
 @login_required
 @member_required
-def invite_member(project_id):
+def invite_member(project_id: str) -> str:
     email = request.form['email']
     link = generate_invite_link(email)
     user = User.query.filter_by(email=email).first()
@@ -182,7 +181,7 @@ def invite_member(project_id):
 @projects.route('/projects/<project_id>/invites/<invite_id>/delete')
 @login_required
 @member_required
-def remove_invite(project_id, invite_id):
+def remove_invite(project_id: str, invite_id: str) -> str:
     invite = Invite.query.get(invite_id)
     db.session.delete(invite)
     db.session.commit()
@@ -192,7 +191,7 @@ def remove_invite(project_id, invite_id):
 @projects.route('/projects/<project_id>/publish', methods=['POST'])
 @login_required
 @member_required
-def publish(project_id):
+def publish(project_id: str) -> str:
     project = Project.query.get(project_id)
 
     required_fields = [
@@ -214,7 +213,7 @@ def publish(project_id):
 @projects.route('/projects/<project_id>/unpublish')
 @login_required
 @member_required
-def unpublish(project_id):
+def unpublish(project_id: str) -> str:
     project = Project.query.get(project_id)
 
     project.published = False
@@ -226,7 +225,7 @@ def unpublish(project_id):
 @projects.route('/projects/<project_id>/vote')
 @login_required
 @published_project_required
-def vote_project(project_id):
+def vote_project(project_id: str) -> str:
     project = Project.query.get(project_id)
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
@@ -242,7 +241,7 @@ def vote_project(project_id):
 
 
 @projects.route('/projects/invites/<invite_token>')
-def accept_invite(invite_token):
+def accept_invite(invite_token: str) -> str:
     data = decrypt_invite_link(invite_token)
     user = User.query.filter_by(email=data['email']).first()
     invite = Invite.query.filter_by(email=data['email']).first()

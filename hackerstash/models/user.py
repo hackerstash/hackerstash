@@ -38,7 +38,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<User {self.username or self.email}>'
 
     following = db.relationship(
@@ -81,7 +81,7 @@ class User(db.Model):
         return list(filter(lambda x: not x.read, self.notifications))
 
     @property
-    def preview_json(self):
+    def preview_json(self) -> str:
         data = {
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,

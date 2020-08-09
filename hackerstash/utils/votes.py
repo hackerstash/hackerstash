@@ -1,4 +1,4 @@
-def sum_of_votes(votes):
+def sum_of_votes(votes) -> int:
     score = 0
 
     for vote in votes:
@@ -7,7 +7,7 @@ def sum_of_votes(votes):
     return score
 
 
-def sum_of_project_votes(project):
+def sum_of_project_votes(project) -> int:
     score = sum_of_votes(project.votes)
 
     for post in project.posts:

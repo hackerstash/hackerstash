@@ -4,21 +4,21 @@ from hackerstash.lib.emails.base import Base
 
 
 class FollowerCreatedPost(Base):
-    def __init__(self, email, payload):
+    def __init__(self, email: str, payload: dict) -> None:
         super().__init__(email, payload)
 
     @property
-    def type(self):
+    def type(self) -> str:
         return 'FOLLOWER_CREATED_POST'
 
     @property
-    def body(self):
+    def body(self) -> str:
         return render_template('emails/follower_created_post.html', **self.payload, host=config['host'])
 
     @property
-    def text(self):
+    def text(self) -> str:
         return 'Someone you follow created a post'
 
     @property
-    def subject(self):
+    def subject(self) -> str:
         return 'Someone you follow created a post'

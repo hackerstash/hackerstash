@@ -14,7 +14,7 @@ def get_waitlist():
     return [deserialize_dynamodb_types(x) for x in response['Items']]
 
 
-def deserialize_dynamodb_types(dynamo_dict):
+def deserialize_dynamodb_types(dynamo_dict: dict) -> dict:
     boto3.resource('dynamodb', region_name='eu-west-1')
     deserializer = boto3.dynamodb.types.TypeDeserializer()
     return {k: deserializer.deserialize(v) for k, v in dynamo_dict.items()}

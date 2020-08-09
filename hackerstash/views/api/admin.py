@@ -9,7 +9,7 @@ api_admin = Blueprint('api_admin', __name__)
 
 @api_admin.route('/api/admin/users/<user_id>', methods=['DELETE'])
 @admin_api_key_required
-def delete_user(user_id):
+def delete_user(user_id: str):
     user = User.query.get(user_id)
 
     # Can't think of a way to cascade this at the db level

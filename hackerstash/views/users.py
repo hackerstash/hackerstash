@@ -10,7 +10,7 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/users/<user_id>')
-def show(user_id):
+def show(user_id: str) -> str:
     user = User.query.get(user_id)
 
     if not user:
@@ -20,26 +20,26 @@ def show(user_id):
 
 
 @users.route('/users/<user_id>/followers')
-def followers(user_id):
+def followers(user_id: str) -> str:
     user = User.query.get(user_id)
     return render_template('users/followers/index.html', user=user)
 
 
 @users.route('/users/<user_id>/following')
-def following(user_id):
+def following(user_id: str) -> str:
     user = User.query.get(user_id)
     return render_template('users/following/index.html', user=user)
 
 
 @users.route('/users/new')
 @login_required
-def new():
+def new() -> str:
     return render_template('users/new.html')
 
 
 @users.route('/users/<user_id>/follow')
 @login_required
-def follow(user_id):
+def follow(user_id: str) -> str:
     user = User.query.get(user_id)
     if g.user.is_following(user):
         g.user.unfollow(user)
@@ -52,7 +52,7 @@ def follow(user_id):
 
 @users.route('/users/create', methods=['POST'])
 @login_required
-def create():
+def create() -> str:
     if User.query.filter_by(username=request.form['username']).first():
         flash('This username is already taken')
         return render_template('users/new.html')
@@ -75,7 +75,7 @@ def create():
 
 @users.route('/users/destroy')
 @login_required
-def destroy():
+def destroy() -> str:
     user = User.query.get(g.user.id)
 
     # Can't think of a way to cascade this at the db level
@@ -91,13 +91,13 @@ def destroy():
 
 @users.route('/users/settings')
 @login_required
-def edit_settings():
+def edit_settings() -> str:
     return render_template('users/settings/edit.html')
 
 
 @users.route('/users/settings/update', methods=['POST'])
 @login_required
-def update_settings():
+def update_settings() -> str:
     user = User.query.get(g.user.id)
     user.email = request.form['email']
     user.telephone = request.form['telephone']
@@ -106,12 +106,12 @@ def update_settings():
 
 
 @users.route('/users/profile')
-def edit_profile():
+def edit_profile() -> str:
     return render_template('users/profile/edit.html')
 
 
 @users.route('/users/profile/update', methods=['POST'])
-def update_profile():
+def update_profile() -> str:
     user = User.query.get(g.user.id)
 
     # Flask adds the empty file for some reason

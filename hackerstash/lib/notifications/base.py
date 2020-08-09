@@ -6,12 +6,12 @@ from hackerstash.models.notification import Notification
 base_template_path = 'partials/notifications/'
 
 
-def notification_enabled(notification, notification_type):
+def notification_enabled(notification, notification_type: str) -> bool:
     key = f'{notification["notification_type"]}_{notification_type}'
     return getattr(notification['user'].notifications_settings, key, False)
 
 
-def create_web_notification(notification):
+def create_web_notification(notification) -> None:
     notification = Notification(
         read=False,
         type=notification['notification_type'],
@@ -22,16 +22,16 @@ def create_web_notification(notification):
     db.session.commit()
 
 
-def create_email_notification(notification):
+def create_email_notification(notification) -> None:
     email_factory(notification['email_type'], notification['user'].email, notification['payload']).send()
 
 
 class Base:
-    def __init__(self, payload):
+    def __init__(self, payload: dict) -> None:
         self.payload = payload
         self.notifications_to_send = []
 
-    def publish(self):
+    def publish(self) -> None:
         print(f'Publishing notifications')
 
         for notification in self.notifications_to_send:
@@ -43,6 +43,6 @@ class Base:
                 print('Creating email notification')
                 create_email_notification(notification)
 
-    def render_notification_message(self, name):
+    def render_notification_message(self, name: str) -> str:
         file = f'{base_template_path}{name}.html'
         return render_template(file, **self.payload)

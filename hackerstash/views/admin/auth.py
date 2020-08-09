@@ -5,7 +5,7 @@ admin_auth = Blueprint('admin_auth', __name__)
 
 
 @admin_auth.route('/admin', methods=['GET', 'POST'])
-def index():
+def index() -> str:
     if request.method == 'GET':
         return render_template('admin/auth/index.html')
 
@@ -21,6 +21,6 @@ def index():
 
 
 @admin_auth.route('/admin/signout')
-def signout():
+def signout() -> str:
     session.pop('admin_id', None)
     return redirect(url_for('home.index'))

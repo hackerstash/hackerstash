@@ -11,7 +11,7 @@ auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
-def login():
+def login() -> str:
     if request.method == 'GET':
         step = 1 if 'use_email' in request.args else 0
         return render_template('auth/login/index.html', step=step)
@@ -44,7 +44,7 @@ def login():
 
 
 @auth.route('/signup', methods=['GET', 'POST'])
-def signup():
+def signup() -> str:
     if request.method == 'GET':
         step = 1 if 'use_email' in request.args else 0
         return render_template('auth/signup/index.html', step=step)
@@ -85,23 +85,23 @@ def signup():
 
 
 @auth.route('/signout')
-def signout():
+def signout() -> str:
     session.pop('id', None)
     return redirect(url_for('home.index'))
 
 
 @auth.route('/login/google')
-def google_login():
+def google_login() -> str:
     return redirect(url_for('google.login'))
 
 
 @auth.route('/login/twitter')
-def twitter_login():
+def twitter_login() -> str:
     return redirect(url_for('twitter.login'))
 
 
 @auth.route('/login/google/callback')
-def google_callback():
+def google_callback() -> str:
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
@@ -124,7 +124,7 @@ def google_callback():
 
 
 @auth.route('/login/twitter/callback')
-def twitter_callback():
+def twitter_callback() -> str:
     resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
 

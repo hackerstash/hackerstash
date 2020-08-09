@@ -14,7 +14,7 @@ posts = Blueprint('posts', __name__)
 
 
 @posts.route('/posts')
-def index():
+def index() -> str:
     tab = request.args.get('tab', 'new')
     all_posts = Post.query.all()
     all_posts = sorted(all_posts, key=lambda x: x.created_at if tab == 'new' else x.vote_score, reverse=True)
@@ -23,7 +23,7 @@ def index():
 
 
 @posts.route('/posts/<post_id>')
-def show(post_id):
+def show(post_id: str) -> str:
     post = Post.query.get(post_id)
 
     if not post:
@@ -35,14 +35,14 @@ def show(post_id):
 @posts.route('/posts/new')
 @login_required
 @published_project_required
-def new():
+def new() -> str:
     return render_template('posts/new.html')
 
 
 @posts.route('/posts/create', methods=['POST'])
 @login_required
 @published_project_required
-def create():
+def create() -> str:
     user = User.query.get(g.user.id)
     project = Project.query.get(g.user.member.project_id)
 
@@ -74,7 +74,7 @@ def create():
 @posts.route('/posts/<post_id>/edit')
 @login_required
 @author_required
-def edit(post_id):
+def edit(post_id: str) -> str:
     post = Post.query.get(post_id)
     image_list = json.dumps([image.file_name for image in post.images])
     return render_template('posts/edit.html', post=post, image_list=image_list)
@@ -83,7 +83,7 @@ def edit(post_id):
 @posts.route('/posts/<post_id>/update', methods=['POST'])
 @login_required
 @author_required
-def update(post_id):
+def update(post_id: str) -> str:
     post = Post.query.get(post_id)
 
     # TODO work out old/new images
@@ -98,7 +98,7 @@ def update(post_id):
 @posts.route('/posts/<post_id>/destroy')
 @login_required
 @author_required
-def destroy(post_id):
+def destroy(post_id: str) -> str:
     post = Post.query.get(post_id)
     db.session.delete(post)
     db.session.commit()
@@ -107,7 +107,7 @@ def destroy(post_id):
 
 @posts.route('/posts/<post_id>/comment', methods=['POST'])
 @login_required
-def comment(post_id):
+def comment(post_id: str) -> str:
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
@@ -133,7 +133,7 @@ def comment(post_id):
 @posts.route('/posts/<post_id>/vote')
 @login_required
 @published_project_required
-def post_vote(post_id):
+def post_vote(post_id: str) -> str:
     post = Post.query.get(post_id)
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
@@ -152,7 +152,7 @@ def post_vote(post_id):
 @posts.route('/posts/<post_id>/comment/<comment_id>')
 @login_required
 @published_project_required
-def comment_vote(post_id, comment_id):
+def comment_vote(post_id: str, comment_id: str) -> str:
     comment = Comment.query.get(comment_id)
     direction = request.args.get('direction', 'up')
 

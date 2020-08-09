@@ -4,5 +4,5 @@ developers = Blueprint('developers', __name__)
 
 
 @developers.route('/developers')
-def index():
+def index() -> str:
     return render_template('developers/index.html')

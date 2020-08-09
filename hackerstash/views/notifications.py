@@ -9,7 +9,7 @@ notifications = Blueprint('notifications', __name__)
 
 @notifications.route('/notifications')
 @login_required
-def index():
+def index() -> str:
     all_notifications = g.user.notifications
     read_notifications = list(filter(lambda x: not x.read, all_notifications))
     return render_template('notifications/index.html', notifications=read_notifications)
@@ -17,13 +17,13 @@ def index():
 
 @notifications.route('/notifications/settings')
 @login_required
-def settings():
+def settings() -> str:
     return render_template('notifications/settings/index.html')
 
 
 @notifications.route('/notifications/update', methods=['POST'])
 @login_required
-def update():
+def update() -> str:
     user = User.query.get(g.user.id)
 
     for key, value in request.form.items():
@@ -35,7 +35,7 @@ def update():
 
 @notifications.route('/notifications/mark_as_read')
 @login_required
-def mark_as_read():
+def mark_as_read() -> str:
     user = User.query.get(g.user.id)
     mark_all = request.args.get('all')
     now = db.func.now()

@@ -18,13 +18,13 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Comment {self.id}>'
 
     def has_voted(self, user):
         return next((x for x in self.votes if x.user.id == user.id), None)
 
-    def vote(self, user, direction):
+    def vote(self, user, direction: str) -> None:
         score = 1 if direction == 'up' else -1
         existing_vote = next((x for x in self.votes if x.user.id == user.id), None)
 
@@ -49,5 +49,5 @@ class Comment(db.Model):
         return None
 
     @property
-    def vote_score(self):
+    def vote_score(self) -> int:
         return sum_of_votes(self.votes)

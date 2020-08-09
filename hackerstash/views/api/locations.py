@@ -6,7 +6,7 @@ api_locations = Blueprint('api_locations', __name__)
 
 
 @api_locations.route('/api/locations')
-def index():
+def index() -> str:
     try:
         query = request.args.get('q')
 

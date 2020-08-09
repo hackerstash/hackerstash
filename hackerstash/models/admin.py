@@ -2,7 +2,7 @@ import bcrypt
 from hackerstash.db import db
 
 
-def hash_password(password):
+def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
@@ -22,15 +22,15 @@ class Admin(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __init__(self, first_name, last_name, email, password, root):
+    def __init__(self, first_name: str, last_name: str, email: str, password: str, root: bool) -> None:
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.password = hash_password(password)
         self.root = root
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Admin {self.first_name} {self.last_name}>'
 
-    def validate_password(self, password):
+    def validate_password(self, password: str) -> bool:
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))

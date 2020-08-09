@@ -8,7 +8,7 @@ admin_dashboard = Blueprint('admin_dashboard', __name__)
 
 @admin_dashboard.route('/admin/dashboard')
 @admin_login_required
-def index():
+def index() -> str:
     tab = request.args.get('tab', 'overview')
     admins = []
 
@@ -20,7 +20,7 @@ def index():
 
 @admin_dashboard.route('/admin/users/create', methods=['POST'])
 @admin_login_required
-def create_admin_user():
+def create_admin_user() -> str:
     admin = Admin(
         first_name=request.form['first_name'],
         last_name=request.form['last_name'],
@@ -35,7 +35,7 @@ def create_admin_user():
 
 @admin_dashboard.route('/admin/users/<user_id>/delete')
 @admin_login_required
-def delete_admin_user(user_id):
+def delete_admin_user(user_id: str) -> str:
     admin = Admin.query.get(user_id)
     if admin and not admin.root:
         db.session.delete(admin)

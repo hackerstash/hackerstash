@@ -4,21 +4,21 @@ from hackerstash.lib.emails.base import Base
 
 
 class MemberLeftProject(Base):
-    def __init__(self, email, payload):
+    def __init__(self, email: str, payload: dict) -> None:
         super().__init__(email, payload)
 
     @property
-    def type(self):
+    def type(self) -> str:
         return 'MEMBER_LEFT_PROJECT'
 
     @property
-    def body(self):
+    def body(self) -> str:
         return render_template('emails/member_left_project.html', **self.payload, host=config['host'])
 
     @property
-    def text(self):
+    def text(self) -> str:
         return f'A member has left {self.payload["member"].project.name}'
 
     @property
-    def subject(self):
+    def subject(self) -> str:
         return f'A member has left {self.payload["member"].project.name}'

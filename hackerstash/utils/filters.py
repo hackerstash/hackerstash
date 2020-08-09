@@ -19,31 +19,31 @@ def init_app(app):
     app.jinja_env.filters['to_post_body'] = to_post_body
 
 
-def to_markdown(value):
+def to_markdown(value: str) -> str:
     return markdown(value) if value else ''
 
 
-def to_human_date(date):
+def to_human_date(date) -> str:
     d = arrow.get(date)
     return d.humanize()
 
 
-def to_nice_date(date):
+def to_nice_date(date) -> str:
     d = arrow.get(date)
     return d.format('MMMM D [at] h:mA')
 
 
-def to_contest_date(date):
+def to_contest_date(date) -> str:
     d = arrow.get(date)
     return d.format('Do MMMM, YYYY')
 
 
-def to_named_month(month):
+def to_named_month(month) -> str:
     index = int(month) + 1
     return calendar.month_name[index]
 
 
-def to_post_body(post):
+def to_post_body(post) -> str:
     body = to_markdown(post.body)
 
     def build_image_url_from_filename(file_name):
@@ -57,7 +57,7 @@ def to_post_body(post):
     return re.sub(r'src="(.*)"', lambda x: build_image_url_from_filename(x.group(1)), body)
 
 
-def nest_comments(comments, should_nest):
+def nest_comments(comments, should_nest: bool):
     if not should_nest:
         return comments
 
@@ -88,7 +88,7 @@ def flatten_comments(comments):
     return out
 
 
-def platforms_and_devices(value):
+def platforms_and_devices(value: str) -> str:
     items = {
         'android': 'Android',
         'browser_plugin': 'Browser Plugin',
@@ -102,7 +102,7 @@ def platforms_and_devices(value):
     return items.get(value, value)
 
 
-def business_models(value):
+def business_models(value: str) -> str:
     items = {
         'advertising': 'Advertising',
         'commission': 'Commission',
@@ -116,7 +116,7 @@ def business_models(value):
     return items.get(value, value)
 
 
-def fundings(value):
+def fundings(value: str) -> str:
     items = {
         'accelerator': 'Accelerator',
         'bootstrapped': 'Bootstrapped',
@@ -130,5 +130,5 @@ def fundings(value):
     return items.get(value, value)
 
 
-def to_ordinal_ending(number):
+def to_ordinal_ending(number: int) -> str:
     return "tsnrhtdd"[(number / 10 % 10 != 1) * (number % 10 < 4) * number % 10::4]

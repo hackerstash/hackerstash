@@ -36,7 +36,7 @@ class Project(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Project {self.name}>'
 
     def has_member(self, user):
@@ -59,7 +59,7 @@ class Project(db.Model):
             self.votes.append(vote)
         db.session.commit()
 
-    def has_member_with_email(self, email):
+    def has_member_with_email(self, email) -> bool:
         member = next((x for x in self.members if x.user.email == email), None)
         return bool(member)
 
@@ -74,7 +74,7 @@ class Project(db.Model):
         return None
 
     @property
-    def position(self):
+    def position(self) -> int:
         if not self.published:
             return -1
         # NOTICE: Be aware that calling this will make an additional
@@ -85,21 +85,21 @@ class Project(db.Model):
         return [index for index, project in enumerate(projects) if project.id == self.id][0] + 1
 
     @property
-    def vote_score(self):
+    def vote_score(self) -> int:
         return sum_of_project_votes(self)
 
     @property
-    def upvotes(self):
+    def upvotes(self) -> int:
         votes = list(filter(lambda x: x.score > 0, self.votes))
         return len(votes)
 
     @property
-    def downvotes(self):
+    def downvotes(self) -> int:
         votes = list(filter(lambda x: x.score < 0, self.votes))
         return len(votes)
 
     @property
-    def preview_json(self):
+    def preview_json(self) -> str:
         data = {
             'name': self.name,
             'avatar': self.avatar,

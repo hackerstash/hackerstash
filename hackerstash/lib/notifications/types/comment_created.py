@@ -4,7 +4,7 @@ from hackerstash.models.comment import Comment
 
 
 class CommentCreated(Base):
-    def __init__(self, payload):
+    def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 
         comment = payload['comment']

@@ -2,7 +2,7 @@ from hackerstash.lib.notifications.base import Base
 
 
 class FollowerCreated(Base):
-    def __init__(self, payload):
+    def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 
         user = payload['user']

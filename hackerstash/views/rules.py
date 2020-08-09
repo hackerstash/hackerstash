@@ -4,5 +4,5 @@ rules = Blueprint('rules', __name__)
 
 
 @rules.route('/rules')
-def index():
+def index() -> str:
     return render_template('rules/index.html')

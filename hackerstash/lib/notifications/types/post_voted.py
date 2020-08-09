@@ -1,7 +1,7 @@
 from hackerstash.lib.notifications.base import Base
 
 
-def get_notification_type(direction):
+def get_notification_type(direction: str) -> str:
     if direction == 'up':
         return 'someone_upvotes_your_post'
     else:
@@ -9,7 +9,7 @@ def get_notification_type(direction):
 
 
 class PostVoted(Base):
-    def __init__(self, payload):
+    def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 
         post = payload['post']

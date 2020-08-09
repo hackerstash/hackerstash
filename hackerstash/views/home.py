@@ -9,7 +9,7 @@ home = Blueprint('home', __name__)
 
 @home.route('/', methods=['GET', 'POST'])
 @recaptcha_required
-def index():
+def index() -> str:
     if request.method == 'GET':
         waitlist_count = Waitlist.query.count()
         added_to_waitlist = request.cookies.get('added_to_waitlist')

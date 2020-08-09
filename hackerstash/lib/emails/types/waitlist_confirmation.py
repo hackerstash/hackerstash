@@ -4,19 +4,19 @@ from hackerstash.lib.emails.base import Base
 
 
 class WaitlistConfirmation(Base):
-    def __init__(self, email, payload):
+    def __init__(self, email: str, payload: dict) -> None:
         super().__init__(email, payload, 'hello')
 
     @property
-    def type(self):
+    def type(self) -> str:
         return 'WAITLIST_CONFIRMATION'
 
     @property
-    def body(self):
+    def body(self) -> str:
         return render_template('emails/waitlist_confirmation.html', **self.payload, host=config['host'])
 
     @property
-    def text(self):
+    def text(self) -> str:
         return f'''
           Hi {self.payload['first_name']},
           Thanks so much for joining the HackerStash waitlist 😍!
@@ -27,5 +27,5 @@ class WaitlistConfirmation(Base):
         '''
 
     @property
-    def subject(self):
+    def subject(self) -> str:
         return 'Thanks for joining the HackerStash waitlist 😇'

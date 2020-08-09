@@ -17,7 +17,7 @@ class Contest(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Contest {self.year}_{self.week}>'
 
     @property
@@ -40,7 +40,7 @@ class Contest(db.Model):
         return previous[0] if len(previous) else None
 
     @classmethod
-    def end(cls):
+    def end(cls) -> None:
         now = datetime.datetime.now()
         previous_contest = cls.previous()
 

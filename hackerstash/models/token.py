@@ -13,11 +13,11 @@ class Token(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Token {self.email}>'
 
     @classmethod
-    def generate(cls, email):
+    def generate(cls, email: str) -> int:
         code = randint(100000, 999999)
         existing = cls.query.filter_by(email=email).first()
 
@@ -32,12 +32,12 @@ class Token(db.Model):
         return code
 
     @classmethod
-    def verify(cls, email, code):
+    def verify(cls, email: str, code: str) -> bool:
         token = cls.query.filter_by(email=email).first()
         return token.token == int(code) if token else False
 
     @classmethod
-    def delete(cls, email):
+    def delete(cls, email: str) -> None:
         token = cls.query.filter_by(email=email).first()
         db.session.delete(token)
         db.session.commit()

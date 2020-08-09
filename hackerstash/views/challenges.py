@@ -6,5 +6,5 @@ challenges = Blueprint('challenges', __name__)
 
 @challenges.route('/challenges')
 @login_required
-def index():
+def index() -> str:
     return render_template('challenges/index.html')

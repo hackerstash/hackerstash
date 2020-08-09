@@ -4,7 +4,7 @@ import boto3
 client = boto3.client('s3', region_name='eu-west-1')
 
 
-def upload_image(image):
+def upload_image(image) -> str:
     key = str(uuid.uuid4())
 
     params = {
@@ -17,7 +17,7 @@ def upload_image(image):
     return key
 
 
-def delete_image(key):
+def delete_image(key: str) -> None:
     try:
         params = {
             'Bucket': 'images.hackerstash.com',

@@ -10,7 +10,7 @@ filter_args = [
 ]
 
 
-def project_filtering(args):
+def project_filtering(args: dict):
     base = Project.query.filter_by(published=True)
     args = get_args(args)
 
@@ -22,7 +22,7 @@ def project_filtering(args):
     return base
 
 
-def get_args(raw_args):
+def get_args(raw_args: dict) -> dict:
     args = {}
     for key, value in raw_args.to_dict().items():
         if value and value != 'Please select':
