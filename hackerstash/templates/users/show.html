@@ -21,7 +21,7 @@
                     <a class="small log-out" href="{{ url_for('auth.signout') }}">Log out</a>
                 {% endif %}
             </div>
-            <div class="profile-actions d-none-small">
+            <div class="profile-actions">
                 {% if is_self %}
                     <a href="{{ url_for('users.edit_settings') }}" class="button secondary">Settings</a>
                     <a href="{{ url_for('users.edit_profile') }}" class="button secondary">Edit Profile</a>

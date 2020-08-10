@@ -3,6 +3,10 @@
     border-bottom: none;
     margin-bottom: 0;
 
+    @include tablet-down {
+      flex-direction: column;
+    }
+
     .profile-details {
       align-items: center;
 
@@ -54,6 +58,16 @@
       .button {
         margin-left: 1rem;
       }
+
+      @include tablet-down  {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .button {
+          margin: 1rem 0 0 0;
+        }
+      }
     }
   }
 
@@ -99,19 +113,6 @@
           white-space: nowrap;
           width: auto;
         }
-      }
-    }
-  }
-
-  .profile-actions {
-    justify-content: space-between;
-    margin-top: 2rem;
-
-    @include tablet-down  {
-      margin-bottom: 2rem;
-
-      .button {
-        width: calc(50% - .5rem);
       }
     }
   }

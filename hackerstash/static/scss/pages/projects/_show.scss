@@ -11,6 +11,10 @@
       .button-group {
         margin-top: 1.5rem;
       }
+
+      .project-votes {
+        width: 100%;
+      }
     }
 
     .votes {
@@ -147,6 +151,7 @@
       }
 
       @include tablet-down {
+        margin: 2rem 0 0 0;
         width: 100%;
       }
     }
