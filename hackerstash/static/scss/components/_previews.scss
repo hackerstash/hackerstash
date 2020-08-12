@@ -55,4 +55,8 @@
       }
     }
   }
+
+  @include tablet-down {
+    display: none !important;
+  }
 }

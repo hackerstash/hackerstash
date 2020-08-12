@@ -1,0 +1,15 @@
+from flask import g
+from hackerstash.lib.challenges.base import Base
+from hackerstash.models.challenge import Challenge
+
+
+class PostVoted(Base):
+    def __init__(self, payload: dict) -> None:
+        super().__init__(payload)
+
+        user = g.user
+        post = payload['post']
+
+        if post.project.id != user.member.project.id:
+            # award_points_to_competitors_post
+            pass

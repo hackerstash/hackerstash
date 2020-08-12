@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
-from hackerstash.lib.challenges.factory import challenges_factory
+from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
@@ -67,7 +67,7 @@ def create() -> str:
     db.session.add(post)
     db.session.commit()
 
-    challenges_factory('post_created', user).create()
+    challenge_factory('post_created', {'post': post}).create()
     notification_factory('post_created', {'post': post}).publish()
 
     return redirect(url_for('posts.show', post_id=post.id))
@@ -123,7 +123,7 @@ def comment(post_id: str) -> str:
     post.comments.append(comment)
     db.session.commit()
 
-    challenges_factory('comment_created', user).create()
+    challenge_factory('comment_created', {'comment': comment}).create()
     notification_factory('comment_created', {'comment': comment}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
@@ -143,7 +143,7 @@ def post_vote(post_id: str) -> str:
 
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
-        challenges_factory('post_voted', g.user).create()
+        challenge_factory('post_voted', {'post': post}).create()
         notification_factory('post_voted', {'post': post, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
@@ -162,7 +162,7 @@ def comment_vote(post_id: str, comment_id: str) -> str:
 
     if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)
-        challenges_factory('comment_voted', g.user).create()
+        challenge_factory('comment_voted', {'comment': comment}).create()
         notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':

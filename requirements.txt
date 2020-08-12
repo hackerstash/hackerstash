@@ -1,3 +1,4 @@
+alembic==1.4.2
 arrow==0.15.8
 bcrypt==3.1.7
 boto3==1.14.35
@@ -10,6 +11,7 @@ docutils==0.16
 Flask==1.1.2
 Flask-Assets==2.0
 Flask-Dance==3.0.0
+Flask-Migrate==2.5.3
 Flask-SQLAlchemy==2.4.4
 gunicorn==20.0.4
 httplib2==0.18.1
@@ -17,6 +19,7 @@ idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.2
 jmespath==0.10.0
+Mako==1.1.3
 Markdown==3.2.2
 MarkupSafe==1.1.1
 oauth2==1.9.0.post1
@@ -27,6 +30,7 @@ PyJWT==1.7.1
 pyparsing==2.4.7
 pyScss==1.3.7
 python-dateutil==2.8.1
+python-editor==1.0.4
 requests==2.24.0
 requests-oauthlib==1.3.0
 s3transfer==0.3.3

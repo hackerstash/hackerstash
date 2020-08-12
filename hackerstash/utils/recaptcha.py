@@ -29,7 +29,7 @@ def recaptcha_required(f):
             response = r.json()
 
             if not response['success'] or response['score'] < 0.7:
-                logging.warning('Recaptcha failed', response=response)
+                logging.warning('Recaptcha failed', response)
                 raise Forbidden()
 
         return f(*args, **kwargs)

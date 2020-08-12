@@ -64,6 +64,6 @@ previews.forEach((preview) => {
 
             const isHoveredOverCard = !!hoveredElements.pop().closest('.preview-card');
             if (!isHoveredOverCard) removePreviewCard();
-        }, 1000);
+        }, 500);
     });
 });

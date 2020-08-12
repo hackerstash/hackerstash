@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_migrate import Migrate
 from hackerstash.config import config
 from hackerstash.db import db
 
@@ -68,5 +69,6 @@ def create_app():
     assets.init_app(app)
     filters.init_app(app)
     hooks.init_app(app)
+    Migrate(app, db)
 
     return app
