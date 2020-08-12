@@ -10,6 +10,4 @@ class PostVoted(Base):
         user = g.user
         post = payload['post']
 
-        if post.project.id != user.member.project.id:
-            # award_points_to_competitors_post
-            pass
+        pass

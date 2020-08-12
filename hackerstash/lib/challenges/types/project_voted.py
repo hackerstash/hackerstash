@@ -10,4 +10,4 @@ class ProjectVoted(Base):
         user = g.user
         project = payload['project']
 
-        # awarded_points_to_project
+        pass

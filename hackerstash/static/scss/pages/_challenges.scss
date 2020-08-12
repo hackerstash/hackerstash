@@ -64,7 +64,7 @@
         color: $mauve-500;
         display: flex;
 
-        span {
+        .icon {
           color: $mauve-1000;
           font-size: 14px;
           display: inline-flex;
@@ -80,6 +80,21 @@
 
       .points {
         color: $blue-500;
+      }
+
+      &.completed {
+        .text {
+          color: $mauve-1000;
+          text-decoration: line-through;
+        }
+
+        .points {
+          color: $darkblue-800;
+        }
+
+        i {
+          color: $green-400;
+        }
       }
     }
   }

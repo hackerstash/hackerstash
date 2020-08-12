@@ -10,11 +10,4 @@ class PostCreated(Base):
         user = g.user
         post = payload['post']
 
-        # publish_a_post
-        challenge = Challenge(
-            key='post_created',
-            week=self.week,
-            year=self.year,
-            project=post.project
-        )
-        self.challenges_to_create.append(challenge)
+        pass
