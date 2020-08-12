@@ -19,11 +19,14 @@
                             {{ user_preview(comment.user) }}
                             <span class="seperator">•</span>
                             <span>{{ comment.created_at | to_human_date }}</span>
-                            <span class="seperator reply">•</span>
-                            <span class="reply add-reply">
-                                <i class="icon ri-reply-line"></i>
-                                <button class="button link small" data-id="{{ comment.id }}">Reply</button>
-                            </span>
+
+                            {% if g.user %}
+                                <span class="seperator reply">•</span>
+                                <span class="reply add-reply">
+                                    <i class="icon ri-reply-line"></i>
+                                    <button class="button link small" data-id="{{ comment.id }}">Reply</button>
+                                </span>
+                            {% endif %}
 
                             {% if comment.children %}
                                 <span class="seperator reply">&bull;</span>

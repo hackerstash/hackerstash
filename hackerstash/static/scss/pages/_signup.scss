@@ -18,6 +18,7 @@ $twitter-foreground: white;
     .google-icon {
       background: url('/static/images/google-icon.svg');
       background-size: 100%;
+      display: inline-block;
       height: 1.4rem;
       width: 1.4rem;
     }

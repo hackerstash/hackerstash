@@ -18,6 +18,7 @@ $twitter-foreground: white;
     .google-icon {
       background: url('/static/images/google-icon.svg');
       background-size: 100%;
+      display: inline-block;
       height: 1.4rem;
       width: 1.4rem;
     }
@@ -28,6 +29,13 @@ $twitter-foreground: white;
 
     &:focus {
       background: darken($google-background, 20%);
+    }
+
+    @include tablet-down {
+      .google-icon {
+        margin-right: .5rem;
+        vertical-align: bottom;
+      }
     }
   }
 
@@ -46,6 +54,12 @@ $twitter-foreground: white;
 
     &:focus {
       background: darken($twitter-background, 20%);
+    }
+
+    @include tablet-down {
+      i {
+        margin-right: .5rem;
+      }
     }
   }
 

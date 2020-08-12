@@ -38,16 +38,18 @@
 
         <hr class="divider mt-3 mb-3">
 
-        <form class="form wrap-620 comment-form" action="{{ url_for('posts.comment', post_id=post.id) }}" method="post">
-            <fieldset>
-                <label class="label" for="body">New comment</label>
-                <textarea class="input textarea mb-1" id="body" name="body" rows="4"></textarea>
-                <div class="button-group">
-                    <button class="button" type="submit">Comment</button>
-                    <button class="button secondary cancel" type="button">Cancel</button>
-                </div>
-            </fieldset>
-        </form>
+        {% if g.user %}
+            <form class="form wrap-620 comment-form" action="{{ url_for('posts.comment', post_id=post.id) }}" method="post">
+                <fieldset>
+                    <label class="label" for="body">New comment</label>
+                    <textarea class="input textarea mb-1" id="body" name="body" rows="4"></textarea>
+                    <div class="button-group">
+                        <button class="button" type="submit">Comment</button>
+                        <button class="button secondary cancel" type="button">Cancel</button>
+                    </div>
+                </fieldset>
+            </form>
+        {% endif %}
 
         <label class="label comment-count mt-3 mb-3">{{ post.comments | length }} Comments</label>
 
