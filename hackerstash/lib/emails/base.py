@@ -1,4 +1,5 @@
 import boto3
+from hackerstash.lib.logging import logging
 
 ses = boto3.client('ses', region_name='eu-west-1')
 
@@ -10,7 +11,7 @@ class Base:
         self.sender = sender
 
     def send(self) -> None:
-        print(f'Sending {self.type} email to {self.email}')
+        logging.info(f'Sending {self.type} email to {self.email}')
         ses.send_email(**self.message)
 
     @property

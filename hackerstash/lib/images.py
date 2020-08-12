@@ -1,5 +1,6 @@
 import uuid
 import boto3
+from hackerstash.lib.logging import logging
 
 client = boto3.client('s3', region_name='eu-west-1')
 
@@ -26,5 +27,5 @@ def delete_image(key: str) -> None:
 
         client.delete_object(**params)
     except Exception as e:
-        print(e)
+        logging.error('Failed to delete image', e)
         pass

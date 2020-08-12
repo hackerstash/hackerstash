@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from hackerstash.db import db
+from hackerstash.lib.logging import logging
 from hackerstash.models.user import User
 from hackerstash.models.contest import Contest
 from hackerstash.utils.auth import admin_api_key_required
@@ -22,7 +23,7 @@ def delete_user(user_id: str):
 
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
-        print(e)
+        logging.error('Failed to delete user', e)
         return jsonify({'status': 'Failed', 'error': str(e)}), 500
 
 
@@ -33,5 +34,5 @@ def end_contest():
         Contest.end()
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
-        print(e)
+        logging.error('Failed to end contest', e)
         return jsonify({'status': 'Failed', 'error': str(e)}), 500

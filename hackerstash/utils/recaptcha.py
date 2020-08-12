@@ -3,6 +3,7 @@ from functools import wraps
 from flask import request
 from werkzeug.exceptions import Forbidden
 from hackerstash.config import config
+from hackerstash.lib.logging import logging
 
 
 def recaptcha_required(f):
@@ -28,7 +29,7 @@ def recaptcha_required(f):
             response = r.json()
 
             if not response['success'] or response['score'] < 0.7:
-                print('Recaptcha failed', response)
+                logging.warning('Recaptcha failed', response=response)
                 raise Forbidden()
 
         return f(*args, **kwargs)

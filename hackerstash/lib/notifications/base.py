@@ -1,5 +1,6 @@
 from flask import render_template
 from hackerstash.db import db
+from hackerstash.lib.logging import logging
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.models.notification import Notification
 
@@ -32,15 +33,15 @@ class Base:
         self.notifications_to_send = []
 
     def publish(self) -> None:
-        print(f'Publishing notifications')
+        logging.info('Publishing notifications')
 
         for notification in self.notifications_to_send:
             if notification_enabled(notification, 'web'):
-                print('Creating web notification')
+                logging.info('Creating web notification', notification=notification)
                 create_web_notification(notification)
 
             if notification_enabled(notification, 'email'):
-                print('Creating email notification')
+                logging.info('Creating email notification', notification=notification)
                 create_email_notification(notification)
 
     def render_notification_message(self, name: str) -> str:

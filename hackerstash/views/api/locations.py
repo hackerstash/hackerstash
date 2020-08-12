@@ -1,6 +1,7 @@
 import requests
 from flask import Blueprint, jsonify, request, session
 from hackerstash.config import config
+from hackerstash.lib.logging import logging
 
 api_locations = Blueprint('api_locations', __name__)
 
@@ -29,5 +30,5 @@ def index() -> str:
         locations = list(map(lambda x: x['description'], response['predictions']))
         return jsonify(locations)
     except Exception as e:
-        print(e)
+        logging.error('Failed to get location data', e)
         return jsonify([])

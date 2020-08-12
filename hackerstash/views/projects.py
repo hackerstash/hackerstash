@@ -3,6 +3,7 @@ from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.challenges.factory import challenges_factory
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.models.user import User
@@ -232,6 +233,7 @@ def vote_project(project_id: str) -> str:
 
     if project.id != g.user.member.project.id:
         project.vote(g.user, direction)
+        challenges_factory('project_voted', g.user).create()
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'project_vote')
