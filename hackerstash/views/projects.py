@@ -270,3 +270,9 @@ def accept_invite(invite_token: str) -> str:
     else:
         # They need to create an account first
         return redirect(url_for('auth.signup'))
+
+
+@projects.route('/projects/<project_id>/progress')
+def progress(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    return render_template('projects/progress/index.html', project=project)

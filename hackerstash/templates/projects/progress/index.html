@@ -1,0 +1,11 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Progress' %}
+
+{% block body %}
+    <div class="page project-progress">
+        <header class="header">
+            <h2>Progress</h2>
+            <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Back</a>
+        </header>
+    </div>
+{% endblock %}
