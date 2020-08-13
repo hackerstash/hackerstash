@@ -1,0 +1,19 @@
+{% from "partials/avatar.html" import avatar %}
+
+{% macro progress_cards(all_progress, column) %}
+    <ul class="stacked-list">
+        {% for card in all_progress %}
+            {% if card.column == column %}
+                <li class="draggable">
+                    <p class="name">{{ card.name }}</p>
+                    <p class="small user">
+                        {{ avatar(card.user, 'xx-sm') }}
+                        <a href="{{ url_for('users.show', user_id=card.user.id) }}">
+                            {{ card.user.first_name }} {{ card.user.last_name }}
+                        </a>
+                    </p>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}

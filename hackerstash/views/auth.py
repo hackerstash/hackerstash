@@ -128,8 +128,6 @@ def twitter_callback() -> str:
     resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
 
-    print(twitter_user)
-
     user = User.query.filter_by(email=twitter_user['email']).first()
 
     if user:

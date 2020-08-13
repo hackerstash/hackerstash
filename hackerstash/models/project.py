@@ -31,6 +31,7 @@ class Project(db.Model):
     votes = db.relationship('Vote', backref='project', cascade='all,delete')
     past_results = db.relationship('PastResult', backref='project')
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
+    progress = db.relationship('Progress', backref='project', cascade='all,delete')
 
     published = db.Column(db.Boolean, default=False)
 

@@ -1,0 +1,65 @@
+.page.project-progress {
+  .kanban-header {
+    border-bottom: 1px solid $darkblue-900;
+    display: flex;
+
+    > * {
+      color: $mauve-1000;
+      font-size: 14px;
+      font-weight: $font-weight-bold;
+      margin: 0;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      text-transform: uppercase;
+      width: 25%;
+    }
+  }
+
+  .kanban-body {
+    display: flex;
+
+    > * {
+      margin: 0;
+      padding: 0.75rem 1rem;
+      width: 25%;
+
+      li {
+        background: $darkblue-800;
+        border: 2px solid $darkblue-700;
+        border-radius: .5rem;
+        cursor: pointer;
+        list-style: none;
+        margin-bottom: .5rem;
+        min-height: 10rem;
+        padding: 1rem;
+
+        &:hover {
+          border-color: $blue-500;
+        }
+
+        .name {
+          min-height: 5.5rem;
+        }
+
+        .user {
+          margin-bottom: 0;
+
+          .avatar {
+            display: inline-block;
+            margin: 0 .25rem 0 0;
+            vertical-align: sub;
+          }
+
+          a {
+            color: $mauve-500;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

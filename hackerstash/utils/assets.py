@@ -9,6 +9,7 @@ styles = [
 scripts = [
     'js/avatar.js',
     'js/comments.js',
+    'js/kanban.js',
     'js/menu.js',
     'js/messages.js',
     'js/modals.js',
