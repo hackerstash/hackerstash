@@ -23,6 +23,7 @@
                 <div class="tab-header">
                     <a href="?tab=overview" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
                     <a href="?tab=admins" class="button {{ 'active' if active_tab == 'admins' }}">Admin Users</a>
+                    <a href="?tab=waitlist" class="button {{ 'active' if active_tab == 'waitlist' }}">Waitlist</a>
                     <a href="?tab=contests" class="button {{ 'active' if active_tab == 'contests' }}">Contests</a>
                 </div>
                 <div class="tab-body">
@@ -83,6 +84,26 @@
                                 <button class="button" type="submit">Create</button>
                             </fieldset>
                         </form>
+                    </div>
+                    <div class="tab {{ 'active' if active_tab == 'waitlist' }}">
+                        <div class="waitlist-header mt-1 mb-2">
+                            <h4>{{ waitlist | length }} people on the waitlist</h4>
+                            <a href="{{ url_for('admin_dashboard.download_waitlist') }}" class="button has-icon">
+                                <i class="ri-download-line"></i>
+                                Download CSV
+                            </a>
+                        </div>
+
+                        <input type="text" placeholder="Search..." class="input waitlist-filter">
+
+                        <ul class="waitlist-list">
+                            {% for w in waitlist %}
+                                <li>
+                                    <h4>{{ w.first_name }}</h4>
+                                    <p>{{ w.email }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="tab {{ 'active' if active_tab == 'contests' }}">
 

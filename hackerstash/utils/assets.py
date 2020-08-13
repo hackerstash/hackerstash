@@ -7,6 +7,7 @@ styles = [
 ]
 
 scripts = [
+    'js/admin.js',
     'js/avatar.js',
     'js/comments.js',
     'js/kanban.js',
