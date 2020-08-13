@@ -1,5 +1,5 @@
 .page.admin.dashboard {
-  .admin-users {
+  .users {
     margin: 0;
     padding: 0;
 
@@ -13,6 +13,15 @@
 
       p {
         margin: .25rem 0 0 0;
+      }
+
+      a {
+        color: $mauve-500;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

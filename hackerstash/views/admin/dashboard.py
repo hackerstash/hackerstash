@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, g, session
 from hackerstash.db import db
 from hackerstash.models.admin import Admin
+from hackerstash.models.user import User
 from hackerstash.utils.auth import admin_login_required
 
 admin_dashboard = Blueprint('admin_dashboard', __name__)
@@ -10,12 +11,14 @@ admin_dashboard = Blueprint('admin_dashboard', __name__)
 @admin_login_required
 def index() -> str:
     tab = request.args.get('tab', 'overview')
-    admins = []
+    data = {'users': [], 'admins': []}
 
+    if tab == 'overview':
+        data['users'] = User.query.all()
     if tab == 'admins':
-        admins = Admin.query.all()
+        data['admins'] = Admin.query.all()
 
-    return render_template('admin/dashboard/index.html', admins=admins)
+    return render_template('admin/dashboard/index.html', **data)
 
 
 @admin_dashboard.route('/admin/users/create', methods=['POST'])
@@ -36,12 +39,12 @@ def create_admin_user() -> str:
 @admin_dashboard.route('/admin/users/<user_id>/delete')
 @admin_login_required
 def delete_admin_user(user_id: str) -> str:
-    admin = Admin.query.get(user_id)
-    if admin and not admin.root:
-        db.session.delete(admin)
+    user = Admin.query.get(user_id) or User.query.get(user_id)
+    if user and not user.root:
+        db.session.delete(user)
         db.session.commit()
 
-        if admin.id == g.admin_user.id:
+        if user.id == g.admin_user.id:
             session.pop('admin_id', None)
             return redirect(url_for('home.index'))
 

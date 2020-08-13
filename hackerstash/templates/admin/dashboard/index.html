@@ -27,11 +27,24 @@
                 </div>
                 <div class="tab-body">
                     <div class="tab {{ 'active' if active_tab == 'overview' }}">
-
+                        <h4 class="mt-2">All Users:</h4>
+                        <ul class="users">
+                            {% for user in users %}
+                                <li>
+                                    <div class="details">
+                                        <h4>
+                                            <a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
+                                        </h4>
+                                        <p>{{ user.email }}</p>
+                                    </div>
+                                    <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=user.id) }}" class="button tertiary">Delete</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="tab {{ 'active' if active_tab == 'admins' }}">
                         <h4 class="mt-2">Admin users:</h4>
-                        <ul class="admin-users">
+                        <ul class="users">
                             {% for admin in admins %}
                                 <li>
                                     <div class="details">
