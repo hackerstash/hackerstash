@@ -60,8 +60,9 @@ document.addEventListener('submit', (event) => {
         fetch(link, options)
             .then((response) => {
                 if (response.ok) {
-                    return response.text()
+                    return response.text();
                 }
+                throw new Error(response.statusText);
             })
             .then((response) => {
                 document.querySelector('.comments').innerHTML = response;

@@ -20,11 +20,11 @@ document.addEventListener('click', (event) => {
         fetch(link, options)
             .then((response) => {
                 if (response.ok) {
-                    return response.text()
+                    return response.text();
                 }
+                throw new Error(response.statusText);
             })
             .then((response) => {
-                console.log(parent);
                 document.querySelector('.' + parent).innerHTML = response;
             });
     }

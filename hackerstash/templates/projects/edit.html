@@ -32,7 +32,7 @@
                                 {{ avatar_upload(project) }}
 
                                 <label class="label" for="name">Project name</label>
-                                <input class="input" name="name" id="name" placeholder="e.g. Catbook" required value="{{ project.name }}">
+                                <input class="input" name="name" id="name" placeholder="e.g. Catbook" required value="{{ '' if project.name == 'Untitled' else project.name }}">
 
                                 <label class="label" for="start_month">Project start date</label>
                                 <div class="select-group mb-1">

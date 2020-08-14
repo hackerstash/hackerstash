@@ -22,6 +22,7 @@
 
     span {
       color: $mauve-500;
+      color: $mauve-500;
       display: none !important;
       font-weight: $font-weight-normal;
     }
@@ -96,6 +97,8 @@
       }
 
       .button {
+        pointer-events: none;
+
         &.upvote,
         &.downvote {
           background: transparent;

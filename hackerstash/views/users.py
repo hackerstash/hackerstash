@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
+from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
@@ -81,6 +82,8 @@ def destroy() -> str:
     # Can't think of a way to cascade this at the db level
     if user.member and len(user.member.project.members) == 1:
         db.session.delete(user.member.project)
+
+    email_factory('close_account', user.email, {})
 
     db.session.delete(user)
     db.session.commit()
