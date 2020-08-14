@@ -340,56 +340,56 @@
                         <ul class="checkbox-group">
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="android" type="checkbox" id="android" {{ 'checked' if 'android' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="android" type="checkbox" id="android" {{ 'checked' if 'android' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="android">Android</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="browser_plugin" type="checkbox" id="browser_plugin" {{ 'checked' if 'browser_plugin' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="browser_plugin" type="checkbox" id="browser_plugin" {{ 'checked' if 'browser_plugin' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="browser_plugin">Browser plugin</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="desktop" type="checkbox" id="desktop" {{ 'checked' if 'desktop' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="desktop" type="checkbox" id="desktop" {{ 'checked' if 'desktop' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="desktop">Desktop</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="ios" type="checkbox" id="ios" {{ 'checked' if 'ios' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="ios" type="checkbox" id="ios" {{ 'checked' if 'ios' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="ios">iOS</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="mac" type="checkbox" id="mac" {{ 'checked' if 'mac' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="mac" type="checkbox" id="mac" {{ 'checked' if 'mac' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="mac">Mac</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="mobile" type="checkbox" id="mobile" {{ 'checked' if 'mobile' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="mobile" type="checkbox" id="mobile" {{ 'checked' if 'mobile' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="mobile">Mobile</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="pc" type="checkbox" id="pc" {{ 'checked' if 'pc' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="pc" type="checkbox" id="pc" {{ 'checked' if 'pc' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="pc">PC</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="platforms_and_devices" value="web" type="checkbox" id="web" {{ 'checked' if 'web' in (request.args.platforms_and_devices or []) }}>
+                                    <input name="platforms_and_devices" value="web" type="checkbox" id="web" {{ 'checked' if 'web' in request.args.getlist('platforms_and_devices') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="web">Web</label>
@@ -399,56 +399,56 @@
                         <ul class="checkbox-group">
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="advertising" type="checkbox" id="advertising" {{ 'checked' if 'advertising' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="advertising" type="checkbox" id="advertising" {{ 'checked' if 'advertising' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="advertising">Advertising</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="commission" type="checkbox" id="commission" {{ 'checked' if 'commission' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="commission" type="checkbox" id="commission" {{ 'checked' if 'commission' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="commission">Commission</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="consulting" type="checkbox" id="consulting" {{ 'checked' if 'consulting' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="consulting" type="checkbox" id="consulting" {{ 'checked' if 'consulting' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="consulting">Consulting</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="donations" type="checkbox" id="donations" {{ 'checked' if 'donations' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="donations" type="checkbox" id="donations" {{ 'checked' if 'donations' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="donations">Donations</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="free" type="checkbox" id="free" {{ 'checked' if 'free' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="free" type="checkbox" id="free" {{ 'checked' if 'free' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="free">Free</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="partnership" type="checkbox" id="partnership" {{ 'checked' if 'partnership' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="partnership" type="checkbox" id="partnership" {{ 'checked' if 'partnership' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="partnership">Partnership</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="sales_and_transactions" type="checkbox" id="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="sales_and_transactions" type="checkbox" id="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="sales_and_transactions">Sales &amp; Transactions</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="business_models" value="subscriptions" type="checkbox" id="subscriptions" {{ 'checked' if 'subscriptions' in (request.args.business_models or []) }}>
+                                    <input name="business_models" value="subscriptions" type="checkbox" id="subscriptions" {{ 'checked' if 'subscriptions' in request.args.getlist('business_models') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="subscriptions">Subscriptions</label>
@@ -458,56 +458,56 @@
                         <ul class="checkbox-group">
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="accelerator" type="checkbox" id="accelerator" {{ 'checked' if 'accelerator' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="accelerator" type="checkbox" id="accelerator" {{ 'checked' if 'accelerator' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="accelerator">Accelerator</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="bootstrapped" type="checkbox" id="bootstrapped" {{ 'checked' if 'bootstrapped' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="bootstrapped" type="checkbox" id="bootstrapped" {{ 'checked' if 'bootstrapped' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="bootstrapped">Bootstrapped</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="crowd_funded" type="checkbox" id="crowd_funded" {{ 'checked' if 'crowd_funded' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="crowd_funded" type="checkbox" id="crowd_funded" {{ 'checked' if 'crowd_funded' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="crowd_funded">Crowd-funded</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="donation_supported" type="checkbox" id="donation_supported" {{ 'checked' if 'donation_supported' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="donation_supported" type="checkbox" id="donation_supported" {{ 'checked' if 'donation_supported' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="donation_supported">Donation-supported</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="hackerstash" type="checkbox" id="hackerstash" {{ 'checked' if 'hackerstash' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="hackerstash" type="checkbox" id="hackerstash" {{ 'checked' if 'hackerstash' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="hackerstash">HackerStash prizes</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="self_funded" type="checkbox" id="self_funded" {{ 'checked' if 'self_funded' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="self_funded" type="checkbox" id="self_funded" {{ 'checked' if 'self_funded' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="self_funded">Self funded</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="vc_funded" type="checkbox" id="vc_funded" {{ 'checked' if 'vc_funded' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="vc_funded" type="checkbox" id="vc_funded" {{ 'checked' if 'vc_funded' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="vc_funded">VC funded</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="seed_funded" type="checkbox" id="seed_funded" {{ 'checked' if 'seed_funded' in (request.args.fundings or []) }}>
+                                    <input name="fundings" value="seed_funded" type="checkbox" id="seed_funded" {{ 'checked' if 'seed_funded' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="seed_funded">Seed funded</label>
