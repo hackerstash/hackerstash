@@ -3,6 +3,8 @@
 
 {% from "partials/projects.html" import projects %}
 
+{% set selected_sorting = request.args.sorting or 'alphabetical_asc' %}
+
 {% block body %}
     <div class="page projects">
         <header class="header">
@@ -12,14 +14,14 @@
                 <label class="label">Sorting</label>
                 <div class="select">
                     <select id="sorting" name="sorting">
-                        <option value="alphabetical_asc">A-Z</option>
-                        <option value="alphabetical_desc">Z-A</option>
-                        <option value="rank_desc">Rank: High to Low</option>
-                        <option value="rank_asc">Rank: Low to High</option>
-                        <option value="created_at_desc">Recently created</option>
-                        <option value="created_at_asc">Recently updated</option>
-                        <option value="team_size_desc">Team size: High to Low</option>
-                        <option value="team_size_asc">Team size: Low to High</option>
+                        <option {{ 'selected' if selected_sorting == 'alphabetical_asc'  }} value="alphabetical_asc">A-Z</option>
+                        <option {{ 'selected' if selected_sorting == 'alphabetical_desc'  }} value="alphabetical_desc">Z-A</option>
+                        <option {{ 'selected' if selected_sorting == 'rank_desc'  }} value="rank_desc">Rank: High to Low</option>
+                        <option {{ 'selected' if selected_sorting == 'rank_asc'  }} value="rank_asc">Rank: Low to High</option>
+                        <option {{ 'selected' if selected_sorting == 'created_at_desc'  }} value="created_at_desc">Recently created</option>
+                        <option {{ 'selected' if selected_sorting == 'created_at_asc'  }} value="created_at_asc">Recently updated</option>
+                        <option {{ 'selected' if selected_sorting == 'team_size_desc'  }} value="team_size_desc">Team size: High to Low</option>
+                        <option {{ 'selected' if selected_sorting == 'team_size_asc'  }} value="team_size_asc">Team size: Low to High</option>
                     </select>
                     <i class="icon ri-arrow-drop-down-line"></i>
                 </div>
@@ -50,14 +52,14 @@
                         <ul class="checkbox-group inline">
                             <li>
                                 <span class="checkbox">
-                                    <input name="team_size" value="solo" type="checkbox" id="solo">
+                                    <input name="team_size" value="solo" type="checkbox" id="solo" {{ 'checked' if request.args.team_size == 'solo' }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="solo">Solo project</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="team_size" value="team" type="checkbox" id="team">
+                                    <input name="team_size" value="team" type="checkbox" id="team" {{ 'checked' if request.args.team_size == 'team' }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="team">Multiple team members</label>
@@ -67,14 +69,14 @@
                         <ul class="checkbox-group inline">
                             <li>
                                 <span class="checkbox">
-                                    <input name="time_commitment" value="full_time" type="checkbox" id="full_time">
+                                    <input name="time_commitment" value="full_time" type="checkbox" id="full_time" {{ 'checked' if request.args.time_commitment == 'full_time' }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="full_time">Full time</label>
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="time_commitment" value="part_time" type="checkbox" id="part_time">
+                                    <input name="time_commitment" value="part_time" type="checkbox" id="part_time" {{ 'checked' if request.args.time_commitment == 'part_time' }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>
                                 <label class="label" for="part_time">Side project</label>
@@ -84,253 +86,253 @@
                         <div class="select wrap-300">
                             <select id="country" name="country">
                                 <option>Please select</option>
-                                <option value="AF">Afghanistan</option>
-                                <option value="AL">Albania</option>
-                                <option value="DZ">Algeria</option>
-                                <option value="AS">American Samoa</option>
-                                <option value="AD">Andorra</option>
-                                <option value="AO">Angola</option>
-                                <option value="AI">Anguilla</option>
-                                <option value="AQ">Antarctica</option>
-                                <option value="AG">Antigua and Barbuda</option>
-                                <option value="AR">Argentina</option>
-                                <option value="AM">Armenia</option>
-                                <option value="AW">Aruba</option>
-                                <option value="AU">Australia</option>
-                                <option value="AT">Austria</option>
-                                <option value="AZ">Azerbaijan</option>
-                                <option value="BS">Bahamas (the)</option>
-                                <option value="BH">Bahrain</option>
-                                <option value="BD">Bangladesh</option>
-                                <option value="BB">Barbados</option>
-                                <option value="BY">Belarus</option>
-                                <option value="BE">Belgium</option>
-                                <option value="BZ">Belize</option>
-                                <option value="BJ">Benin</option>
-                                <option value="BM">Bermuda</option>
-                                <option value="BT">Bhutan</option>
-                                <option value="BO">Bolivia</option>
-                                <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-                                <option value="BA">Bosnia and Herzegovina</option>
-                                <option value="BW">Botswana</option>
-                                <option value="BV">Bouvet Island</option>
-                                <option value="BR">Brazil</option>
-                                <option value="IO">British Indian Ocean Territory</option>
-                                <option value="BN">Brunei Darussalam</option>
-                                <option value="BG">Bulgaria</option>
-                                <option value="BF">Burkina Faso</option>
-                                <option value="BI">Burundi</option>
-                                <option value="CV">Cabo Verde</option>
-                                <option value="KH">Cambodia</option>
-                                <option value="CM">Cameroon</option>
-                                <option value="CA">Canada</option>
-                                <option value="KY">Cayman Islands</option>
-                                <option value="CF">Central African Republic</option>
-                                <option value="TD">Chad</option>
-                                <option value="CL">Chile</option>
-                                <option value="CN">China</option>
-                                <option value="CX">Christmas Island</option>
-                                <option value="CC">Cocos</option>
-                                <option value="CO">Colombia</option>
-                                <option value="KM">Comoros (the)</option>
-                                <option value="CD">Congo</option>
-                                <option value="CG">Congo (the)</option>
-                                <option value="CK">Cook Islands (the)</option>
-                                <option value="CR">Costa Rica</option>
-                                <option value="HR">Croatia</option>
-                                <option value="CU">Cuba</option>
-                                <option value="CW">Curaçao</option>
-                                <option value="CY">Cyprus</option>
-                                <option value="CZ">Czechia</option>
-                                <option value="CI">Côte d'Ivoire</option>
-                                <option value="DK">Denmark</option>
-                                <option value="DJ">Djibouti</option>
-                                <option value="DM">Dominica</option>
-                                <option value="DO">Dominican Republic</option>
-                                <option value="EC">Ecuador</option>
-                                <option value="EG">Egypt</option>
-                                <option value="SV">El Salvador</option>
-                                <option value="GQ">Equatorial Guinea</option>
-                                <option value="ER">Eritrea</option>
-                                <option value="EE">Estonia</option>
-                                <option value="SZ">Eswatini</option>
-                                <option value="ET">Ethiopia</option>
-                                <option value="FK">Falkland Islands</option>
-                                <option value="FO">Faroe Islands</option>
-                                <option value="FJ">Fiji</option>
-                                <option value="FI">Finland</option>
-                                <option value="FR">France</option>
-                                <option value="GF">French Guiana</option>
-                                <option value="PF">French Polynesia</option>
-                                <option value="GA">Gabon</option>
-                                <option value="GM">Gambia (the)</option>
-                                <option value="GE">Georgia</option>
-                                <option value="DE">Germany</option>
-                                <option value="GH">Ghana</option>
-                                <option value="GI">Gibraltar</option>
-                                <option value="GR">Greece</option>
-                                <option value="GL">Greenland</option>
-                                <option value="GD">Grenada</option>
-                                <option value="GP">Guadeloupe</option>
-                                <option value="GU">Guam</option>
-                                <option value="GT">Guatemala</option>
-                                <option value="GG">Guernsey</option>
-                                <option value="GN">Guinea</option>
-                                <option value="GW">Guinea-Bissau</option>
-                                <option value="GY">Guyana</option>
-                                <option value="HT">Haiti</option>
-                                <option value="HM">Heard Island</option>
-                                <option value="VA">Holy See (the)</option>
-                                <option value="HN">Honduras</option>
-                                <option value="HK">Hong Kong</option>
-                                <option value="HU">Hungary</option>
-                                <option value="IS">Iceland</option>
-                                <option value="IN">India</option>
-                                <option value="ID">Indonesia</option>
-                                <option value="IR">Iran</option>
-                                <option value="IQ">Iraq</option>
-                                <option value="IE">Ireland</option>
-                                <option value="IM">Isle of Man</option>
-                                <option value="IL">Israel</option>
-                                <option value="IT">Italy</option>
-                                <option value="JM">Jamaica</option>
-                                <option value="JP">Japan</option>
-                                <option value="JE">Jersey</option>
-                                <option value="JO">Jordan</option>
-                                <option value="KZ">Kazakhstan</option>
-                                <option value="KE">Kenya</option>
-                                <option value="KI">Kiribati</option>
-                                <option value="KP">Korea (the Democratic People's Republic of)</option>
-                                <option value="KR">Korea (the Republic of)</option>
-                                <option value="KW">Kuwait</option>
-                                <option value="KG">Kyrgyzstan</option>
-                                <option value="LA">Lao People's Democratic Republic</option>
-                                <option value="LV">Latvia</option>
-                                <option value="LB">Lebanon</option>
-                                <option value="LS">Lesotho</option>
-                                <option value="LR">Liberia</option>
-                                <option value="LY">Libya</option>
-                                <option value="LI">Liechtenstein</option>
-                                <option value="LT">Lithuania</option>
-                                <option value="LU">Luxembourg</option>
-                                <option value="MO">Macao</option>
-                                <option value="MG">Madagascar</option>
-                                <option value="MW">Malawi</option>
-                                <option value="MY">Malaysia</option>
-                                <option value="MV">Maldives</option>
-                                <option value="ML">Mali</option>
-                                <option value="MT">Malta</option>
-                                <option value="MH">Marshall Islands</option>
-                                <option value="MQ">Martinique</option>
-                                <option value="MR">Mauritania</option>
-                                <option value="MU">Mauritius</option>
-                                <option value="YT">Mayotte</option>
-                                <option value="MX">Mexico</option>
-                                <option value="FM">Micronesia</option>
-                                <option value="MD">Moldova</option>
-                                <option value="MC">Monaco</option>
-                                <option value="MN">Mongolia</option>
-                                <option value="ME">Montenegro</option>
-                                <option value="MS">Montserrat</option>
-                                <option value="MA">Morocco</option>
-                                <option value="MZ">Mozambique</option>
-                                <option value="MM">Myanmar</option>
-                                <option value="NA">Namibia</option>
-                                <option value="NR">Nauru</option>
-                                <option value="NP">Nepal</option>
-                                <option value="NL">Netherlands</option>
-                                <option value="NC">New Caledonia</option>
-                                <option value="NZ">New Zealand</option>
-                                <option value="NI">Nicaragua</option>
-                                <option value="NE">Niger</option>
-                                <option value="NG">Nigeria</option>
-                                <option value="NU">Niue</option>
-                                <option value="NF">Norfolk Island</option>
-                                <option value="MP">Northern Mariana Islands</option>
-                                <option value="NO">Norway</option>
-                                <option value="OM">Oman</option>
-                                <option value="PK">Pakistan</option>
-                                <option value="PW">Palau</option>
-                                <option value="PS">Palestine</option>
-                                <option value="PA">Panama</option>
-                                <option value="PG">Papua New Guinea</option>
-                                <option value="PY">Paraguay</option>
-                                <option value="PE">Peru</option>
-                                <option value="PH">Philippines</option>
-                                <option value="PN">Pitcairn</option>
-                                <option value="PL">Poland</option>
-                                <option value="PT">Portugal</option>
-                                <option value="PR">Puerto Rico</option>
-                                <option value="QA">Qatar</option>
-                                <option value="MK">Republic of North Macedonia</option>
-                                <option value="RO">Romania</option>
-                                <option value="RU">Russia</option>
-                                <option value="RW">Rwanda</option>
-                                <option value="RE">Réunion</option>
-                                <option value="BL">Saint Barthélemy</option>
-                                <option value="SH">Saint Helena</option>
-                                <option value="KN">Saint Kitts and Nevis</option>
-                                <option value="LC">Saint Lucia</option>
-                                <option value="MF">Saint Martin</option>
-                                <option value="PM">Saint Pierre</option>
-                                <option value="VC">Saint Vincent</option>
-                                <option value="WS">Samoa</option>
-                                <option value="SM">San Marino</option>
-                                <option value="ST">Sao Tome and Principe</option>
-                                <option value="SA">Saudi Arabia</option>
-                                <option value="SN">Senegal</option>
-                                <option value="RS">Serbia</option>
-                                <option value="SC">Seychelles</option>
-                                <option value="SL">Sierra Leone</option>
-                                <option value="SG">Singapore</option>
-                                <option value="SX">Sint Maarten</option>
-                                <option value="SK">Slovakia</option>
-                                <option value="SI">Slovenia</option>
-                                <option value="SB">Solomon Islands</option>
-                                <option value="SO">Somalia</option>
-                                <option value="ZA">South Africa</option>
-                                <option value="GS">South Georgia</option>
-                                <option value="SS">South Sudan</option>
-                                <option value="ES">Spain</option>
-                                <option value="LK">Sri Lanka</option>
-                                <option value="SD">Sudan (the)</option>
-                                <option value="SR">Suriname</option>
-                                <option value="SJ">Svalbard and Jan Mayen</option>
-                                <option value="SE">Sweden</option>
-                                <option value="CH">Switzerland</option>
-                                <option value="SY">Syrian Arab Republic</option>
-                                <option value="TW">Taiwan (Province of China)</option>
-                                <option value="TJ">Tajikistan</option>
-                                <option value="TZ">Tanzania, United Republic of</option>
-                                <option value="TH">Thailand</option>
-                                <option value="TL">Timor-Leste</option>
-                                <option value="TG">Togo</option>
-                                <option value="TK">Tokelau</option>
-                                <option value="TO">Tonga</option>
-                                <option value="TT">Trinidad and Tobago</option>
-                                <option value="TN">Tunisia</option>
-                                <option value="TR">Turkey</option>
-                                <option value="TM">Turkmenistan</option>
-                                <option value="TC">Turks and Caicos Islands</option>
-                                <option value="TV">Tuvalu</option>
-                                <option value="UG">Uganda</option>
-                                <option value="UA">Ukraine</option>
-                                <option value="AE">United Arab Emirates (the)</option>
-                                <option value="GB">United Kingdom</option>
-                                <option value="US">United States of America</option>
-                                <option value="UY">Uruguay</option>
-                                <option value="UZ">Uzbekistan</option>
-                                <option value="VU">Vanuatu</option>
-                                <option value="VE">Venezuela</option>
-                                <option value="VN">Viet Nam</option>
-                                <option value="VG">Virgin Islands (British)</option>
-                                <option value="VI">Virgin Islands (U.S.)</option>
-                                <option value="WF">Wallis and Futuna</option>
-                                <option value="EH">Western Sahara</option>
-                                <option value="YE">Yemen</option>
-                                <option value="ZM">Zambia</option>
-                                <option value="ZW">Zimbabwe</option>
-                                <option value="AX">Åland Islands</option>
+                                <option {{ 'selected' if request.args.country == 'AF' }} value="AF">Afghanistan</option>
+                                <option {{ 'selected' if request.args.country == 'AL' }} value="AL">Albania</option>
+                                <option {{ 'checked' if request.args.country == 'DZ' }} value="DZ">Algeria</option>
+                                <option {{ 'checked' if request.args.country == 'AS' }} value="AS">American Samoa</option>
+                                <option {{ 'checked' if request.args.country == 'AD' }} value="AD">Andorra</option>
+                                <option {{ 'checked' if request.args.country == 'AO' }} value="AO">Angola</option>
+                                <option {{ 'checked' if request.args.country == 'AI' }} value="AI">Anguilla</option>
+                                <option {{ 'checked' if request.args.country == 'AQ' }} value="AQ">Antarctica</option>
+                                <option {{ 'checked' if request.args.country == 'AG' }} value="AG">Antigua and Barbuda</option>
+                                <option {{ 'checked' if request.args.country == 'AR' }} value="AR">Argentina</option>
+                                <option {{ 'checked' if request.args.country == 'AM' }} value="AM">Armenia</option>
+                                <option {{ 'checked' if request.args.country == 'AW' }} value="AW">Aruba</option>
+                                <option {{ 'checked' if request.args.country == 'AU' }} value="AU">Australia</option>
+                                <option {{ 'checked' if request.args.country == 'AT' }} value="AT">Austria</option>
+                                <option {{ 'checked' if request.args.country == 'AZ' }} value="AZ">Azerbaijan</option>
+                                <option {{ 'checked' if request.args.country == 'BS' }} value="BS">Bahamas (the)</option>
+                                <option {{ 'checked' if request.args.country == 'BH' }} value="BH">Bahrain</option>
+                                <option {{ 'checked' if request.args.country == 'BD' }} value="BD">Bangladesh</option>
+                                <option {{ 'checked' if request.args.country == 'BB' }} value="BB">Barbados</option>
+                                <option {{ 'checked' if request.args.country == 'BY' }} value="BY">Belarus</option>
+                                <option {{ 'checked' if request.args.country == 'BE' }} value="BE">Belgium</option>
+                                <option {{ 'checked' if request.args.country == 'BZ' }} value="BZ">Belize</option>
+                                <option {{ 'checked' if request.args.country == 'BJ' }} value="BJ">Benin</option>
+                                <option {{ 'checked' if request.args.country == 'BM' }} value="BM">Bermuda</option>
+                                <option {{ 'checked' if request.args.country == 'BT' }} value="BT">Bhutan</option>
+                                <option {{ 'checked' if request.args.country == 'BO' }} value="BO">Bolivia</option>
+                                <option {{ 'checked' if request.args.country == 'BQ' }} value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                <option {{ 'checked' if request.args.country == 'BA' }} value="BA">Bosnia and Herzegovina</option>
+                                <option {{ 'checked' if request.args.country == 'BW' }} value="BW">Botswana</option>
+                                <option {{ 'checked' if request.args.country == 'BV' }} value="BV">Bouvet Island</option>
+                                <option {{ 'checked' if request.args.country == 'BR' }} value="BR">Brazil</option>
+                                <option {{ 'checked' if request.args.country == 'IO' }} value="IO">British Indian Ocean Territory</option>
+                                <option {{ 'checked' if request.args.country == 'BN' }} value="BN">Brunei Darussalam</option>
+                                <option {{ 'checked' if request.args.country == 'BG' }} value="BG">Bulgaria</option>
+                                <option {{ 'checked' if request.args.country == 'BF' }} value="BF">Burkina Faso</option>
+                                <option {{ 'checked' if request.args.country == 'BI' }} value="BI">Burundi</option>
+                                <option {{ 'checked' if request.args.country == 'CV' }} value="CV">Cabo Verde</option>
+                                <option {{ 'checked' if request.args.country == 'KH' }} value="KH">Cambodia</option>
+                                <option {{ 'checked' if request.args.country == 'CM' }} value="CM">Cameroon</option>
+                                <option {{ 'checked' if request.args.country == 'CA' }} value="CA">Canada</option>
+                                <option {{ 'checked' if request.args.country == 'KY' }} value="KY">Cayman Islands</option>
+                                <option {{ 'checked' if request.args.country == 'CF' }} value="CF">Central African Republic</option>
+                                <option {{ 'checked' if request.args.country == 'TD' }} value="TD">Chad</option>
+                                <option {{ 'checked' if request.args.country == 'CL' }} value="CL">Chile</option>
+                                <option {{ 'checked' if request.args.country == 'CN' }} value="CN">China</option>
+                                <option {{ 'checked' if request.args.country == 'CX' }} value="CX">Christmas Island</option>
+                                <option {{ 'checked' if request.args.country == 'CC' }} value="CC">Cocos</option>
+                                <option {{ 'checked' if request.args.country == 'CO' }} value="CO">Colombia</option>
+                                <option {{ 'checked' if request.args.country == 'KM' }} value="KM">Comoros (the)</option>
+                                <option {{ 'checked' if request.args.country == 'CD' }} value="CD">Congo</option>
+                                <option {{ 'checked' if request.args.country == 'CG' }} value="CG">Congo (the)</option>
+                                <option {{ 'checked' if request.args.country == 'CK' }} value="CK">Cook Islands (the)</option>
+                                <option {{ 'checked' if request.args.country == 'CR' }} value="CR">Costa Rica</option>
+                                <option {{ 'checked' if request.args.country == 'HR' }} value="HR">Croatia</option>
+                                <option {{ 'checked' if request.args.country == 'CU' }} value="CU">Cuba</option>
+                                <option {{ 'checked' if request.args.country == 'CW' }} value="CW">Curaçao</option>
+                                <option {{ 'checked' if request.args.country == 'CY' }} value="CY">Cyprus</option>
+                                <option {{ 'checked' if request.args.country == 'CZ' }} value="CZ">Czechia</option>
+                                <option {{ 'checked' if request.args.country == 'CI' }} value="CI">Côte d'Ivoire</option>
+                                <option {{ 'checked' if request.args.country == 'DK' }} value="DK">Denmark</option>
+                                <option {{ 'checked' if request.args.country == 'DJ' }} value="DJ">Djibouti</option>
+                                <option {{ 'checked' if request.args.country == 'DM' }} value="DM">Dominica</option>
+                                <option {{ 'checked' if request.args.country == 'DO' }} value="DO">Dominican Republic</option>
+                                <option {{ 'checked' if request.args.country == 'EC' }} value="EC">Ecuador</option>
+                                <option {{ 'checked' if request.args.country == 'EG' }} value="EG">Egypt</option>
+                                <option {{ 'checked' if request.args.country == 'SV' }} value="SV">El Salvador</option>
+                                <option {{ 'checked' if request.args.country == 'GQ' }} value="GQ">Equatorial Guinea</option>
+                                <option {{ 'checked' if request.args.country == 'ER' }} value="ER">Eritrea</option>
+                                <option {{ 'checked' if request.args.country == 'EE' }} value="EE">Estonia</option>
+                                <option {{ 'checked' if request.args.country == 'SZ' }} value="SZ">Eswatini</option>
+                                <option {{ 'checked' if request.args.country == 'ET' }} value="ET">Ethiopia</option>
+                                <option {{ 'checked' if request.args.country == 'FK' }} value="FK">Falkland Islands</option>
+                                <option {{ 'checked' if request.args.country == 'FO' }} value="FO">Faroe Islands</option>
+                                <option {{ 'checked' if request.args.country == 'FJ' }} value="FJ">Fiji</option>
+                                <option {{ 'checked' if request.args.country == 'FI' }} value="FI">Finland</option>
+                                <option {{ 'checked' if request.args.country == 'FR' }} value="FR">France</option>
+                                <option {{ 'checked' if request.args.country == 'GF' }} value="GF">French Guiana</option>
+                                <option {{ 'checked' if request.args.country == 'PF' }} value="PF">French Polynesia</option>
+                                <option {{ 'checked' if request.args.country == 'GA' }} value="GA">Gabon</option>
+                                <option {{ 'checked' if request.args.country == 'GM' }} value="GM">Gambia (the)</option>
+                                <option {{ 'checked' if request.args.country == 'GE' }} value="GE">Georgia</option>
+                                <option {{ 'checked' if request.args.country == 'DE' }} value="DE">Germany</option>
+                                <option {{ 'checked' if request.args.country == 'GH' }} value="GH">Ghana</option>
+                                <option {{ 'checked' if request.args.country == 'GI' }} value="GI">Gibraltar</option>
+                                <option {{ 'checked' if request.args.country == 'GR' }} value="GR">Greece</option>
+                                <option {{ 'checked' if request.args.country == 'GL' }} value="GL">Greenland</option>
+                                <option {{ 'checked' if request.args.country == 'GD' }} value="GD">Grenada</option>
+                                <option {{ 'checked' if request.args.country == 'GP' }} value="GP">Guadeloupe</option>
+                                <option {{ 'checked' if request.args.country == 'GU' }} value="GU">Guam</option>
+                                <option {{ 'checked' if request.args.country == 'GT' }} value="GT">Guatemala</option>
+                                <option {{ 'checked' if request.args.country == 'GG' }} value="GG">Guernsey</option>
+                                <option {{ 'checked' if request.args.country == 'GN' }} value="GN">Guinea</option>
+                                <option {{ 'checked' if request.args.country == 'GW' }} value="GW">Guinea-Bissau</option>
+                                <option {{ 'checked' if request.args.country == 'GY' }} value="GY">Guyana</option>
+                                <option {{ 'checked' if request.args.country == 'HT' }} value="HT">Haiti</option>
+                                <option {{ 'checked' if request.args.country == 'HM' }} value="HM">Heard Island</option>
+                                <option {{ 'checked' if request.args.country == 'VA' }} value="VA">Holy See (the)</option>
+                                <option {{ 'checked' if request.args.country == 'HN' }} value="HN">Honduras</option>
+                                <option {{ 'checked' if request.args.country == 'HK' }} value="HK">Hong Kong</option>
+                                <option {{ 'checked' if request.args.country == 'HU' }} value="HU">Hungary</option>
+                                <option {{ 'checked' if request.args.country == 'IS' }} value="IS">Iceland</option>
+                                <option {{ 'checked' if request.args.country == 'IN' }} value="IN">India</option>
+                                <option {{ 'checked' if request.args.country == 'ID' }} value="ID">Indonesia</option>
+                                <option {{ 'checked' if request.args.country == 'IR' }} value="IR">Iran</option>
+                                <option {{ 'checked' if request.args.country == 'IQ' }} value="IQ">Iraq</option>
+                                <option {{ 'checked' if request.args.country == 'IE' }} value="IE">Ireland</option>
+                                <option {{ 'checked' if request.args.country == 'IM' }} value="IM">Isle of Man</option>
+                                <option {{ 'checked' if request.args.country == 'IL' }} value="IL">Israel</option>
+                                <option {{ 'checked' if request.args.country == 'IT' }} value="IT">Italy</option>
+                                <option {{ 'checked' if request.args.country == 'JM' }} value="JM">Jamaica</option>
+                                <option {{ 'checked' if request.args.country == 'JP' }} value="JP">Japan</option>
+                                <option {{ 'checked' if request.args.country == 'JE' }} value="JE">Jersey</option>
+                                <option {{ 'checked' if request.args.country == 'JO' }} value="JO">Jordan</option>
+                                <option {{ 'checked' if request.args.country == 'KZ' }} value="KZ">Kazakhstan</option>
+                                <option {{ 'checked' if request.args.country == 'KE' }} value="KE">Kenya</option>
+                                <option {{ 'checked' if request.args.country == 'KI' }} value="KI">Kiribati</option>
+                                <option {{ 'checked' if request.args.country == 'KP' }} value="KP">Korea (the Democratic People's Republic of)</option>
+                                <option {{ 'checked' if request.args.country == 'KR' }} value="KR">Korea (the Republic of)</option>
+                                <option {{ 'checked' if request.args.country == 'KW' }} value="KW">Kuwait</option>
+                                <option {{ 'checked' if request.args.country == 'KG' }} value="KG">Kyrgyzstan</option>
+                                <option {{ 'checked' if request.args.country == 'LA' }} value="LA">Lao People's Democratic Republic</option>
+                                <option {{ 'checked' if request.args.country == 'LV' }} value="LV">Latvia</option>
+                                <option {{ 'checked' if request.args.country == 'LB' }} value="LB">Lebanon</option>
+                                <option {{ 'checked' if request.args.country == 'LS' }} value="LS">Lesotho</option>
+                                <option {{ 'checked' if request.args.country == 'LR' }} value="LR">Liberia</option>
+                                <option {{ 'checked' if request.args.country == 'LY' }} value="LY">Libya</option>
+                                <option {{ 'checked' if request.args.country == 'LI' }} value="LI">Liechtenstein</option>
+                                <option {{ 'checked' if request.args.country == 'LT' }} value="LT">Lithuania</option>
+                                <option {{ 'checked' if request.args.country == 'LU' }} value="LU">Luxembourg</option>
+                                <option {{ 'checked' if request.args.country == 'MO' }} value="MO">Macao</option>
+                                <option {{ 'checked' if request.args.country == 'MG' }} value="MG">Madagascar</option>
+                                <option {{ 'checked' if request.args.country == 'MW' }} value="MW">Malawi</option>
+                                <option {{ 'checked' if request.args.country == 'MY' }} value="MY">Malaysia</option>
+                                <option {{ 'checked' if request.args.country == 'MV' }} value="MV">Maldives</option>
+                                <option {{ 'checked' if request.args.country == 'ML' }} value="ML">Mali</option>
+                                <option {{ 'checked' if request.args.country == 'MT' }} value="MT">Malta</option>
+                                <option {{ 'checked' if request.args.country == 'MH' }} value="MH">Marshall Islands</option>
+                                <option {{ 'checked' if request.args.country == 'MQ' }} value="MQ">Martinique</option>
+                                <option {{ 'checked' if request.args.country == 'MR' }} value="MR">Mauritania</option>
+                                <option {{ 'checked' if request.args.country == 'MU' }} value="MU">Mauritius</option>
+                                <option {{ 'checked' if request.args.country == 'YT' }} value="YT">Mayotte</option>
+                                <option {{ 'checked' if request.args.country == 'MX' }} value="MX">Mexico</option>
+                                <option {{ 'checked' if request.args.country == 'FM' }} value="FM">Micronesia</option>
+                                <option {{ 'checked' if request.args.country == 'MD' }} value="MD">Moldova</option>
+                                <option {{ 'checked' if request.args.country == 'MC' }} value="MC">Monaco</option>
+                                <option {{ 'checked' if request.args.country == 'MN' }} value="MN">Mongolia</option>
+                                <option {{ 'checked' if request.args.country == 'ME' }} value="ME">Montenegro</option>
+                                <option {{ 'checked' if request.args.country == 'MS' }} value="MS">Montserrat</option>
+                                <option {{ 'checked' if request.args.country == 'MA' }} value="MA">Morocco</option>
+                                <option {{ 'checked' if request.args.country == 'MZ' }} value="MZ">Mozambique</option>
+                                <option {{ 'checked' if request.args.country == 'MM' }} value="MM">Myanmar</option>
+                                <option {{ 'checked' if request.args.country == 'NA' }} value="NA">Namibia</option>
+                                <option {{ 'checked' if request.args.country == 'NR' }} value="NR">Nauru</option>
+                                <option {{ 'checked' if request.args.country == 'NP' }} value="NP">Nepal</option>
+                                <option {{ 'checked' if request.args.country == 'NL' }} value="NL">Netherlands</option>
+                                <option {{ 'checked' if request.args.country == 'NC' }} value="NC">New Caledonia</option>
+                                <option {{ 'checked' if request.args.country == 'NZ' }} value="NZ">New Zealand</option>
+                                <option {{ 'checked' if request.args.country == 'NI' }} value="NI">Nicaragua</option>
+                                <option {{ 'checked' if request.args.country == 'NE' }} value="NE">Niger</option>
+                                <option {{ 'checked' if request.args.country == 'NG' }} value="NG">Nigeria</option>
+                                <option {{ 'checked' if request.args.country == 'NU' }} value="NU">Niue</option>
+                                <option {{ 'checked' if request.args.country == 'NF' }} value="NF">Norfolk Island</option>
+                                <option {{ 'checked' if request.args.country == 'MP' }} value="MP">Northern Mariana Islands</option>
+                                <option {{ 'checked' if request.args.country == 'NO' }} value="NO">Norway</option>
+                                <option {{ 'checked' if request.args.country == 'OM' }} value="OM">Oman</option>
+                                <option {{ 'checked' if request.args.country == 'PK' }} value="PK">Pakistan</option>
+                                <option {{ 'checked' if request.args.country == 'PW' }} value="PW">Palau</option>
+                                <option {{ 'checked' if request.args.country == 'PS' }} value="PS">Palestine</option>
+                                <option {{ 'checked' if request.args.country == 'PA' }} value="PA">Panama</option>
+                                <option {{ 'checked' if request.args.country == 'PG' }} value="PG">Papua New Guinea</option>
+                                <option {{ 'checked' if request.args.country == 'PY' }} value="PY">Paraguay</option>
+                                <option {{ 'checked' if request.args.country == 'PE' }} value="PE">Peru</option>
+                                <option {{ 'checked' if request.args.country == 'PH' }} value="PH">Philippines</option>
+                                <option {{ 'checked' if request.args.country == 'PN' }} value="PN">Pitcairn</option>
+                                <option {{ 'checked' if request.args.country == 'PL' }} value="PL">Poland</option>
+                                <option {{ 'checked' if request.args.country == 'PT' }} value="PT">Portugal</option>
+                                <option {{ 'checked' if request.args.country == 'PR' }} value="PR">Puerto Rico</option>
+                                <option {{ 'checked' if request.args.country == 'QA' }} value="QA">Qatar</option>
+                                <option {{ 'checked' if request.args.country == 'MK' }} value="MK">Republic of North Macedonia</option>
+                                <option {{ 'checked' if request.args.country == 'RO' }} value="RO">Romania</option>
+                                <option {{ 'checked' if request.args.country == 'RU' }} value="RU">Russia</option>
+                                <option {{ 'checked' if request.args.country == 'RW' }} value="RW">Rwanda</option>
+                                <option {{ 'checked' if request.args.country == 'RE' }} value="RE">Réunion</option>
+                                <option {{ 'checked' if request.args.country == 'BL' }} value="BL">Saint Barthélemy</option>
+                                <option {{ 'checked' if request.args.country == 'SH' }} value="SH">Saint Helena</option>
+                                <option {{ 'checked' if request.args.country == 'KN' }} value="KN">Saint Kitts and Nevis</option>
+                                <option {{ 'checked' if request.args.country == 'LC' }} value="LC">Saint Lucia</option>
+                                <option {{ 'checked' if request.args.country == 'MF' }} value="MF">Saint Martin</option>
+                                <option {{ 'checked' if request.args.country == 'PM' }} value="PM">Saint Pierre</option>
+                                <option {{ 'checked' if request.args.country == 'VC' }} value="VC">Saint Vincent</option>
+                                <option {{ 'checked' if request.args.country == 'WS' }} value="WS">Samoa</option>
+                                <option {{ 'checked' if request.args.country == 'SM' }} value="SM">San Marino</option>
+                                <option {{ 'checked' if request.args.country == 'ST' }} value="ST">Sao Tome and Principe</option>
+                                <option {{ 'checked' if request.args.country == 'SA' }} value="SA">Saudi Arabia</option>
+                                <option {{ 'checked' if request.args.country == 'SN' }} value="SN">Senegal</option>
+                                <option {{ 'checked' if request.args.country == 'RS' }} value="RS">Serbia</option>
+                                <option {{ 'checked' if request.args.country == 'SC' }} value="SC">Seychelles</option>
+                                <option {{ 'checked' if request.args.country == 'SL' }} value="SL">Sierra Leone</option>
+                                <option {{ 'checked' if request.args.country == 'SG' }} value="SG">Singapore</option>
+                                <option {{ 'checked' if request.args.country == 'SX' }} value="SX">Sint Maarten</option>
+                                <option {{ 'checked' if request.args.country == 'SK' }} value="SK">Slovakia</option>
+                                <option {{ 'checked' if request.args.country == 'SI' }} value="SI">Slovenia</option>
+                                <option {{ 'checked' if request.args.country == 'SB' }} value="SB">Solomon Islands</option>
+                                <option {{ 'checked' if request.args.country == 'SO' }} value="SO">Somalia</option>
+                                <option {{ 'checked' if request.args.country == 'ZA' }} value="ZA">South Africa</option>
+                                <option {{ 'checked' if request.args.country == 'GS' }} value="GS">South Georgia</option>
+                                <option {{ 'checked' if request.args.country == 'SS' }} value="SS">South Sudan</option>
+                                <option {{ 'checked' if request.args.country == 'ES' }} value="ES">Spain</option>
+                                <option {{ 'checked' if request.args.country == 'LK' }} value="LK">Sri Lanka</option>
+                                <option {{ 'checked' if request.args.country == 'SD' }} value="SD">Sudan (the)</option>
+                                <option {{ 'checked' if request.args.country == 'SR' }} value="SR">Suriname</option>
+                                <option {{ 'checked' if request.args.country == 'SJ' }} value="SJ">Svalbard and Jan Mayen</option>
+                                <option {{ 'checked' if request.args.country == 'SE' }} value="SE">Sweden</option>
+                                <option {{ 'checked' if request.args.country == 'CH' }} value="CH">Switzerland</option>
+                                <option {{ 'checked' if request.args.country == 'SY' }} value="SY">Syrian Arab Republic</option>
+                                <option {{ 'checked' if request.args.country == 'TW' }} value="TW">Taiwan</option>
+                                <option {{ 'checked' if request.args.country == 'TJ' }} value="TJ">Tajikistan</option>
+                                <option {{ 'checked' if request.args.country == 'TZ' }} value="TZ">Tanzania, United Republic of</option>
+                                <option {{ 'checked' if request.args.country == 'TH' }} value="TH">Thailand</option>
+                                <option {{ 'checked' if request.args.country == 'TL' }} value="TL">Timor-Leste</option>
+                                <option {{ 'checked' if request.args.country == 'TG' }} value="TG">Togo</option>
+                                <option {{ 'checked' if request.args.country == 'TK' }} value="TK">Tokelau</option>
+                                <option {{ 'checked' if request.args.country == 'TO' }} value="TO">Tonga</option>
+                                <option {{ 'checked' if request.args.country == 'TT' }} value="TT">Trinidad and Tobago</option>
+                                <option {{ 'checked' if request.args.country == 'TN' }} value="TN">Tunisia</option>
+                                <option {{ 'checked' if request.args.country == 'TR' }} value="TR">Turkey</option>
+                                <option {{ 'checked' if request.args.country == 'TM' }} value="TM">Turkmenistan</option>
+                                <option {{ 'checked' if request.args.country == 'TC' }} value="TC">Turks and Caicos Islands</option>
+                                <option {{ 'checked' if request.args.country == 'TV' }} value="TV">Tuvalu</option>
+                                <option {{ 'checked' if request.args.country == 'UG' }} value="UG">Uganda</option>
+                                <option {{ 'checked' if request.args.country == 'UA' }} value="UA">Ukraine</option>
+                                <option {{ 'checked' if request.args.country == 'AE' }} value="AE">United Arab Emirates (the)</option>
+                                <option {{ 'checked' if request.args.country == 'GB' }} value="GB">United Kingdom</option>
+                                <option {{ 'checked' if request.args.country == 'US' }} value="US">United States of America</option>
+                                <option {{ 'checked' if request.args.country == 'UY' }} value="UY">Uruguay</option>
+                                <option {{ 'checked' if request.args.country == 'UZ' }} value="UZ">Uzbekistan</option>
+                                <option {{ 'checked' if request.args.country == 'VU' }} value="VU">Vanuatu</option>
+                                <option {{ 'checked' if request.args.country == 'VE' }} value="VE">Venezuela</option>
+                                <option {{ 'checked' if request.args.country == 'VN' }} value="VN">Viet Nam</option>
+                                <option {{ 'checked' if request.args.country == 'VG' }} value="VG">Virgin Islands (British)</option>
+                                <option {{ 'checked' if request.args.country == 'VI' }} value="VI">Virgin Islands (U.S.)</option>
+                                <option {{ 'checked' if request.args.country == 'WF' }} value="WF">Wallis and Futuna</option>
+                                <option {{ 'checked' if request.args.country == 'EH' }} value="EH">Western Sahara</option>
+                                <option {{ 'checked' if request.args.country == 'YE' }} value="YE">Yemen</option>
+                                <option {{ 'checked' if request.args.country == 'ZM' }} value="ZM">Zambia</option>
+                                <option {{ 'checked' if request.args.country == 'ZW' }} value="ZW">Zimbabwe</option>
+                                <option {{ 'checked' if request.args.country == 'AX' }} value="AX">Åland Islands</option>
                             </select>
                             <i class="icon ri-arrow-drop-down-line"></i>
                         </div>

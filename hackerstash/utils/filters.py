@@ -52,7 +52,7 @@ def to_post_body(post) -> str:
             image = [i for i in post.images if i.file_name == file_name][0]
             return f'src="https://images.hackerstash.com/{image.key}"'
         except Exception as e:
-            logging.error('Failed to render post body', e)
+            logging.error('Failed to render post body %', e)
             return 'src=""'
 
     return re.sub(r'src="(.*)"', lambda x: build_image_url_from_filename(x.group(1)), body)
