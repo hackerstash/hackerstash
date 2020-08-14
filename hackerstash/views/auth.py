@@ -134,7 +134,7 @@ def twitter_callback() -> str:
         session['id'] = user.id
         return redirect(url_for('users.show', user_id=user.id))
 
-    name = twitter_user['user'].split(' ')
+    name = twitter_user['name'].split(' ')
     # Some people only have their first name on twitter which
     # causes and index out of bounds error
     if len(name) == 2:

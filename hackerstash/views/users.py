@@ -83,7 +83,7 @@ def destroy() -> str:
     if user.member and len(user.member.project.members) == 1:
         db.session.delete(user.member.project)
 
-    email_factory('close_account', user.email, {})
+    email_factory('close_account', user.email, {}).send()
 
     db.session.delete(user)
     db.session.commit()
