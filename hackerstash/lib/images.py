@@ -39,5 +39,5 @@ def delete_image(key: str) -> None:
 
         client.delete_object(**params)
     except Exception as e:
-        logging.error('Failed to delete image %', e)
+        logging.error('Failed to delete image %s', e)
         pass

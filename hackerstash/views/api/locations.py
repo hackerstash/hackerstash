@@ -30,5 +30,5 @@ def index() -> str:
         locations = list(map(lambda x: x['description'], response['predictions']))
         return jsonify(locations)
     except Exception as e:
-        logging.error('Failed to get location data %', e)
+        logging.error('Failed to get location data %s', e)
         return jsonify([])
