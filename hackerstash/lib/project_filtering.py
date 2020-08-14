@@ -29,7 +29,10 @@ def get_args(raw_args) -> dict:
     args = {}
     for key, value in raw_args.to_dict().items():
         if value and value != 'Please select':
-            args[key] = value
+            if key in ['platforms_and_devices', 'business_models', 'fundings']:
+                args[key] = raw_args.getlist(key)
+            else:
+                args[key] = value
     return args
 
 
@@ -75,21 +78,15 @@ def filter_by_country(country: str, value: str) -> bool:
 
 
 def filter_by_platforms_and_devices(platfroms_and_devices: list, value: str) -> bool:
-    if len(platfroms_and_devices) == 0:
-        return True
-    return all(x.find(value) for x in platfroms_and_devices)
+    return all(x in platfroms_and_devices for x in value)
 
 
 def filter_by_business_models(business_models: list, value: str) -> bool:
-    if len(business_models) == 0:
-        return True
-    return all(x.find(value) for x in business_models)
+    return all(x in business_models for x in value)
 
 
 def filter_by_fundings(fundings: list, value: str) -> bool:
-    if len(fundings) == 0:
-        return True
-    return all(x.find(value) for x in fundings)
+    return all(x in fundings for x in value)
 
 
 def sort_projects(projects, sorting: str = 'alphabetical_desc'):
