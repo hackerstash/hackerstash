@@ -9,7 +9,7 @@
 {% block body %}
     <div class="page posts show">
         <header class="header">
-            <div class="post-votes">
+            <div class="post-votes-{{ post.id }}">
                 {{ post_vote('lg', post) }}
             </div>
             <div class="details">

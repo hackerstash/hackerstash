@@ -6,7 +6,7 @@
     <div class="posts">
         {% for post in list %}
             <article class="post-row">
-                <div class="post-votes">
+                <div class="post-votes-{{ post.id }}">
                     {{ post_vote('sm', post) }}
                 </div>
                 <div class="details ml-1-5">
