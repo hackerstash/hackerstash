@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
@@ -41,12 +42,13 @@ def show(project_id: str) -> str:
 @projects.route('/projects/create')
 @login_required
 def create() -> str:
+    now = datetime.datetime.now()
     user = User.query.get(g.user.id)
 
     if user.member:
         return redirect(url_for('projects.show', project_id=user.member.project.id))
 
-    project = Project(name='Untitled', time_commitment='FULL_TIME')
+    project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
     member = Member(owner=True, user=user, project=project)
 
     db.session.add(project)
