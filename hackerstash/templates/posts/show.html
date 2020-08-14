@@ -26,6 +26,8 @@
                 {% if post.has_author(g.user) %}
                     <a href="{{ url_for('posts.edit', post_id=post.id) }}" class="button secondary">Edit</a>
                     <a href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
+                {% else %}
+                    <a href="{{ url_for('posts.index') }}" class="button secondary">Back</a>
                 {% endif %}
             </div>
         </header>

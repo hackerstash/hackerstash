@@ -13,6 +13,8 @@
 
             {% if not project.published %}
                 <span class="tag tertiary">UNPUBLISHED</span>
+            {% else %}
+                <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">View</a>
             {% endif %}
         </header>
 

@@ -10,6 +10,7 @@
                 Past Results
                 <span>{{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}</span>
             </h2>
+            <a href="{{ url_for('past_results.index') }}" class="button secondary">Back</a>
         </header>
 
         <div class="message warning">

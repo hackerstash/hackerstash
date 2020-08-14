@@ -105,6 +105,8 @@ def google_callback() -> str:
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
+    print(google_user)
+
     user = User.query.filter_by(email=google_user['email']).first()
 
     if user:
