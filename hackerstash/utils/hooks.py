@@ -21,6 +21,15 @@ def init_app(app):
         g.prize_pool = f'${count}.00'
         g.time_remaining = f'{6 - now.weekday()} days'
 
+    @app.after_request
+    def after_request_func(response):
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+        response.headers['X-XSS-Protection'] = '1; mode=block'
+        response.headers['Referrer-Policy'] = 'no-referrer-when-downgrade'
+        return response
+
     @app.errorhandler(404)
     def page_not_found(_error):
         return render_template('404.html'), 404
