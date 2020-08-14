@@ -72,8 +72,10 @@
                     {% endif %}
                 </a>
             </div>
-        {% else %}
-            {% include "partials/no_results.html" %}
         {% endfor %}
     </div>
+
+    {% if list | length == 0 %}
+        {% include "partials/no_results.html" %}
+    {% endif %}
 {% endmacro %}

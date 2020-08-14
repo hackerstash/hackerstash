@@ -27,7 +27,7 @@
                 </div>
                 <button class="button secondary has-icon modal-open" data-modal="filter-modal">
                     <i class="icon ri-filter-2-line"></i>
-                    Filters (0)
+                    Filters ({{ filtered_count }})
                 </button>
                 <button class="button secondary has-icon modal-open" data-modal="display-modal">
                     <i class="icon ri-eye-line"></i>
@@ -85,7 +85,7 @@
                         <label class="label" for="country">Country</label>
                         <div class="select wrap-300">
                             <select id="country" name="country">
-                                <option>Please select</option>
+                                <option disabled selected value>Please select</option>
                                 <option {{ 'selected' if request.args.country == 'AF' }} value="AF">Afghanistan</option>
                                 <option {{ 'selected' if request.args.country == 'AL' }} value="AL">Albania</option>
                                 <option {{ 'checked' if request.args.country == 'DZ' }} value="DZ">Algeria</option>

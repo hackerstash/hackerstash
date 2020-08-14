@@ -16,7 +16,7 @@ def project_filtering(args):
     args = get_args(args)
 
     if len(args) == 0:
-        return projects
+        return list(projects)
 
     logging.info('Filtering projects %s', args)
 

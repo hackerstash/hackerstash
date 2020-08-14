@@ -1,4 +1,3 @@
-import requests
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter

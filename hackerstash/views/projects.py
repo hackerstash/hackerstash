@@ -21,7 +21,14 @@ projects = Blueprint('projects', __name__)
 def index() -> str:
     display = request.args.getlist('display')
     filtered_projects = project_filtering(request.args)
-    return render_template('projects/index.html', filtered_projects=filtered_projects, display=display)
+    filtered_count = len(list(request.args.keys()))
+
+    return render_template(
+        'projects/index.html',
+        filtered_projects=filtered_projects,
+        display=display,
+        filtered_count=filtered_count
+    )
 
 
 @projects.route('/projects/<project_id>')
