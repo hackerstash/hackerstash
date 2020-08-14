@@ -27,7 +27,10 @@
                     <a href="{{ url_for('posts.edit', post_id=post.id) }}" class="button secondary">Edit</a>
                     <a href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
                 {% else %}
-                    <a href="{{ url_for('posts.index') }}" class="button secondary">Back</a>
+                    <a href="{{ url_for('posts.index') }}" class="button secondary has-icon">
+                        <i class="ri-arrow-left-line"></i>
+                        Back
+                    </a>
                 {% endif %}
             </div>
         </header>

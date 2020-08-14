@@ -8,7 +8,10 @@
         <header class="header">
             <h2>Progress</h2>
             <div class="button-group">
-                <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Back</a>
+                <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary has-icon">
+                    <i class="ri-arrow-left-line"></i>
+                    Back
+                </a>
                 {% if project.has_member(g.user) %}
                     <button class="button modal-open" data-modal="new-progress-modal">+ New</button>
                 {% endif %}

@@ -5,7 +5,10 @@
     <div class="page rules">
         <header class="header">
             <h2>Add Team Member</h2>
-            <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Back</a>
+            <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">
+                <i class="ri-arrow-left-line"></i>
+                Back
+            </a>
         </header>
 
         <form class="form mt-4" action="{{ url_for('projects.invite_member', project_id=project.id) }}" method="post">
