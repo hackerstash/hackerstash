@@ -1,8 +1,13 @@
 import json
+import arrow
 from hackerstash.db import db
 from sqlalchemy.types import ARRAY
 from hackerstash.models.vote import Vote
 from hackerstash.utils.votes import sum_of_project_votes
+
+# There are a lof of horrifically unperformant
+# things in here, they are all done in the name
+# of speed
 
 
 class Project(db.Model):
@@ -91,13 +96,27 @@ class Project(db.Model):
         return sum_of_project_votes(self)
 
     @property
+    def all_votes(self):
+        out = []
+        # All the project votes
+        [out.append(v) for v in self.votes]
+        # all the post votes
+        for p in self.posts:
+            [out.append(v) for v in p.votes]
+        # all the comment votes
+        for m in self.members:
+            for c in m.user.comments:
+                [out.append(v) for v in c.votes]
+        return out
+
+    @property
     def upvotes(self) -> int:
-        votes = list(filter(lambda x: x.score > 0, self.votes))
+        votes = list(filter(lambda x: x.score > 0, self.all_votes))
         return len(votes)
 
     @property
     def downvotes(self) -> int:
-        votes = list(filter(lambda x: x.score < 0, self.votes))
+        votes = list(filter(lambda x: x.score < 0, self.all_votes))
         return len(votes)
 
     @property
@@ -127,3 +146,14 @@ class Project(db.Model):
 
         }
         return json.dumps(data)
+
+    @property
+    def project_score_data(self):
+        out = []
+        votes = self.all_votes
+        start_of_week = arrow.now().floor('week')
+        for i in range(7):
+            this_day = start_of_week.shift(days=+i)
+            matching_votes = list(filter(lambda x: x.created_at.day == this_day.day, votes))
+            out.append(len(matching_votes))
+        return json.dumps(out)
