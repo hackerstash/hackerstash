@@ -151,7 +151,7 @@ def twitter_callback() -> str:
         first_name = name[0]
         last_name = name[1]
     else:
-        first_name = name
+        first_name = name[0]
         last_name = None
 
     # Use their twitter photo if it exists
