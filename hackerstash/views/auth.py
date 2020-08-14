@@ -134,7 +134,16 @@ def twitter_callback() -> str:
         session['id'] = user.id
         return redirect(url_for('users.show', user_id=user.id))
 
-    first_name, last_name = twitter_user['name'].split(' ')
+    name = twitter_user['user'].split(' ')
+    # Some people only have their first name on twitter which
+    # causes and index out of bounds error
+    if len(name) == 2:
+        first_name = name[0]
+        last_name = name[1]
+    else:
+        first_name = name
+        last_name = None
+
     user = User(first_name=first_name, last_name=last_name, email=twitter_user['email'])
     db.session.add(user)
     db.session.commit()
