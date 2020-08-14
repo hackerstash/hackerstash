@@ -1,7 +1,9 @@
+import requests
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
+from hackerstash.lib.images import upload_image_from_url
 from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
 from hackerstash.models.token import Token
@@ -105,15 +107,21 @@ def google_callback() -> str:
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
-    print(google_user)
-
     user = User.query.filter_by(email=google_user['email']).first()
 
     if user:
         session['id'] = user.id
         return redirect(url_for('users.show', user_id=user.id))
 
-    user = User(first_name=google_user['given_name'], last_name=google_user['family_name'], email=google_user['email'])
+    # Use their google photo if it exists
+    key = upload_image_from_url(google_user['picture']) if google_user['picture'] else None
+
+    user = User(
+        first_name=google_user['given_name'],
+        last_name=google_user['family_name'],
+        email=google_user['email'],
+        avatar=key
+    )
     db.session.add(user)
     db.session.commit()
     session['id'] = user.id
@@ -146,7 +154,15 @@ def twitter_callback() -> str:
         first_name = name
         last_name = None
 
-    user = User(first_name=first_name, last_name=last_name, email=twitter_user['email'])
+    # Use their twitter photo if it exists
+    key = upload_image_from_url(twitter_user['profile_image_url']) if twitter_user['profile_image_url'] else None
+
+    user = User(
+        first_name=first_name,
+        last_name=last_name,
+        email=twitter_user['email'],
+        avatar=key
+    )
     db.session.add(user)
     db.session.commit()
     session['id'] = user.id

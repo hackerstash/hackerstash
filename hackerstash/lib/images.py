@@ -1,5 +1,7 @@
+import io
 import uuid
 import boto3
+import requests
 from hackerstash.lib.logging import logging
 
 client = boto3.client('s3', region_name='eu-west-1')
@@ -16,6 +18,16 @@ def upload_image(image) -> str:
 
     client.put_object(**params)
     return key
+
+
+def upload_image_from_url(url: str):
+    try:
+        r = requests.get(url, stream=True)
+        r.raise_for_status()
+        return upload_image(r.raw.read())
+    except Exception as e:
+        logging.error('Failed to upload remote image %s', e)
+        return None
 
 
 def delete_image(key: str) -> None:
