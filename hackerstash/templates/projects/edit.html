@@ -381,14 +381,8 @@
                             </div>
                         </div>
                     {% else %}
-                        {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                <div class="message failure mt-1">
-                                    <p>{{ messages[0] }}</p>
-                                    <i class="icon ri-close-line close-message"></i>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
+                        {% include "partials/messages.html" %}
+
                         <div class="subscription-card mt-2">
                             <div class="left">
                                 <h3 class="mb-2">Subscribe to publish <span class="tag primary">$12 per month</span></h3>

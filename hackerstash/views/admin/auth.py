@@ -16,7 +16,7 @@ def index() -> str:
         session['admin_id'] = admin.id
         return redirect(url_for('admin_dashboard.index'))
     else:
-        flash('Nope!')
+        flash('Nope!', 'failure')
         return redirect(url_for('admin_auth.index'))
 
 

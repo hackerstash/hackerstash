@@ -53,7 +53,7 @@ def follow(user_id: str) -> str:
 @login_required
 def create() -> str:
     if User.query.filter_by(username=request.form['username']).first():
-        flash('This username is already taken')
+        flash('This username is already taken', 'failure')
         return render_template('users/new.html')
 
     user = User.query.get(session['id'])
@@ -103,6 +103,7 @@ def update_settings() -> str:
     user.email = request.form['email']
     user.telephone = request.form['telephone']
     db.session.commit()
+    flash('Your setting have been updated', 'success')
     return redirect(url_for('users.show', user_id=user.id))
 
 
@@ -128,4 +129,5 @@ def update_profile() -> str:
             setattr(user, key, value)
 
     db.session.commit()
+    flash('Your setting have been updated', 'success')
     return redirect(url_for('users.show', user_id=user.id))

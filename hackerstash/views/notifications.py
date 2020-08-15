@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g, request, redirect, url_for
+from flask import Blueprint, render_template, g, request, redirect, url_for, flash
 from hackerstash.db import db
 from hackerstash.models.user import User
 from hackerstash.models.notification import Notification
@@ -30,6 +30,7 @@ def update() -> str:
         setattr(user.notifications_settings, key, value == 'true')
 
     db.session.commit()
+    flash('Your notification settings have been updated', 'success')
     return redirect(url_for('notifications.index'))
 
 

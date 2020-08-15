@@ -23,7 +23,7 @@ def login() -> str:
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        flash('An account with this email does not exist, please sign up')
+        flash('An account with this email does not exist, please sign up', 'failure')
         step = 1
     else:
         step = 2
@@ -36,7 +36,7 @@ def login() -> str:
                 Token.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
-            flash('The token is invalid')
+            flash('The token is invalid', 'failure')
         else:
             code = Token.generate(email)
             email_factory('login_token', email, {'token': code}).send()
@@ -56,7 +56,7 @@ def signup() -> str:
     user = User.query.filter_by(email=email).first()
 
     if user:
-        flash('This email is in use, please log in')
+        flash('This email is in use, please log in', 'failure')
         step = 1
     else:
         step = 2
@@ -77,7 +77,7 @@ def signup() -> str:
 
                 return redirect(url_for('users.show', user_id=user.id))
 
-            flash('The token is invalid')
+            flash('The token is invalid', 'failure')
         else:
             code = Token.generate(email)
             email_factory('login_token', email, {'token': code}).send()

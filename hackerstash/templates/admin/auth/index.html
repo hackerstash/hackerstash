@@ -8,14 +8,7 @@
                 <fieldset>
                     <h3 class="mb-2">Admin Login</h3>
 
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            <div class="message failure wrap-620">
-                                <p>{{ messages[0] }}</p>
-                                <i class="icon ri-close-line close-message"></i>
-                            </div>
-                        {% endif %}
-                    {% endwith %}
+                    {% include "partials/messages.html" %}
 
                     <label class="label" for="email">Email</label>
                     <input class="input" name="email" id="email" type="email">

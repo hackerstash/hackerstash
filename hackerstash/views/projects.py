@@ -146,7 +146,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
 
     if member.owner:
-        flash('The project owner can\'t be deleted')
+        flash('The project owner can\'t be deleted', 'failure')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 
     notification_factory('member_removed', {'member': member, 'remover': g.user}).publish()
@@ -212,7 +212,7 @@ def publish(project_id: str) -> str:
 
     for field in required_fields:
         if not getattr(project, field):
-            flash(f'Please fill out all of the fields on the details tab')
+            flash(f'Please fill out all of the fields on the details tab', 'failure')
             return redirect(url_for('projects.edit', project_id=project_id, tab=3))
 
     project.published = True

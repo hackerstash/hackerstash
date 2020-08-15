@@ -48,7 +48,7 @@ def create() -> str:
     project = Project.query.get(g.user.member.project_id)
 
     if 'title' not in request.form or 'body' not in request.form:
-        flash('All fields are required')
+        flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
     post = Post(title=request.form['title'], body=request.form['body'], user=user, project=project)

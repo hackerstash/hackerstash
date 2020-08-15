@@ -1,0 +1,10 @@
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="message {{ category }} wrap-620">
+                <p>{{ message }}</p>
+                <i class="icon ri-close-line close-message"></i>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
