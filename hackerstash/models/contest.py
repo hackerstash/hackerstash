@@ -40,12 +40,12 @@ class Contest(db.Model):
         return previous[0] if len(previous) else None
 
     @classmethod
-    def end(cls) -> None:
+    def end(cls, week, year) -> None:
         now = datetime.datetime.now()
         previous_contest = cls.previous()
 
-        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
-        year = now.year
+        week = week or datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        year = year or now.year
         # We could use autoincrement, but if we cock up and have to delete it
         # we can never go back!
         tournament = previous_contest.tournament + 1 if previous_contest else 1

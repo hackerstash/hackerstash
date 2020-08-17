@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from hackerstash.db import db
 from hackerstash.lib.logging import logging
 from hackerstash.models.user import User
@@ -31,7 +31,12 @@ def delete_user(user_id: str):
 @admin_api_key_required
 def end_contest():
     try:
-        Contest.end()
+        week = request.args.get('month')
+        year = request.args.get('year')
+        Contest.end(
+            int(week) if week else None,
+            int(year) if year else None
+        )
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
         logging.error('Failed to end contest %s', e)
