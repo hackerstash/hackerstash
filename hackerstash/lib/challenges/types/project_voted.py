@@ -10,4 +10,13 @@ class ProjectVoted(Base):
         user = g.user
         project = payload['project']
 
-        pass
+        if user.member.project_id != project.id:
+            # TODO not existing
+            challenge = Challenge(
+                key='given_project_vote',
+                week=self.week,
+                year=self.year,
+                project=user.member.project
+            )
+            self.challenges_to_create.append(challenge)
+

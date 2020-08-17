@@ -10,4 +10,12 @@ class CommentVoted(Base):
         user = g.user
         comment = payload['comment']
 
-        pass
+        if user.member.project.id != comment.user.member.project.id:
+            # TODO not existing
+            challenge = Challenge(
+                key='received_comment_vote',
+                week=self.week,
+                year=self.year,
+                project=comment.user.member.project
+            )
+            self.challenges_to_create.append(challenge)

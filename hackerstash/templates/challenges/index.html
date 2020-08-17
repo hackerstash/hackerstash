@@ -111,9 +111,9 @@
                             10 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.received_comment_vote > 0 }}">
+                    <li class="{{ 'completed' if challenge_status.received_comment_vote >= 5 }}">
                         <p class="description">
-                            {% if challenge_status.received_comment_vote > 0 %}
+                            {% if challenge_status.received_comment_vote >= 5 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
                                 <span class="icon">{{ challenge_status.received_comment_vote }}/5</span>

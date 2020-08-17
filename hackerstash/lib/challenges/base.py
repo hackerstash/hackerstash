@@ -20,6 +20,6 @@ class Base:
 
     def create(self):
         for challenge in self.challenges_to_create:
-            logging.info('Creating challenge', challenge)
+            logging.info('Creating challenge %s', challenge)
             db.session.add(challenge)
         db.session.commit()

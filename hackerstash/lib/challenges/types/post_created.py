@@ -8,6 +8,14 @@ class PostCreated(Base):
         super().__init__(payload)
 
         user = g.user
-        post = payload['post']
 
-        pass
+        # TODO not existing
+        challenge = Challenge(
+            key='post_created',
+            year=self.year,
+            week=self.week,
+            project=user.member.project
+        )
+        self.challenges_to_create.append(challenge)
+
+        # TODO post_streak
