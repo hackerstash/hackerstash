@@ -403,7 +403,7 @@
                                         <li>
                                             <i class="ri-drag-move-2-fill drag"></i>
                                             <input name="column" class="input mb-0" type="text" value="{{ column }}" required>
-                                            <i class="ri-close-line remove"></i>
+                                            <i class="ri-close-line modal-open remove" data-modal="delete-column-{{ column | replace(' ', '___') }}"></i>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -508,10 +508,46 @@
             </div>
         </div>
     </div>
+
+    {% for column in project.progress_settings.columns %}
+        <div id="delete-column-{{ column | replace(' ', '___') }}" class="modal">
+            <div class="modal-body sm">
+                <header>
+                    <h3>Delete column</h3>
+                    <i class="icon ri-close-line modal-close"></i>
+                </header>
+                <main>
+                    <form class="form" action="{{ url_for('projects.delete_column', project_id=project.id) }}" method="post">
+                        <fieldset>
+                            <input type="hidden" name="old_column" value="{{ column }}">
+                            {% if project.progress_settings.column_has_children(column) %}
+                                <p class="mt-1">To confirm the deletion of your '{{ column }}' column, please select a column for to remaining '{{ column }}' tasks to be reassigned to:</p>
+                                <label class="label" for="column">Column</label>
+                                <div class="select w-100 mb-3">
+                                    <select id="column" name="new_column">
+                                        <option disabled selected value>Please select</option>
+                                        {% for col in project.progress_settings.columns if col != column %}
+                                            <option value="{{ col }}">{{ col }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <i class="icon ri-arrow-drop-down-line"></i>
+                                </div>
+                            {% else %}
+                                <p class="mt-1 mb-2">Are you sure you want to remove the '{{ column }}' column from your board?</p>
+                            {% endif %}
+
+                            <footer>
+                                <button class="button tertiary" type="submit">Delete column</button>
+                                <button class="button secondary modal-close" type="button">Cancel</button>
+                            </footer>
+                        </fieldset>
+                    </form>
+                </main>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
-    {% if active_tab == '3' %}
-        <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
-    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
 {% endblock %}

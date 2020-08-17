@@ -64,10 +64,4 @@ if (hasKanbanSettings) {
 
         hasKanbanSettings.querySelector('.columns').innerHTML += row;
     });
-
-    hasKanbanSettings.addEventListener('click', (event) => {
-        if (event.target.closest('.remove')) {
-            event.target.closest('li').remove();
-        }
-    });
 }

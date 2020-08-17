@@ -334,3 +334,24 @@ def progress_settings(project_id: str):
     db.session.commit()
     flash('Kanban settings have been updated')
     return redirect(url_for('projects.edit', project_id=project_id, tab='3'))
+
+
+@projects.route('/projects/<project_id>/progress/delete_column', methods=['POST'])
+@login_required
+@member_required
+def delete_column(project_id):
+    project = Project.query.get(project_id)
+    old_column = request.form['old_column']
+    new_column = request.form.get('new_column')
+
+    # Remove the old column
+    project.progress_settings.columns = list(filter(lambda x: x != old_column, project.progress_settings.columns))
+    # Move over children
+    if new_column:
+        for prog in project.progress:
+            if prog.column == old_column:
+                prog.column = new_column
+
+    db.session.commit()
+    flash('Kanban settings have been updated')
+    return redirect(url_for('projects.edit', project_id=project_id, tab='3'))

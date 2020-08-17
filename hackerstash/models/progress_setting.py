@@ -18,3 +18,7 @@ class ProgressSetting(db.Model):
 
     def __repr__(self) -> str:
         return f'<ProgressSetting {self.project.id}>'
+
+    def column_has_children(self, column: str):
+        matches = list(filter(lambda x: x.column == column, self.project.progress))
+        return len(matches) > 0
