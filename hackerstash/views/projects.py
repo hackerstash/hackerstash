@@ -12,6 +12,7 @@ from hackerstash.models.member import Member
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
 from hackerstash.models.progress import Progress
+from hackerstash.models.progress_setting import ProgressSetting
 from hackerstash.utils.auth import login_required, member_required, published_project_required
 
 projects = Blueprint('projects', __name__)
@@ -51,15 +52,18 @@ def show(project_id: str) -> str:
 def create() -> str:
     now = datetime.datetime.now()
     user = User.query.get(g.user.id)
+    columns = ['Backlog', 'To Do', 'In Progress', 'Testing', 'Done']
 
     if user.member:
         return redirect(url_for('projects.show', project_id=user.member.project.id))
 
     project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
     member = Member(owner=True, user=user, project=project)
+    prog_settings = ProgressSetting(enabled=True, visible=False, columns=columns, project=project)
 
     db.session.add(project)
     db.session.add(member)
+    db.session.add(prog_settings)
     db.session.commit()
 
     return redirect(url_for('projects.edit', project_id=project.id))
@@ -213,7 +217,7 @@ def publish(project_id: str) -> str:
     for field in required_fields:
         if not getattr(project, field):
             flash(f'Please fill out all of the fields on the details tab', 'failure')
-            return redirect(url_for('projects.edit', project_id=project_id, tab=3))
+            return redirect(url_for('projects.edit', project_id=project_id, tab=4))
 
     project.published = True
     db.session.commit()
@@ -282,21 +286,51 @@ def accept_invite(invite_token: str) -> str:
         return redirect(url_for('auth.signup'))
 
 
-@projects.route('/projects/<project_id>/progress', methods=['GET', 'POST'])
-def progress(project_id: str) -> str:
+@projects.route('/projects/<project_id>/progress', methods=['POST'])
+@login_required
+@member_required
+def create_progress(project_id: str) -> str:
     project = Project.query.get(project_id)
-
-    if request.method == 'GET':
-        return render_template('projects/progress/index.html', project=project)
 
     prog = Progress(
         name=request.form['name'],
         description=request.form['description'],
-        column='todo',
-        user=User.query.get(request.form['user']),
+        column=request.form['column'],
+        user=User.query.get(request.form['user']) if request.form['user'] else None,
         project=project
     )
     db.session.add(prog)
     db.session.commit()
 
-    return redirect(url_for('projects.progress', project_id=project.id))
+    return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/progress/<progress_id>', methods=['POST'])
+@login_required
+@member_required
+def update_progress(project_id: str, progress_id: str):
+    prog = Progress.query.get(progress_id)
+    for key, value in request.form.items():
+        if key == 'user':
+            prog.user = User.query.get(value) if value else None
+        else:
+            setattr(prog, key, value)
+    db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return '', 204
+    else:
+        return redirect(url_for('projects.show', project_id=project_id))
+
+
+@projects.route('/projects/<project_id>/progress/update', methods=['POST'])
+@login_required
+@member_required
+def progress_settings(project_id: str):
+    project = Project.query.get(project_id)
+    project.progress_settings.enabled = request.form['enabled'] == 'on'
+    project.progress_settings.visible = request.form['visible'] == 'on'
+    project.progress_settings.columns = request.form.getlist('column')
+    db.session.commit()
+    flash('Kanban settings have been updated')
+    return redirect(url_for('projects.edit', project_id=project_id, tab='3'))

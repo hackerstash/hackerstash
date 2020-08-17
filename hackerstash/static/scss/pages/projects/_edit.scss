@@ -197,6 +197,38 @@
   }
 }
 
+.kanban {
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      display: flex;
+      list-style: none;
+      margin-bottom: .5rem;
+
+      .drag {
+        color: $mauve-500;
+        cursor: move;
+        font-size: 1.5rem;
+        margin-right: .5rem;
+      }
+
+      .remove {
+        color: $red-500;
+        cursor: pointer;
+        font-size: 1.5rem;
+        margin-left: .5rem;
+      }
+    }
+  }
+
+  .add-column {
+    margin: 1.5rem 0 3rem 2rem;
+  }
+}
+
 .team-modal {
   footer {
     display: none;

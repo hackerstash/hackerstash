@@ -22,7 +22,8 @@
             <div class="tab-header">
                 <a href="?tab=1" class="button {{ 'active' if active_tab == '1' }}">Project details</a>
                 <a href="?tab=2" class="button {{ 'active' if active_tab == '2' }}">Team</a>
-                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Subscription</a>
+                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Kanban</a>
+                <a href="?tab=4" class="button {{ 'active' if active_tab == '4' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
@@ -291,8 +292,8 @@
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == '2' }}">
-                    <label class="label mt-1 mb-2">Team members</label>
-                    <p class="wrap-620">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
+                    <label class="label mt-1 mb-1">Team members</label>
+                    <p class="wrap-620 mb-2">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
                     <ul class="team">
                         {% for m in project.members %}
                             <li>
@@ -354,6 +355,71 @@
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == '3' }}">
+                    {% include "partials/messages.html" %}
+
+                    <form id="kanban-settings" class="form kanban" method="post" action="{{ url_for('projects.progress_settings', project_id=project.id) }}">
+                        <fieldset>
+                            <label class="label mt-2">Kanban functionality</label>
+                            <p class="wrap-620">You can turn on the HackerStash kanban board to help you keep track of your work and share progress on your project profile.</p>
+                            <ul class="radio-group mt-1 mb-3">
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="enabled-on" name="enabled" value="on" {{ 'checked' if project.progress_settings.enabled }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="enabled-on">On</label>
+                                </li>
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="enabled-off" name="enabled" value="off" {{ 'checked' if not project.progress_settings.enabled }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="enabled-off">Off</label>
+                                </li>
+                            </ul>
+                            <label class="label">Display on project profile</label>
+                            <ul class="radio-group mt-1 mb-3">
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="visible-on" name="visible" value="on" {{ 'checked' if project.progress_settings.visible }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="visible-on">On</label>
+                                </li>
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="visible-off" name="visible" value="off" {{ 'checked' if not project.progress_settings.visible }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="visible-off">Off</label>
+                                </li>
+                            </ul>
+
+                            {% if project.progress_settings.enabled %}
+                                <p class="wrap-620 mb-2">You can add, remove or rename columns using the options below. To reorder the columns please use the drag icon on the left-hand side.</p>
+
+                                <ul class="columns wrap-620">
+                                    {% for column in project.progress_settings.columns %}
+                                        <li>
+                                            <i class="ri-drag-move-2-fill drag"></i>
+                                            <input name="column" class="input mb-0" type="text" value="{{ column }}" required>
+                                            <i class="ri-close-line remove"></i>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+                                <button class="button link add-column">+ <span>Add Column</span></button>
+                            {% endif %}
+
+                            <div class="button-group">
+                                <button class="button" type="submit">Save changes</button>
+                                <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="tab {{ 'active' if active_tab == '4' }}">
                     {% if project.published %}
                         <div class="subscription-published">
                             <h3 class="mt-2 mb-3">Project Published</h3>
@@ -442,4 +508,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {% if active_tab == '3' %}
+        <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
+    {% endif %}
 {% endblock %}

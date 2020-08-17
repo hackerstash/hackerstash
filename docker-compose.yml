@@ -12,6 +12,7 @@ services:
     volumes:
       - '.:/app'
       - '~/.aws:/root/.aws'
+    restart: always
 
   db:
     image: 'postgres'

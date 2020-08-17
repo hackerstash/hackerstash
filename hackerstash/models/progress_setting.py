@@ -1,20 +1,20 @@
 from hackerstash.db import db
+from sqlalchemy.types import ARRAY
 
 
-class Progress(db.Model):
-    __tablename__ = 'progress'
+class ProgressSetting(db.Model):
+    __tablename__ = 'progress_settings'
 
     id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String)
-    description = db.Column(db.String)
-    column = db.Column(db.String)
+    enabled = db.Column(db.Boolean)
+    visible = db.Column(db.Boolean)
+    columns = db.Column(ARRAY(db.String))
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __repr__(self) -> str:
-        return f'<Progress {self.id}>'
+        return f'<ProgressSetting {self.project.id}>'

@@ -169,6 +169,92 @@
     }
   }
 
+  .progress {
+    margin-bottom: 4rem;
+    max-width: 960px;
+    overflow-x: hidden;
+
+    .title {
+      align-items: center;
+      border-bottom: 1px solid $darkblue-900;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+
+      @include tablet-down {
+        .button-group {
+          display: inline-block;
+          width: auto;
+
+          .button {
+            margin: 0 !important;
+          }
+        }
+      }
+    }
+
+    .columns {
+      margin-top: 2rem;
+      overflow-x: auto;
+
+      .link {
+        span {
+          text-decoration: underline;
+        }
+      }
+
+      .assignee {
+        align-items: center;
+        display: flex;
+
+        .avatar {
+          margin-right: .5rem;
+        }
+      }
+
+      .name {
+        color: $mauve-500;
+      }
+
+      .cards {
+        min-height: 1rem;
+      }
+
+      .card {
+        background: $darkblue-700;
+        border: 2px solid $darkblue-900;
+        border-radius: .5rem;
+        cursor: pointer;
+        margin-bottom: .5rem;
+        padding: 1rem;
+
+        &.draggable-mirror {
+          border-color: $blue-500;
+          transform: rotate(2deg);
+        }
+
+        &:last-of-type {
+          margin-bottom: 1.5rem;
+        }
+
+        &.disabled {
+          cursor: default;
+          pointer-events: none;
+        }
+      }
+
+      .scroll-container {
+        display: flex;
+
+        .column {
+          flex-shrink: 0;
+          margin-right: 1.5rem;
+          width: 16rem;
+        }
+      }
+    }
+  }
+
   .team-posts {
     border-bottom: 1px solid $darkblue-900;
     display: flex;
@@ -323,6 +409,17 @@
       .icon {
         color: $red-500;
       }
+    }
+  }
+}
+
+#add-task-modal {
+  .split {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      width: calc(50% - 1rem);
     }
   }
 }

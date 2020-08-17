@@ -52,7 +52,7 @@
                     <canvas id="project-graph" width="520" height="200"></canvas>
                 </div>
             </div>
-            <div class="project-position ">
+            <div class="project-position">
                 <h3>Current Position</h3>
                 <h1 class="mt-1-5">{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
                 <span class="tag">
@@ -72,6 +72,43 @@
                 </div>
             </div>
         </section>
+        {% if project.progress_settings.enabled and project.progress_settings.visible %}
+            <section class="progress has-kanban">
+                <div class="title">
+                    <h3>Work Board</h3>
+                    {% if project.has_member(g.user) %}
+                        <div class="button-group">
+                            <a href="{{ url_for('projects.edit', project_id=project.id, tab=3) }}" class="button secondary d-none-small">Settings</a>
+                            <button class="button modal-open" data-modal="add-task-modal">+ Add Task</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="columns">
+                    <div class="scroll-container">
+                        {% for column in project.progress_settings.columns %}
+                            <div class="column" data-column="{{ column }}">
+                                <label class="label">{{ column }}</label>
+                                <div class="cards">
+                                    {% for card in project.progress if card.column == column %}
+                                        <div class="card modal-open {{ 'disabled' if not project.has_member(g.user) }}" data-project-id="{{ project.id }}" data-progress-id="{{ card.id }}" data-modal="update-task-modal-{{ card.id }}">
+                                            <p class="name truncate">{{ card.name }}</p>
+                                            <p class="small assignee">
+                                                {{ avatar(card.user, 'xx-sm') }}
+                                                {{ card.user.first_name or 'Unassigned' }}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if project.has_member(g.user) %}
+                                    <button class="button link modal-open" data-modal="add-task-modal">+ <span>Add Task</span></button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         <section class="team-posts">
             <div class="team">
                 <div class="title">
@@ -142,10 +179,119 @@
             </div>
         </section>
     </div>
+
+     <div id="add-task-modal" class="modal">
+        <div class="modal-body md">
+            <header>
+                <h3>Add Task</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <form class="form mt-2" action="{{ url_for('projects.create_progress', project_id=project.id) }}" method="post">
+                    <fieldset>
+                        <label class="label" for="name">Task Name</label>
+                        <input class="input" type="text" placeholder="e.g. Publish new blog post" id="name" name="name">
+                        <div class="split">
+                            <div>
+                                <label class="label" for="column">Column</label>
+                                 <div class="select w-100">
+                                     <select id="column" name="column">
+                                         <option disabled selected value>Please select</option>
+                                         {% for col in project.progress_settings.columns %}
+                                             <option value="{{ col }}">{{ col }}</option>
+                                         {% endfor %}
+                                     </select>
+                                     <i class="icon ri-arrow-drop-down-line"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label" for="user">User</label>
+                                 <div class="select w-100">
+                                     <select id="user" name="user">
+                                         <option disabled selected value>Please select</option>
+                                         <option value>Unassigned</option>
+                                         {% for member in project.members %}
+                                             <option value="{{ member.user.id }}">{{ member.user.first_name }} {{ member.user.last_name }}</option>
+                                         {% endfor %}
+                                     </select>
+                                     <i class="icon ri-arrow-drop-down-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="label" for="description">Description</label>
+                        <textarea class="input textarea" rows="6" id="description" name="description"></textarea>
+                        <p class="small mb-3">You can use markdown to format your text. <a href="#TODO">View the available options here.</a></p>
+                        <footer>
+                            <button class="button" type="submit">Create Task</button>
+                            <button class="button secondary modal-close" type="reset">Cancel</button>
+                        </footer>
+                    </fieldset>
+                </form>
+            </main>
+        </div>
+     </div>
+
+    {% for progress in project.progress if project.has_member(g.user) %}
+        <div id="update-task-modal-{{ progress.id }}" class="modal">
+            <div class="modal-body md">
+                <header>
+                    <h3>Edit Task</h3>
+                    <i class="icon ri-close-line modal-close"></i>
+                </header>
+                <main>
+                    <form class="form mt-2" action="{{ url_for('projects.update_progress', project_id=project.id, progress_id=progress.id) }}" method="post">
+                        <fieldset>
+                            <label class="label" for="name">Task Name</label>
+                            <input class="input" type="text" placeholder="e.g. Publish new blog post" id="name" name="name" value="{{ progress.name }}">
+                            <div class="split">
+                                <div>
+                                    <label class="label" for="column">Column</label>
+                                     <div class="select w-100">
+                                         <select id="column" name="column">
+                                             <option disabled selected value>Please select</option>
+                                             {% for col in project.progress_settings.columns %}
+                                                 <option {{ 'selected' if col == progress.column }} value="{{ col }}">{{ col }}</option>
+                                             {% endfor %}
+                                         </select>
+                                         <i class="icon ri-arrow-drop-down-line"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="label" for="user">User</label>
+                                     <div class="select w-100">
+                                         <select id="user" name="user">
+                                             <option disabled value>Please select</option>
+                                             <option {{ 'selected' if not progress.user }} value>Unassigned</option>
+                                             {% for member in project.members %}
+                                                 <option {{ 'selected' if progress.user and progress.user.id == member.user.id }} value="{{ member.user.id }}">
+                                                    {{ member.user.first_name }} {{ member.user.last_name }}
+                                                </option>
+                                             {% endfor %}
+                                         </select>
+                                         <i class="icon ri-arrow-drop-down-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="label" for="description">Description</label>
+                            <textarea class="input textarea" rows="6" id="description" name="description">{{ progress.description }}</textarea>
+                            <p class="small mb-3">You can use markdown to format your text. <a href="#TODO">View the available options here.</a></p>
+                            <footer>
+                                <button class="button" type="submit">Update Task</button>
+                                <button class="button secondary modal-close" type="reset">Cancel</button>
+                            </footer>
+                        </fieldset>
+                    </form>
+                </main>
+            </div>
+         </div>
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    {% if project.progress_settings.enabled %}
+        <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
+    {% endif %}
     <script>
         window.projectScoreData = "{{ project.project_score_data }}";
     </script>
