@@ -31,7 +31,7 @@ def delete_user(user_id: str):
 @admin_api_key_required
 def end_contest():
     try:
-        week = request.args.get('month')
+        week = request.args.get('week')
         year = request.args.get('year')
         Contest.end(
             int(week) if week else None,
