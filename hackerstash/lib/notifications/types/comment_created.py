@@ -23,10 +23,13 @@ class CommentCreated(Base):
             if comment.parent_comment_id:
                 parent_comment = Comment.query.get(comment.parent_comment_id)
 
-                self.notifications_to_send.append({
-                    'user': parent_comment.user,
-                    'payload': payload,
-                    'email_type': 'replied_to_comment',
-                    'notification_type': 'someone_replies_to_your_comment',
-                    'notification_message': self.render_notification_message('someone_replies_to_your_comment')
-                })
+                # Likewise, you don't want to know that
+                # you replied to yourself
+                if parent_comment.user.id != g.user.id:
+                    self.notifications_to_send.append({
+                        'user': parent_comment.user,
+                        'payload': payload,
+                        'email_type': 'replied_to_comment',
+                        'notification_type': 'someone_replies_to_your_comment',
+                        'notification_message': self.render_notification_message('someone_replies_to_your_comment')
+                    })
