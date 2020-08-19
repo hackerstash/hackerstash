@@ -76,6 +76,10 @@
 
     &.upvoted {
       .button {
+        &.upvote {
+          pointer-events: none;
+        }
+
         &.downvote {
           color: $darkblue-700;
         }
@@ -86,6 +90,10 @@
       .button {
         &.upvote {
           color: $darkblue-700;
+        }
+
+        &.downvote {
+          pointer-events: none;
         }
       }
     }
