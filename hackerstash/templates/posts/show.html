@@ -1,10 +1,14 @@
 {% extends 'base_app.html' %}
-{% set title = 'HackerStash / Posts' %}
+{% set title = 'HackerStash / Posts / ' + post.title %}
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
 {% from "partials/previews.html" import project_preview, user_preview %}
 {% from "partials/vote.html" import post_vote %}
+
+{% block meta %}
+    <meta name="author" content="{{ post.user.first_name }} {{ post.user.last_name }}">
+{% endblock %}
 
 {% block body %}
     <div class="page posts show">
