@@ -23,10 +23,9 @@ class PostVoted(Base):
                 logging.info(f'Awarding "award_points_to_ten_posts" challenge for "{user.member.project.id}"')
                 user.member.project.create_or_inc_challenge('award_points_to_ten_posts')
 
-            if not self.has_completed(post.project, 'earn_five_points_for_one_post'):
-                logging.info(f'Awarding "earn_five_points_for_one_post" challenge for "{post.project.id}"')
-                post.project.create_or_inc_challenge('earn_five_points_for_one_post')
+            if not self.has_completed(post.project, 'earn_twenty_five_points_for_one_post'):
+                logging.info(f'Awarding "earn_twenty_five_points_for_one_post" challenge for "{post.project.id}"')
+                post.project.create_or_inc_challenge('earn_twenty_five_points_for_one_post')
 
             # TODO
-            # - earn_five_points_for_one_post
             # - earn_five_points_for_three_seperate_posts

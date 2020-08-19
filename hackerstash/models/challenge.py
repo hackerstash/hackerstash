@@ -29,11 +29,11 @@ class Challenge(db.Model):
 
     @classmethod
     def get_max_count_for(cls, key: str) -> int:
-        if key in ['published_a_post', 'comment_on_a_competitors_post']:
+        if key in ['published_a_post', 'comment_on_a_competitors_post', 'award_two_hundred_points']:
             return 1
         if key in ['award_points_to_three_projects', 'award_points_to_three_posts']:
             return 3
-        if key in ['comment_on_five_competitors_posts', 'earn_five_points_for_one_post', 'have_five_comments_upvoted']:
+        if key in ['comment_on_five_competitors_posts', 'earn_twenty_five_points_for_one_post', 'have_five_comments_upvoted', 'five_day_post_streak', 'earn_twenty_five_points_for_three_seperate_posts']:
             return 5
         if key in ['award_points_to_ten_projects', 'award_points_to_ten_posts']:
             return 10

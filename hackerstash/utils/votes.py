@@ -15,9 +15,8 @@ def sum_of_weekly_challenges(challenges) -> int:
     challenge_counts = ChallengeCount(challenges)
 
     for key in challenge_counts.challenge_types:
-        count = challenge_counts.get_count_by_key(key)
-        multiplier = challenge_counts.get_multiplier_for_key(key)
-        score += count * multiplier
+        if challenge_counts.has_completed(key):
+            score += challenge_counts.get_score_for_key(key)
 
     return score
 
