@@ -17,6 +17,10 @@
     margin-bottom: 1rem;
   }
 
+  strong {
+    font-weight: $font-weight-bold;
+  }
+
   p {
     margin-bottom: 1rem !important;
   }
@@ -27,6 +31,10 @@
 
   ul, ol, code {
     margin-bottom: 1rem;
+
+    li {
+      color: $mauve-900;
+    }
   
     p {
       margin: 0 !important;
@@ -35,6 +43,15 @@
 
   blockquote {
     margin-bottom: 1rem;
+
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+  }
+
+  hr {
+    border-color: $mauve-1000;
+    margin: 1.5rem 0;
   }
 
   table {

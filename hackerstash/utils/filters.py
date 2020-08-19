@@ -3,6 +3,7 @@ import arrow
 import calendar
 from markdown import markdown
 from hackerstash.lib.logging import logging
+from hackerstash.utils.markdown.extensions import StrikethroughExtension
 
 
 def init_app(app):
@@ -21,7 +22,7 @@ def init_app(app):
 
 
 def to_markdown(value: str) -> str:
-    return markdown(value) if value else ''
+    return markdown(value, extensions=[StrikethroughExtension()]) if value else ''
 
 
 def to_human_date(date) -> str:

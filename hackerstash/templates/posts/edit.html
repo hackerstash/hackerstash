@@ -37,7 +37,7 @@
                     <div class="right">
                         <p><b>💡 Tips</b></p>
                         <ul>
-                            <li>You can use markdown to format your posts. <a href="#">View the available options here.</a></li>
+                            <li>You can use markdown to format your posts. <a href="#" class="modal-open" data-modal="markdown-modal">View the available options here.</a></li>
                             <li>You’re posting on behalf of your project, if people upvote your post your project earns points too.</li>
                             <li>Make sure your title is clear and engaging.</li>
                             <li>Share what you’ve been working on - successes and failures.</li>
@@ -55,5 +55,44 @@
                 </div>
             </fieldset>
         </form>
+    </div>
+
+    <div id="markdown-modal" class="modal">
+        <div class="modal-body md">
+            <header>
+                <h3>Markdown Guide</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <p class="mb-2">You can use the markdown syntax below when writing your post. This will render the corresponding formatting when your post is published.</p>
+                <label class="label">Headings</label>
+                <p class="mb-1-5"># H1<br>## H2<br>### H3</p>
+                <label class="label">Bold</label>
+                <p class="mb-1-5">**bold text**</p>
+                <label class="label">Italic</label>
+                <p class="mb-1-5">*italicized text*</p>
+                <label class="label">Link</label>
+                <p class="mb-1-5">[title](https://www.example.com)</p>
+                <label class="label">Ordered list</label>
+                <p class="mb-1-5">1. First item<br>2. Second item<br>3. Third item</p>
+                <label class="label">Unordered list</label>
+                <p class="mb-1-5">- First item<br>- Second item<br>- Third item</p>
+                <label class="label">Block quote</label>
+                <p class="mb-1-5">&gt; block quote</p>
+                <label class="label">Horizontal rule</label>
+                <p class="mb-1-5">---</p>
+                <label class="label">Strikethrough</label>
+                <p class="mb-1-5">~~The world is flat.~~</p>
+                <label class="label">Code</label>
+                <p class="mb-1-5">`code`</p>
+                <label class="label">Image</label>
+                <p class="mb-1-5">Once you have uploaded an image you can insert the following syntax using the filename of your upload:</p>
+                <p>![alt text](image.jpg)</p>
+
+                <footer>
+                    <button class="button modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
     </div>
 {% endblock %}
