@@ -33,23 +33,23 @@ $table-column-width-lg: calc(916px / 12);
   }
 
   .col-8 {
-    width: calc(#{$table-column-width-lg} * * 8);
+    width: calc(#{$table-column-width-lg} * 8);
   }
 
   .col-9 {
-    width: calc(#{$table-column-width-lg} * * 9);
+    width: calc(#{$table-column-width-lg} * 9);
   }
 
   .col-10 {
-    width: calc(#{$table-column-width-lg} * * 10);
+    width: calc(#{$table-column-width-lg} * 10);
   }
 
   .col-11 {
-    width: calc(#{$table-column-width-lg} * * 11);
+    width: calc(#{$table-column-width-lg} * 11);
   }
 
   .col-12 {
-    width: calc(#{$table-column-width-lg} * * 12);
+    width: calc(#{$table-column-width-lg} * 12);
   }
 
   .col-grow {

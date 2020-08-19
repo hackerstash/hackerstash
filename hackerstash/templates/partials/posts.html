@@ -7,7 +7,7 @@
         {% for post in list %}
             {% if loop.index < limit %}
                 <article class="post-row">
-                    <div class="post-votes-{{ post.id }}">
+                    <div class="post-votes post-votes-{{ post.id }}">
                         {{ post_vote('sm', post) }}
                     </div>
                     <div class="details ml-1-5">

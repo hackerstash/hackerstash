@@ -11,9 +11,9 @@
 {% macro post_vote(size, post) %}
     <div class="votes">
         <div class="vote {{ size }} {{ post.vote_status(g.user) or '' }}">
-            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up', size=size) }}" data-parent="post-votes-{{ post.id }}" class="button vote-button upvote">+5</a>
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up', size=size) }}" data-parent="post-votes post-votes-{{ post.id }}" class="button vote-button upvote">+5</a>
             <p>{{ post.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down', size=size) }}" data-parent="post-votes-{{ post.id }}" class="button vote-button downvote">-5</a>
+            <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down', size=size) }}" data-parent="post-votes post-votes-{{ post.id }}" class="button vote-button downvote">-5</a>
         </div>
     </div>
 {% endmacro %}

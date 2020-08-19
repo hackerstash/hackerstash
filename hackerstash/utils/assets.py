@@ -24,7 +24,7 @@ scripts = [
 ]
 
 js = Bundle(*scripts, output='out/main.js')
-scss = Bundle(*styles, filters='pyscss', output='out/main.css', depends='**/*.scss')
+scss = Bundle(*styles, filters='libsass', output='out/main.css', depends='**/*.scss')
 
 assets.register('js_all', js)
 assets.register('scss_all', scss)

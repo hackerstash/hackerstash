@@ -20,4 +20,18 @@
       border-bottom: none;
     }
   }
+
+  @include tablet-down {
+    .table-body {
+      p {
+        &.col-2 {
+          margin-bottom: 0;
+        }
+
+        &:empty {
+          display: none;
+        }
+      }
+    }
+  }
 }
