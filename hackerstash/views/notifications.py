@@ -62,7 +62,8 @@ def notification_count():
     if request.headers.get('X-Requested-With') == 'fetch':
         all_notifications = g.user.notifications
         unread_notifications = list(filter(lambda x: not x.read, all_notifications))
-
         return jsonify({'count': len(unread_notifications)})
     else:
+        # Not really sure what to do here, but it's
+        # unlikely to happen.
         return redirect(url_for('notifications.index'))

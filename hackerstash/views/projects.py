@@ -22,13 +22,15 @@ projects = Blueprint('projects', __name__)
 def index() -> str:
     display = request.args.getlist('display')
     filtered_projects = project_filtering(request.args)
-    filtered_count = len(list(request.args.keys()))
+    # Get the number of filters in use, the display arg
+    # shouldn't count towards the total
+    filters_count = len([x for x in list(request.args.keys()) if x != 'display'])
 
     return render_template(
         'projects/index.html',
         filtered_projects=filtered_projects,
         display=display,
-        filtered_count=filtered_count
+        filters_count=filters_count
     )
 
 
