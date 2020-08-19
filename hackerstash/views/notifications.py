@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g, request, redirect, url_for, flash
+from flask import Blueprint, render_template, g, request, redirect, url_for, flash, jsonify
 from hackerstash.db import db
 from hackerstash.models.user import User
 from hackerstash.models.notification import Notification
@@ -11,8 +11,8 @@ notifications = Blueprint('notifications', __name__)
 @login_required
 def index() -> str:
     all_notifications = g.user.notifications
-    read_notifications = list(filter(lambda x: not x.read, all_notifications))
-    return render_template('notifications/index.html', notifications=read_notifications)
+    unread_notifications = list(filter(lambda x: not x.read, all_notifications))
+    return render_template('notifications/index.html', notifications=unread_notifications)
 
 
 @notifications.route('/notifications/settings')
@@ -54,3 +54,15 @@ def mark_as_read() -> str:
     db.session.commit()
 
     return redirect(url_for('notifications.index'))
+
+
+@notifications.route('/notifications/count')
+@login_required
+def notification_count():
+    if request.headers.get('X-Requested-With') == 'fetch':
+        all_notifications = g.user.notifications
+        unread_notifications = list(filter(lambda x: not x.read, all_notifications))
+
+        return jsonify({'count': len(unread_notifications)})
+    else:
+        return redirect(url_for('notifications.index'))

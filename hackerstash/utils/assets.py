@@ -14,6 +14,7 @@ scripts = [
     'js/menu.js',
     'js/messages.js',
     'js/modals.js',
+    'js/notifications.js',
     'js/posts.js',
     'js/previews.js',
     'js/projects.js',
