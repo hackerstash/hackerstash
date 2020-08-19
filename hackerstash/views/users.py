@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
+from hackerstash.lib.invites import verify_invite
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
@@ -68,6 +69,10 @@ def create() -> str:
         user.avatar = key
 
     db.session.commit()
+
+    # If the user was invited but didn't have an
+    # account, we can add them to the project now
+    verify_invite(user)
 
     return redirect(url_for('users.show', user_id=user.id))
 

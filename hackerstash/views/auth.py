@@ -3,7 +3,6 @@ from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image_from_url
-from hackerstash.lib.invites import verify_invite
 from hackerstash.models.user import User
 from hackerstash.models.token import Token
 from hackerstash.lib.emails.factory import email_factory
@@ -71,10 +70,6 @@ def signup() -> str:
                 session['id'] = user.id
                 Token.delete(email)
 
-                # If the user was invited but didn't have an
-                # account, we can add them to the project now
-                verify_invite(user)
-
                 return redirect(url_for('users.show', user_id=user.id))
 
             flash('The token is invalid', 'failure')
@@ -125,10 +120,6 @@ def google_callback() -> str:
     db.session.commit()
     session['id'] = user.id
 
-    # If the user was invited but didn't have an
-    # account, we can add them to the project now
-    verify_invite(user)
-
     return redirect(url_for('users.new'))
 
 
@@ -165,9 +156,5 @@ def twitter_callback() -> str:
     db.session.add(user)
     db.session.commit()
     session['id'] = user.id
-
-    # If the user was invited but didn't have an
-    # account, we can add them to the project now
-    verify_invite(user)
 
     return redirect(url_for('users.new'))
