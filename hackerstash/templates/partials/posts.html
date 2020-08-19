@@ -2,34 +2,36 @@
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import post_vote %}
 
-{% macro posts(list) %}
+{% macro posts(list, limit=999) %}
     <div class="posts">
         {% for post in list %}
-            <article class="post-row">
-                <div class="post-votes-{{ post.id }}">
-                    {{ post_vote('sm', post) }}
-                </div>
-                <div class="details ml-1-5">
-                    <p>
-                        <a href="{{ url_for('posts.show', post_id=post.id) }}">
-                            {{ post.title }}
-                        </a>
-                    </p>
-                    <p class="small meta">
-                        <span>
-                            <span> update by </span>
-                            {{ avatar(post.user, 'xx-sm') }}
-                            {{ user_preview(post.user) }}
-                            <span class="seperator d-none-small">•</span>
-                        </span>
-                        <span>
-                            <span>{{ post.created_at | to_human_date }}</span>
-                            <span class="seperator">•</span>
-                            <span>{{ post.comments | length }} comments</span>
-                        </span>
-                    </p>
-                </div>
-            </article>
+            {% if loop.index < limit %}
+                <article class="post-row">
+                    <div class="post-votes-{{ post.id }}">
+                        {{ post_vote('sm', post) }}
+                    </div>
+                    <div class="details ml-1-5">
+                        <p>
+                            <a href="{{ url_for('posts.show', post_id=post.id) }}">
+                                {{ post.title }}
+                            </a>
+                        </p>
+                        <p class="small meta">
+                            <span>
+                                <span> update by </span>
+                                {{ avatar(post.user, 'xx-sm') }}
+                                {{ user_preview(post.user) }}
+                                <span class="seperator d-none-small">•</span>
+                            </span>
+                            <span>
+                                <span>{{ post.created_at | to_human_date }}</span>
+                                <span class="seperator">•</span>
+                                <span>{{ post.comments | length }} comments</span>
+                            </span>
+                        </p>
+                    </div>
+                </article>
+            {% endif %}
         {% else %}
             {% include "partials/no_results.html" %}
         {% endfor %}

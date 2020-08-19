@@ -67,7 +67,7 @@ def create() -> str:
     db.session.add(post)
     db.session.commit()
 
-    challenge_factory('post_created', {'post': post}).create()
+    challenge_factory('post_created', {'post': post})
     notification_factory('post_created', {'post': post}).publish()
 
     return redirect(url_for('posts.show', post_id=post.id))
@@ -123,7 +123,7 @@ def comment(post_id: str) -> str:
     post.comments.append(comment)
     db.session.commit()
 
-    challenge_factory('comment_created', {'comment': comment}).create()
+    challenge_factory('comment_created', {'comment': comment})
     notification_factory('comment_created', {'comment': comment}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
@@ -143,7 +143,7 @@ def post_vote(post_id: str) -> str:
 
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
-        challenge_factory('post_voted', {'post': post}).create()
+        challenge_factory('post_voted', {'post': post})
         notification_factory('post_voted', {'post': post, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
@@ -162,7 +162,7 @@ def comment_vote(post_id: str, comment_id: str) -> str:
 
     if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)
-        challenge_factory('comment_voted', {'comment': comment}).create()
+        challenge_factory('comment_voted', {'comment': comment})
         notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':

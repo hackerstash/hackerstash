@@ -137,7 +137,11 @@
                     {% endif %}
                 </div>
                 <div class="list">
-                    {{ posts(project.posts) }}
+                    {{ posts(project.posts, limit=5) }}
+
+                    {% if project.posts | length > 5 %}
+                        <a href="{{ url_for('projects.all_posts', project_id=project.id) }}" class="load-more">Load more</a>
+                    {% endif %}
                 </div>
             </div>
         </section>
@@ -272,7 +276,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <label class="label" for="description">Description</label>
+                            <label class="label" for="description">Descrip tion</label>
                             <textarea class="input textarea" rows="6" id="description" name="description">{{ progress.description }}</textarea>
                             <p class="small mb-3">You can use markdown to format your text. <a href="#TODO">View the available options here.</a></p>
                             <footer>

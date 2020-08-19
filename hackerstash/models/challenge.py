@@ -1,3 +1,4 @@
+import datetime
 from hackerstash.db import db
 
 
@@ -7,8 +8,11 @@ class Challenge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     key = db.Column(db.String)
+
     year = db.Column(db.Integer)
     week = db.Column(db.Integer)
+
+    count = db.Column(db.Integer, nullable=False)
 
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 
@@ -17,3 +21,41 @@ class Challenge(db.Model):
 
     def __repr__(self) -> str:
         return f'<Challenge {self.id}>'
+
+    def inc(self):
+        max_count = Challenge.get_max_count_for(self.key)
+        if not self.count >= max_count:
+            self.count += 1
+
+    @classmethod
+    def get_max_count_for(cls, key: str) -> int:
+        if key in ['published_a_post', 'comment_on_a_competitors_post']:
+            return 1
+        if key in ['award_points_to_three_projects', 'award_points_to_three_posts']:
+            return 3
+        if key in ['comment_on_five_competitors_posts', 'earn_five_points_for_one_post', 'have_five_comments_upvoted']:
+            return 5
+        if key in ['award_points_to_ten_projects', 'award_points_to_ten_posts']:
+            return 10
+        raise Exception('Not sure what the max should be?! %s', key)
+
+    @classmethod
+    def find_or_create(cls, project, key: str):
+        now = datetime.datetime.now()
+        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+
+        exists = next((x for x in project.challenges if x.key == key and x.week == week), None)
+
+        if exists:
+            return exists
+        else:
+            challenge = Challenge(
+                key=key,
+                year=now.year,
+                week=week,
+                count=0,
+                project=project
+            )
+            db.session.add(challenge)
+            db.session.commit()
+            return challenge

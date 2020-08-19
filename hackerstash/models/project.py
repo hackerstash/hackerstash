@@ -2,6 +2,8 @@ import json
 import arrow
 from hackerstash.db import db
 from sqlalchemy.types import ARRAY
+from hackerstash.lib.challenges.counts import ChallengeCount
+from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.votes import sum_of_project_votes
 
@@ -158,3 +160,13 @@ class Project(db.Model):
             matching_votes = list(filter(lambda x: x.created_at.day == this_day.day, votes))
             out.append(len(matching_votes))
         return json.dumps(out)
+
+    def create_or_inc_challenge(self, key: str):
+        challenge = Challenge.find_or_create(self, key)
+        challenge.inc()
+        db.session.commit()
+
+    @property
+    def number_of_completed_challenges(self):
+        challenge_counts = ChallengeCount(self.challenges)
+        return len(challenge_counts.completed_challenges_for_the_week)

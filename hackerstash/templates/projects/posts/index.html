@@ -1,0 +1,17 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Project posts' %}
+
+{% from "partials/posts.html" import posts %}
+
+{% block body %}
+    <div class="page posts">
+        <header class="header">
+            <h2>All posts by {{ project.name }}</h2>
+            <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Back</a>
+        </header>
+
+        <div class="list">
+            {{ posts(project.posts) }}
+        </div>
+    </div>
+{% endblock %}

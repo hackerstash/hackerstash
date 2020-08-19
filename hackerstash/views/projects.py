@@ -77,6 +77,12 @@ def edit(project_id: str) -> str:
     return render_template('projects/edit.html', project=project)
 
 
+@projects.route('/projects/<project_id>/posts')
+def all_posts(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    return render_template('projects/posts/index.html', project=project)
+
+
 @projects.route('/projects/<project_id>/update', methods=['POST'])
 @login_required
 @member_required
@@ -247,7 +253,7 @@ def vote_project(project_id: str) -> str:
 
     if project.id != g.user.member.project.id:
         project.vote(g.user, direction)
-        challenge_factory('project_voted', {'project': project}).create()
+        challenge_factory('project_voted', {'project': project})
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'project_vote')

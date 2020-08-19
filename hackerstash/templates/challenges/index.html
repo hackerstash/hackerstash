@@ -10,7 +10,7 @@
         <div class="split">
             <div class="left">
                 <ul class="challenge-lists">
-                    <li class="{{ 'completed' if challenge_status.post_created > 0 }}">
+                    <li class="{{ 'completed' if challenge_status.published_a_post > 0 }}">
                         <p class="description">
                             <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             <span class="text">Publish a post</span>
@@ -19,7 +19,7 @@
                             10 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.comment_created > 0 }}">
+                    <li class="{{ 'completed' if challenge_status.comment_on_a_competitors_post > 0 }}">
                         <p class="description">
                             <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             <span class="text">Comment on a competitors post</span>
@@ -28,7 +28,7 @@
                             5 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.given_project_vote >= 3 }}">
+                    <li class="{{ 'completed' if challenge_status.award_points_to_three_projects >= 3 }}">
                         <p class="description">
                             <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             <span class="text">Award points to 3 projects</span>
@@ -37,12 +37,12 @@
                             15 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.given_post_vote >= 3 }}">
+                    <li class="{{ 'completed' if challenge_status.award_points_to_three_posts >= 3 }}">
                         <p class="description">
-                            {% if challenge_status.given_post_vote >= 3 %}
+                            {% if challenge_status.award_points_to_three_posts >= 3 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.given_post_vote }}/3</span>
+                                <span class="icon">{{ challenge_status.award_points_to_three_posts }}/3</span>
                             {% endif %}
                             <span class="text">Award points to 3 competitors posts</span>
                         </p>
@@ -50,12 +50,12 @@
                             9 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.given_project_vote >= 10 }}">
+                    <li class="{{ 'completed' if challenge_status.award_points_to_ten_projects >= 10 }}">
                         <p class="description">
-                            {% if challenge_status.given_project_vote >= 10 %}
+                            {% if challenge_status.award_points_to_ten_projects >= 10 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.given_project_vote }}/10</span>
+                                <span class="icon">{{ challenge_status.award_points_to_ten_projects }}/10</span>
                             {% endif %}
                             <span class="text">Award points to 10 projects</span>
                         </p>
@@ -63,12 +63,12 @@
                             35 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.given_post_vote >= 10 }}">
+                    <li class="{{ 'completed' if challenge_status.award_points_to_ten_posts >= 10 }}">
                         <p class="description">
-                            {% if challenge_status.given_post_vote >= 10 %}
+                            {% if challenge_status.award_points_to_ten_posts >= 10 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.given_post_vote }}/10</span>
+                                <span class="icon">{{ challenge_status.award_points_to_ten_posts }}/10</span>
                             {% endif %}
                             <span class="text">Award points to 10 competitors posts</span>
                         </p>
@@ -76,12 +76,12 @@
                             35 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.comment_created >= 5 }}">
+                    <li class="{{ 'completed' if challenge_status.comment_on_five_competitors_posts >= 5 }}">
                         <p class="description">
-                            {% if challenge_status.comment_created >= 5 %}
+                            {% if challenge_status.comment_on_five_competitors_posts >= 5 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.comment_created }}/5</span>
+                                <span class="icon">{{ challenge_status.comment_on_five_competitors_posts }}/5</span>
                             {% endif %}
                             <span class="text">Comment on 5 competitors posts</span>
                         </p>
@@ -89,12 +89,12 @@
                             20 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.post_streak >= 5 }}">
+                    <li class="{{ 'completed' if challenge_status.five_day_post_streak >= 5 }}">
                         <p class="description">
-                            {% if challenge_status.post_streak >= 5 %}
+                            {% if challenge_status.five_day_post_streak >= 5 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.post_streak }}/5</span>
+                                <span class="icon">{{ challenge_status.five_day_post_streak }}/5</span>
                             {% endif %}
                             <span class="text">Publish at least 1 new {{ g.user.member.project.name }} post a day for 5 days</span>
                         </p>
@@ -102,7 +102,7 @@
                             20 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.received_post_vote > 0 }}">
+                    <li class="{{ 'completed' if challenge_status.earn_five_points_for_one_post > 0 }}">
                         <p class="description">
                             <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             <span class="text">Earn 5 points for one post</span>
@@ -111,12 +111,12 @@
                             10 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.received_comment_vote >= 5 }}">
+                    <li class="{{ 'completed' if challenge_status.have_five_comments_upvoted >= 5 }}">
                         <p class="description">
-                            {% if challenge_status.received_comment_vote >= 5 %}
+                            {% if challenge_status.have_five_comments_upvoted >= 5 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.received_comment_vote }}/5</span>
+                                <span class="icon">{{ challenge_status.have_five_comments_upvoted }}/5</span>
                             {% endif %}
                             <span class="text">Have 5 of your comments upvoted by competitors</span>
                         </p>
@@ -124,12 +124,12 @@
                             15 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.received_post_vote >= 3 }}">
+                    <li class="{{ 'completed' if challenge_status.earn_five_points_for_three_seperate_posts >= 3 }}">
                         <p class="description">
-                            {% if challenge_status.received_post_vote >= 3 %}
+                            {% if challenge_status.earn_five_points_for_three_seperate_posts >= 3 %}
                                 <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             {% else %}
-                                <span class="icon">{{ challenge_status.received_post_vote }}/5</span>
+                                <span class="icon">{{ challenge_status.earn_five_points_for_three_seperate_posts }}/5</span>
                             {% endif %}
                             <span class="text">Earn at least 5 points for 3 seperate {{ g.user.member.project.name }} posts</span>
                         </p>
@@ -137,7 +137,7 @@
                             20 points
                         </p>
                     </li>
-                    <li class="{{ 'completed' if challenge_status.award_points >= 100 }}">
+                    <li class="{{ 'completed' if challenge_status.award_one_hundred_points >= 100 }}">
                         <p class="description">
                             <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
                             <span class="text">Award 100 points to other competitors</span>

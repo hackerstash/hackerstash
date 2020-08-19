@@ -1,6 +1,10 @@
 from flask import g
 from hackerstash.lib.challenges.base import Base
-from hackerstash.models.challenge import Challenge
+from hackerstash.lib.logging import logging
+
+
+def is_not_members_comment(user, comment):
+    return user.member.project.id != comment.post.project.id
 
 
 class CommentVoted(Base):
@@ -9,13 +13,9 @@ class CommentVoted(Base):
 
         user = g.user
         comment = payload['comment']
+        comment_project = comment.user.member.project
 
-        if user.member.project.id != comment.user.member.project.id:
-            # TODO not existing
-            challenge = Challenge(
-                key='received_comment_vote',
-                week=self.week,
-                year=self.year,
-                project=comment.user.member.project
-            )
-            self.challenges_to_create.append(challenge)
+        if is_not_members_comment(user, comment):
+            if not self.has_completed(comment_project, 'have_five_comments_upvoted'):
+                logging.info(f'Awarding "have_five_comments_upvoted" challenge for "{comment_project.id}"')
+                comment.user.member.project.create_or_inc_challenge('have_five_comments_upvoted')

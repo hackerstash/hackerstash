@@ -1,12 +1,10 @@
 import datetime
-from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.challenges.counts import ChallengeCount
 
 
 class Base:
     def __init__(self, payload: dict) -> None:
         self.payload = payload
-        self.challenges_to_create = []
 
     @property
     def week(self) -> int:
@@ -18,8 +16,6 @@ class Base:
         now = datetime.datetime.now()
         return now.year
 
-    def create(self):
-        for challenge in self.challenges_to_create:
-            logging.info('Creating challenge %s', challenge)
-            db.session.add(challenge)
-        db.session.commit()
+    def has_completed(self, project, key: str):
+        challenge_counts = ChallengeCount(project.challenges)
+        return challenge_counts.has_completed(key)

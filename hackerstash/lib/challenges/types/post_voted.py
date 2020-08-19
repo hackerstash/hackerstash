@@ -1,6 +1,10 @@
 from flask import g
 from hackerstash.lib.challenges.base import Base
-from hackerstash.models.challenge import Challenge
+from hackerstash.lib.logging import logging
+
+
+def is_not_members_post(user, post):
+    return user.member.project.id != post.project.id
 
 
 class PostVoted(Base):
@@ -10,30 +14,19 @@ class PostVoted(Base):
         user = g.user
         post = payload['post']
 
-        if user.member.project.id != post.project.id:
-            # TODO not existing
-            challenge = Challenge(
-                key='given_post_vote',
-                week=self.week,
-                year=self.year,
-                project=user.member.project
-            )
-            self.challenges_to_create.append(challenge)
+        if is_not_members_post(user, post):
+            if not self.has_completed(user.member.project, 'award_points_to_three_posts'):
+                logging.info(f'Awarding "award_points_to_three_posts" challenge for "{user.member.project.id}"')
+                user.member.project.create_or_inc_challenge('award_points_to_three_posts')
 
-            # TODO not existing
-            challenge = Challenge(
-                key='received_post_vote',
-                week=self.week,
-                year=self.year,
-                project=post.project
-            )
-            self.challenges_to_create.append(challenge)
+            if not self.has_completed(user.member.project, 'award_points_to_ten_posts'):
+                logging.info(f'Awarding "award_points_to_ten_posts" challenge for "{user.member.project.id}"')
+                user.member.project.create_or_inc_challenge('award_points_to_ten_posts')
 
-            # TODO not existing
-            challenge = Challenge(
-                key='award_points',
-                week=self.week,
-                year=self.year,
-                project=user.member.project
-            )
-            self.challenges_to_create.append(challenge)
+            if not self.has_completed(post.project, 'earn_five_points_for_one_post'):
+                logging.info(f'Awarding "earn_five_points_for_one_post" challenge for "{post.project.id}"')
+                post.project.create_or_inc_challenge('earn_five_points_for_one_post')
+
+            # TODO
+            # - earn_five_points_for_one_post
+            # - earn_five_points_for_three_seperate_posts
