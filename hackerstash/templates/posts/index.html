@@ -19,6 +19,9 @@
             <div class="tab-header">
                 <a href="?tab=new" class="button {{ 'active' if active_tab == 'new' }}">Newest</a>
                 <a href="?tab=top" class="button {{ 'active' if active_tab == 'top' }}">Top</a>
+                {% if g.user %}
+                    <a href="?tab=following" class="button {{ 'active' if active_tab == 'following' }}">Following</a>
+                {% endif %}
             </div>
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'new' }}">
@@ -27,6 +30,11 @@
                 <div class="tab {{ 'active' if active_tab == 'top' }}">
                     {{ posts(all_posts) }}
                 </div>
+                {% if g.user %}
+                    <div class="tab {{ 'active' if active_tab == 'following' }}">
+                        {{ posts(all_posts) }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
