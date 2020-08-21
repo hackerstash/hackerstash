@@ -17,3 +17,10 @@ class PastResult(db.Model):
 
     def __repr__(self) -> str:
         return f'<PastResult {self.id}>'
+
+    @property
+    def prize(self):
+        return {
+            'value': 0,
+            'type': 'default'  # gold, siler, bronze, default
+        }

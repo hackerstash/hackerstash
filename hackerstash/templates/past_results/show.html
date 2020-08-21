@@ -1,6 +1,7 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Past Results' %}
 
+{% from "partials/prize.html" import prize %}
 {% from "partials/previews.html" import project_preview %}
 
 {% block body %}
@@ -44,7 +45,9 @@
                         <p class="col-4 small score">
                             <i>{{ past_result.score }} points</i>
                         </p>
-                        <p class="col-2"></p>
+                        <p class="col-2">
+                            {{ prize(past_result) }}
+                        </p>
                     </li>
                 {% else %}
                     {% include "partials/no_results.html" %}

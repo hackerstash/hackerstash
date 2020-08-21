@@ -1,119 +1,147 @@
-{% extends 'base_simple.html' %}
+{% extends 'base_admin.html' %}
 {% set title = 'HackerStash / Admin Dashboard' %}
 
 {% set active_tab = request.args.tab or 'overview' %}
-
-{% block meta %}
-    <meta name="robots" content="noindex">
-{% endblock %}
+{% from "partials/avatar.html" import avatar %}
 
 {% block body %}
-    <div class="page admin dashboard">
-        <header class="header">
-            <div class="container">
-                <a href="{{ url_for('admin_dashboard.index') }}">
-                    <img src="/static/images/logo.svg">
-                </a>
-                <nav>
-                    <a href="{{ url_for('admin_auth.signout') }}">Sign out</a>
-                </nav>
-            </div>
-        </header>
-
-        <div class="wrapper">
-            <h3>Hello, {{ g.admin_user.first_name }} {{ g.admin_user.last_name }}</h3>
-
-            <div class="tabs mt-2">
-                <div class="tab-header">
-                    <a href="?tab=overview" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
-                    <a href="?tab=admins" class="button {{ 'active' if active_tab == 'admins' }}">Admin Users</a>
-                    <a href="?tab=waitlist" class="button {{ 'active' if active_tab == 'waitlist' }}">Waitlist</a>
-                    <a href="?tab=contests" class="button {{ 'active' if active_tab == 'contests' }}">Contests</a>
+    <div class="tab {{ 'active' if active_tab == 'overview' }}">
+        <h4 class="mt-2">All Users:</h4>
+        <ul class="users">
+            {% for user in users %}
+                <li>
+                    <div class="details">
+                        <h4>
+                            <a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
+                        </h4>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=user.id) }}" class="button tertiary">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="tab {{ 'active' if active_tab == 'admins' }}">
+        <h4 class="mt-2">Admin users:</h4>
+        <ul class="users">
+            {% for admin in admins %}
+                <li>
+                    <div class="details">
+                        <h4>{{ admin.first_name }} {{ admin.last_name }}</h4>
+                        <p>{{ admin.email }}</p>
+                    </div>
+                    {% if not admin.root %}
+                        <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=admin.id) }}" class="button tertiary">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <h4 class="mb-1 mt-3">Create new user:</h4>
+        <form class="form create-admin-form" method="post" action="{{ url_for('admin_dashboard.create_admin_user') }}">
+            <fieldset>
+                <div class="col">
+                    <label class="label" for="first_name">First name</label>
+                    <input class="input" name="first_name" id="first_name" required>
                 </div>
-                <div class="tab-body">
-                    <div class="tab {{ 'active' if active_tab == 'overview' }}">
-                        <h4 class="mt-2">All Users:</h4>
-                        <ul class="users">
-                            {% for user in users %}
-                                <li>
-                                    <div class="details">
-                                        <h4>
-                                            <a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
-                                        </h4>
-                                        <p>{{ user.email }}</p>
-                                    </div>
-                                    <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=user.id) }}" class="button tertiary">Delete</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="tab {{ 'active' if active_tab == 'admins' }}">
-                        <h4 class="mt-2">Admin users:</h4>
-                        <ul class="users">
-                            {% for admin in admins %}
-                                <li>
-                                    <div class="details">
-                                        <h4>{{ admin.first_name }} {{ admin.last_name }}</h4>
-                                        <p>{{ admin.email }}</p>
-                                    </div>
-                                    {% if not admin.root %}
-                                        <a href="{{ url_for('admin_dashboard.delete_admin_user', user_id=admin.id) }}" class="button tertiary">Delete</a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        <h4 class="mb-1 mt-3">Create new user:</h4>
-                        <form class="form create-admin-form" method="post" action="{{ url_for('admin_dashboard.create_admin_user') }}">
-                            <fieldset>
-                                <div class="col">
-                                    <label class="label" for="first_name">First name</label>
-                                    <input class="input" name="first_name" id="first_name" required>
-                                </div>
 
-                                <div class="col">
-                                    <label class="label" for="last_name">Last name</label>
-                                    <input class="input" name="last_name" id="last_name" required>
-                                </div>
-
-                                <div class="col">
-                                    <label class="label" for="email">Email</label>
-                                    <input class="input" name="email" id="email" type="email" required>
-                                </div>
-
-                                <div class="col">
-                                    <label class="label" for="password">Password</label>
-                                    <input class="input" name="password" id="password" type="password" required>
-                                </div>
-
-                                <button class="button" type="submit">Create</button>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="tab {{ 'active' if active_tab == 'waitlist' }}">
-                        <div class="waitlist-header mt-1 mb-2">
-                            <h4>{{ waitlist | length }} people on the waitlist</h4>
-                            <a href="{{ url_for('admin_dashboard.download_waitlist') }}" class="button has-icon">
-                                <i class="ri-download-line"></i>
-                                Download CSV
-                            </a>
-                        </div>
-
-                        <input type="text" placeholder="Search..." class="input waitlist-filter">
-
-                        <ul class="waitlist-list">
-                            {% for w in waitlist %}
-                                <li>
-                                    <h4>{{ w.first_name }}</h4>
-                                    <p>{{ w.email }}</p>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="tab {{ 'active' if active_tab == 'contests' }}">
-
-                    </div>
+                <div class="col">
+                    <label class="label" for="last_name">Last name</label>
+                    <input class="input" name="last_name" id="last_name" required>
                 </div>
+
+                <div class="col">
+                    <label class="label" for="email">Email</label>
+                    <input class="input" name="email" id="email" type="email" required>
+                </div>
+
+                <div class="col">
+                    <label class="label" for="password">Password</label>
+                    <input class="input" name="password" id="password" type="password" required>
+                </div>
+
+                <button class="button" type="submit">Create</button>
+            </fieldset>
+        </form>
+    </div>
+    <div class="tab {{ 'active' if active_tab == 'waitlist' }}">
+        <div class="waitlist-header mt-1 mb-2">
+            <h4>{{ waitlist | length }} people on the waitlist</h4>
+            <a href="{{ url_for('admin_dashboard.download_waitlist') }}" class="button has-icon">
+                <i class="ri-download-line"></i>
+                Download CSV
+            </a>
+        </div>
+
+        <input type="text" placeholder="Search..." class="input waitlist-filter">
+
+        <ul class="waitlist-list">
+            {% for w in waitlist %}
+                <li>
+                    <h4>{{ w.first_name }}</h4>
+                    <p>{{ w.email }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="tab {{ 'active' if active_tab == 'tournaments' }}">
+        <div class="button-group mt-2 mb-3">
+            <a class="button has-icon" href="{{ url_for('admin_dashboard.tournament') }}">
+                <i class="ri-arrow-right-line"></i>
+                Current tournament
+            </a>
+
+            <a class="button tertiary has-icon modal-open" data-modal="end-tournament">
+                 <i class="ri-error-warning-line"></i>
+                End current tournament
+            </a>
+        </div>
+
+        <h3 class="mb-2">Past Tournaments</h3>
+
+        <div class="table tournaments">
+            <div class="table-header">
+                <p class="col-3">Tournament ID</p>
+                <p class="col-4">Dates</p>
+                <p class="col-3">Winner</p>
+                <p class="col-2"></p>
             </div>
+            <ul class="table-body">
+                {% for contest in contests if not contest.is_current %}
+                    <li>
+                        <p class="col-3 tournament-id">
+                            {{ contest.year }}.{{ contest.week }}
+                        </p>
+                        <p class="col-4 small">
+                            {{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}
+                        </p>
+                        <p class="col-3 winner">
+                            {% if contest.winner %}
+                                {{ avatar(contest.winner.project, 'x-sm') }}
+                                {{ contest.winner.project.name }}
+                            {% endif %}
+                        </p>
+                        <p class="col-2">
+                            <a href="{{ url_for('admin_dashboard.tournament', id=contest.id) }}">View</a>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="end-tournament" class="modal">
+        <div class="modal-body sm">
+            <header>
+                <h3>End tournament</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <h4 class="mt-2 mb-3">Are you sure?!</h4>
+                <footer>
+                    <a href="{{ url_for('admin_dashboard.end_tournament') }}" class="button tertiary">End</a>
+                    <a class="button secondary modal-close">Cancel</a>
+                </footer>
+            </main>
         </div>
     </div>
 {% endblock %}

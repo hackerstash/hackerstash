@@ -3,6 +3,7 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
+{% from "partials/prize.html" import prize %}
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
 
@@ -54,13 +55,10 @@
             </div>
             <div class="project-position">
                 <h3>Current Position</h3>
-                <h1 class="mt-1-5">{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
-                <span class="tag">
-                    <p class="small">
-                        <span>💸 Estimated prize</span>
-                        <span class="total">$0</span>
-                    </p>
-                </span>
+                <div class="positioning">
+                    <h1 class="mt-1-5">{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
+                    {{ prize(project) }}
+                </div>
                 <h3 class="mt-2">Votes received</h3>
                 <div class="votes-received up">
                     <i class="icon ri-arrow-up-line"></i>
@@ -223,8 +221,7 @@
                             </div>
                         </div>
                         <label class="label" for="description">Description</label>
-                        <textarea class="input textarea" rows="6" id="description" name="description"></textarea>
-                        <p class="small mb-3">You can use markdown to format your text. <a href="#TODO">View the available options here.</a></p>
+                        <textarea class="input textarea mb-3" rows="6" id="description" name="description"></textarea>
                         <footer>
                             <button class="button" type="submit">Create Task</button>
                             <button class="button secondary modal-close" type="reset">Cancel</button>
@@ -277,8 +274,7 @@
                                 </div>
                             </div>
                             <label class="label" for="description">Descrip tion</label>
-                            <textarea class="input textarea" rows="6" id="description" name="description">{{ progress.description }}</textarea>
-                            <p class="small mb-3">You can use markdown to format your text. <a href="#TODO">View the available options here.</a></p>
+                            <textarea class="input textarea mb-3" rows="6" id="description" name="description">{{ progress.description }}</textarea>
                             <footer>
                                 <button class="button" type="submit">Update Task</button>
                                 <button class="button secondary modal-close" type="reset">Cancel</button>

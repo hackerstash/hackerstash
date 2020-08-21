@@ -170,3 +170,10 @@ class Project(db.Model):
     def number_of_completed_challenges(self):
         challenge_counts = ChallengeCount(self.challenges)
         return len(challenge_counts.completed_challenges_for_the_week)
+
+    @property
+    def prize(self):
+        return {
+            'value': 1,
+            'type': 'default'  # gold, siler, bronze, default
+        }

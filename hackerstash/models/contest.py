@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy.types import JSON
 from hackerstash.db import db
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
@@ -14,11 +15,30 @@ class Contest(db.Model):
     tournament = db.Column(db.Integer, unique=True)
     past_results = db.relationship('PastResult', backref='contest', cascade='all,delete')
 
+    top_up = db.Column(db.Integer)
+    prizes = db.Column(JSON(none_as_null=True))
+
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
+    def __init__(self, week, year, tournament):
+        self.week = week
+        self.year = year
+        self.tournament = tournament
+        self.top_up = 0
+        self.prizes = {}
+
+        for i in range(10):
+            self.prizes[f'prize_{i}'] = 0
+
     def __repr__(self) -> str:
         return f'<Contest {self.year}_{self.week}>'
+
+    @property
+    def is_current(self):
+        now = datetime.datetime.now()
+        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        return self.week == week
 
     @property
     def winner(self):
@@ -32,7 +52,7 @@ class Contest(db.Model):
 
     @property
     def end_date(self):
-        return self.start_date + + datetime.timedelta(days=6)
+        return self.start_date + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59)
 
     @classmethod
     def previous(cls):
@@ -40,20 +60,26 @@ class Contest(db.Model):
         return previous[0] if len(previous) else None
 
     @classmethod
-    def end(cls, week, year) -> None:
+    def find_or_create(cls, week, year):
+        exists = cls.query.filter_by(year=year, week=week).first()
+        if exists:
+            return exists
+        else:
+            previous = cls.previous()
+            new = cls(week=week, year=year, tournament=previous.tournament if previous else 1)
+            db.session.add(new)
+            db.session.commit()
+            return new
+
+    @classmethod
+    def end(cls, week=None, year=None) -> None:
         now = datetime.datetime.now()
-        previous_contest = cls.previous()
 
-        week = week or datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        week = week or datetime.date(now.year, now.month, now.day).isocalendar()[1]
         year = year or now.year
-        # We could use autoincrement, but if we cock up and have to delete it
-        # we can never go back!
-        tournament = previous_contest.tournament + 1 if previous_contest else 1
 
-        # Create the base contest
-        contest = cls(year=year, week=week, tournament=tournament)
-        db.session.add(contest)
-        db.session.commit()
+        # Get the current contest
+        contest = cls.find_or_create(week, year)
 
         # Get the leaderboard as it stands
         projects = Project.query.filter_by(published=True).all()
@@ -64,4 +90,17 @@ class Contest(db.Model):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
 
+        # Create next weeks tournament
+        new_contest = cls(week=week + 1, year=year, tournament=contest.tournament + 1)
+        db.session.add(new_contest)
         db.session.commit()
+
+    @classmethod
+    def get_current(cls):
+        now = datetime.datetime.now()
+        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        year = now.year
+        return cls.query.filter_by(week=week, year=year).first()
+
+    def get_prize_for_position(self, position: int) -> int:
+        return self.prizes.get(f'prize_{position}')

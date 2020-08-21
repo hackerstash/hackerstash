@@ -9,4 +9,28 @@
     margin-right: 1.5rem;
     width: 2rem;
   }
+
+  &.gold {
+    span {
+      border: 2px solid #F5E33E;
+    }
+  }
+
+  &.silver {
+    span {
+      border: 2px solid #C3F5F6;
+    }
+  }
+
+  &.bronze {
+    span {
+      border: 2px solid #F5963E;
+    }
+  }
+
+  &.default {
+    span {
+      border: 2px solid #344F88;
+    }
+  }
 }

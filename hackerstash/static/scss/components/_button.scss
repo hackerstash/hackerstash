@@ -8,6 +8,28 @@
   padding: .4rem 1rem;
   position: relative;
 
+  &.has-icon {
+    padding-left: 3rem;
+
+    i {
+      color: $mauve-500 !important;
+      left: 1rem;
+      position: absolute;
+      top: .4rem;
+      vertical-align: middle;
+    }
+
+    @include tablet-down  {
+      padding-left: 1rem;
+
+      i {
+        line-height: 0;
+        margin-right: 1rem;
+        position: static;
+      }
+    }
+  }
+
   &.secondary {
     background: $darkblue-800;
   }
@@ -15,6 +37,10 @@
   &.tertiary {
     background: $darkblue-800;
     border-color: $red-700;
+
+    i {
+      color: $red-700 !important;
+    }
   }
 
   &.link {
@@ -104,28 +130,6 @@
     &.tertiary {
       border-color: $darkblue-700;
       background: $darkblue-800;
-    }
-  }
-
-  &.has-icon {
-    padding-left: 3rem;
-    
-    i {
-      color: $mauve-500 !important;
-      left: 1rem;
-      position: absolute;
-      top: .4rem;
-      vertical-align: middle;
-    }
-
-    @include tablet-down  {
-      padding-left: 1rem;
-      
-      i {
-        line-height: 0;
-        margin-right: 1rem;
-        position: static;
-      }
     }
   }
 }

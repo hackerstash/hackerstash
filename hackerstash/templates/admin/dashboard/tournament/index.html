@@ -1,0 +1,115 @@
+{% extends 'base_admin.html' %}
+{% set title = 'HackerStash / Admin Dashboard / Current Tournament' %}
+
+{% set active_tab = 'tournaments' %}
+
+{% block body %}
+    <div class="tab active">
+        <form class="form" id="{{ 'prizes' if contest.is_current }}" method="post" action="{{ url_for('admin_dashboard.update_tournament', contest_id=contest.id) }}">
+            <fieldset>
+                <div class="header">
+                    <h2>{{ 'Current Tournament' if contest.is_current else 'Tournament ' ~ contest.year ~ '.' ~ contest.week }}</h2>
+                    <div class="button-group">
+                        {% if contest.is_current %}
+                            <button class="button" type="submit">Save changes</button>
+                            <a class="button secondary" href="{{ url_for('admin_dashboard.index', tab='tournaments') }}">Cancel</a>
+                        {% else %}
+                            <a class="button secondary" href="{{ url_for('admin_dashboard.index', tab='tournaments') }}">Back</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="split">
+                    <div class="left">
+                        <h3>Overview</h3>
+                        <div class="card">
+                            <p>
+                                <span>ID</span>
+                                <span>{{ contest.year }}.{{ contest.week }}</span>
+                            </p>
+                            <p>
+                                <span>Start</span>
+                                <span>{{ contest.start_date }}</span>
+                            </p>
+                            <p>
+                                <span>{{ 'Ends in' if contest.is_current else 'Ended' }}</span>
+                                <span>{{ contest.end_date }}</span>
+                            </p>
+                            <p>
+                                <span>Projects</span>
+                                <span>{{ project_count if contest.is_current else contest.past_results | length }}</span>
+                            </p>
+                        </div>
+
+                        <h3>Prize Pool</h3>
+                        <div class="card">
+                            <p>
+                                <span>Subscription contribution</span>
+                                <span class="subscription-contribution" data-value="{{ project_count * 10 }}">
+                                    {% if contest.is_current %}
+                                        ${{ project_count * 10 }}.00
+                                    {% endif %}
+                                </span>
+                            </p>
+                            <p>
+                                <span>Top-up</span>
+                                <span>
+                                    {% if contest.is_current %}
+                                        <input class="input mb-0" name="top_up" id="top_up" value="{{ contest.top_up }}" required>
+                                    {% else %}
+                                        {{ contest.top_up }}
+                                    {% endif %}
+                                </span>
+                            </p>
+                            <hr class="divider">
+                            <p>
+                                <span>Total prize pool</span>
+                                <span class="total-prize-pool" data-value="{{ (project_count * 10) + contest.top_up }}">${{ (project_count * 10) + contest.top_up }}.00</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="title">
+                            <h3>Prizes</h3>
+                            {% if contest.is_current %}
+                                <div class="total mr-1-5">
+                                    <span>Total</span>
+                                    <input class="input" id="prize-total" readonly>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="rank-header {{ 'current' if contest.is_current }}">
+                            <p>Rank</p>
+                            {% if not contest.current %}
+                                <p>Project</p>
+                            {% endif %}
+                            <p>Prize</p>
+                        </div>
+                        <div class="rank-body {{ 'current' if contest.is_current }}">
+                            {% for number in range(0, 10) %}
+                                <div class="row">
+                                    <p class="position mb-0 {{ 'gold' if number == 0 }} {{ 'silver' if number == 1 }} {{ 'bronze' if number == 2 }} {{ 'default' if number > 2 and number < 8 }}">
+                                        <span>{{ number + 1 }}</span>
+                                    </p>
+                                    {% if not contest.is_current %}
+                                        <p>
+                                            {% for p in contest.past_results if p.rank == number %}
+                                                {{ p.project.name }}
+                                            {% endfor %}
+                                        </p>
+                                    {% endif %}
+                                    <div class="prize-value">
+                                        {% if contest.is_current %}
+                                            <input class="input" name="prize_{{ number }}" value="{{ contest.get_prize_for_position(number) }}" required>
+                                        {% else %}
+                                            <p class="mb-0">${{ contest.get_prize_for_position(number) }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Community-led micro finance for hackers and entrepreneurs.">
+    <meta name="keywords" content="Hackers, Entrepreneurs, Funding, Investment">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ title or 'HackerStash' }}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
+    {% assets "scss_all" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+</head>
+<body>
+    <div class="page admin dashboard">
+        <header class="header">
+            <div class="container">
+                <a href="{{ url_for('admin_dashboard.index') }}">
+                    <img src="/static/images/logo.svg">
+                </a>
+                <nav>
+                    <a href="{{ url_for('admin_auth.signout') }}">Sign out</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="wrapper">
+            <h3>Hello, {{ g.admin_user.first_name }} {{ g.admin_user.last_name }}</h3>
+
+            <div class="tabs mt-2">
+                <div class="tab-header">
+                    <a href="{{ url_for('admin_dashboard.index', tab='overview') }}" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
+                    <a href="{{ url_for('admin_dashboard.index', tab='admins') }}" class="button {{ 'active' if active_tab == 'admins' }}">Admin Users</a>
+                    <a href="{{ url_for('admin_dashboard.index', tab='waitlist') }}" class="button {{ 'active' if active_tab == 'waitlist' }}">Waitlist</a>
+                    <a href="{{ url_for('admin_dashboard.index', tab='tournaments') }}" class="button {{ 'active' if active_tab == 'tournaments' }}">Tournaments</a>
+                </div>
+                <div class="tab-body">
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% assets "js_all" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

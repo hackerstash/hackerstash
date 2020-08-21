@@ -1,0 +1,10 @@
+{% set icon = {'gold': '💸', 'silver': '💰', 'bronze': '💵', 'default': '✨'} %}
+
+{% macro prize(item) %}
+    {% if item.prize.value > 0 %}
+        <button class="button prize {{ item.prize.type }}">
+            <span>{{ icon[item.prize.type] }}</span>
+            {{ item.prize.value | to_currency }}
+        </button>
+    {% endif %}
+{% endmacro %}

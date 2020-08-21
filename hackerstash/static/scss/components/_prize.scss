@@ -1,0 +1,25 @@
+.prize {
+  background: $darkblue-800;
+  cursor: default;
+  pointer-events: none;
+
+  &.gold {
+    border-color: #F5E33E;
+  }
+
+  &.silver {
+    border-color: #C3F5F6;
+  }
+
+  &.bronze {
+    border-color: #F5963E
+  }
+
+  &.default {
+    border-color: $darkblue-600;
+  }
+
+  span {
+    margin-right: .5rem;
+  }
+}
