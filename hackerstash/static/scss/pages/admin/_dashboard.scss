@@ -180,6 +180,7 @@
 
       .rank-body {
         .row {
+          align-items: center;
           border-bottom: 1px solid $darkblue-900;
           display: flex;
           padding: 1.5rem;
@@ -191,7 +192,7 @@
           p {
             &:nth-of-type(2) {
               flex: 1;
-              margin-left: 3rem;
+              margin: 0 0 0 3rem;
             }
           }
 
