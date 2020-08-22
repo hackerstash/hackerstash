@@ -160,18 +160,35 @@ class Project(db.Model):
     @property
     def project_score_data(self):
         out = []
-        votes = self.all_votes
         start_of_week = arrow.now().floor('week')
         for i in range(7):
             this_day = start_of_week.shift(days=+i)
-            matching_votes = list(filter(lambda x: x.created_at.day == this_day.day, votes))
-            out.append(len(matching_votes))
+            votes_made_this_day = self.get_vote_score_by_day(this_day)
+            challenges_completed_this_day = self.get_challenge_score_by_day(this_day)
+            out.append(votes_made_this_day + challenges_completed_this_day)
         return json.dumps(out)
 
     def create_or_inc_challenge(self, key: str):
         challenge = Challenge.find_or_create(self, key)
         challenge.inc()
         db.session.commit()
+
+    def is_same_day(self, first_date, second_date):
+        return first_date.isocalendar() == second_date.isocalendar()
+
+    def get_vote_score_by_day(self, date) -> int:
+        votes = list(filter(lambda x: self.is_same_day(x.created_at, date), self.all_votes))
+        score = 0
+        for vote in votes:
+            score += vote.score
+        return score
+
+    def get_challenge_score_by_day(self, date) -> int:
+        challenges = list(filter(lambda x: self.is_same_day(x.created_at, date), self.challenges))
+        score = 0
+        for challenge in challenges:
+            score += challenge.count
+        return score
 
     @property
     def number_of_completed_challenges(self):

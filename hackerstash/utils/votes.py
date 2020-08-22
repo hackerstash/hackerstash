@@ -3,10 +3,8 @@ from hackerstash.lib.challenges.counts import ChallengeCount
 
 def sum_of_votes(votes) -> int:
     score = 0
-
     for vote in votes:
         score += vote.score
-
     return score
 
 
