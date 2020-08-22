@@ -72,7 +72,7 @@
                 </div>
             </div>
         </section>
-        {% if project.progress_settings.enabled and project.progress_settings.visible %}
+        {% if project.progress_settings.enabled %}
             <section class="progress has-kanban">
                 <div class="title">
                     <h3>Work Board</h3>
@@ -88,7 +88,7 @@
                     <div class="scroll-container">
                         {% for column in project.progress_settings.columns %}
                             <div class="column" data-column="{{ column }}">
-                                <label class="label">{{ column }}</label>
+                                <label class="label mb-0">{{ column }}</label>
                                 <div class="cards">
                                     {% for card in project.progress if card.column == column %}
                                         <div class="card modal-open {{ 'disabled' if not project.has_member(g.user) }}" data-project-id="{{ project.id }}" data-progress-id="{{ card.id }}" data-modal="update-task-modal-{{ card.id }}">

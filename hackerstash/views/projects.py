@@ -337,7 +337,6 @@ def update_progress(project_id: str, progress_id: str):
 def progress_settings(project_id: str):
     project = Project.query.get(project_id)
     project.progress_settings.enabled = request.form['enabled'] == 'on'
-    project.progress_settings.visible = request.form['visible'] == 'on'
     project.progress_settings.columns = request.form.getlist('column')
     db.session.commit()
     flash('Kanban settings have been updated')

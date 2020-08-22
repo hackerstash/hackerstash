@@ -375,23 +375,6 @@
                                     <label class="label" for="enabled-off">Off</label>
                                 </li>
                             </ul>
-                            <label class="label">Display on project profile</label>
-                            <ul class="radio-group mt-1 mb-3">
-                                <li>
-                                    <span class="radio">
-                                        <input class="input" type="radio" id="visible-on" name="visible" value="on" {{ 'checked' if project.progress_settings.visible }}>
-                                        <span class="indicator"><span></span></span>
-                                    </span>
-                                    <label class="label" for="visible-on">On</label>
-                                </li>
-                                <li>
-                                    <span class="radio">
-                                        <input class="input" type="radio" id="visible-off" name="visible" value="off" {{ 'checked' if not project.progress_settings.visible }}>
-                                        <span class="indicator"><span></span></span>
-                                    </span>
-                                    <label class="label" for="visible-off">Off</label>
-                                </li>
-                            </ul>
 
                             {% if project.progress_settings.enabled %}
                                 <p class="wrap-620 mb-2">You can add, remove or rename columns using the options below. To reorder the columns please use the drag icon on the left-hand side.</p>
@@ -400,7 +383,7 @@
                                     {% for column in project.progress_settings.columns %}
                                         <li>
                                             <i class="ri-drag-move-2-fill drag"></i>
-                                            <input name="column" class="input mb-0" type="text" value="{{ column }}" required>
+                                            <input name="column" class="input mb-0" type="text" value="{{ column }}" autocomplete="off" required>
                                             <i class="ri-close-line modal-open remove" data-modal="delete-column-{{ column | replace(' ', '___') }}"></i>
                                         </li>
                                     {% endfor %}

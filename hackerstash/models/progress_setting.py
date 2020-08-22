@@ -8,7 +8,6 @@ class ProgressSetting(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     enabled = db.Column(db.Boolean)
-    visible = db.Column(db.Boolean)
     columns = db.Column(ARRAY(db.String))
 
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)

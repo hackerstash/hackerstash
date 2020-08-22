@@ -170,7 +170,7 @@
   }
 
   .progress {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
     max-width: 960px;
     overflow-x: hidden;
 
@@ -234,6 +234,10 @@
           transform: rotate(2deg);
         }
 
+        &:first-of-type {
+          margin-top: 1.5rem;
+        }
+
         &:last-of-type {
           margin-bottom: 1.5rem;
         }
@@ -242,6 +246,10 @@
           cursor: default;
           pointer-events: none;
         }
+      }
+
+      .modal-open {
+        color: $mauve-900;
       }
 
       .scroll-container {
