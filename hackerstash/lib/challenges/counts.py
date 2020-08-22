@@ -1,5 +1,5 @@
-import datetime
 from hackerstash.models.challenge import Challenge
+from hackerstash.utils.contest import get_week_and_year
 
 
 class ChallengeCount:
@@ -35,8 +35,8 @@ class ChallengeCount:
 
     @property
     def week(self):
-        now = datetime.datetime.now()
-        return datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        week, year = get_week_and_year()
+        return week
 
     @property
     def completed_challenges_for_the_week(self):

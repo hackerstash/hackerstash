@@ -3,6 +3,7 @@ from sqlalchemy.types import JSON
 from hackerstash.db import db
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
+from hackerstash.utils.contest import get_week_and_year
 
 
 class Contest(db.Model):
@@ -36,8 +37,7 @@ class Contest(db.Model):
 
     @property
     def is_current(self):
-        now = datetime.datetime.now()
-        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        week, year = get_week_and_year()
         return self.week == week
 
     @property
@@ -97,10 +97,8 @@ class Contest(db.Model):
 
     @classmethod
     def get_current(cls):
-        now = datetime.datetime.now()
-        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
-        year = now.year
+        week, year = get_week_and_year()
         return cls.query.filter_by(week=week, year=year).first()
 
     def get_prize_for_position(self, position: int) -> int:
-        return self.prizes.get(f'prize_{position}')
+        return self.prizes.get(f'prize_{position}', self.prizes)

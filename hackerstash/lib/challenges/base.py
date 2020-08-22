@@ -1,5 +1,6 @@
 import datetime
 from hackerstash.lib.challenges.counts import ChallengeCount
+from hackerstash.utils.contest import get_week_and_year
 
 
 class Base:
@@ -8,8 +9,8 @@ class Base:
 
     @property
     def week(self) -> int:
-        now = datetime.datetime.now()
-        return datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
+        week, year = get_week_and_year()
+        return week
 
     @property
     def year(self) -> int:

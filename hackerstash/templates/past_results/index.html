@@ -19,7 +19,7 @@
                 <p class="col-2"></p>
             </div>
             <ul class="table-body">
-                {% for contest in contests %}
+                {% for contest in contests if not contest.is_current %}
                     <li>
                         <p class="col-1 year">
                             {{ contest.year }}

@@ -1,4 +1,5 @@
 from hackerstash.db import db
+from hackerstash.utils.prizes import get_prize_data_for_position
 
 
 class PastResult(db.Model):
@@ -20,7 +21,4 @@ class PastResult(db.Model):
 
     @property
     def prize(self):
-        return {
-            'value': 0,
-            'type': 'default'  # gold, siler, bronze, default
-        }
+        return get_prize_data_for_position(self.rank, self.contest.prizes)

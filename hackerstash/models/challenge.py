@@ -1,5 +1,5 @@
-import datetime
 from hackerstash.db import db
+from hackerstash.utils.contest import get_week_and_year
 
 
 class Challenge(db.Model):
@@ -41,9 +41,7 @@ class Challenge(db.Model):
 
     @classmethod
     def find_or_create(cls, project, key: str):
-        now = datetime.datetime.now()
-        week = datetime.date(now.year, now.month, now.day).isocalendar()[1] - 1
-
+        week, year = get_week_and_year()
         exists = next((x for x in project.challenges if x.key == key and x.week == week), None)
 
         if exists:
@@ -51,7 +49,7 @@ class Challenge(db.Model):
         else:
             challenge = Challenge(
                 key=key,
-                year=now.year,
+                year=year,
                 week=week,
                 count=0,
                 project=project
