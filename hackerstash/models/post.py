@@ -32,11 +32,14 @@ class Post(db.Model):
         return next((x for x in self.votes if x.user.id == user.id), None)
 
     def vote_status(self, user):
-        if not user or not user.member or not user.member.project.published:
-            return 'disabled'
+        if not user:
+            return 'disabled logged-out'
+
+        if not user.member or not user.member.project.published:
+            return 'disabled not-published'
 
         if self.project.id == user.member.project.id:
-            return 'disabled'
+            return 'disabled own-project'
 
         existing_vote = self.has_voted(user)
 

@@ -36,11 +36,14 @@ class Comment(db.Model):
         db.session.commit()
 
     def vote_status(self, user):
-        if not user or not user.member or not user.member.project.published:
-            return 'disabled'
+        if not user:
+            return 'disabled logged-out'
+
+        if not user.member or not user.member.project.published:
+            return 'disabled not-published'
 
         if self.user.member.project.id == user.member.project.id:
-            return 'disabled'
+            return 'disabled own-project'
 
         existing_vote = self.has_voted(user)
 
