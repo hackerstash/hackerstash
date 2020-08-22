@@ -31,7 +31,9 @@
                         <p><i class="icon ri-map-pin-2-fill"></i>{{ project.location }}</p>
                     {% endif %}
                     {% if project.url %}
-                        <p><a target="blank" rel="nofollow noreferrer" href="{{ project.url }}">{{ project.url }}</a></p>
+                        <p>
+                            <a target="blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">{{ project.url }}</a>
+                        </p>
                     {% endif %}
                 </div>
                 <div class="mt-2 wrap-620">
