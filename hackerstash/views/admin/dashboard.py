@@ -48,7 +48,7 @@ def update_tournament(contest_id: str) -> str:
     contest = Contest.query.get(contest_id)
     contest.top_up = request.form['top_up']
     contest.prizes = {}
-    for i in range(10):
+    for i in range(200):
         contest.prizes[f'prize_{i}'] = int(request.form.get(f'prize_{i}', 0))
     db.session.commit()
     return redirect(url_for('admin_dashboard.index', tab='tournaments'))

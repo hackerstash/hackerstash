@@ -29,7 +29,7 @@ class Contest(db.Model):
         self.top_up = 0
         self.prizes = {}
 
-        for i in range(10):
+        for i in range(200):
             self.prizes[f'prize_{i}'] = 0
 
     def __repr__(self) -> str:
@@ -101,4 +101,4 @@ class Contest(db.Model):
         return cls.query.filter_by(week=week, year=year).first()
 
     def get_prize_for_position(self, position: int) -> int:
-        return self.prizes.get(f'prize_{position}', self.prizes)
+        return self.prizes.get(f'prize_{position}', 0)

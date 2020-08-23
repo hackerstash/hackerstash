@@ -85,7 +85,7 @@
                             <p>Prize</p>
                         </div>
                         <div class="rank-body {{ 'current' if contest.is_current }}">
-                            {% for number in range(0, 10) %}
+                            {% for number in range(0, 200) %}
                                 <div class="row">
                                     <p class="position mb-0 {{ 'gold' if number == 0 }} {{ 'silver' if number == 1 }} {{ 'bronze' if number == 2 }} {{ 'default' if number > 2 and number < 8 }}">
                                         <span>{{ number + 1 }}</span>
