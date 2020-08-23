@@ -1,3 +1,21 @@
 .page.rules {
+  h3 {
+    margin: 2rem 0 1rem 0;
+  }
 
+  h4 {
+    margin: 2rem 0 1rem 0;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+
+    b {
+      color: $mauve-500;
+    }
+  }
+
+  li {
+    color: $mauve-900;
+  }
 }

@@ -6,5 +6,58 @@
         <header class="header">
             <h2>Rules</h2>
         </header>
+
+        <div class="wrap-620 pt-1">
+            <h3>Eligibility</h3>
+            <p>Anyone can enter, <a href="{{ url_for('legal.terms') }}">Terms & Conditions</a> apply.</p>
+
+            <h3>How To Enter</h3>
+            <p>To enter the HackerStash tournament you simply sign up for an account and publish your project (<b>$9</b> per month, unlimitied additional team members for no additional charge).</p>
+
+            <h3>Tournament Start & Duration</h3>
+            <p>Each tournament lasts exactly 1 week, starting at 00:00AM (CEST) each Monday.</p>
+            <p>The tournaments continue on a rolling basis - when one tournament ends the next begins. You're automatically enrolled if your project has an active HackerStash subscription.</p>
+            <p>You'll receive a notification at the end of each tournament informing you of your final rank/position and your prize (where applicable).</p>
+            <p><b>Important</b>: Project scores are wiped at the end of each week, so no project/team gains an advantage due to their prior weeks performance.</p>
+
+            <h3>How To Win 💸</h3>
+            <p>There are cash prizes for the most popular projects each week, and you can see the available prizes in the 'Expected Prize' column of the <a href="{{ url_for('leaderboard.index') }}">leaderboard</a>.</p>
+            <p>You climb the leaderboard by earning points for your project, and the higher you are on the leaderboard, the more you stand to win. <b>The lion's share of the prize pool money goes to the Top 3 projects each week!</b></p>
+
+            <h3>How To Earn Points</h3>
+            <p>The best way to succeed in the tournament is to be actively participating in the community, sharing knowledge, wins, losses etc. Ultimately, prizes go to those people you and the rest of the community think are the week's most valuable players. If you showed great progress, acheived.</p>
+
+            <h3>Here are the ways you can earn points:</h3>
+            <h4>Points From Your Competitors</h4>
+            <ul>
+                <li>Your project receives a direct upvote (10 points per vote)</li>
+                <li>One of you or your team's posts receive an upvote (5 points per vote)</li>
+                <li>One of you or your team's comments receives an upvote (1 point per vote)</li>
+            </ul>
+
+            <h4>Points From Weekly Challenges</h4>
+            <p>To help foster participation, and encourage you to get the most out of the community, we've created a series of <a href="{{ url_for('challenges.index') }}">weekly challenges</a> that earn you bonus points towards your tournaments score for the week.</p>
+
+            <h3>How To Lose 😬</h3>
+            <p>Not every project wins a prize each week. Sometimes that could be because it's simply a highly competitive week, but poor quality progress or participation can play a factor too.</p>
+            <p>If you're not showing good progress, or making useful, informative or interesting contributions to the community, there's a chance you won't earn as many points from your fellow competitors.</p>
+            <p>Also, <b>downvotes are a thing!</b> - if you post spam, or content with a high noise to signal ratio, your fellow competitors may penalise you! Be kind and share some advice and you'll likely do just fine 🥰</p>
+
+            <h3>Prize Pool Size</h3>
+            <p>The prize pool is determined by the number of competing projects, with the top prizes increases as the tournament grows.</p>
+
+            <h3>Disqualification</h3>
+            <p>Project disqualifications are extremely rare, but it can happen. The most likely reason you'll face disqualification is if your project or team have undertaken any of the following activities:</p>
+            <ul>
+                <li>You've persistantly asked your fellow competitors to vote for you.</li>
+                <li>You've indescriminately and persistantly downvoted competiting projects or content.</li>
+                <li>You're attempting to run duplicate projects to manipulate project scores.</li>
+                <li>You've violated our <a href="{{ url_for('legal.terms') }}">Terms Of Service</a>.</li>
+            </ul>
+            <p><b>Note</b>: We reserve the right to disqualify competitors for reasons outside of the above scope. We will always attempt to adjucticate disputes fairly and will opt for issues warnings, before bans, in most instances.</p>
+
+            <h3>Withdrawal</h3>
+            <p>You can withdraw your project at any time. Once withdrawn, you will be removed from the leaderboard and forfeit and 'Expected Prize' that had previously been attributed to your tournament ranking.</p>
+        </div>
     </div>
 {% endblock %}
