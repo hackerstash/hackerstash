@@ -1,3 +1,4 @@
+import arrow
 from datetime import datetime
 from flask import session, request, url_for, g, redirect, render_template
 from hackerstash.lib.logging import logging
@@ -17,12 +18,11 @@ def init_app(app):
                     and not request.path.startswith('/static'):
                 return redirect(url_for('users.new'))
 
-        now = datetime.now()
         count = Project.query.filter_by(published=True).count() * 2
         contest = Contest.get_current()
 
         g.prize_pool = f'${count + contest.top_up}.00'
-        g.time_remaining = f'{6 - now.weekday()} days'
+        g.time_remaining = arrow.utcnow().ceil('week').humanize(only_distance=True)
 
     @app.after_request
     def after_request_func(response):
