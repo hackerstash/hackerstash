@@ -61,7 +61,7 @@ def create() -> str:
 
     project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
     member = Member(owner=True, user=user, project=project)
-    prog_settings = ProgressSetting(enabled=True, visible=False, columns=columns, project=project)
+    prog_settings = ProgressSetting(enabled=True, columns=columns, project=project)
 
     db.session.add(project)
     db.session.add(member)
