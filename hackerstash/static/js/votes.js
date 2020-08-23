@@ -12,7 +12,7 @@ document.addEventListener('click', (event) => {
 
         if (button.closest('.disabled')) {
             const message = getDisabledToastMessage(button.closest('.disabled').classList);
-            return createToast(message);
+            return createToast(message, 'error');
         }
 
         const options = {

@@ -50,6 +50,9 @@ def to_post_body(post) -> str:
     body = to_markdown(post.body)
 
     def build_image_url_from_filename(file_name):
+        # Don't mess with external images
+        if file_name.startswith('http'):
+            return f'src="{file_name}"'
         try:
             image = [i for i in post.images if i.file_name == file_name][0]
             return f'src="https://images.hackerstash.com/{image.key}"'

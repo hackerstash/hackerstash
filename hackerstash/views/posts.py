@@ -98,7 +98,7 @@ def update(post_id: str) -> str:
     post.body = request.form['body']
     db.session.commit()
 
-    return render_template('posts/show.html', post=post)
+    return redirect(url_for('posts.show', post_id=post.id, saved=1))
 
 
 @posts.route('/posts/<post_id>/destroy')

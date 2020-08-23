@@ -108,8 +108,7 @@ def update_settings() -> str:
     user.email = request.form['email']
     user.telephone = request.form['telephone']
     db.session.commit()
-    flash('Your setting have been updated', 'success')
-    return redirect(url_for('users.show', user_id=user.id))
+    return redirect(url_for('users.show', user_id=user.id, saved=1))
 
 
 @users.route('/users/profile')
@@ -134,5 +133,4 @@ def update_profile() -> str:
             setattr(user, key, value)
 
     db.session.commit()
-    flash('Your setting have been updated', 'success')
-    return redirect(url_for('users.show', user_id=user.id))
+    return redirect(url_for('users.show', user_id=user.id, saved=1))

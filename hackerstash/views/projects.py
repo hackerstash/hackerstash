@@ -111,7 +111,7 @@ def update(project_id: str) -> str:
             setattr(project, key, val)
 
     db.session.commit()
-    return redirect(url_for('projects.show', project_id=project.id))
+    return redirect(url_for('projects.show', project_id=project.id, saved=1))
 
 
 @projects.route('/projects/<project_id>/delete')
@@ -148,7 +148,7 @@ def update_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
     member.role = request.form['role']
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='2', saved=1))
 
 
 @projects.route('/projects/<project_id>/members/<member_id>/delete')
@@ -339,8 +339,7 @@ def progress_settings(project_id: str):
     project.progress_settings.enabled = request.form['enabled'] == 'on'
     project.progress_settings.columns = request.form.getlist('column')
     db.session.commit()
-    flash('Kanban settings have been updated')
-    return redirect(url_for('projects.edit', project_id=project_id, tab='3'))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='3', saved=1))
 
 
 @projects.route('/projects/<project_id>/progress/delete_column', methods=['POST'])
@@ -360,5 +359,4 @@ def delete_column(project_id):
                 prog.column = new_column
 
     db.session.commit()
-    flash('Kanban settings have been updated')
-    return redirect(url_for('projects.edit', project_id=project_id, tab='3'))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='3', saved=1))
