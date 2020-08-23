@@ -117,7 +117,7 @@
                         <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Edit</a>
                     {% endif %}
                 </div>
-                <p class="mt-1-5">There is {{ project.members | length }} person working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>
+                <p class="mt-1-5">{% if project.members | length > 1 %}There are {{ project.members | length }} people{% else %}There is 1 person{% endif %} working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>
                 <ul>
                     {% for member in project.members %}
                         <li>
