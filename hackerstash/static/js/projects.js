@@ -1,5 +1,6 @@
 const projectSorting = document.querySelector('#sorting');
 const projectChart = document.querySelector('#project-graph');
+const description = document.querySelector('#description');
 
 if (projectSorting) {
     projectSorting.addEventListener('change', (event) => {
@@ -55,6 +56,17 @@ if (projectChart) {
                     barThickness: 25
                 }
             ]
+        }
+    });
+}
+
+if (description) {
+    description.addEventListener('keyup', (event) => {
+        event.target.classList.remove('error');
+
+        if (event.target.value.length > 280) {
+            event.preventDefault();
+            event.target.classList.add('error');
         }
     });
 }

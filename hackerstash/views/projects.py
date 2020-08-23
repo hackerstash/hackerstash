@@ -101,6 +101,7 @@ def update(project_id: str) -> str:
 
     for key, value in request.form.items():
         if key not in ['file', 'avatar']:
+            value = value[:280] if key == 'description' else value
             setattr(project, key, value)
 
     lists = ['fundings', 'business_models', 'platforms_and_devices']
