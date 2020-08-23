@@ -18,7 +18,7 @@ def init_app(app):
                 return redirect(url_for('users.new'))
 
         now = datetime.now()
-        count = Project.query.filter_by(published=True).count() * 10
+        count = Project.query.filter_by(published=True).count() * 2
         contest = Contest.get_current()
 
         g.prize_pool = f'${count + contest.top_up}.00'
