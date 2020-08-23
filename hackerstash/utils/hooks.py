@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import session, request, url_for, g, redirect, render_template
 from hackerstash.lib.logging import logging
+from hackerstash.models.contest import Contest
 from hackerstash.models.user import User
 from hackerstash.models.project import Project
 
@@ -17,9 +18,10 @@ def init_app(app):
                 return redirect(url_for('users.new'))
 
         now = datetime.now()
-        count = Project.query.count() * 10
+        count = Project.query.filter_by(published=True).count() * 10
+        contest = Contest.get_current()
 
-        g.prize_pool = f'${count}.00'
+        g.prize_pool = f'${count + contest.top_up}.00'
         g.time_remaining = f'{6 - now.weekday()} days'
 
     @app.after_request
