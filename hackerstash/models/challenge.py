@@ -45,7 +45,7 @@ class Challenge(db.Model):
 
     @property
     def score(self):
-        return self.count * get_score_for_key(self.key)
+        return get_score_for_key(self.key)
 
     @property
     def is_current_contest(self):
