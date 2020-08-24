@@ -69,7 +69,7 @@ app.register_blueprint(twitter_blueprint)
 
 def create_app():
     db.init_app(app)
-    session.init_app(app)
+    # session.init_app(app)  # TODO: It keeps saving sessions for every health check request!
     assets.init_app(app)
     filters.init_app(app)
     hooks.init_app(app)
