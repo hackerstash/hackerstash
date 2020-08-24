@@ -1,6 +1,7 @@
 import json
-from hackerstash.db import db
+from flask import url_for
 from sqlalchemy.types import ARRAY
+from hackerstash.db import db
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
@@ -140,6 +141,7 @@ class Project(db.Model):
             'name': self.name,
             'avatar': self.avatar,
             'description': self.description,
+            'url': url_for('projects.show', project_id=self.id),
             'lists': [
                 {
                     'key': 'Tournament position',

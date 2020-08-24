@@ -33,7 +33,7 @@ def to_human_date(date) -> str:
 
 def to_nice_date(date) -> str:
     d = arrow.get(date)
-    return d.format('MMMM D [at] h:mA')
+    return d.format('MMMM D [at] h:mmA')
 
 
 def to_contest_date(date) -> str:

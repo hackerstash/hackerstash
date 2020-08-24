@@ -30,7 +30,7 @@ previews.forEach((preview) => {
                 <span class="avatar">
                     <img src="https://images.hackerstash.com/${data.avatar}">
                 </span>
-                <h4>${data.name}</h4>
+                <h4><a href="${data.url}">${data.name}</a></h4>
             </div>
             <p class="small">${data.description}</p>
             <ul class="display-options">

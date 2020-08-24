@@ -23,6 +23,15 @@
     align-items: center;
     display: flex;
     margin-bottom: 1rem;
+
+    a {
+      color: $mauve-500;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .display-options {

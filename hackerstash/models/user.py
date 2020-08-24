@@ -1,5 +1,6 @@
 import json
 import arrow
+from flask import url_for
 from hackerstash.db import db
 
 follow = db.Table(
@@ -87,6 +88,7 @@ class User(db.Model):
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
             'description': self.bio,
+            'url': url_for('users.show', user_id=self.id),
             'lists': [
                 {
                     'key': 'Username',
