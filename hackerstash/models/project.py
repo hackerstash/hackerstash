@@ -1,10 +1,10 @@
 import json
-import arrow
 from hackerstash.db import db
 from sqlalchemy.types import ARRAY
-from hackerstash.lib.challenges.counts import ChallengeCount
+from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
+from hackerstash.utils.helpers import find_in_list
 from hackerstash.utils.prizes import get_prize_data_for_position
 from hackerstash.utils.votes import sum_of_project_votes
 
@@ -51,17 +51,25 @@ class Project(db.Model):
         return f'<Project {self.name}>'
 
     def has_member(self, user):
-        if not user:
-            return False
-        match = list(filter(lambda x: x.user.id == user.id, self.members))
-        return len(match) > 0
+        member = self.get_member_by_id(user.id if user else None)
+        return bool(member)
 
-    def has_voted(self, user):
-        return next((x for x in self.votes if x.user.id == user.id), None)
+    def get_member_by_id(self, user_id=None):
+        return find_in_list(self.members, lambda x: x.user.id == user_id)
+
+    def has_member_with_email(self, email):
+        return find_in_list(self.members, lambda x: x.user.email == email)
+
+    def get_existing_vote_for_user(self, user):
+        # Although a user clicked on the button, the
+        # vote is actually made on behalf of the project
+        # to stop people from creating 30 fake users and
+        # downvote bombing other users
+        return find_in_list(self.votes, lambda x: x.user.member.project.id == user.member.project.id)
 
     def vote(self, user, direction):
         score = 10 if direction == 'up' else -10
-        existing_vote = self.has_voted(user)
+        existing_vote = self.get_existing_vote_for_user(user)
 
         if existing_vote:
             db.session.delete(existing_vote)
@@ -70,25 +78,16 @@ class Project(db.Model):
             self.votes.append(vote)
         db.session.commit()
 
-    def has_member_with_email(self, email) -> bool:
-        member = next((x for x in self.members if x.user.email == email), None)
-        return bool(member)
-
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
-
         if not user.member or not user.member.project.published:
             return 'disabled not-published'
-
         if self.id == user.member.project.id:
             return 'disabled own-project'
 
-        existing_vote = self.has_voted(user)
-
-        if existing_vote:
-            return 'upvoted' if existing_vote.score > 0 else 'downvoted'
-        return None
+        existing_vote = self.get_existing_vote_for_user(user)
+        return 'upvoted' if existing_vote and existing_vote.score > 0 else 'downvoted'
 
     @property
     def position(self) -> int:
@@ -103,6 +102,8 @@ class Project(db.Model):
 
     @property
     def vote_score(self) -> int:
+        # The project vote score behaves a bit differently to posts
+        # and comments as it only totals the scores for this week
         return sum_of_project_votes(self)
 
     @property
@@ -121,12 +122,16 @@ class Project(db.Model):
 
     @property
     def upvotes(self) -> int:
-        votes = list(filter(lambda x: x.score > 0, self.all_votes))
+        # Get all the votes for this contest that have a
+        # positive score, therefore being an upvote
+        votes = [vote for vote in self.all_votes if vote.is_current_contest and vote.score > 0]
         return len(votes)
 
     @property
     def downvotes(self) -> int:
-        votes = list(filter(lambda x: x.score < 0, self.all_votes))
+        # Get all the votes for this contest that have a
+        # negative score, therefore being a downvote
+        votes = [vote for vote in self.all_votes if vote.is_current_contest and vote.score < 0]
         return len(votes)
 
     @property
@@ -159,42 +164,19 @@ class Project(db.Model):
 
     @property
     def project_score_data(self):
-        out = []
-        start_of_week = arrow.now().floor('week')
-        for i in range(7):
-            this_day = start_of_week.shift(days=+i)
-            votes_made_this_day = self.get_vote_score_by_day(this_day)
-            challenges_completed_this_day = self.get_challenge_score_by_day(this_day)
-            out.append(votes_made_this_day + challenges_completed_this_day)
-        return json.dumps(out)
+        return json.dumps(build_weekly_vote_data(self))
 
     def create_or_inc_challenge(self, key: str):
         challenge = Challenge.find_or_create(self, key)
         challenge.inc()
         db.session.commit()
 
-    def is_same_day(self, first_date, second_date):
-        return first_date.isocalendar() == second_date.isocalendar()
-
-    def get_vote_score_by_day(self, date) -> int:
-        votes = list(filter(lambda x: self.is_same_day(x.created_at, date), self.all_votes))
-        score = 0
-        for vote in votes:
-            score += vote.score
-        return score
-
-    def get_challenge_score_by_day(self, date) -> int:
-        challenges = list(filter(lambda x: self.is_same_day(x.created_at, date), self.challenges))
-        score = 0
-        for challenge in challenges:
-            score += challenge.count
-        return score
-
     @property
     def number_of_completed_challenges(self):
-        challenge_counts = ChallengeCount(self.challenges)
-        return len(challenge_counts.completed_challenges_for_the_week)
+        completed = Challenge.get_completed_challenges_for_project(self)
+        return len(completed)
 
     @property
     def prize(self):
-        return get_prize_data_for_position(self.position - 1)  # Not 0 indexed
+        # Not 0 indexed
+        return get_prize_data_for_position(self.position - 1)

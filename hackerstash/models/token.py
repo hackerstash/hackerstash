@@ -28,7 +28,6 @@ class Token(db.Model):
             db.session.add(token)
 
         db.session.commit()
-
         return code
 
     @classmethod

@@ -1,5 +1,5 @@
 import datetime
-from hackerstash.lib.challenges.counts import ChallengeCount
+from hackerstash.models.challenge import Challenge
 from hackerstash.utils.contest import get_week_and_year
 
 
@@ -18,5 +18,4 @@ class Base:
         return now.year
 
     def has_completed(self, project, key: str):
-        challenge_counts = ChallengeCount(project.challenges)
-        return challenge_counts.has_completed(key)
+        return Challenge.has_completed_key(project, key)

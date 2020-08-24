@@ -1,4 +1,4 @@
-from hackerstash.lib.challenges.counts import ChallengeCount
+from hackerstash.models.challenge import Challenge
 from hackerstash.utils.contest import get_week_and_year
 
 
@@ -8,34 +8,30 @@ def is_this_week(date) -> bool:
     return current_week == week and current_year == year
 
 
-def sum_of_votes(votes) -> int:
+def sum_of_votes(votes, this_contest_only=True) -> int:
     score = 0
     for vote in votes:
-        score += vote.score
+        # Either:
+        # - we want to show everything (!this_contest_only) or
+        # - we want to show only this week and the stuff must match
+        if not this_contest_only or this_contest_only and vote.is_current_contest:
+            score += vote.score
     return score
 
 
-def sum_of_weekly_challenges(challenges) -> int:
-    score = 0
-    challenge_counts = ChallengeCount(challenges)
-
-    for key in challenge_counts.challenge_types:
-        if challenge_counts.has_completed(key):
-            score += challenge_counts.get_score_for_key(key)
-
-    return score
+def sum_of_weekly_challenges(project) -> int:
+    completed = Challenge.get_completed_challenges_for_project(project)
+    return sum(c.score for c in completed)
 
 
 def sum_of_project_votes(project) -> int:
     score = 0
 
     score += sum_of_votes(project.votes)
-    score += sum_of_weekly_challenges(project.challenges)
+    score += sum_of_weekly_challenges(project)
 
     for post in project.posts:
         score += sum_of_votes(post.votes)
-
         for comment in post.comments:
             score += sum_of_votes(comment.votes)
-
     return score
