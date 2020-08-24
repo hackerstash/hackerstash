@@ -30,7 +30,7 @@
                         </p>
                         <p class="col-2 small">
                             <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
-                                {{ project.url }}
+                                {{ project.url | to_nice_url }}
                             </a>
                         </p>
                         <p class="col-4 small score">

@@ -32,7 +32,9 @@
                     {% endif %}
                     {% if project.url %}
                         <p>
-                            <a target="blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">{{ project.url }}</a>
+                            <a target="blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">
+                                {{ project.url | to_nice_url }}
+                            </a>
                         </p>
                     {% endif %}
                 </div>

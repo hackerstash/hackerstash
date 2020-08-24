@@ -8,7 +8,6 @@ class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     type = db.Column(db.String)
-    contest = db.Column(db.String)
     score = db.Column(db.Integer)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

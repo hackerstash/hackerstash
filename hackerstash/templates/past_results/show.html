@@ -40,7 +40,9 @@
                             {{ project_preview(past_result.project) }}
                         </p>
                         <p class="col-2 small">
-                            <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">{{ past_result.project.url }}</a>
+                            <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">
+                                {{ past_result.project.url | to_nice_url }}
+                            </a>
                         </p>
                         <p class="col-4 small score">
                             <i>{{ past_result.score }} points</i>

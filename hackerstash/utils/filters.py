@@ -20,6 +20,7 @@ def init_app(app):
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
     app.jinja_env.filters['to_post_body'] = to_post_body
     app.jinja_env.filters['to_currency'] = to_currency
+    app.jinja_env.filters['to_nice_url'] = to_nice_url
 
 
 def to_markdown(value: str) -> str:
@@ -142,3 +143,7 @@ def to_ordinal_ending(number: int) -> str:
 
 def to_currency(number: int) -> str:
     return '${:,.2f}'.format(number)
+
+
+def to_nice_url(url: str) -> str:
+    return url.replace('https://', '').replace('http://', '').replace('www.', '')
