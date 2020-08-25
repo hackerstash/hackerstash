@@ -5,4 +5,4 @@ workers = 2
 threads = 4
 reload = os.environ.get('DEBUG', False)
 accesslog = '-'
-access_log_format = '%(h)s %(l)s %(t)s \'%(r)s\' %(s)s'
+access_log_format = '{"address":"%(h)s", "date":"%(t)s", "method":"%(m)s", "url":"%(U)s", "status":"%(s)s", "duration":"%(T)s", "pid":"%(p)s"}'
