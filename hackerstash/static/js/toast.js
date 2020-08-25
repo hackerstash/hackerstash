@@ -8,9 +8,9 @@ function createToast(message, type = '') {
 
     document.querySelectorAll('.toast').forEach(element => element.remove());
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 5000);
+    setTimeout(() => toast.remove(), 2500);
 }
 
 if (/saved=1/.test(location.search)) {
-    createToast('Changes saved', 'success')
+    createToast('Changes saved', 'success');
 }

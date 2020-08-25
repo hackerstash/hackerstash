@@ -11,7 +11,7 @@ previews.forEach((preview) => {
     preview.addEventListener('mouseenter', (event) => {
         removePreviewCard()
 
-        const element = event.target.closest('.preview')
+        const element = event.target.closest('.preview');
         const data = JSON.parse(element.getAttribute('data-preview'));
         const coords = element.getBoundingClientRect();
         const card = document.createElement('div');
@@ -21,7 +21,7 @@ previews.forEach((preview) => {
         const lists = data.lists.map(l => `
             <li>
                 <p class="small">${l.key}</p>
-                <p class="small truncate">${l.value}</p>
+                <p class="small truncate">${l.value || '-'}</p>
             </li>
         `).join('');
 
@@ -32,7 +32,7 @@ previews.forEach((preview) => {
                 </span>
                 <h4><a href="${data.url}">${data.name}</a></h4>
             </div>
-            <p class="small">${data.description}</p>
+            <p class="small">${data.description || ''}</p>
             <ul class="display-options">
                 ${lists}
             </ul>
