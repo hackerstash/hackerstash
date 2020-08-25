@@ -1,5 +1,5 @@
 import arrow
-from datetime import datetime
+from werkzeug.exceptions import HTTPException
 from flask import session, request, url_for, g, redirect, render_template
 from hackerstash.lib.logging import logging
 from hackerstash.models.contest import Contest
@@ -39,5 +39,12 @@ def init_app(app):
 
     @app.errorhandler(500)
     def internal_server_error(error):
-        logging.error('Internal server error %s', str(error))
+        logging.error('Internal server error: %s', str(error))
+        return render_template('500.html'), 500
+
+    @app.errorhandler(Exception)
+    def handle_exception(error):
+        if isinstance(error, HTTPException):
+            return error
+        logging.error('Internal server error: %s', error, exc_info=error)
         return render_template('500.html'), 500

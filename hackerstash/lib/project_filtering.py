@@ -16,7 +16,7 @@ def project_filtering(args):
     args = get_args(args)
 
     if len(args) == 0:
-        return list(projects)
+        return default_response(projects)
 
     logging.info('Filtering projects %s', args)
 
@@ -87,6 +87,10 @@ def filter_by_business_models(business_models: list, value: str) -> bool:
 
 def filter_by_fundings(fundings: list, value: str) -> bool:
     return all(x in fundings for x in value)
+
+
+def default_response(projects):
+    return sorted(list(projects), key=lambda x: x.name[0], reverse=False)
 
 
 def sort_projects(projects, sorting: str = 'alphabetical_desc'):
