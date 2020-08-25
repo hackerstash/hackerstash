@@ -37,11 +37,11 @@ class Base:
 
         for notification in self.notifications_to_send:
             if notification_enabled(notification, 'web'):
-                logging.info(f'Creating web notification for "{notification["user"].id}"', )
+                logging.info(f'Creating web notification for \'{notification["user"].id}\'')
                 create_web_notification(notification)
 
             if notification_enabled(notification, 'email'):
-                logging.info(f'Creating email notification for "{notification["user"].id}"', )
+                logging.info(f'Creating email notification for \'{notification["user"].id}\'')
                 create_email_notification(notification)
 
     def render_notification_message(self, name: str) -> str:

@@ -10,7 +10,7 @@ class PostCreated(Base):
         project = g.user.member.project
 
         if not self.has_completed(project, 'published_a_post'):
-            logging.info(f'Awarding "published_a_post" challenge for "{project.id}"')
+            logging.info(f'Awarding \'published_a_post\' challenge for \'{project.id}\'')
             project.create_or_inc_challenge('published_a_post')
 
         # TODO
