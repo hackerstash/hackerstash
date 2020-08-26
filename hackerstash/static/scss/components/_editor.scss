@@ -67,6 +67,15 @@
       }
     }
   }
+
+  @include tablet-down {
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+
+    button {
+      margin-bottom: .5rem;
+    }
+  }
 }
 
 .editor {
