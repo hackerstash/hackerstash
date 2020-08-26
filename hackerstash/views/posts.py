@@ -91,7 +91,7 @@ def edit(post_id: str) -> str:
 def update(post_id: str) -> str:
     post = Post.query.get(post_id)
     post.title = request.form['title']
-    post.body = request.form['body']
+    post.body = add_mentions(request.form['body'])
     db.session.commit()
 
     return redirect(url_for('posts.show', post_id=post.id, saved=1))
@@ -116,12 +116,9 @@ def comment(post_id: str) -> str:
     if not request.form['body']:
         return redirect(url_for('posts.show', post_id=post_id))
 
-    comment = Comment(
-        body=request.form['body'],
-        parent_comment_id=request.form.get('parent_comment_id'),
-        user=user,
-        post_id=post.id
-    )
+    body = add_mentions(request.form['body'])
+    parent_comment_id = request.form.get('parent_comment_id')
+    comment = Comment(body=body, parent_comment_id=parent_comment_id, user=user, post_id=post.id)
 
     post.comments.append(comment)
     db.session.commit()
