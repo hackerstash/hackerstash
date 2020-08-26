@@ -33,15 +33,16 @@ class Base:
         self.notifications_to_send = []
 
     def publish(self) -> None:
-        logging.info('Publishing notifications')
+        notification_types = list(map(lambda x: x['notification_type'], self.notifications_to_send))
+        logging.info('Publishing notifications: (%s)', ','.join(notification_types))
 
         for notification in self.notifications_to_send:
             if notification_enabled(notification, 'web'):
-                logging.info(f'Creating web notification for \'{notification["user"].id}\'')
+                logging.info(f'Creating web notification for \'{notification["user"].username}\' - \'{notification["notification_type"]}\'')
                 create_web_notification(notification)
 
             if notification_enabled(notification, 'email'):
-                logging.info(f'Creating email notification for \'{notification["user"].id}\'')
+                logging.info(f'Creating email notification for \'{notification["user"].username}\' - \'{notification["notification_type"]}\'')
                 create_email_notification(notification)
 
     def render_notification_message(self, name: str) -> str:
