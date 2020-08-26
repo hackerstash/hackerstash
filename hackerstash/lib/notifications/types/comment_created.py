@@ -12,14 +12,9 @@ class CommentCreated(Base):
         # Don't notify yourself that you commented
         # on your own post
         if comment.post.user.id != g.user.id:
-            self.notifications_to_send.append({
-                'user': comment.post.user,
-                'payload': payload,
-                'email_type': 'commented_on_post',
-                'notification_type': 'someone_comments_on_your_post',
-                'notification_message': self.render_notification_message('someone_comments_on_your_post')
-            })
-
+            # If the comment has no parent then the post author should
+            # recieve a notification. Otherwise the owner of the parent
+            # comment should receive it instead.
             if comment.parent_comment_id:
                 parent_comment = Comment.query.get(comment.parent_comment_id)
 
@@ -33,3 +28,11 @@ class CommentCreated(Base):
                         'notification_type': 'someone_replies_to_your_comment',
                         'notification_message': self.render_notification_message('someone_replies_to_your_comment')
                     })
+            else:
+                self.notifications_to_send.append({
+                    'user': comment.post.user,
+                    'payload': payload,
+                    'email_type': 'commented_on_post',
+                    'notification_type': 'someone_comments_on_your_post',
+                    'notification_message': self.render_notification_message('someone_comments_on_your_post')
+                })
