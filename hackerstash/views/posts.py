@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash
+from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
 from hackerstash.lib.challenges.factory import challenge_factory
@@ -8,7 +8,6 @@ from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.comment import Comment
-from hackerstash.models.image import Image
 from hackerstash.utils.auth import login_required, author_required, published_project_required
 
 posts = Blueprint('posts', __name__)
@@ -56,18 +55,6 @@ def create() -> str:
         return render_template('posts/new.html')
 
     post = Post(title=request.form['title'], body=request.form['body'], user=user, project=project)
-
-    # filenames_to_upload will contain a list of images
-    # that the user has not deleted. FileList is readonly
-    # on the front end.
-    file_names = json.loads(request.form.get('filenames_to_upload', '[]'))
-
-    for file in request.files.getlist('file'):
-        if file.filename in file_names:
-            key = upload_image(file)
-            image = Image(key=key, file_name=file.filename)
-            post.images.append(image)
-
     db.session.add(post)
     db.session.commit()
 
@@ -77,13 +64,22 @@ def create() -> str:
     return redirect(url_for('posts.show', post_id=post.id))
 
 
+@posts.route('/posts/images', methods=['POST'])
+@login_required
+@published_project_required
+def upload_images():
+    images = []
+    for file in request.files.getlist('file'):
+        images.append(upload_image(file))
+    return jsonify(images)
+
+
 @posts.route('/posts/<post_id>/edit')
 @login_required
 @author_required
 def edit(post_id: str) -> str:
     post = Post.query.get(post_id)
-    image_list = json.dumps([image.file_name for image in post.images])
-    return render_template('posts/edit.html', post=post, image_list=image_list)
+    return render_template('posts/edit.html', post=post)
 
 
 @posts.route('/posts/<post_id>/update', methods=['POST'])
@@ -91,9 +87,6 @@ def edit(post_id: str) -> str:
 @author_required
 def update(post_id: str) -> str:
     post = Post.query.get(post_id)
-
-    # TODO work out old/new images
-
     post.title = request.form['title']
     post.body = request.form['body']
     db.session.commit()
@@ -116,6 +109,9 @@ def destroy(post_id: str) -> str:
 def comment(post_id: str) -> str:
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
+
+    if not request.form['body']:
+        return redirect(url_for('posts.show', post_id=post_id))
 
     comment = Comment(
         body=request.form['body'],

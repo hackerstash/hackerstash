@@ -1,4 +1,4 @@
-.markdown {
+.post {
   color: $mauve-900;
 
   h1 {
@@ -36,11 +36,21 @@
 
     li {
       color: $mauve-900;
+      margin-left: 0;
+      padding: 0;
     }
   
     p {
       margin: 0 !important;
     }
+  }
+
+  ul li {
+    list-style: disc;
+  }
+
+  ol li {
+    list-style: decimal;
   }
 
   blockquote {
@@ -50,6 +60,16 @@
         margin-bottom: 0;
     }
   }
+
+  pre {
+    background: $darkblue-900;
+    border-radius: .5rem;
+    color: $mauve-500;
+    display: block;
+    padding: 1.5rem;
+    width: 100%;
+    white-space: pre-wrap;
+    }
 
   hr {
     border-color: $mauve-1000;

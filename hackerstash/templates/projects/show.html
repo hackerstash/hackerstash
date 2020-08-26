@@ -39,8 +39,8 @@
                     {% endif %}
                 </div>
                 <div class="mt-2 wrap-620">
-                    <div class="markdown">
-                        {{ project.description | to_markdown | safe }}
+                    <div class="post">
+                        {{ project.description | to_safe_html | safe }}
                     </div>
                 </div>
             </div>

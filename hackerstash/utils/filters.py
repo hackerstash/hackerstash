@@ -1,13 +1,10 @@
-import re
 import arrow
+import bleach
 import calendar
-from markdown import markdown
-from hackerstash.lib.logging import logging
-from hackerstash.utils.markdown.extensions import StrikethroughExtension
 
 
 def init_app(app):
-    app.jinja_env.filters['to_markdown'] = to_markdown
+    app.jinja_env.filters['to_safe_html'] = to_safe_html
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_nice_date'] = to_nice_date
     app.jinja_env.filters['to_contest_date'] = to_contest_date
@@ -18,13 +15,16 @@ def init_app(app):
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
-    app.jinja_env.filters['to_post_body'] = to_post_body
     app.jinja_env.filters['to_currency'] = to_currency
     app.jinja_env.filters['to_nice_url'] = to_nice_url
 
 
-def to_markdown(value: str) -> str:
-    return markdown(value, extensions=[StrikethroughExtension()]) if value else ''
+def to_safe_html(value: str) -> str:
+    # List of all allowed tags
+    tags = ['h1', 'h2', 'h3', 'p', 'span', 'ul', 'ol', 'li', 'pre', 'a', 'img', 'strong', 'br', 'em', 'u', 's']
+    # List of all allowed attributes for tags
+    attrs = {'img': ['src']}
+    return bleach.clean(value, tags=tags, attributes=attrs, strip=True)
 
 
 def to_human_date(date) -> str:
@@ -47,40 +47,19 @@ def to_named_month(month) -> str:
     return calendar.month_name[index]
 
 
-def to_post_body(post) -> str:
-    body = to_markdown(post.body)
-
-    def build_image_url_from_filename(file_name):
-        # Don't mess with external images
-        if file_name.startswith('http'):
-            return f'src="{file_name}"'
-        try:
-            image = [i for i in post.images if i.file_name == file_name][0]
-            return f'src="https://images.hackerstash.com/{image.key}"'
-        except Exception as e:
-            logging.error('Failed to render post body %s', e)
-            return 'src=""'
-
-    return re.sub(r'src="(.*)"', lambda x: build_image_url_from_filename(x.group(1)), body)
-
-
 def nest_comments(comments, should_nest: bool):
     if not should_nest:
         return comments
 
     def generate_nesting(array, parent=None):
         out = []
-
         for comment in array:
             if comment.parent_comment_id == parent:
                 children = generate_nesting(array, comment.id)
-
                 if len(children):
                     comment.children = children
-
                 out.append(comment)
         return out
-
     return generate_nesting(comments)
 
 

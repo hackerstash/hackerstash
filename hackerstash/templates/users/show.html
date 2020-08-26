@@ -46,8 +46,8 @@
         </div>
 
         <div class="profile-bio-text mt-2 mb-2 wrap-620">
-            <div class="markdown">
-                {{ user.bio | to_markdown | safe }}
+            <div class="post">
+                {{ user.bio | to_safe_html | safe }}
             </div>
         </div>
 
