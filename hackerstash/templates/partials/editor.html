@@ -21,7 +21,7 @@
 
         <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" class="ql-image" multiple>
     </div>
-    <div class="editor full">{{ body | safe }}</div>
+    <div class="editor post full">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
     <p class="uploading-images mt-1-5 d-none">Uploading...</p>
 {% endmacro %}
@@ -37,6 +37,6 @@
         <button type="button" class="ql-code-block"><i class="ri-code-line"></i></button>
         <button type="button" class="ql-link"><i class="ri-link"></i></button>
     </div>
-    <div class="editor light">{{ body | safe }}</div>
+    <div class="editor post light">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
 {% endmacro %}
