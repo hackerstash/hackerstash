@@ -130,6 +130,8 @@ def update_profile() -> str:
 
     for key, value in request.form.items():
         if key not in ['file', 'avatar']:
+            # Rich text always uses body as the key
+            key = 'bio' if key == 'body' else key
             setattr(user, key, value)
 
     db.session.commit()

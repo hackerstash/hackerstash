@@ -27,7 +27,7 @@
                         <h3>
                             {{ project_preview(user.member.project) }}
                         </h3>
-                        <p>{{ user.member.project.description }}</p>
+                        <p>{{ user.member.project.description | to_safe_html | safe }}</p>
                         <div class="details">
                             <p><span>{{ user.member.project.members | length }}</span> Team members</p>
                             <p><i class="icon ri-focus-2-line"></i>Points: {{ user.member.project.vote_score }}</p>

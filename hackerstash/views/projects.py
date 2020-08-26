@@ -101,7 +101,10 @@ def update(project_id: str) -> str:
 
     for key, value in request.form.items():
         if key not in ['file', 'avatar']:
+            # TODO Fix limiting
             value = value[:280] if key == 'description' else value
+            # Rich text always uses body as the key
+            key = 'description' if key == 'body' else key
             setattr(project, key, value)
 
     lists = ['fundings', 'business_models', 'platforms_and_devices']

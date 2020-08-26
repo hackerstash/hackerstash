@@ -32,6 +32,8 @@ document.addEventListener('click', (event) => {
         });
 
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
+
+        createEditor('.reply-form');
     }
 
     if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
@@ -55,7 +57,7 @@ document.addEventListener('submit', (event) => {
             body: form
         };
 
-        event.target.querySelector('.textarea').value = '';
+        event.target.querySelector('.ql-editor').innerHTML = '';
 
         fetch(link, options)
             .then((response) => {
