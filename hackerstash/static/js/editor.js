@@ -4,7 +4,7 @@ function createEditor(form) {
     const editor = new Quill(`${form} .editor`, {
         modules: {
             toolbar: {
-                container: '.toolbar',
+                container: `${form} .toolbar`,
                 handlers: {
                     image: function() {
                         selector('.ql-image[type=file]').click();
