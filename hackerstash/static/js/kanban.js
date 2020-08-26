@@ -44,6 +44,7 @@ if (hasKanban) {
 }
 
 if (hasKanbanSettings) {
+    const addColumn = document.querySelector('.add-column');
     const containers = document.querySelectorAll('#kanban-settings .columns');
 
     new Sortable.default(containers, {
@@ -53,15 +54,17 @@ if (hasKanbanSettings) {
         }
     });
 
-    document.querySelector('.add-column').addEventListener('click', (event) => {
-        const row = `
-          <li>
-            <i class="ri-drag-move-2-fill drag"></i>
-            <input name="column" class="input mb-0" type="text" required>
-            <i class="ri-close-line remove"></i>
-          </li>
-        `;
+    if (addColumn) {
+        addColumn.addEventListener('click', (event) => {
+            const row = `
+              <li>
+                <i class="ri-drag-move-2-fill drag"></i>
+                <input name="column" class="input mb-0" type="text" required>
+                <i class="ri-close-line remove"></i>
+              </li>
+            `;
 
-        hasKanbanSettings.querySelector('.columns').innerHTML += row;
-    });
+            hasKanbanSettings.querySelector('.columns').innerHTML += row;
+        });
+    }
 }

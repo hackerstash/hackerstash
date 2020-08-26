@@ -1,5 +1,5 @@
 from hackerstash.db import db
-from hackerstash.lib.challenges.helpers import challenge_types, get_score_for_key, get_max_count_for_key
+from hackerstash.lib.challenges.helpers import challenge_types, get_score_for_key, get_max_count_for_key, mark_as_complete
 from hackerstash.utils.helpers import find_in_list
 from hackerstash.utils.contest import get_week_and_year
 
@@ -30,6 +30,8 @@ class Challenge(db.Model):
     def inc(self):
         if not self.complete:
             self.count += 1
+            if self.complete:
+                mark_as_complete(self)
 
     @property
     def week(self):

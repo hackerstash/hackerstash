@@ -1,23 +1,14 @@
-{% if g.challenge_completed %}
+{% if session.challenge_completed %}
+    <div class="challenge-completed">
+         <i class="ri-close-line close" onclick="partysOver();"></i>
+        <h3><i class="ri-checkbox-circle-line"></i>Challenge Complete!</h3>
+        <p>{{ session.challenge_completed | safe }}</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+
     <script>
-        const canvas = document.createElement('canvas');
-        canvas.id = 'confetti';
-        canvas.style = 'left: 0; position: absolute; top: 0;';
-        document.body.appendChild(canvas);
-
-        const confettiSettings = {
-            max: 400,
-            target: 'confetti'
-        };
-
-        const confetti = new ConfettiGenerator(confettiSettings);
-        confetti.render();
-
-        function stopConfetti() {
-            confetti.clear();
-            canvas.remove();
-        }
+        itsPartyTime();
     </script>
 {% endif %}
 

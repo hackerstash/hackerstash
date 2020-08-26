@@ -17,9 +17,9 @@ class CommentCreated(Base):
 
         if is_not_members_comment(user, comment):
             if not self.has_completed(user.member.project, 'comment_on_a_competitors_post'):
-                logging.info(f'Awarding \'comment_on_a_competitors_post\' challenge for \'{project.id}\'')
+                logging.info(f'Awarding \'comment_on_a_competitors_post\' challenge for \'{project.name}\'')
                 project.create_or_inc_challenge('comment_on_a_competitors_post')
 
             if not self.has_completed(user.member.project, 'comment_on_five_competitors_posts'):
-                logging.info(f'Awarding \'comment_on_five_competitors_posts\' challenge for \'{project.id}\'')
+                logging.info(f'Awarding \'comment_on_five_competitors_posts\' challenge for \'{project.name}\'')
                 project.create_or_inc_challenge('comment_on_five_competitors_posts')

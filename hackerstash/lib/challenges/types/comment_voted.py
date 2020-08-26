@@ -17,5 +17,5 @@ class CommentVoted(Base):
 
         if is_not_members_comment(user, comment):
             if not self.has_completed(comment_project, 'have_five_comments_upvoted'):
-                logging.info(f'Awarding \'have_five_comments_upvoted\' challenge for \'{comment_project.id}\'')
+                logging.info(f'Awarding \'have_five_comments_upvoted\' challenge for \'{comment_project.name}\'')
                 comment.user.member.project.create_or_inc_challenge('have_five_comments_upvoted')

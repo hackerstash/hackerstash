@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g
+from flask import Blueprint, render_template, g, session
 from hackerstash.models.challenge import Challenge
 from hackerstash.lib.challenges.helpers import challenge_types, get_max_count_for_key, get_score_for_key
 from hackerstash.utils.auth import login_required
@@ -23,3 +23,10 @@ def index() -> str:
         }
 
     return render_template('challenges/index.html', challenge_status=challenge_status)
+
+
+@challenges.route('/challenges/dismiss')
+@login_required
+def dismiss():
+    session.pop('challenge_completed', None)
+    return '', 204

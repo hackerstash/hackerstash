@@ -1,0 +1,44 @@
+.challenge-completed {
+  background: $darkblue-900;
+  border: 2px solid $green-400;
+  border-radius: 1rem;
+  height: 13rem;
+  left: calc(50% - 14.5rem);
+  max-width: 29rem;
+  padding: 3rem;
+  position: fixed;
+  top: calc(50% - 6.5rem);
+  z-index: 9999;
+
+  h3 {
+    align-items: center;
+    display: flex;
+    margin-bottom: 1.5rem;
+
+    i {
+      color: $green-400;
+      margin-right: 1rem;
+    }
+  }
+
+  p {
+    color: $mauve-500;
+    margin-bottom: 0;
+
+    span {
+      color: $blue-500;
+    }
+  }
+
+  .close {
+    cursor: pointer;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+
+    &:hover {
+      color: $blue-500;
+    }
+  }
+}
