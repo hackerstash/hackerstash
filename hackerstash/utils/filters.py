@@ -5,6 +5,7 @@ import calendar
 
 def init_app(app):
     app.jinja_env.filters['to_safe_html'] = to_safe_html
+    app.jinja_env.filters['to_plain_text'] = to_plain_text
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_nice_date'] = to_nice_date
     app.jinja_env.filters['to_contest_date'] = to_contest_date
@@ -25,6 +26,10 @@ def to_safe_html(value: str) -> str:
     # List of all allowed attributes for tags
     attrs = {'img': ['src']}
     return bleach.clean(value, tags=tags, attributes=attrs, strip=True)
+
+
+def to_plain_text(value: str) -> str:
+    return bleach.clean(value, tags=[], strip=True)
 
 
 def to_human_date(date) -> str:

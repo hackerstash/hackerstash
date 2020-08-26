@@ -10,7 +10,7 @@
                         {{ avatar(project) }}
                         <h4 class="name">{{ project.name }}</h4>
                     </div>
-                    <p class="small description">{{ project.description }}</p>
+                    <p class="small description">{{ project.description | to_plain_text }}</p>
                     {% if display %}
                         <div class="project-votes-{{ project.id }}">
                             {{ project_vote('horizontal', project) }}
