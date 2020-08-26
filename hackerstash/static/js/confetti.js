@@ -6,7 +6,12 @@ function itsPartyTime() {
 
     const confettiSettings = {
         max: 1000,
-        target: 'confetti'
+        size: 2,
+        props: ['square'],
+        target: 'confetti',
+        colors: [[36, 114, 211], [112, 176, 255], [62, 245, 125], [225, 227, 62], [255, 60, 95], [176, 188, 220], [245, 150, 62]],
+        clock: 75,
+        respawn: false
     };
 
     window.confetti = new ConfettiGenerator(confettiSettings);

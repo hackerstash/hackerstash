@@ -13,6 +13,7 @@ users = Blueprint('users', __name__)
 
 @users.route('/users/<user_id>')
 def show(user_id: str) -> str:
+    session['challenge_completed'] = 'You earned <span>100 points</span> for your project by publishing your first post of the week ⛅️'
     user = User.query.get(user_id)
     if not user:
         return render_template('users/404.html')
