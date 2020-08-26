@@ -64,9 +64,11 @@ function createEditor(form) {
         });
     }
 
-    headingPicker.addEventListener('click', event => {
-        event.target.closest('.popup-container').querySelector('.popup').classList.toggle('d-none');
-    });
+    if (headingPicker) {
+        headingPicker.addEventListener('click', event => {
+            event.target.closest('.popup-container').querySelector('.popup').classList.toggle('d-none');
+        });
+    }
 
     document.addEventListener('click', event => {
         if (event.target.closest('.ql-header')) {
