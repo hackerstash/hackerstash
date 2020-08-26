@@ -41,4 +41,15 @@
       color: $blue-500;
     }
   }
+
+  @include tablet-down {
+    left: 1rem;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+    width: calc(100% - 2rem);
+
+    .close {
+      right: 1rem;
+      top: 1rem;
+    }
+  }
 }
