@@ -1,7 +1,7 @@
 function itsPartyTime() {
     const canvas = document.createElement('canvas');
     canvas.id = 'confetti';
-    canvas.style = 'left: 0; position: absolute; top: 0;';
+    canvas.style = 'left: 0; position: absolute; top: 0; transform: translateY(-300px);';
     document.body.appendChild(canvas);
 
     const confettiSettings = {
@@ -11,7 +11,9 @@ function itsPartyTime() {
         target: 'confetti',
         colors: [[36, 114, 211], [112, 176, 255], [62, 245, 125], [225, 227, 62], [255, 60, 95], [176, 188, 220], [245, 150, 62]],
         clock: 75,
-        respawn: false
+        respawn: false,
+        height: window.innerHeight + 300,
+        start_from_edge: true
     };
 
     window.confetti = new ConfettiGenerator(confettiSettings);
