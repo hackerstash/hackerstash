@@ -1,5 +1,4 @@
 document.addEventListener('click', (event) => {
-    // TODO rich text
     if (event.target.closest('.add-reply')) {
         // Delete all the other forms
         document.querySelectorAll('.comment-reply').forEach((element) => {

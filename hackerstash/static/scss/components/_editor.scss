@@ -37,6 +37,36 @@
   .ql-image[type=file] {
     display: none;
   }
+
+  .popup-container {
+    position: relative;
+
+    .popup {
+      background: white;
+      border-radius: .5rem;
+      left: 0;
+      padding: .5rem;
+      position: absolute;
+      top: 2.5rem;
+
+      button {
+        background: none;
+        color: $darkblue-800;
+        font: inherit;
+        margin: 0 0 .5rem 0;
+        width: 200px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &:hover {
+          background: $mauve-500;
+          color: $blue-900;
+        }
+      }
+    }
+  }
 }
 
 .editor {

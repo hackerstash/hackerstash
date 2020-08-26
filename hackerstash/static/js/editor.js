@@ -14,6 +14,7 @@ function createEditor(form) {
         },
     });
 
+    const headingPicker = selector('.heading-picker');
     const imageUpload = selector('.ql-image[type=file]');
 
     document.querySelector(form).addEventListener('submit', event => {
@@ -62,6 +63,16 @@ function createEditor(form) {
                });
         });
     }
+
+    headingPicker.addEventListener('click', event => {
+        event.target.closest('.popup-container').querySelector('.popup').classList.toggle('d-none');
+    });
+
+    document.addEventListener('click', event => {
+        if (event.target.closest('.ql-header')) {
+            headingPicker.closest('.popup-container').querySelector('.popup').classList.add('d-none');
+        }
+    });
 
     return editor;
 }

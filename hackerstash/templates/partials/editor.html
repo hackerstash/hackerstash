@@ -1,16 +1,14 @@
 {% macro editor_full(body='') %}
     <div class="toolbar">
-<!--        TODO-->
-<!--        <div class="select">-->
-<!--            <select class="ql-header">-->
-<!--                <option value="1">Heading 1</option>-->
-<!--                <option value="1">Heading 2</option>-->
-<!--                <option value="1">Heading 3</option>-->
-<!--                <option selected>Paragraph</option>-->
-<!--            </select>-->
-<!--            <i class="icon ri-arrow-drop-down-line"></i>-->
-<!--        </div>-->
-        <button type="button" class=""><i class="ri-font-size-2"></i></button>
+        <div class="popup-container">
+            <button type="button" class="button heading-picker"><i class="ri-font-size-2"></i></button>
+            <div class="popup d-none">
+                <button class="ql-header" value="1">Heading 1</button>
+                <button class="ql-header" value="2">Heading 2</button>
+                <button class="ql-header" value="3">Heading 3</button>
+                <button class="ql-header" value="">Paragraph</button>
+            </div>
+        </div>
         <button type="button" class="ql-bold"><i class="ri-bold"></i></button>
         <button type="button" class="ql-italic"><i class="ri-italic"></i></button>
         <button type="button" class="ql-underline"><i class="ri-underline"></i></button>
