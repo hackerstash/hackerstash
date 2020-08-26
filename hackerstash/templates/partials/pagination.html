@@ -1,0 +1,32 @@
+{% if pagination and pagination.pages > 1 %}
+    <ul class="pagination">
+        <li class="{{ 'disabled' if pagination.current == 1 }}">
+            <a href="?page={{ pagination.current - 1 }}" class="button">
+                <i class="ri-arrow-left-line"></i>
+            </a>
+        </li>
+
+        {% for i in range(pagination.pages) %}
+            <li class="page d-none-small {{ 'active' if pagination.current == (i + 1) }}">
+                <a href="?page={{ i + 1 }}" class="button">
+                    {{ i + 1 }}
+                </a>
+            </li>
+        {% endfor %}
+
+        <div class="select d-none-large mb-0">
+            <select onchange="location.search = `?page=${event.target.value}`">
+                {% for i in range(pagination.pages) %}
+                    <option {{ 'selected' if pagination.current == (i + 1) }} value="{{ i + 1 }}">Page {{ i + 1 }}</option>
+                {% endfor %}
+            </select>
+            <i class="ri-arrow-drop-down-line"></i>
+        </div>
+
+        <li class="{{ 'disabled' if pagination.current == pagination.pages }}">
+            <a href="?page={{ pagination.current + 1 }}" class="button">
+                <i class="ri-arrow-right-line"></i>
+            </a>
+        </li>
+    </ul>
+{% endif %}

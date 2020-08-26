@@ -1,9 +1,11 @@
+import math
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.mentions import add_mentions
 from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.lib.pagination import paginate
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
@@ -16,14 +18,16 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index() -> str:
     tab = request.args.get('tab', 'new')
+
     if tab == 'following' and g.user:
         following_ids = [x.id for x in g.user.following]
         all_posts = Post.query.filter(Post.user_id.in_(following_ids))
     else:
         all_posts = Post.query.all()
-    all_posts = sorted(all_posts, key=lambda x: x.created_at if tab == 'new' else x.vote_score, reverse=True)
 
-    return render_template('posts/index.html', all_posts=all_posts)
+    all_posts = sorted(all_posts, key=lambda x: x.created_at if tab == 'new' else x.vote_score, reverse=True)
+    results, pagination = paginate(all_posts)
+    return render_template('posts/index.html', all_posts=results, pagination=pagination)
 
 
 @posts.route('/posts/<post_id>')
