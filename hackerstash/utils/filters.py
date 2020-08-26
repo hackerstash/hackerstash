@@ -24,12 +24,12 @@ def to_safe_html(value: str) -> str:
     # List of all allowed tags
     tags = ['h1', 'h2', 'h3', 'p', 'span', 'ul', 'ol', 'li', 'pre', 'a', 'img', 'strong', 'br', 'em', 'u', 's']
     # List of all allowed attributes for tags
-    attrs = {'img': ['src']}
-    return bleach.clean(value, tags=tags, attributes=attrs, strip=True)
+    attrs = {'img': ['src'], 'a': ['href', 'data-preview', 'class']}
+    return bleach.clean(value or '', tags=tags, attributes=attrs, strip=True)
 
 
 def to_plain_text(value: str) -> str:
-    return bleach.clean(value, tags=[], strip=True)
+    return bleach.clean(value or '', tags=[], strip=True)
 
 
 def to_human_date(date) -> str:

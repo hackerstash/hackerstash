@@ -1,8 +1,8 @@
-import json
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
 from hackerstash.lib.challenges.factory import challenge_factory
+from hackerstash.lib.mentions import add_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
@@ -54,7 +54,10 @@ def create() -> str:
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
-    post = Post(title=request.form['title'], body=request.form['body'], user=user, project=project)
+    title = request.form['title']
+    body = add_mentions(request.form['body'])
+
+    post = Post(title=title, body=body, user=user, project=project)
     db.session.add(post)
     db.session.commit()
 
