@@ -1,25 +1,24 @@
-const editor = document.querySelector('.editor');
+function createEditor(form) {
+    const selector = s => document.querySelector(`${form} ${s}`);
 
-function createEditor(selector) {
-    const editor = new Quill(selector, {
+    const editor = new Quill(`${form} .editor`, {
         modules: {
             toolbar: {
                 container: '.toolbar',
                 handlers: {
                     image: function() {
-                        document.querySelector('.ql-image[type=file]').click();
+                        selector('.ql-image[type=file]').click();
                     }
                 }
             }
         },
     });
 
-    const form = document.querySelector(selector).closest('.editor-form');
-    const imageUpload = form.querySelector('.ql-image[type=file]');
+    const imageUpload = selector('.ql-image[type=file]');
 
-    form.addEventListener('submit', event => {
+    document.querySelector(form).addEventListener('submit', event => {
         event.preventDefault();
-        event.target.querySelector('.body').value = editor.root.innerHTML;
+        selector('.body').value = editor.root.innerHTML;
 
         // Comments are submitted with fetch so we should not
         // submit here
@@ -30,7 +29,7 @@ function createEditor(selector) {
 
     if (imageUpload) {
         imageUpload.addEventListener('change', event => {
-            const uploading = document.querySelector('.uploading-images');
+            const uploading = selector('.uploading-images');
             uploading.classList.remove('d-none');
 
             const form = new FormData();
@@ -53,7 +52,7 @@ function createEditor(selector) {
                    throw new Error(response.statusText);
                })
                .then(keys => {
-                   const editor = document.querySelector('.ql-editor');
+                   const editor = selector('.ql-editor');
                    keys.forEach(key => {
                        const img = document.createElement('img');
                        img.src = `https://images.hackerstash.com/${key}`;
@@ -63,4 +62,6 @@ function createEditor(selector) {
                });
         });
     }
+
+    return editor;
 }
