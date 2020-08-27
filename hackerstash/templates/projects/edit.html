@@ -150,6 +150,20 @@
                                         </span>
                                         <label class="label" for="web">Web</label>
                                     </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="hardware" name="platforms_and_devices" value="hardware" {{ 'checked' if 'hardware' in (project.platforms_and_devices or []) }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="hardware">Hardware</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="other" name="platforms_and_devices" value="other" {{ 'checked' if 'other' in (project.platforms_and_devices or []) }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="other">Other</label>
+                                    </li>
                                 </ul>
 
                                 <label class="label">Business model</label>

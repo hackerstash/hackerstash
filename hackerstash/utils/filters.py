@@ -88,7 +88,9 @@ def platforms_and_devices(value: str) -> str:
         'mac': 'Mac',
         'mobile': 'Mobile',
         'pc': 'PC',
-        'web': 'Web'
+        'web': 'Web',
+        'hardware': 'Hardware',
+        'other': 'Other'
     }
     return items.get(value, value)
 
