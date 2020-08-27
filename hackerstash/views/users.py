@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import verify_invite
@@ -136,3 +136,12 @@ def update_profile() -> str:
 
     db.session.commit()
     return redirect(url_for('users.show', user_id=user.id, saved=1))
+
+
+@users.route('/users/usernames')
+@login_required
+def get_usernames():
+    query = request.args.get('q', '')
+    matching_users = User.query.filter(User.username.like(f'%{query}%')).limit(5).all()
+    data = [{'name': f'{x.first_name} {x.last_name}', 'username': x.username} for x in matching_users]
+    return jsonify(data)

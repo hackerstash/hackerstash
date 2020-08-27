@@ -76,5 +76,62 @@ function createEditor(form) {
         }
     });
 
+    selector('.ql-editor').addEventListener('keyup', event => {
+        const input = event.target;
+        const text = input.innerText;
+        const match = text.match(/@([a-z0-9\_\-\.])+$/);
+
+        closeMentionContainer();
+
+        if (match) {
+            const username = match[1].replace('@', '');
+
+            const options = {
+                credentials: 'include',
+                headers: {
+                    'x-requested-with': 'fetch',
+                }
+            };
+
+            fetch(`/users/usernames?q=${username}`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error(response.statusText);
+               })
+               .then(results => {
+                   const mention = document.createElement('div');
+                   mention.classList.add('mention-container');
+// TODO
+//                   results.forEach(result => {
+//                       const button = document.createElement('button');
+//                       button.classList.add('button');
+//                       button.setAttribute('data-username', result.username);
+//                       button.innerHTML = `<span>${result.name}</span><span>@${result.username}</span>`;
+//                       button.addEventListener('click', event => {
+//                           const username = event.target.closest('.button').getAttribute('data-username');
+//                           input.innerHTML = input.innerHTML.replace(/@([a-z0-9\_\-\.])+/, `@${username}`);
+//                           closeMentionContainer();
+//                       });
+//                       mention.appendChild(button);
+//                   });
+//
+//                   document.body.appendChild(mention);
+               });
+        }
+    });
+
+    selector('.ql-editor').addEventListener('blur', event => {
+        setTimeout(() => {
+            closeMentionContainer();
+        }, 1000);
+    });
+
     return editor;
+}
+
+function closeMentionContainer() {
+    const container = document.querySelector('.mention-container');
+    if (container) container.remove();
 }
