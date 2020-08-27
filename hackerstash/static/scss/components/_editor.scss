@@ -142,6 +142,12 @@
   position: fixed;
   top: 0;
 
+  .not-found {
+    color: $darkblue-900;
+    text-align: center;
+    width: 100%;
+  }
+
   .button {
     align-items: center;
     background: transparent;
@@ -152,14 +158,23 @@
     font-weight: $font-weight-normal;
     justify-content: space-between;
     height: 2rem;
+    margin-bottom: .5rem;
     padding: .375rem .5rem;
 
-    span:nth-of-type(2) {
-      color: $mauve-1000;
-      font-size: 14px;
+    span {
+      pointer-events: none;
+
+      &:nth-of-type(2) {
+        color: $mauve-1000;
+        font-size: 14px;
+      }
     }
 
-    &:hover {
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &.selected {
       background: $mauve-500;
       color: $blue-900;
 
