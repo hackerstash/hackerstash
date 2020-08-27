@@ -1,9 +1,8 @@
-import math
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
 from hackerstash.lib.challenges.factory import challenge_factory
-from hackerstash.lib.mentions import add_mentions
+from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
 from hackerstash.models.user import User
@@ -33,10 +32,8 @@ def index() -> str:
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
     post = Post.query.get(post_id)
-
     if not post:
         return render_template('posts/404.html')
-
     return render_template('posts/show.html', post=post)
 
 
@@ -59,12 +56,13 @@ def create() -> str:
         return render_template('posts/new.html')
 
     title = request.form['title']
-    body = add_mentions(request.form['body'])
+    body, mentioned_users = proccess_mentions(request.form['body'])
 
     post = Post(title=title, body=body, user=user, project=project)
     db.session.add(post)
     db.session.commit()
 
+    publish_post_mentions(mentioned_users, post)
     challenge_factory('post_created', {'post': post})
     notification_factory('post_created', {'post': post}).publish()
 
@@ -94,10 +92,13 @@ def edit(post_id: str) -> str:
 @author_required
 def update(post_id: str) -> str:
     post = Post.query.get(post_id)
+    body, mentioned_users = proccess_mentions(request.form['body'])
+
     post.title = request.form['title']
-    post.body = add_mentions(request.form['body'])
+    post.body = body
     db.session.commit()
 
+    publish_post_mentions(mentioned_users, post)
     return redirect(url_for('posts.show', post_id=post.id, saved=1))
 
 
@@ -113,20 +114,21 @@ def destroy(post_id: str) -> str:
 
 @posts.route('/posts/<post_id>/comment', methods=['POST'])
 @login_required
-def comment(post_id: str) -> str:
+def create_comment(post_id: str) -> str:
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
     if not request.form['body']:
         return redirect(url_for('posts.show', post_id=post_id))
 
-    body = add_mentions(request.form['body'])
+    body, mentioned_users = proccess_mentions(request.form['body'])
     parent_comment_id = request.form.get('parent_comment_id')
     comment = Comment(body=body, parent_comment_id=parent_comment_id, user=user, post_id=post.id)
 
     post.comments.append(comment)
     db.session.commit()
 
+    publish_comment_mentions(mentioned_users, comment)
     challenge_factory('comment_created', {'comment': comment})
     notification_factory('comment_created', {'comment': comment}).publish()
 

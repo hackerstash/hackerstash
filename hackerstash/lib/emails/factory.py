@@ -5,6 +5,8 @@ from hackerstash.lib.emails.types.follower_created_post import FollowerCreatedPo
 from hackerstash.lib.emails.types.login_token import LoginToken
 from hackerstash.lib.emails.types.member_joined_project import MemberJoinedProject
 from hackerstash.lib.emails.types.member_left_project import MemberLeftProject
+from hackerstash.lib.emails.types.mentioned_in_comment import MentionedInComment
+from hackerstash.lib.emails.types.mentioned_in_post import MentionedInPost
 from hackerstash.lib.emails.types.new_follower import NewFollower
 from hackerstash.lib.emails.types.removed_from_project import RemovedFromProject
 from hackerstash.lib.emails.types.replied_to_comment import RepliedToComment
@@ -30,6 +32,10 @@ def email_factory(email_type, email, payload):
         return MemberJoinedProject(email, payload)
     if email_type == 'member_left_project':
         return MemberLeftProject(email, payload)
+    if email_type == 'mentioned_in_comment':
+        return MentionedInComment(email, payload)
+    if email_type == 'mentioned_in_post':
+        return MentionedInPost(email, payload)
     if email_type == 'new_follower':
         return NewFollower(email, payload)
     if email_type == 'removed_from_project':

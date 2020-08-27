@@ -4,6 +4,7 @@ from hackerstash.lib.notifications.types.follower_created import FollowerCreated
 from hackerstash.lib.notifications.types.member_invited import MemberInvited
 from hackerstash.lib.notifications.types.member_removed import MemberRemoved
 from hackerstash.lib.notifications.types.member_verified import MemberVerified
+from hackerstash.lib.notifications.types.mention_created import MentionCreated
 from hackerstash.lib.notifications.types.post_created import PostCreated
 from hackerstash.lib.notifications.types.post_voted import PostVoted
 
@@ -21,6 +22,8 @@ def notification_factory(notification_type, payload):
         return MemberRemoved(payload)
     if notification_type == 'member_verified':
         return MemberVerified(payload)
+    if notification_type == 'mention_created':
+        return MentionCreated(payload)
     if notification_type == 'post_created':
         return PostCreated(payload)
     if notification_type == 'post_voted':

@@ -1,0 +1,7 @@
+{% extends "base_email.html" %}
+{% from "partials/manage_notifications.html" import manage_notifications %}
+
+{% block body %}
+    <h1><a href="{{ host }}{{ url_for('users.show', user_id=comment.user.id) }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> mentioned you <a href="{{ host }}{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">in a comment</a> on the post: <a href="{{ host }}{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a></h1>
+    {{ manage_notifications(host) }}
+{% endblock %}

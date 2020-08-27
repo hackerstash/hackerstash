@@ -78,6 +78,14 @@
                                 </li>
                                 <li>
                                     <span class="checkbox">
+                                        <input type="checkbox" name="someone_mentions_you_in_post_or_comment_web" id="someone_mentions_you_in_post_or_comment_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_mentions_you_in_post_or_comment_web }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        <input type="hidden" name="someone_mentions_you_in_post_or_comment_web" value="false">
+                                    </span>
+                                    <label class="label" for="someone_mentions_you_in_post_or_comment_web">Someone @mentiones you in a post or comment</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
                                         <input type="checkbox" name="someone_downvotes_your_post_web" id="someone_downvotes_your_post_web" value="true" {{ 'checked' if g.user.notifications_settings.someone_downvotes_your_post_web }}>
                                         <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         <input type="hidden" name="someone_downvotes_your_post_web" value="false">
@@ -204,6 +212,14 @@
                                             <input type="hidden" name="someone_upvotes_your_post_email" value="false">
                                         </span>
                                         <label class="label" for="someone_upvotes_your_post_email">Someone upvotes your post</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" name="someone_mentions_you_in_post_or_comment_email" id="someone_mentions_you_in_post_or_comment_email" value="true" {{ 'checked' if g.user.notifications_settings.someone_mentions_you_in_post_or_comment_email }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                            <input type="hidden" name="someone_mentions_you_in_post_or_comment_email" value="false">
+                                        </span>
+                                        <label class="label" for="someone_mentions_you_in_post_or_comment_email">Someone @mentiones you in a post or comment</label>
                                     </li>
                                     <li>
                                         <span class="checkbox">

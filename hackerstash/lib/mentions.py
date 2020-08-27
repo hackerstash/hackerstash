@@ -1,24 +1,49 @@
 import re
 from flask import render_template_string
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.logging import logging
 from hackerstash.models.user import User
 
 
-def get_user_from_mention(html: str, mention: str) -> str:
+def get_user_from_mention(html: str, mention: str):
     try:
+        logging.info(f'Trying to extract a mention \'{mention}\'')
         # The mention is already wrapped in an <a> tag. This
         # is likely because the post/comment is being updated
         if f'{mention}</a>' in html:
-            return mention
+            return mention, None
         user = User.query.filter_by(username=mention.replace('@', '')).first()
         # The username is garbage and doesn't belong to a user
         if not user:
-            return mention
-        return render_template_string('<a class="mention" href="{{ url_for(\'users.show\', user_id=user.id) }}">@{{ user.username }}</a>', user=user)
+            return mention, None
+
+        logging.info(f'Found user with id \'{user.id}\' from mention \'{mention}\'')
+        # Return both the string and the user
+        replr = '<a class="mention" href="{{ url_for(\'users.show\', user_id=user.id) }}">@{{ user.username }}</a>'
+        return render_template_string(replr, user=user), user
     except Exception as e:
         logging.warning('Failed to extract mention: %s - %s', mention, e)
-        return mention
+        return mention, None
 
 
-def add_mentions(html):
-    return re.sub(r'@([a-z0-9\_\-\.])+', lambda x: get_user_from_mention(html, x.group(0)), html, flags=re.IGNORECASE)
+def proccess_mentions(html):
+    mentioned_users = []
+
+    def replace_mentions(x):
+        r, user = get_user_from_mention(html, x.group(0))
+        if user:
+            mentioned_users.append(user)
+        return r
+
+    replacement = re.sub(r'@([a-z0-9\_\-\.])+', replace_mentions, html, flags=re.IGNORECASE)
+    return replacement, mentioned_users
+
+
+def publish_post_mentions(users, post):
+    for user in users:
+        notification_factory('mention_created', {'user': user, 'post': post}).publish()
+
+
+def publish_comment_mentions(users, comment):
+    for user in users:
+        notification_factory('mention_created', {'user': user, 'comment': comment}).publish()

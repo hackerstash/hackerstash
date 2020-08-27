@@ -24,6 +24,9 @@ class NotificationSetting(db.Model):
     someone_downvotes_your_post_web = db.Column(db.Boolean, default=True)
     someone_downvotes_your_post_email = db.Column(db.Boolean, default=False)
 
+    someone_mentions_you_in_post_or_comment_web = db.Column(db.Boolean, default=True)
+    someone_mentions_you_in_post_or_comment_email = db.Column(db.Boolean, default=True)
+
     someone_replies_to_your_comment_web = db.Column(db.Boolean, default=True)
     someone_replies_to_your_comment_email = db.Column(db.Boolean, default=True)
 
