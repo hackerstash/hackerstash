@@ -227,7 +227,8 @@ def publish(project_id: str) -> str:
     ]
 
     for field in required_fields:
-        if not getattr(project, field):
+        # This was `if not x`, but some values can be 0
+        if getattr(project, field) is None:
             flash(f'Please fill out all of the fields on the details tab', 'failure')
             return redirect(url_for('projects.edit', project_id=project_id, tab=4))
 
