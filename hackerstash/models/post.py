@@ -14,8 +14,8 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-    comments = db.relationship('Comment', backref='post', cascade='all,delete')
-    votes = db.relationship('Vote', backref='post', cascade='all,delete')
+    comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined')
+    votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())

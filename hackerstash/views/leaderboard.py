@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from sqlalchemy.orm import joinedload
 from hackerstash.models.project import Project
 
 leaderboard = Blueprint('leaderboard', __name__)

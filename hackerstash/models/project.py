@@ -38,7 +38,7 @@ class Project(db.Model):
     members = db.relationship('Member', backref='project', cascade='all,delete')
     invites = db.relationship('Invite', backref='project', cascade='all,delete')
     posts = db.relationship('Post', backref='project', cascade='all,delete')
-    votes = db.relationship('Vote', backref='project', cascade='all,delete')
+    votes = db.relationship('Vote', backref='project', cascade='all,delete', lazy='joined')
     past_results = db.relationship('PastResult', backref='project')
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     progress = db.relationship('Progress', backref='project', cascade='all,delete')
