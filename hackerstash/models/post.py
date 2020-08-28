@@ -89,7 +89,7 @@ class Post(db.Model):
         # Replace all non a-z with hyphens, then
         # tidy up any double hyphens or trailing
         # hyphens.
-        title = re.sub(r'([^a-zA-Z])', '-', title)
+        title = re.sub(r'([^a-zA-Z0-9])', '-', title)
         title = re.sub(r'(-{2,})', '-', title)
         title = re.sub(r'-$', '', title)
         return title.lower()

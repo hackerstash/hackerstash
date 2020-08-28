@@ -31,8 +31,15 @@ def index() -> str:
 
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
-    # We support both the id in the url as well as the slug
-    post = Post.query.get(post_id) if post_id.isnumeric() else Post.query.filter_by(url_slug=post_id).first()
+    # If they request the url with the id we should
+    # attempt to redirect to the fancy url. This is
+    # mostly for legacy and can probably be removed
+    # one day
+    if post_id.isnumeric():
+        post = Post.query.get(post_id)
+        return redirect(url_for('posts.show', post_id=post.url_slug))
+
+    post = Post.query.filter_by(url_slug=post_id).first()
     if not post:
         return render_template('posts/404.html')
     return render_template('posts/show.html', post=post)
@@ -94,11 +101,15 @@ def edit(post_id: str) -> str:
 @author_required
 def update(post_id: str) -> str:
     post = Post.query.get(post_id)
+    title = request.form['title']
     body, mentioned_users = proccess_mentions(request.form['body'])
 
-    post.title = request.form['title']
-    # TODO url slug
+    if post.title != request.form['title']:
+        post.url_slug = Post.generate_url_slug(title)
+
+    post.title = title
     post.body = body
+
     db.session.commit()
 
     publish_post_mentions(mentioned_users, post)
