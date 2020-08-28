@@ -1,8 +1,10 @@
-{% if session.challenge_completed %}
+{% set completed_challenge = g.user and g.user.member.project.recent_completed_challenge %}
+
+{% if completed_challenge %}
     <div class="challenge-completed">
          <i class="ri-close-line close" onclick="partysOver();"></i>
         <h3><i class="ri-checkbox-circle-line"></i>Challenge Complete!</h3>
-        <p>{{ session.challenge_completed | safe }}</p>
+        <p>{{ completed_challenge | safe }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
