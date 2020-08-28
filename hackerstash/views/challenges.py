@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, g, session
 from hackerstash.models.challenge import Challenge
 from hackerstash.lib.challenges.helpers import challenge_types, get_max_count_for_key, get_score_for_key
+from hackerstash.lib.redis import redis
 from hackerstash.utils.auth import login_required
 from hackerstash.utils.helpers import find_in_list
 
@@ -28,5 +29,5 @@ def index() -> str:
 @challenges.route('/challenges/dismiss')
 @login_required
 def dismiss():
-    session.pop('challenge_completed', None)
+    redis.delete(f'{g.user.member.project.id}:challenge_completed')
     return '', 204

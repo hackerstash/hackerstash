@@ -1,5 +1,6 @@
 from flask import session
 from hackerstash.lib.logging import logging
+from hackerstash.lib.redis import redis
 
 challenge_types = [
     'published_a_post',
@@ -18,8 +19,9 @@ challenge_types = [
 
 
 def mark_as_complete(challenge):
-    logging.info(f'Challenge "{challenge.key}" has been completed by "{challenge.project.name}", let the confetti commence!')
-    session['challenge_completed'] = get_completed_message_for_challenge(challenge)
+    logging.info(f'Challenge \'{challenge.key}\' has been completed by \'{challenge.project.name}\', let the confetti commence!')
+    message = get_completed_message_for_challenge(challenge)
+    redis.set(f'{challenge.project.id}:challenge_completed', message)
 
 
 def get_score_for_key(key: str) -> int:

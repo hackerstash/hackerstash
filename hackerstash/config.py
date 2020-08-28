@@ -6,6 +6,7 @@ config = {
     'secret': os.environ.get('secret'),
     'sqlalchemy_database_uri': os.environ.get('sqlalchemy_database_uri'),
     'sqlalchemy_track_notifications': False,
+    'redis_host': os.environ.get('redis_host'),
 
     # reCaptcha
     'recaptcha_site_key': os.environ.get('recaptcha_site_key'),

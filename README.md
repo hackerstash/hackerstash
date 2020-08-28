@@ -31,6 +31,7 @@ host=http://localhost
 debug=true
 secret=teapot
 sqlalchemy_database_uri=postgresql://hackerstash:hackerstash@db:5432/hackerstash
+redis_host=db
 recaptcha_site_key=
 recaptcha_secret_key=
 google_api_key=

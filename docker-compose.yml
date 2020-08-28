@@ -9,6 +9,7 @@ services:
       - '.env'
     depends_on:
       - 'db'
+      - 'redis'
     volumes:
       - '.:/app'
       - '~/.aws:/root/.aws'
@@ -24,3 +25,8 @@ services:
       POSTGRES_PASSWORD: 'hackerstash'
     volumes:
       - './tmp/postgres-data:/var/lib/postgresql/data'
+
+  redis:
+    image: 'redis'
+    volumes:
+      - './tmp/redis-data:/data'

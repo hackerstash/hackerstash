@@ -37,8 +37,6 @@ class PostVoted(Base):
                     if p.vote_score >= 25:
                         count += 1
 
-                print(count)
-
                 # Can't be any higher than 3
                 logging.info(f'Setting \'earn_twenty_five_points_for_three_seperate_posts\' challenge for \'{post.project.name}\' to \'{count}\'')
                 post.project.create_or_set_challenge('earn_twenty_five_points_for_three_seperate_posts', count)
