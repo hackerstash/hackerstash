@@ -1,7 +1,11 @@
 .follow-list {
     li {
+      align-items: center;
+      border-bottom: 1px solid $darkblue-900;
       display: flex;
       list-style: none;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
 
       a {
         color: $mauve-500;
@@ -15,6 +19,10 @@
 
       .details {
         flex: 1;
+      }
+
+      &:last-of-type {
+        border-bottom: none;
       }
     }
 }
