@@ -7,6 +7,8 @@ config = {
     'sqlalchemy_database_uri': os.environ.get('sqlalchemy_database_uri'),
     'sqlalchemy_track_notifications': False,
     'redis_host': os.environ.get('redis_host'),
+    'redis_port': os.environ.get('redis_port', 6379),
+    'app_environment': os.environ.get('app_environment', 'dev'),
 
     # reCaptcha
     'recaptcha_site_key': os.environ.get('recaptcha_site_key'),
