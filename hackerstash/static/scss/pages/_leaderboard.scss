@@ -11,6 +11,11 @@
     }
   }
 
+  .table .table-body li p:last-of-type {
+    overflow: visible;
+    text-overflow: clip;
+  }
+
   .score {
     color: $mauve-1000;
   }
