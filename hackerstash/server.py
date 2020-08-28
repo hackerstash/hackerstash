@@ -33,6 +33,7 @@ from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
 
 app = Flask(__name__)
 session = Session()
+migrate = Migrate()
 
 app.debug = config['debug']
 app.secret_key = config['secret']
@@ -71,10 +72,10 @@ app.register_blueprint(twitter_blueprint)
 
 def create_app():
     db.init_app(app)
+    migrate.init_app(app, db)
     session.init_app(app)
     assets.init_app(app)
     filters.init_app(app)
     hooks.init_app(app)
-    Migrate(app, db)
 
     return app
