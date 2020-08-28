@@ -31,8 +31,8 @@ def index() -> str:
 
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
-    # TODO rename post_id to url_slug
-    post = Post.query.filter_by(url_slug=post_id).first()
+    # We support both the id in the url as well as the slug
+    post = Post.query.get(post_id) if post_id.isnumeric() else Post.query.filter_by(url_slug=post_id).first()
     if not post:
         return render_template('posts/404.html')
     return render_template('posts/show.html', post=post)
@@ -97,6 +97,7 @@ def update(post_id: str) -> str:
     body, mentioned_users = proccess_mentions(request.form['body'])
 
     post.title = request.form['title']
+    # TODO url slug
     post.body = body
     db.session.commit()
 
