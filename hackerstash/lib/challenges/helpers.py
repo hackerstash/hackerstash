@@ -67,15 +67,15 @@ def get_max_count_for_key(key: str) -> int:
         return 1
     if key in [
         'award_points_to_three_projects',
-        'award_points_to_three_posts'
+        'award_points_to_three_posts',
+        'earn_twenty_five_points_for_three_seperate_posts'
     ]:
         return 3
     if key in [
         'comment_on_five_competitors_posts',
         'earn_twenty_five_points_for_one_post',
         'have_five_comments_upvoted',
-        'five_day_post_streak',
-        'earn_twenty_five_points_for_three_seperate_posts'
+        'five_day_post_streak'
     ]:
         return 5
     if key in [
