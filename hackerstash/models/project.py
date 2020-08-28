@@ -173,6 +173,11 @@ class Project(db.Model):
         challenge.inc()
         db.session.commit()
 
+    def create_or_set_challenge(self, key: str, value: int):
+        challenge = Challenge.find_or_create(self, key)
+        challenge.count = value
+        db.session.commit()
+
     @property
     def number_of_completed_challenges(self):
         completed = Challenge.get_completed_challenges_for_project(self)

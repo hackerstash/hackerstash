@@ -23,6 +23,19 @@ class Post(db.Model):
     def __repr__(self) -> str:
         return f'<Post {self.title[:30]}...>'
 
+    @property
+    def day(self):
+        # Returns day of the week (1-7)
+        return self.created_at.isocalendar()[2]
+
+    @property
+    def week(self):
+        return self.created_at.isocalendar()[1]
+
+    @property
+    def year(self):
+        return self.created_at.year
+
     def has_author(self, user):
         return self.user.id == user.id if user else False
 
