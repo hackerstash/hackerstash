@@ -31,7 +31,8 @@ def index() -> str:
 
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
-    post = Post.query.get(post_id)
+    # TODO rename post_id to url_slug
+    post = Post.query.filter_by(url_slug=post_id).first()
     if not post:
         return render_template('posts/404.html')
     return render_template('posts/show.html', post=post)
@@ -56,9 +57,10 @@ def create() -> str:
         return render_template('posts/new.html')
 
     title = request.form['title']
+    url_slug = Post.generate_url_slug(title)
     body, mentioned_users = proccess_mentions(request.form['body'])
 
-    post = Post(title=title, body=body, user=user, project=project)
+    post = Post(title=title, body=body, user=user, url_slug=url_slug, project=project)
     db.session.add(post)
     db.session.commit()
 
@@ -66,7 +68,7 @@ def create() -> str:
     challenge_factory('post_created', {'post': post})
     notification_factory('post_created', {'post': post}).publish()
 
-    return redirect(url_for('posts.show', post_id=post.id))
+    return redirect(url_for('posts.show', post_id=post.url_slug))
 
 
 @posts.route('/posts/images', methods=['POST'])
@@ -99,7 +101,7 @@ def update(post_id: str) -> str:
     db.session.commit()
 
     publish_post_mentions(mentioned_users, post)
-    return redirect(url_for('posts.show', post_id=post.id, saved=1))
+    return redirect(url_for('posts.show', post_id=post.url_slug, saved=1))
 
 
 @posts.route('/posts/<post_id>/destroy')
@@ -119,7 +121,7 @@ def create_comment(post_id: str) -> str:
     post = Post.query.get(post_id)
 
     if not request.form['body']:
-        return redirect(url_for('posts.show', post_id=post_id))
+        return redirect(url_for('posts.show', post_id=post.url_slug))
 
     body, mentioned_users = proccess_mentions(request.form['body'])
     parent_comment_id = request.form.get('parent_comment_id')
@@ -136,7 +138,7 @@ def create_comment(post_id: str) -> str:
         partial = get_template_attribute('partials/comments.html', 'comments')
         return partial(comment.post.comments, True)
     else:
-        return redirect(url_for('posts.show', post_id=post_id))
+        return redirect(url_for('posts.show', post_id=post.url_slug))
 
 
 @posts.route('/posts/<post_id>/vote')
@@ -156,7 +158,7 @@ def post_vote(post_id: str) -> str:
         partial = get_template_attribute('partials/vote.html', 'post_vote')
         return partial(size, post)
     else:
-        return redirect(url_for('posts.show', post_id=post.id))
+        return redirect(url_for('posts.show', post_id=post.url_slug))
 
 
 @posts.route('/posts/<post_id>/comment/<comment_id>')

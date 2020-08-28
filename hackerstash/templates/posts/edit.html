@@ -35,7 +35,7 @@
                 <hr class="divider">
                 <div class="button-group">
                     <button class="button" type="submit">Update</button>
-                    <a class="button secondary" href="{{ url_for('posts.show', post_id=post.id) }}">Cancel</a>
+                    <a class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
                 </div>
             </fieldset>
         </form>

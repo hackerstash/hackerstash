@@ -12,7 +12,7 @@
                     </div>
                     <div class="details ml-1-5">
                         <p>
-                            <a href="{{ url_for('posts.show', post_id=post.id) }}">
+                            <a href="{{ url_for('posts.show', post_id=post.url_slug) }}">
                                 {{ post.title }}
                             </a>
                         </p>

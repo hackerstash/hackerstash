@@ -9,6 +9,9 @@
 
 {% block meta %}
     <meta name="author" content="{{ post.user.first_name }} {{ post.user.last_name }}">
+    <meta property="og:title" content="{{ post.title }}">
+
+    <meta property="og:site_name" content="HackerStash, Inc.">
 {% endblock %}
 
 {% block body %}

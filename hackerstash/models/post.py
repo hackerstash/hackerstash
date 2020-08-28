@@ -1,3 +1,5 @@
+import re
+from random import randint
 from hackerstash.db import db
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
@@ -11,6 +13,7 @@ class Post(db.Model):
 
     title = db.Column(db.String, nullable=False)
     body = db.Column(db.String, nullable=False)
+    url_slug = db.Column(db.String, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
@@ -75,3 +78,18 @@ class Post(db.Model):
         # votes made this week will actually be taken into
         # account at the end of the tournament
         return sum_of_votes(self.votes, this_contest_only=False)
+
+    @classmethod
+    def generate_url_slug(cls, title: str) -> str:
+        exists = cls.query.filter_by(url_slug=title).first()
+
+        if exists:
+            return title + f'-{randint(0, 10)}'
+
+        # Replace all non a-z with hyphens, then
+        # tidy up any double hyphens or trailing
+        # hyphens.
+        title = re.sub(r'([^a-zA-Z])', '-', title)
+        title = re.sub(r'(-{2,})', '-', title)
+        title = re.sub(r'-$', '', title)
+        return title.lower()
