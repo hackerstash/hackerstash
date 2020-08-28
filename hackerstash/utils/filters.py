@@ -89,6 +89,9 @@ def platforms_and_devices(value: str) -> str:
         'mobile': 'Mobile',
         'pc': 'PC',
         'web': 'Web',
+        'podcast': 'Podcast',
+        'youtube': 'Youtube / Video',
+        'newsletter': 'Newsletter',
         'hardware': 'Hardware',
         'other': 'Other'
     }

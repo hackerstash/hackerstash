@@ -152,6 +152,27 @@
                                     </li>
                                     <li>
                                         <span class="checkbox">
+                                            <input type="checkbox" id="podcast" name="platforms_and_devices" value="podcast" {{ 'checked' if 'podcast' in (project.platforms_and_devices or []) }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="podcast">Podcast</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="youtube" name="platforms_and_devices" value="youtube" {{ 'checked' if 'youtube' in (project.platforms_and_devices or []) }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="youtube">YouTube / Video</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
+                                            <input type="checkbox" id="newsletter" name="platforms_and_devices" value="newsletter" {{ 'checked' if 'newsletter' in (project.platforms_and_devices or []) }}>
+                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                        </span>
+                                        <label class="label" for="newsletter">Newsletter</label>
+                                    </li>
+                                    <li>
+                                        <span class="checkbox">
                                             <input type="checkbox" id="hardware" name="platforms_and_devices" value="hardware" {{ 'checked' if 'hardware' in (project.platforms_and_devices or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
