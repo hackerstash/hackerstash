@@ -49,7 +49,7 @@ def init_app(app):
         # debug. Instead we format the exception and pass it into the
         # logger so dumped as JSON
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"')
+        stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"').replace('\r', '\n')
         logging.error(stack)
 
         return render_template('500.html'), 500
