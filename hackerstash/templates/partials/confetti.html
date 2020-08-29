@@ -1,4 +1,4 @@
-{% set completed_challenge = g.user and g.user.member.project.recent_completed_challenge %}
+{% set completed_challenge = g.user and g.user.recent_completed_challenge %}
 
 {% if completed_challenge %}
     <div class="challenge-completed">

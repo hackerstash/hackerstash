@@ -37,11 +37,6 @@ def init_app(app):
     def page_not_found(_error):
         return render_template('404.html'), 404
 
-    @app.errorhandler(500)
-    def internal_server_error(error):
-        logging.error('Internal server error: %s', str(error))
-        return render_template('500.html'), 500
-
     @app.errorhandler(Exception)
     def handle_exception(error):
         if isinstance(error, HTTPException):

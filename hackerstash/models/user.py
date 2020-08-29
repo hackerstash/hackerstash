@@ -2,6 +2,7 @@ import json
 import arrow
 from flask import url_for
 from hackerstash.db import db
+from hackerstash.lib.redis import redis
 
 follow = db.Table(
     'users_following',
@@ -110,3 +111,9 @@ class User(db.Model):
 
         }
         return json.dumps(data)
+
+    @property
+    def recent_completed_challenge(self):
+        if self.member:
+            challenge = redis.get(f'{self.member.project.id}:challenge_completed')
+            return challenge.decode('utf-8') if challenge else None
