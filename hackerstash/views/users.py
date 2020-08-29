@@ -13,6 +13,9 @@ users = Blueprint('users', __name__)
 
 @users.route('/users/<user_id>')
 def show(user_id: str) -> str:
+    # TODO Remove
+    if request.args.fail == '1':
+        raise Exception('foo')
     user = User.query.get(user_id)
     if not user:
         return render_template('users/404.html')

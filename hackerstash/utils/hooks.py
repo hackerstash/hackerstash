@@ -1,3 +1,5 @@
+import sys
+import traceback
 import arrow
 from werkzeug.exceptions import HTTPException
 from flask import session, request, url_for, g, redirect, render_template
@@ -41,5 +43,13 @@ def init_app(app):
     def handle_exception(error):
         if isinstance(error, HTTPException):
             return error
-        logging.error('Internal server error: %s', error, exc_info=error)
+
+        # This is required as cloudwatch will print each line in the
+        # native exception as it's own entry which is impossible to
+        # debug. Instead we format the exception and pass it into the
+        # logger so dumped as JSON
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"')
+        logging.error(stack)
+
         return render_template('500.html'), 500
