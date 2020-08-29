@@ -1,6 +1,7 @@
 version: '2.0'
 services:
   web:
+    container_name: web
     build: .
     ports:
       - '5000:5000'
@@ -16,6 +17,7 @@ services:
     restart: always
 
   db:
+    container_name: db
     image: 'postgres'
     ports:
       - '5432:5432'
@@ -27,6 +29,7 @@ services:
       - './tmp/postgres-data:/var/lib/postgresql/data'
 
   redis:
-    image: 'redis'
+    container_name: redis
+    image: 'redis:5'
     volumes:
       - './tmp/redis-data:/data'

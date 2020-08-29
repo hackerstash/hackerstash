@@ -2,6 +2,7 @@ import io
 import uuid
 import boto3
 import requests
+from hackerstash.config import config
 from hackerstash.lib.logging import logging
 
 client = boto3.client('s3', region_name='eu-west-1')
@@ -9,6 +10,10 @@ client = boto3.client('s3', region_name='eu-west-1')
 
 def upload_image(image) -> str:
     key = str(uuid.uuid4())
+
+    environment = config['app_environment']
+    if environment != 'live':
+        key = environment + '/' + key
 
     params = {
         'Body': image,
