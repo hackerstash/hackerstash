@@ -254,14 +254,9 @@
         margin-bottom: .25rem;
       }
 
-      .vote-message,
-      .score {
-        align-items: center;
-        display: flex;
-      }
-
       .score {
         color: $red-500;
+        display: inline-block;
         margin: 0 .5rem 0 .25rem;
 
         i {
@@ -278,14 +273,12 @@
       }
 
       .project-message {
-        display: flex;
+        display: inline-block;
 
         .avatar {
-          margin: 0 .5rem;
-        }
-
-        a {
-          margin: 0 .25rem;
+          display: inline-block;
+          margin: 0;
+          vertical-align: middle
         }
       }
 

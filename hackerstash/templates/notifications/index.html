@@ -16,7 +16,7 @@
                 {% for notification in notifications | sort(attribute='created_at', reverse=True) %}
                     <li>
                         <div class="details">
-                            <p class="mb-0-5">{{ notification.message | safe }}</p>
+                            <p class="mb-0-5 notification-message">{{ notification.message | safe }}</p>
                             <p class="small mb-0">{{ notification.created_at | to_human_date }}</p>
                         </div>
                         <a class="button close-button" href="{{ url_for('notifications.mark_as_read', notification_id=notification.id) }}">

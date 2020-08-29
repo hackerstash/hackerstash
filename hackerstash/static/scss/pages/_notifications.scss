@@ -25,10 +25,17 @@
         flex: 1;
       }
 
+      .notification-message {
+        padding-left: 2rem;
+        position: relative;
+      }
+
       .avatar {
         display: inline-flex;
+        left: 0;
         margin: 0 .5rem 0 0;
-        vertical-align: sub;
+        position: absolute;
+        top: 0;
       }
 
       .small {
