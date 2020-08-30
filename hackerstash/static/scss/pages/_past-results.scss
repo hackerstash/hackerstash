@@ -65,6 +65,16 @@
   }
 
   @include tablet-down {
+    .result-header {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .button {
+        margin-top: 1rem;
+        width: 100%;
+      }
+    }
+
     .message {
       align-items: flex-start;
       margin: 2rem 0;
@@ -77,8 +87,12 @@
       display: flex;
       height: 2rem;
       justify-content: center;
-      margin-right: 1.5rem;
+      margin: .5rem 1.5rem 0 0;
       width: 2rem;
+    }
+
+    .position {
+      margin-top: .5rem;
     }
 
     .year {

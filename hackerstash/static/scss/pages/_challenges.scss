@@ -66,8 +66,9 @@
 
         .icon {
           color: $mauve-1000;
-          font-size: 14px;
           display: inline-flex;
+          font-size: 14px;
+          flex-shrink: 0;
           width: 2.5rem;
         }
 
@@ -80,6 +81,7 @@
 
       .points {
         color: $blue-500;
+        flex-shrink: 0;
       }
 
       &.completed {

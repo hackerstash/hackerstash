@@ -14,4 +14,16 @@
       color: $mauve-500;
     }
   }
+
+  @include tablet-down {
+    .header {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .button {
+        margin-top: 1rem;
+        width: 100%;
+      }
+    }
+  }
 }

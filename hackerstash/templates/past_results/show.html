@@ -6,7 +6,7 @@
 
 {% block body %}
     <div class="page past-results result">
-        <header class="header mb-0">
+        <header class="header result-header mb-0">
             <h2>
                 Past Results
                 <span>{{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}</span>
@@ -37,12 +37,18 @@
                             <span>{{ past_result.rank + 1 }}</span>
                         </p>
                         <p class="col-3 project">
-                            {{ project_preview(past_result.project) }}
+                            {% if past_result.project %}
+                                {{ project_preview(past_result.project) }}
+                            {% else %}
+                                <b>Project deleted</b>
+                            {% endif %}
                         </p>
                         <p class="col-2 small">
-                            <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">
-                                {{ past_result.project.url | to_nice_url }}
-                            </a>
+                            {% if past_result.project %}
+                                <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">
+                                    {{ past_result.project.url | to_nice_url }}
+                                </a>
+                            {% endif %}
                         </p>
                         <p class="col-4 small score">
                             <i>{{ past_result.score }} points</i>

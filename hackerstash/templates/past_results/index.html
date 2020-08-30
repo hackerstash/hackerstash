@@ -34,6 +34,8 @@
                             {% if contest.winner %}
                                 {{ avatar(contest.winner.project, 'x-sm') }}
                                 {{ project_preview(contest.winner.project) }}
+                            {% else %}
+                                <b>Unknown 🤷‍</b>
                             {% endif %}
                         </p>
                         <p class="col-2">
