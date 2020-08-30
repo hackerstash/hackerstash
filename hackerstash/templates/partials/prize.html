@@ -4,7 +4,7 @@
     {% if item.prize.value > 0 %}
         <button class="button prize {{ item.prize.badge }}">
             <span>{{ icon[item.prize.badge] }}</span>
-            {{ item.prize.value | to_currency }}
+            ${{ item.prize.value }}
         </button>
     {% endif %}
 {% endmacro %}

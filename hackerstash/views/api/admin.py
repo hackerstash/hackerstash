@@ -23,7 +23,7 @@ def delete_user(user_id: str):
 
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
-        logging.error('Failed to delete user %s', e)
+        logging.stack('Failed to delete user %s', e)
         return jsonify({'status': 'Failed', 'error': str(e)}), 500
 
 
@@ -39,5 +39,5 @@ def end_contest():
         )
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
-        logging.error('Failed to end contest %s', e)
+        logging.stack(e)
         return jsonify({'status': 'Failed', 'error': str(e)}), 500

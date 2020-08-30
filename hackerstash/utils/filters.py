@@ -16,7 +16,6 @@ def init_app(app):
     app.jinja_env.filters['business_models'] = business_models
     app.jinja_env.filters['fundings'] = fundings
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
-    app.jinja_env.filters['to_currency'] = to_currency
     app.jinja_env.filters['to_nice_url'] = to_nice_url
 
 
@@ -128,10 +127,6 @@ def fundings(value: str) -> str:
 
 def to_ordinal_ending(number: int) -> str:
     return "tsnrhtdd"[(number / 10 % 10 != 1) * (number % 10 < 4) * number % 10::4]
-
-
-def to_currency(number: int) -> str:
-    return '${:,.2f}'.format(number)
 
 
 def to_nice_url(url: str) -> str:

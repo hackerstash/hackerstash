@@ -15,6 +15,12 @@ def init_app(app):
         if 'id' in session:
             g.user = User.query.get(session['id'])
 
+            if not g.user:
+                # Something is wrong with the user here
+                logging.warning('User had a session cookie but no user was found')
+                session.pop('id', None)
+                return redirect(url_for('auth.login'))
+
             if not g.user.username \
                     and request.path not in [url_for('users.new'), url_for('users.create')] \
                     and not request.path.startswith('/static'):
@@ -23,7 +29,7 @@ def init_app(app):
         count = Project.query.filter_by(published=True).count() * 2
         contest = Contest.get_current()
 
-        g.prize_pool = f'${count + contest.top_up}.00'
+        g.prize_pool = f'${count + contest.top_up}'
         g.time_remaining = arrow.utcnow().ceil('week').humanize(only_distance=True)
 
     @app.after_request
@@ -43,13 +49,5 @@ def init_app(app):
     def handle_exception(error):
         if isinstance(error, HTTPException):
             return error
-
-        # This is required as cloudwatch will print each line in the
-        # native exception as it's own entry which is impossible to
-        # debug. Instead we format the exception and pass it into the
-        # logger so dumped as JSON
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"').replace('\n', '')
-        logging.error(stack + '    ' + str(error))
-
+        logging.stack(error)
         return render_template('500.html'), 500

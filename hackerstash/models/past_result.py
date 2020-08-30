@@ -22,3 +22,7 @@ class PastResult(db.Model):
     @property
     def prize(self):
         return get_prize_data_for_position(self.rank, self.contest.prizes)
+
+    @property
+    def position(self):
+        return self.rank + 1

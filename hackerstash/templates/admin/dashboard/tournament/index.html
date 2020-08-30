@@ -46,7 +46,7 @@
                                 <span>Subscription contribution</span>
                                 <span class="subscription-contribution" data-value="{{ project_count * 2 }}">
                                     {% if contest.is_current %}
-                                        ${{ project_count * 2 }}.00
+                                        ${{ project_count * 2 }}
                                     {% endif %}
                                 </span>
                             </p>
@@ -63,7 +63,7 @@
                             <hr class="divider">
                             <p>
                                 <span>Total prize pool</span>
-                                <span class="total-prize-pool" data-value="{{ (project_count * 2) + contest.top_up }}">${{ (project_count * 2) + contest.top_up }}.00</span>
+                                <span class="total-prize-pool" data-value="{{ (project_count * 2) + contest.top_up }}">${{ (project_count * 2) + contest.top_up }}</span>
                             </p>
                         </div>
                     </div>

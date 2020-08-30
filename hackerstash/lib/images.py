@@ -31,7 +31,7 @@ def upload_image_from_url(url: str):
         r.raise_for_status()
         return upload_image(r.raw.read())
     except Exception as e:
-        logging.error('Failed to upload remote image %s', e)
+        logging.stack(e)
         return None
 
 
@@ -44,5 +44,5 @@ def delete_image(key: str) -> None:
 
         client.delete_object(**params)
     except Exception as e:
-        logging.error('Failed to delete image %s', e)
+        logging.stack(e)
         pass

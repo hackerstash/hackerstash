@@ -2,6 +2,7 @@ import datetime
 from sqlalchemy.types import JSON
 from hackerstash.db import db
 from hackerstash.lib.logging import logging
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
 from hackerstash.utils.contest import get_week_and_year
@@ -93,6 +94,7 @@ class Contest(db.Model):
         for index, project in enumerate(projects):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
+            notification_factory('contest_ended', {'past_result': past_result}).publish()
 
         # Create next weeks tournament
         args = {'week': week + 1, 'year': year, 'tournament': contest.tournament + 1}

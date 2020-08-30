@@ -20,7 +20,7 @@ if (prizes) {
         const total = Number(value) + Number(contribution);
 
         const element = document.querySelector('.total-prize-pool');
-        element.innerText = `$${total}.00`;
+        element.innerText = `$${total}`;
         element.setAttribute('data-value', total);
         calculateTotal();
     });
