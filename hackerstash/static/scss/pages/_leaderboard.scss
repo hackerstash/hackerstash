@@ -15,6 +15,10 @@
     overflow: visible;
     text-align: end;
     text-overflow: clip;
+
+    @include tablet-down {
+      text-align: left;
+    }
   }
 
   .score {

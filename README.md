@@ -27,8 +27,8 @@ $ docker-compose up
 
 ### Setup Database
 ```shell script
-flask db upgrade
-python -m 'scripts.create_current_tournament'
+$ flask db upgrade
+$ python -m 'scripts.create_current_tournament'
 ```
 
 A sample .env file:
