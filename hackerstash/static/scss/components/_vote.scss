@@ -54,11 +54,13 @@
   &:not(.disabled) .button:hover {
     background: $darkblue-900 !important;
 
-    &.upvote {
+    &.upvote,
+    &.upvote i {
       color: $green-500 !important;
     }
 
-    &.downvote {
+    &.downvote,
+    &.downvote i {
       color: $red-500 !important;
     }
   }
@@ -69,6 +71,10 @@
       color: $darkblue-900;
       cursor: default;
       user-select: none;
+
+      i {
+        color: $darkblue-700 !important;
+      }
     }
   }
 
@@ -77,6 +83,10 @@
       &.upvote {
         color: $green-400;
         pointer-events: none;
+
+        i {
+          color: $green-400;
+        }
       }
 
       &.downvote {
@@ -96,6 +106,10 @@
       &.downvote {
         color: $red-500;
         pointer-events: none;
+
+        i {
+          color: $red-500;
+        }
       }
     }
   }
@@ -131,12 +145,17 @@
     }
 
     .button {
+      background: none !important;
       height: 1rem;
       width: 1.5rem;
 
       i {
         color: $mauve-500;
         font-size: 1rem;
+      }
+
+      &:hover {
+        background: none !important;
       }
     }
   }
