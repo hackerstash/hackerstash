@@ -50,7 +50,7 @@ class Comment(db.Model):
             return 'disabled own-project'
 
         existing_vote = self.get_existing_vote_for_user(user)
-        return 'upvoted' if existing_vote and existing_vote.score > 0 else 'downvoted'
+        return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
 
     @property
     def vote_score(self) -> int:

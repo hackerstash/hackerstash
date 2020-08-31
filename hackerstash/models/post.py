@@ -58,7 +58,7 @@ class Post(db.Model):
             return 'disabled own-project'
 
         existing_vote = self.get_existing_vote_for_user(user)
-        return 'upvoted' if existing_vote and existing_vote.score > 0 else 'downvoted'
+        return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
 
     def vote(self, user, direction: str) -> None:
         # Posts have a score of 5 points

@@ -8,7 +8,6 @@
 
   p {
     align-items: center;
-    background: $darkblue-900;
     border-radius: .25rem;
     color: $mauve-500;
     display: flex;
@@ -30,8 +29,8 @@
 
   .button {
     align-items: center;
-    background: transparent;
-    color: $darkblue-900;
+    background: $darkblue-900;
+    color: $mauve-1000;
     border: 0;
     border-radius: .25rem;
     display: flex;
@@ -52,66 +51,51 @@
     }
   }
 
-  &:hover {
-    p {
-      background: transparent;
-      color: $mauve-500;
+  &:not(.disabled) .button:hover {
+    background: $darkblue-900 !important;
+
+    &.upvote {
+      color: $green-500 !important;
     }
 
-    .button {
-      background: $darkblue-900;
+    &.downvote {
+      color: $red-500 !important;
+    }
+  }
 
+  &.disabled {
+    .button {
+      background: $darkblue-700;
+      color: $darkblue-900;
+      cursor: default;
+      user-select: none;
+    }
+  }
+
+  &.upvoted {
+    .button {
       &.upvote {
         color: $green-400;
+        pointer-events: none;
+      }
+
+      &.downvote {
+        background: $darkblue-700;
+        color: $darkblue-900;
+      }
+    }
+  }
+
+  &.downvoted {
+    .button {
+      &.upvote {
+        background: $darkblue-700;
+        color: $darkblue-900;
       }
 
       &.downvote {
         color: $red-500;
-      }
-
-      &:hover {
-        background: $darkblue-700;
-      }
-    }
-
-    &.upvoted {
-      .button {
-        &.upvote {
-          pointer-events: none;
-        }
-
-        &.downvote {
-          color: $darkblue-700;
-        }
-      }
-    }
-
-    &.downvoted {
-      .button {
-        &.upvote {
-          color: $darkblue-700;
-        }
-
-        &.downvote {
-          pointer-events: none;
-        }
-      }
-    }
-
-    &.disabled {
-      p {
-        background: $darkblue-900;
-        color: $mauve-500;
-      }
-
-      .button {
-        &.upvote,
-        &.downvote {
-          background: transparent;
-          color: $darkblue-900;
-          cursor: default;
-          user-select: none;
-        }
+        pointer-events: none;
       }
     }
   }
@@ -132,6 +116,27 @@
 
       &:hover {
         background: $darkblue-800;
+      }
+    }
+  }
+
+  &.x-sm {
+    padding: 0;
+    width: 1.5rem;
+
+    p {
+      height: 1.5rem;
+      margin: 0;
+      width: 1.5rem;
+    }
+
+    .button {
+      height: 1rem;
+      width: 1.5rem;
+
+      i {
+        color: $mauve-500;
+        font-size: 1rem;
       }
     }
   }

@@ -21,9 +21,13 @@
 {% macro comment_vote(size, comment) %}
     <div class="votes">
         <div class="vote {{ size }} {{ comment.vote_status(g.user) or '' }}">
-            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" data-parent="comments" rel="nofollow" class="button vote-button upvote">+1</a>
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" data-parent="comments" rel="nofollow" class="button vote-button upvote">
+                <i class="ri-arrow-drop-up-line"></i>
+            </a>
             <p>{{ comment.vote_score }} <span> points</span></p>
-            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" data-parent="comments" rel="nofollow" class="button vote-button downvote">-1</a>
+            <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" data-parent="comments" rel="nofollow" class="button vote-button downvote">
+                <i class="ri-arrow-drop-down-line"></i>
+            </a>
         </div>
     </div>
 {% endmacro %}
