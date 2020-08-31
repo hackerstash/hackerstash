@@ -5,19 +5,27 @@
     <meta name="description" content="Community-led micro finance for hackers and entrepreneurs.">
     <meta name="keywords" content="Hackers, Entrepreneurs, Funding, Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="{{ og_title or 'Community-led micro finance for hackers and entrepreneurs.' }}">
+    <meta property="og:description" content="{{ og_description or 'HackerStash is a weekly tournament designed to help you support digital projects and services you love, and keep your own project moving forward too.' }}">
+    <meta property="og:url" content="https://hackerstash.com{{ request.path }}">
+    <meta property="og:image" content="https://hackerstash.com/static/social-bg.png">
+    <meta property="og:site_name" content="HackerStash, Inc.">
+    <meta name="twitter:card" content="summary_large_image">
+    {% block meta %}
+    {% endblock %}
     <title>{{ title or 'HackerStash' }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
-    {% assets "scss_all" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}">
-    {% endassets %}
+    {% assets "scss_all" -%}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {%- endassets %}
 </head>
 <body>
     {% block body %}
     {% endblock %}
 
-    {% assets "js_all" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+    {% assets "js_all" -%}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {%- endassets %}
 
     {% block scripts %}
     {% endblock %}
