@@ -5,6 +5,7 @@ from hackerstash.db import db
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
+from hackerstash.utils.contest import get_week_and_year
 from hackerstash.utils.helpers import find_in_list
 from hackerstash.utils.prizes import get_prize_data_for_position
 from hackerstash.utils.votes import sum_of_project_votes
@@ -66,7 +67,12 @@ class Project(db.Model):
         # vote is actually made on behalf of the project
         # to stop people from creating 30 fake users and
         # downvote bombing other users
-        return find_in_list(self.votes, lambda x: x.user.member.project.id == user.member.project.id)
+        week, year = get_week_and_year()
+        return find_in_list(
+            self.votes,
+            # Projects are different as you can revote on them every week
+            lambda x: x.user.member.project.id == user.member.project.id and x.week == week and x.year == year
+        )
 
     def vote(self, user, direction):
         score = 10 if direction == 'up' else -10
