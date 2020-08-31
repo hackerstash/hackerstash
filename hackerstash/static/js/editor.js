@@ -120,6 +120,7 @@ function createEditor(form) {
                 const mention = document.createElement('div');
                 mention.classList.add('mention-container');
                 mention.style = `left: ${coords.left}px; top: ${coords.top + coords.height + 8}px`;
+                mention.innerHTML = '';
 
                 if (results.length === 0) {
                     return closeMentionContainer();

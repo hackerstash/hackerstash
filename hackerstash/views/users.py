@@ -1,5 +1,6 @@
 import re
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g, jsonify
+from sqlalchemy import or_
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import verify_invite
@@ -144,7 +145,16 @@ def update_profile() -> str:
 @users.route('/users/usernames')
 @login_required
 def get_usernames():
-    query = request.args.get('q', '')
-    matching_users = User.query.filter(User.username.like(f'%{query}%')).limit(5).all()
+    query = request.args.get('q', '').lower()
+    # You can search for users by their first name, last
+    # name or by their username. A match in any of these
+    # fields is good enough
+    matching_users = User.query.filter(
+        or_(
+            User.username.ilike(f'%{query}%'),
+            User.first_name.ilike(f'%{query}%'),
+            User.last_name.ilike(f'%{query}%'),
+        )
+    ).limit(5).all()
     data = [{'name': f'{x.first_name} {x.last_name}', 'username': x.username} for x in matching_users]
     return jsonify(data)
