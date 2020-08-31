@@ -1,5 +1,4 @@
 import sys
-import json
 import logging
 import traceback
 import requests
@@ -23,17 +22,12 @@ def publish_slack_message(error):
             payload = {
                 'username': '500 Error',
                 'icon_emoji': ':octagonal_sign:',
-                'attachments': [
-                    {
-                        'color': 'danger',
-                        'text': str(error)
-                    }
-                ]
+                'attachments': [{'color': 'danger', 'text': str(error)}]
             }
             headers = {
                 'Content-Type': 'application/json'
             }
-            requests.request('POST', url, headers=headers, data=json.dumps(payload))
+            requests.request('POST', url, headers=headers, json=payload)
         finally:
             pass
 

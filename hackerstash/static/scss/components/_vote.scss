@@ -179,7 +179,7 @@
   }
 
   @include tablet-down {
-    &:not(.sm) {
+    &:not(.sm):not(.x-sm) {
       flex-direction: row;
       height: 2.5rem;
       justify-content: space-between;
@@ -200,16 +200,6 @@
         &:last-of-type {
           border-radius: 0 .5rem .5rem 0;
         }
-      }
-    }
-
-    &.sm {
-      .button {
-        line-height: .8rem;
-      }
-
-      p {
-        line-height: 1rem;
       }
     }
   }
