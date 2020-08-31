@@ -1,12 +1,15 @@
-import sys
-import traceback
+import json
+
 import arrow
-from werkzeug.exceptions import HTTPException
+import requests
 from flask import session, request, url_for, g, redirect, render_template
+from werkzeug.exceptions import HTTPException
+
+from hackerstash.config import config
 from hackerstash.lib.logging import logging
 from hackerstash.models.contest import Contest
-from hackerstash.models.user import User
 from hackerstash.models.project import Project
+from hackerstash.models.user import User
 
 
 def init_app(app):
@@ -47,7 +50,25 @@ def init_app(app):
 
     @app.errorhandler(Exception)
     def handle_exception(error):
-        if isinstance(error, HTTPException):
-            return error
-        logging.stack(error)
-        return render_template('500.html'), 500
+        try:
+            if config['app_environment'] == 'live':
+                url = "https://hooks.slack.com/services/" + config['error_webhook']
+                payload = {
+                    "username": "500 Error",
+                    "icon_emoji": ":octagonal_sign:",
+                    "attachments": [
+                        {
+                            "color": "danger",
+                            "text": str(error)
+                        }
+                    ]
+                }
+                headers = {
+                    'Content-Type': 'application/json'
+                }
+                requests.request("POST", url, headers=headers, data=json.dumps(payload))
+        finally:
+            if isinstance(error, HTTPException):
+                return error
+            logging.stack(error)
+            return render_template('500.html'), 500
