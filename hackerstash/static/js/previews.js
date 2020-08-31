@@ -28,7 +28,7 @@ previews.forEach((preview) => {
         card.innerHTML = `
             <div class="card-header">
                 <span class="avatar">
-                    <img src="https://images.hackerstash.com/${data.avatar}">
+                    ${data.avatar ? `<img src="https://images.hackerstash.com/${data.avatar}">` : '<span class="placeholder">?</span>'}
                 </span>
                 <h4><a href="${data.url}">${data.name}</a></h4>
             </div>
