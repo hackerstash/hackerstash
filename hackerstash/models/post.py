@@ -92,4 +92,5 @@ class Post(db.Model):
         title = re.sub(r'([^a-zA-Z0-9])', '-', title)
         title = re.sub(r'(-{2,})', '-', title)
         title = re.sub(r'-$', '', title)
+        title = re.sub(r'^-', '', title)
         return title.lower()

@@ -26,12 +26,14 @@ class PostCreated(Base):
             for i in range(6):
                 # If they've already hit the challenge we should skip the check.
                 # Otherwise they could get mon-fri, but we will reset to 0 on sat.
+                # Also we reset to 1 as users probably won't understand why something
+                # is 0-indexed
                 if streak < 5:
                     match = find_in_list(posts_this_week, lambda x: x.day == i + 1)
                     if match:
                         streak += 1
                     else:
-                        streak = 0
+                        streak = 1
 
             logging.info(f'Setting \'five_day_post_streak\' challenge for \'{project.name}\' to \'{streak}\'')
             project.create_or_set_challenge('five_day_post_streak', streak)
