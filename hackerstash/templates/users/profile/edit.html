@@ -30,10 +30,10 @@
                 </div>
 
                 <label class="label" for="username">Username</label>
-                <input class="input" name="username" id="username" value="{{ g.user.username }}">
+                <input class="input" name="username" id="username" value="{{ g.user.username }}" required pattern="[a-z0-9\_\-\.]+">
 
                 <label class="label" for="location">Location <span>(city/town/village)</span></label>
-                <input class="input search location-typeahead" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ g.user.location or '' }}">
+                <input class="input search location-typeahead" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ g.user.location or '' }}" title="Usernames can't contain spaces, and can only include letters, numbers, hyphens, underscores and periods">
                 <div class="search-results"></div>
 
                 <label class="label" for="twitter">Twitter handle</label>

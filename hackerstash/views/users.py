@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g, jsonify
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
@@ -60,7 +61,7 @@ def create() -> str:
     user = User.query.get(session['id'])
     user.first_name = request.form['first_name']
     user.last_name = request.form['last_name']
-    user.username = request.form['username']
+    user.username = re.sub(r'[^a-z0-9\_\-\.]+', '', request.form['username'], flags=re.IGNORECASE)
     user.notifications_settings = NotificationSetting()
 
     # Flask adds the empty file for some reason
@@ -132,6 +133,8 @@ def update_profile() -> str:
         if key not in ['file', 'avatar']:
             # Rich text always uses body as the key
             key = 'bio' if key == 'body' else key
+            # Usernames must follow this pattern
+            value = re.sub(r'[^a-z0-9\_\-\.]+', '', value, flags=re.IGNORECASE) if key == 'username' else value
             setattr(user, key, value)
 
     db.session.commit()

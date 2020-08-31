@@ -21,7 +21,7 @@
                 <div class="project-details">
                     {{ avatar(project) }}
                     <h2>{{ project.name }}</h2>
-                    <p>@{{ project.name | lower }}</p>
+                    <p class="d-none">@{{ project.name | lower }}</p>
                 </div>
                 <div class="mt-1 meta">
                     {% if project.start_month and project.start_year %}
