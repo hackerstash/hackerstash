@@ -1,6 +1,9 @@
 import sys
+import json
 import logging
 import traceback
+import requests
+from hackerstash.config import config
 
 
 def log_stacktrace(error):
@@ -11,6 +14,29 @@ def log_stacktrace(error):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"').replace('\n', '')
     logging.error(stack + '    ' + str(error))
+
+
+def publish_slack_message(error):
+    if config['app_environment'] == 'live':
+        try:
+            url = f'https://hooks.slack.com/services/{config["error_webhook"]}'
+            payload = {
+                'username': '500 Error',
+                'icon_emoji': ':octagonal_sign:',
+                'attachments': [
+                    {
+                        'color': 'danger',
+                        'text': str(error)
+                    }
+                ]
+            }
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            requests.request('POST', url, headers=headers, data=json.dumps(payload))
+        finally:
+            pass
+
 
 logging_format = '{"time": "%(asctime)s", "name": "%(name)s", "level": "%(levelname)s", "origin": "%(filename)s:%(lineno)d", "message": "%(message)s"}'
 
