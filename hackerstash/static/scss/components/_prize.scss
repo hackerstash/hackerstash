@@ -22,4 +22,15 @@
   span {
     margin-right: .5rem;
   }
+
+  &.expected {
+    height: 2.25rem;
+    padding: .5rem .75rem;
+  }
+
+  &.expected,
+  &.expected .icon {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }

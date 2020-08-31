@@ -3,7 +3,7 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
-{% from "partials/prize.html" import prize %}
+{% from "partials/prize.html" import expected_prize %}
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
 
@@ -59,9 +59,9 @@
             </div>
             <div class="project-position">
                 <h3>Current Position</h3>
-                <div class="positioning">
-                    <h1 class="mt-1-5">{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
-                    {{ prize(project) }}
+                <div class="positioning mt-1-5">
+                    <h1>{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
+                    {{ expected_prize(project) }}
                 </div>
                 <h3 class="mt-2">Votes received</h3>
                 <div class="votes-received up">

@@ -127,6 +127,16 @@
       margin-left: 2rem;
       width: 18.75rem;
 
+      .positioning {
+        border-bottom: 1px solid $darkblue-900;
+        display: flex;
+        padding-bottom: 2rem;
+
+        .button {
+          margin: .75rem 0 0 2rem;
+        }
+      }
+
       h1 {
         span {
           font-size: 1rem;
