@@ -54,17 +54,19 @@ if (hasKanbanSettings) {
         }
     });
 
+    function removeRow(event) {
+        event.target.closest('li').remove();
+    }
+
     if (addColumn) {
         addColumn.addEventListener('click', (event) => {
-            const row = `
-              <li>
+            const row = document.createElement('li');
+            row.innerHTML = `
                 <i class="ri-drag-move-2-fill drag"></i>
                 <input name="column" class="input mb-0" type="text" required>
-                <i class="ri-close-line remove"></i>
-              </li>
+                <i class="ri-close-line remove" onclick="removeRow(event)"></i>
             `;
-
-            hasKanbanSettings.querySelector('.columns').innerHTML += row;
+            hasKanbanSettings.querySelector('.columns').appendChild(row);
         });
     }
 }
