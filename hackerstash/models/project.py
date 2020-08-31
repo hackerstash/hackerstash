@@ -67,11 +67,10 @@ class Project(db.Model):
         # vote is actually made on behalf of the project
         # to stop people from creating 30 fake users and
         # downvote bombing other users
-        week, year = get_week_and_year()
         return find_in_list(
             self.votes,
             # Projects are different as you can revote on them every week
-            lambda x: x.user.member.project.id == user.member.project.id and x.week == week and x.year == year
+            lambda x: x.user.member.project.id == user.member.project.id and x.is_current_contest
         )
 
     def vote(self, user, direction):
