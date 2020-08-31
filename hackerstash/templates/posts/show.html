@@ -1,6 +1,7 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Posts / ' + post.title %}
 {% set og_title = post.title %}
+{% set og_description = post.body | to_plain_text %}
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
