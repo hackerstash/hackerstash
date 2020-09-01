@@ -119,25 +119,16 @@
     width: 2rem;
 
     p {
-      background: $darkblue-900;
-      height: 1.5rem;
+      height: 1.75rem;
       margin: 0;
       width: 2rem;
     }
 
     .button {
-      background: none;
-      color: $darkblue-900;
-      height: 1.5rem;
+      background: $darkblue-900;
+      color: $mauve-1000;
+      height: 1.25rem;
       width: 2rem;
-    }
-
-    &.upvoted,
-    &.downvoted {
-      .button.upvote,
-      .button.downvote {
-        background: none;
-      }
     }
 
     &:not(.disabled):hover {
