@@ -7,9 +7,43 @@ from hackerstash.models.project import Project
 from hackerstash.models.user import User
 
 
+# Apparently the humanized time that someone already
+# figured out isn't good enough! It needs to read like
+# the following:
+# 1 week
+# 6 days
+# 5 days
+# 4 days
+# 3 days
+# 2 days
+# 23 hours
+# 1 hour
+# 59 mins
+# 1 min
+def get_remaining_tournament_time():
+    now = arrow.utcnow()
+    end_of_week = arrow.utcnow().ceil('week')
+    diff = end_of_week - now
+    hours = diff.total_seconds() // 3600
+    minutes = (diff.total_seconds() % 3600) // 60
+
+    if diff.days == 7:
+        return '1 week'
+    if diff.days > 1:
+        return f'{diff.days} days'
+    if hours > 0:
+        return f'{int(hours)} hours'
+    return f'{int(minutes)} mins'
+
+
 def init_app(app):
     @app.before_request
     def before_request_func():
+        # Don't want to be hitting the database for images
+        # and whatnot
+        if request.path.startswith('/static'):
+            return
+
         if 'id' in session:
             g.user = User.query.get(session['id'])
 
@@ -28,7 +62,7 @@ def init_app(app):
         contest = Contest.get_current()
 
         g.prize_pool = f'${count + contest.top_up}'
-        g.time_remaining = arrow.utcnow().ceil('week').humanize(only_distance=True)
+        g.time_remaining = get_remaining_tournament_time()
 
     @app.after_request
     def after_request_func(response):
