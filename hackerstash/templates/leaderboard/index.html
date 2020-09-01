@@ -14,9 +14,9 @@
         <div class="table">
             <div class="table-header">
                 <p class="col-1">Rank</p>
-                <p class="col-3">Project name</p>
-                <p class="col-2">Url</p>
-                <p class="col-4">Score</p>
+                <p class="col-4">Project name</p>
+                <p class="col-3">Url</p>
+                <p class="col-2">Score</p>
                 <p class="col-2">Expected prize</p>
             </div>
             <ul class="table-body">
@@ -25,15 +25,15 @@
                         <p class="col-1 position">
                             <span>{{ loop.index }}</span>
                         </p>
-                        <p class="col-3 project">
+                        <p class="col-4 project">
                             {{ project_preview(project) }}
                         </p>
-                        <p class="col-2 small">
+                        <p class="col-3 small">
                             <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
                                 {{ project.url | to_nice_url }}
                             </a>
                         </p>
-                        <p class="col-4 small score">
+                        <p class="col-2 small score">
                             <i>{{ project.vote_score }} points</i>
                         </p>
                         <p class="col-2">
