@@ -9,12 +9,12 @@
             <h2>New Post</h2>
         </header>
 
-        <form class="form editor-form" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+        <form role="form" aria-label="Create a new post" class="form editor-form" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 <div class="split">
                     <div class="left">
                         <label class="label" for="title">Title</label>
-                        <input class="input" type="text" id="title" name="title" required value>
+                        <input class="input" type="text" id="title" name="title" type="text" required value>
 
                         <label class="label">Update</label>
                         {{ editor_full() }}
@@ -34,8 +34,8 @@
 
                 <hr class="divider">
                 <div class="button-group">
-                    <button class="button" type="submit">Publish</button>
-                    <a class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
+                    <button aria-label="Create post" class="button" type="submit">Publish</button>
+                    <a aria-label="Cancel and return to all posts" class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
                 </div>
             </fieldset>
         </form>

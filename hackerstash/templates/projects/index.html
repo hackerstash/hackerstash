@@ -13,7 +13,7 @@
             <div class="filters">
                 <label class="label">Sorting</label>
                 <div class="select">
-                    <select id="sorting" name="sorting">
+                    <select aria-label="Change sorting of projects" id="sorting" name="sorting">
                         <option {{ 'selected' if selected_sorting == 'alphabetical_asc'  }} value="alphabetical_asc">A-Z</option>
                         <option {{ 'selected' if selected_sorting == 'alphabetical_desc'  }} value="alphabetical_desc">Z-A</option>
                         <option {{ 'selected' if selected_sorting == 'rank_desc'  }} value="rank_desc">Rank: High to Low</option>
@@ -25,11 +25,11 @@
                     </select>
                     <i class="icon ri-arrow-drop-down-line"></i>
                 </div>
-                <button class="button secondary has-icon modal-open" data-modal="filter-modal">
+                <button aria-label="Open filter modal" class="button secondary has-icon modal-open" data-modal="filter-modal">
                     <i class="icon ri-filter-2-line"></i>
                     Filters ({{ filters_count }})
                 </button>
-                <button class="button secondary has-icon modal-open" data-modal="display-modal">
+                <button aria-label="Open display modal" class="button secondary has-icon modal-open" data-modal="display-modal">
                     <i class="icon ri-eye-line"></i>
                     Display
                 </button>

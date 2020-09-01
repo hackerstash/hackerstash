@@ -19,7 +19,8 @@ body {
   box-sizing: border-box;
 
   &:focus {
-    outline: none;
+    outline: 1px dashed $blue-500;
+    outline-offset: 1px;
   }
 }
 

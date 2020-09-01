@@ -47,7 +47,7 @@
             </div>
             <div class="button-group">
                 {% if project.has_member(g.user) %}
-                    <a href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
+                    <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
                 {% endif %}
             </div>
         </header>
