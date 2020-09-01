@@ -324,6 +324,7 @@ def create_progress(project_id: str) -> str:
 def update_progress(project_id: str, progress_id: str):
     prog = Progress.query.get(progress_id)
     for key, value in request.form.items():
+        key = 'description' if key == 'body' else key
         if key == 'user':
             prog.user = User.query.get(value) if value else None
         else:
@@ -334,6 +335,16 @@ def update_progress(project_id: str, progress_id: str):
         return '', 204
     else:
         return redirect(url_for('projects.show', project_id=project_id))
+
+
+@projects.route('/projects/<project_id>/progress/<progress_id>/delete')
+@login_required
+@member_required
+def delete_progress(project_id: str, progress_id: str):
+    prog = Progress.query.get(progress_id)
+    db.session.delete(prog)
+    db.session.commit()
+    return redirect(url_for('projects.show', project_id=project_id))
 
 
 @projects.route('/projects/<project_id>/progress/update', methods=['POST'])

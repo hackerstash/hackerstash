@@ -5,6 +5,7 @@
 {% from "partials/posts.html" import posts %}
 {% from "partials/prize.html" import expected_prize %}
 {% from "partials/previews.html" import user_preview %}
+{% from "partials/progress_modal.html" import progress_modal %}
 {% from "partials/vote.html" import project_vote %}
 
 {% block styles %}
@@ -93,7 +94,7 @@
                                 <label class="label mb-0">{{ column }}</label>
                                 <div class="cards">
                                     {% for card in project.progress if card.column == column %}
-                                        <div class="card modal-open {{ 'disabled' if not project.has_member(g.user) }}" data-project-id="{{ project.id }}" data-progress-id="{{ card.id }}" data-modal="update-task-modal-{{ card.id }}">
+                                        <div class="card modal-open" data-project-id="{{ project.id }}" data-progress-id="{{ card.id }}" data-modal="update-task-modal-{{ card.id }}">
                                             <p class="name truncate">{{ card.name }}</p>
                                             <p class="small assignee">
                                                 {{ avatar(card.user, 'xx-sm') }}
@@ -186,7 +187,7 @@
         </section>
     </div>
 
-     <div id="add-task-modal" class="modal">
+     <div id="add-task-modal" class="modal task-modal">
         <div class="modal-body md">
             <header>
                 <h3>Add Task</h3>
@@ -236,66 +237,15 @@
         </div>
      </div>
 
-    {% for progress in project.progress if project.has_member(g.user) %}
-        <div id="update-task-modal-{{ progress.id }}" class="modal">
-            <div class="modal-body md">
-                <header>
-                    <h3>Edit Task</h3>
-                    <i class="icon ri-close-line modal-close"></i>
-                </header>
-                <main>
-                    <form class="form mt-2" action="{{ url_for('projects.update_progress', project_id=project.id, progress_id=progress.id) }}" method="post">
-                        <fieldset>
-                            <label class="label" for="name">Task Name</label>
-                            <input class="input" type="text" placeholder="e.g. Publish new blog post" id="name" name="name" value="{{ progress.name }}">
-                            <div class="split">
-                                <div>
-                                    <label class="label" for="column">Column</label>
-                                     <div class="select w-100">
-                                         <select id="column" name="column">
-                                             <option disabled selected value>Please select</option>
-                                             {% for col in project.progress_settings.columns %}
-                                                 <option {{ 'selected' if col == progress.column }} value="{{ col }}">{{ col }}</option>
-                                             {% endfor %}
-                                         </select>
-                                         <i class="icon ri-arrow-drop-down-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="label" for="user">User</label>
-                                     <div class="select w-100">
-                                         <select id="user" name="user">
-                                             <option disabled value>Please select</option>
-                                             <option {{ 'selected' if not progress.user }} value>Unassigned</option>
-                                             {% for member in project.members %}
-                                                 <option {{ 'selected' if progress.user and progress.user.id == member.user.id }} value="{{ member.user.id }}">
-                                                    {{ member.user.first_name }} {{ member.user.last_name }}
-                                                </option>
-                                             {% endfor %}
-                                         </select>
-                                         <i class="icon ri-arrow-drop-down-line"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <label class="label" for="description">Descrip tion</label>
-                            <textarea class="input textarea mb-3" rows="6" id="description" name="description">{{ progress.description }}</textarea>
-                            <footer>
-                                <button class="button" type="submit">Update Task</button>
-                                <button class="button secondary modal-close" type="reset">Cancel</button>
-                            </footer>
-                        </fieldset>
-                    </form>
-                </main>
-            </div>
-         </div>
+    {% for progress in project.progress %}
+        {{ progress_modal(project, progress) }}
     {% endfor %}
 {% endblock %}
 
 {% block scripts %}
+    <script type="text/javascript" src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
-    {% if project.progress_settings.enabled %}
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
-    {% endif %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
     <script type="text/javascript">
         window.projectScoreData = "{{ project.project_score_data }}";
     </script>

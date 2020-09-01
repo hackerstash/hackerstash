@@ -70,3 +70,25 @@ if (description) {
         }
     });
 }
+
+document.querySelectorAll('.edit-task-modal .edit-task').forEach(element => {
+    element.addEventListener('click', (event) => {
+        const modal = event.target.closest('.edit-task-modal');
+        modal.querySelector('.show-view').classList.add('d-none');
+        modal.querySelector('.edit-view').classList.remove('d-none');
+        modal.querySelector('header h3').innerText = 'Edit Task';
+        event.target.classList.add('d-none');
+        createEditor('#' + modal.id);
+    });
+});
+
+document.querySelectorAll('.edit-task-modal .show-task').forEach(element => {
+    element.addEventListener('click', (event) => {
+        const modal = event.target.closest('.edit-task-modal');
+        modal.querySelector('.show-view').classList.remove('d-none');
+        modal.querySelector('.edit-view').classList.add('d-none');
+        modal.querySelector('header h3').innerText = 'Task';
+        modal.querySelector('.edit-task').classList.remove('d-none');
+        destroyEditor('#' + modal.id);
+    });
+});

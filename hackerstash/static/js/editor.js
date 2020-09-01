@@ -182,3 +182,19 @@ function createEditor(form) {
 
     return editor;
 }
+
+function destroyEditor(form) {
+  const selector = s => document.querySelector(`${form} ${s}`);
+
+  const toolbar = selector('.toolbar');
+  const toolbarContents = toolbar.innerHTML;
+  toolbar.classList.remove('ql-toolbar');
+  toolbar.innerHTML = '';
+  toolbar.innerHTML = toolbarContents;
+
+  const editor = selector('.editor');
+  const editorContents = selector('.ql-editor').innerHTML;
+  editor.class = 'editor';
+  editor.innerHTML = '';
+  editor.innerHTML = editorContents;
+}
