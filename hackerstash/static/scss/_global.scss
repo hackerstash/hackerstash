@@ -22,6 +22,10 @@ body {
     outline: 1px dashed $blue-500;
     outline-offset: 1px;
   }
+
+  &:hover {
+    outline: none;
+  }
 }
 
 .hackerstash {
