@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, make_response
+from flask import Blueprint, render_template, request, redirect, url_for, make_response, jsonify
+from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.models.waitlist import Waitlist
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.logging import logging
+from hackerstash.lib.redis import redis
 from hackerstash.utils.recaptcha import recaptcha_required
 
 home = Blueprint('home', __name__)
@@ -32,3 +35,14 @@ def index() -> str:
     resp.set_cookie('added_to_waitlist', '1', max_age=31557600)
 
     return resp
+
+
+@home.route('/__ping')
+def ping():
+    try:
+        db.engine.execute('SELECT 1')
+        redis.keys('*')
+        return jsonify({'status': 'PONG! Have a nice day.'})
+    except Exception as e:
+        logging.stack(e)
+        return jsonify({'status': 'AHHHHHHHHH'}), 500
