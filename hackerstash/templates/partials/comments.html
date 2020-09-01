@@ -12,16 +12,16 @@
 
                 <div class="comment wrap-620">
                     {{ comment_vote('x-sm', comment) }}
-                    <div class="details ml-1-5">
+                    <div class="details ml-1">
                         <span class="post inline">{{ comment.body | to_safe_html | safe }}</span>
-                        <p class="small">
+                        <p class="small mt-0-5">
                             {{ avatar(comment.user, 'xx-sm') }}
                             {{ user_preview(comment.user) }}
                             <span class="seperator">•</span>
                             <span>{{ comment.created_at | to_human_date }}</span>
 
                             {% if g.user %}
-                                <span class="seperator reply">•</span>
+                                <span class="seperator reply split">•</span>
                                 <span class="reply add-reply">
                                     <i class="icon ri-reply-line"></i>
                                     <button class="button link small" data-id="{{ comment.id }}">Reply</button>
@@ -31,8 +31,8 @@
                             {% if comment.children %}
                                 <span class="seperator reply">&bull;</span>
                                 <span class="collapse-comments">
-                                    <button class="button link small hide">Collapse comments</button>
-                                    <button class="button link small show">Show comments</button>
+                                    <button class="button link small hide">Collapse replies</button>
+                                    <button class="button link small show">Show replies</button>
                                     <span class="show">[{{ comment.children | flatten_comments | length }}]</span>
                                 </span>
                             {% endif %}

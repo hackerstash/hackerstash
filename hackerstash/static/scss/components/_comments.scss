@@ -73,6 +73,14 @@
 
           .seperator {
             margin: 0 .5rem;
+
+            &.split {
+              @include tablet-down {
+                color: transparent;
+                display: block;
+                height: .5rem;
+              }
+            }
           }
 
           .add-reply {
@@ -95,6 +103,12 @@
 
             .show {
                 display: none;
+            }
+          }
+
+          @include tablet-down {
+            .button {
+              font-size: 12px;
             }
           }
         }
