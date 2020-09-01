@@ -5,7 +5,6 @@ from hackerstash.db import db
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
-from hackerstash.utils.contest import get_week_and_year
 from hackerstash.utils.helpers import find_in_list
 from hackerstash.utils.prizes import get_prize_data_for_position
 from hackerstash.utils.votes import sum_of_project_votes
@@ -192,4 +191,3 @@ class Project(db.Model):
     def prize(self):
         # Not 0 indexed
         return get_prize_data_for_position(self.position - 1)
-

@@ -1,3 +1,4 @@
+import re
 import arrow
 import bleach
 import calendar
@@ -130,4 +131,5 @@ def to_ordinal_ending(number: int) -> str:
 
 
 def to_nice_url(url: str) -> str:
-    return url.replace('https://', '').replace('http://', '').replace('www.', '')
+    url = url.replace('https://', '').replace('http://', '').replace('www.', '')
+    return re.sub(r'\/$', '', url)
