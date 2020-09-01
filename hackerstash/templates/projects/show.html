@@ -5,7 +5,7 @@
 {% from "partials/posts.html" import posts %}
 {% from "partials/prize.html" import expected_prize %}
 {% from "partials/previews.html" import user_preview %}
-{% from "partials/progress_modal.html" import progress_modal %}
+{% from "partials/progress_modal.html" import progress_modal, create_progress_modal %}
 {% from "partials/vote.html" import project_vote %}
 
 {% block styles %}
@@ -187,55 +187,7 @@
         </section>
     </div>
 
-     <div id="add-task-modal" class="modal task-modal">
-        <div class="modal-body md">
-            <header>
-                <h3>Add Task</h3>
-                <i class="icon ri-close-line modal-close"></i>
-            </header>
-            <main>
-                <form class="form mt-2" action="{{ url_for('projects.create_progress', project_id=project.id) }}" method="post">
-                    <fieldset>
-                        <label class="label" for="name">Task Name</label>
-                        <input class="input" type="text" placeholder="e.g. Publish new blog post" id="name" name="name">
-                        <div class="split">
-                            <div>
-                                <label class="label" for="column">Column</label>
-                                 <div class="select w-100">
-                                     <select id="column" name="column">
-                                         <option disabled selected value>Please select</option>
-                                         {% for col in project.progress_settings.columns %}
-                                             <option value="{{ col }}">{{ col }}</option>
-                                         {% endfor %}
-                                     </select>
-                                     <i class="icon ri-arrow-drop-down-line"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="label" for="user">User</label>
-                                 <div class="select w-100">
-                                     <select id="user" name="user">
-                                         <option disabled selected value>Please select</option>
-                                         <option value>Unassigned</option>
-                                         {% for member in project.members %}
-                                             <option value="{{ member.user.id }}">{{ member.user.first_name }} {{ member.user.last_name }}</option>
-                                         {% endfor %}
-                                     </select>
-                                     <i class="icon ri-arrow-drop-down-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <label class="label" for="description">Description</label>
-                        <textarea class="input textarea mb-3" rows="6" id="description" name="description"></textarea>
-                        <footer>
-                            <button class="button" type="submit">Create Task</button>
-                            <button class="button secondary modal-close" type="reset">Cancel</button>
-                        </footer>
-                    </fieldset>
-                </form>
-            </main>
-        </div>
-     </div>
+    {{ create_progress_modal(project) }}
 
     {% for progress in project.progress %}
         {{ progress_modal(project, progress) }}
@@ -248,5 +200,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
     <script type="text/javascript">
         window.projectScoreData = "{{ project.project_score_data }}";
+        window.onload = () => createEditor('#add-task-modal');
     </script>
 {% endblock %}
