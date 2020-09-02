@@ -84,8 +84,8 @@ def init_app(app):
 
     @app.errorhandler(Exception)
     def handle_exception(error):
-        publish_slack_message(error)
         if isinstance(error, HTTPException):
             return error
         logging.stack(error)
+        publish_slack_message(error)
         return render_template('500.html'), 500
