@@ -1,4 +1,3 @@
-from flask import session
 from hackerstash.lib.logging import logging
 from hackerstash.lib.redis import redis
 
@@ -64,7 +63,8 @@ def get_max_count_for_key(key: str) -> int:
     if key in [
         'published_a_post',
         'comment_on_a_competitors_post',
-        'award_two_hundred_points'
+        'award_two_hundred_points',
+        'earn_twenty_five_points_for_one_post'
     ]:
         return 1
     if key in [
@@ -75,7 +75,6 @@ def get_max_count_for_key(key: str) -> int:
         return 3
     if key in [
         'comment_on_five_competitors_posts',
-        'earn_twenty_five_points_for_one_post',
         'have_five_comments_upvoted',
         'five_day_post_streak'
     ]:

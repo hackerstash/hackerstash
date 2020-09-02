@@ -25,8 +25,14 @@ class PostVoted(Base):
                 user.member.project.create_or_inc_challenge('award_points_to_ten_posts')
 
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_one_post'):
-                logging.info(f'Awarding \'earn_twenty_five_points_for_one_post\' challenge for \'{post.project.name}\'')
-                post.project.create_or_inc_challenge('earn_twenty_five_points_for_one_post')
+                all_posts = post.project.posts
+                for p in all_posts:
+                    # The 25 points have to all be from this current contest
+                    votes_this_week = list(filter(lambda x: x.is_current_contest, p.votes))
+                    this_week_score = sum(vote.score for vote in votes_this_week)
+                    if this_week_score >= 25:
+                        logging.info(f'Awarding \'earn_twenty_five_points_for_one_post\' challenge for \'{post.project.name}\'')
+                        post.project.create_or_inc_challenge('earn_twenty_five_points_for_one_post')
 
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_three_seperate_posts'):
                 week, year = get_week_and_year()
