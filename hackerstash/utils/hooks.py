@@ -61,8 +61,13 @@ def init_app(app):
         count = Project.query.filter_by(published=True).count() * 2
         contest = Contest.get_current()
 
-        g.prize_pool = f'${count + contest.top_up}'
-        g.time_remaining = get_remaining_tournament_time()
+        if contest:
+            g.prize_pool = f'${count + contest.top_up}'
+            g.time_remaining = get_remaining_tournament_time()
+        else:
+            g.prize_pool = '$N/A'
+            g.time_remaining = 'N/A'
+            g.no_current_contest = True
 
     @app.after_request
     def after_request_func(response):
