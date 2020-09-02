@@ -3,6 +3,7 @@ from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image_from_url
+from hackerstash.lib.logging import logging
 from hackerstash.models.user import User
 from hackerstash.models.token import Token
 from hackerstash.lib.emails.factory import email_factory
@@ -18,7 +19,6 @@ def login() -> str:
 
     email = request.form.get('email')
     code = request.form.get('code')
-
     user = User.query.filter_by(email=email).first()
 
     if not user:
@@ -28,13 +28,12 @@ def login() -> str:
         step = 2
 
         if code:
-            valid = Token.verify(email, code)
-
-            if valid:
+            if Token.verify(email, code):
                 session['id'] = user.id
                 Token.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
+            logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
             flash('The token is invalid', 'failure')
         else:
             code = Token.generate(email)
@@ -51,7 +50,6 @@ def signup() -> str:
 
     email = request.form.get('email')
     code = request.form.get('code')
-
     user = User.query.filter_by(email=email).first()
 
     if user:
@@ -61,17 +59,15 @@ def signup() -> str:
         step = 2
 
         if code:
-            valid = Token.verify(email, code)
-
-            if valid:
+            if Token.verify(email, code):
                 user = User(email=email)
                 db.session.add(user)
                 db.session.commit()
                 session['id'] = user.id
                 Token.delete(email)
-
                 return redirect(url_for('users.show', user_id=user.id))
 
+            logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
             flash('The token is invalid', 'failure')
         else:
             code = Token.generate(email)

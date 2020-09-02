@@ -5,6 +5,7 @@ from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import verify_invite
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
@@ -56,6 +57,7 @@ def follow(user_id: str) -> str:
 @login_required
 def create() -> str:
     if User.query.filter_by(username=request.form['username']).first():
+        logging.info(f'{request.form["username"]} is already taken')
         flash('This username is already taken', 'failure')
         return render_template('users/new.html')
 
@@ -83,6 +85,7 @@ def create() -> str:
 @login_required
 def destroy() -> str:
     user = User.query.get(g.user.id)
+    logging.info(f'Deleteing user {g.user.username}')
 
     # Can't think of a way to cascade this at the db level
     if user.member and len(user.member.project.members) == 1:

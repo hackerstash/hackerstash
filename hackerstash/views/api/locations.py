@@ -26,7 +26,6 @@ def index() -> str:
         r = requests.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', params=params)
         r.raise_for_status()
         response = r.json()
-
         locations = list(map(lambda x: x['description'], response['predictions']))
         return jsonify(locations)
     except Exception as e:

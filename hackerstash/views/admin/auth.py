@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, session
+from hackerstash.lib.logging import logging
 from hackerstash.models.admin import Admin
 
 admin_auth = Blueprint('admin_auth', __name__)
@@ -13,9 +14,11 @@ def index() -> str:
     valid = admin.validate_password(request.form['password']) if admin else False
 
     if valid:
+        logging.info(f'{admin.first_name} {admin.last_name} has logged into the admin console')
         session['admin_id'] = admin.id
         return redirect(url_for('admin_dashboard.index'))
     else:
+        logging.info(f'{admin.first_name} {admin.last_name} got their password wrong in the admin console')
         flash('Nope!', 'failure')
         return redirect(url_for('admin_auth.index'))
 

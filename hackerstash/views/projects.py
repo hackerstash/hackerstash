@@ -5,6 +5,7 @@ from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.challenges.factory import challenge_factory
+from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.models.user import User
@@ -40,7 +41,6 @@ def show(project_id: str) -> str:
 
     if not project:
         return render_template('projects/404.html')
-
     # You shouldn't ever see the project page until
     # it's published
     if not project.published:
@@ -162,6 +162,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
 
     if member.owner:
+        logging.info(f'{g.user.username} tried to delete the owner ({member.user.username})')
         flash('The project owner can\'t be deleted', 'failure')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 
@@ -229,12 +230,12 @@ def publish(project_id: str) -> str:
     for field in required_fields:
         # This was `if not x`, but some values can be 0
         if getattr(project, field) is None:
+            logging.info(f'Project can\'t be published as \'{field}\' is None')
             flash(f'Please fill out all of the fields on the details tab', 'failure')
             return redirect(url_for('projects.edit', project_id=project_id, tab=4))
 
     project.published = True
     db.session.commit()
-
     return redirect(url_for('projects.show', project_id=project.id))
 
 
@@ -243,7 +244,6 @@ def publish(project_id: str) -> str:
 @member_required
 def unpublish(project_id: str) -> str:
     project = Project.query.get(project_id)
-
     project.published = False
     db.session.commit()
 
@@ -292,7 +292,6 @@ def accept_invite(invite_token: str) -> str:
         db.session.commit()
 
         notification_factory('member_verified', {'member': member}).publish()
-
         return redirect(url_for('projects.show', project_id=invite.project.id))
     else:
         # They need to create an account first

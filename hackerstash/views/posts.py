@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, g, request, redirect, url_for, get
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image
 from hackerstash.lib.challenges.factory import challenge_factory
+from hackerstash.lib.logging import logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
@@ -39,6 +40,7 @@ def show(post_id: str) -> str:
         post = Post.query.get(post_id)
         if not post:
             return render_template('posts/404.html')
+        logging.info(f'Redirecting post \'{post.id}\' as it was accessed via it\'s id')
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     post = Post.query.filter_by(url_slug=post_id).first()
@@ -62,6 +64,7 @@ def create() -> str:
     project = Project.query.get(g.user.member.project_id)
 
     if 'title' not in request.form or 'body' not in request.form:
+        logging.info('Not all fields were submitted during post create: %s', request.form)
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 

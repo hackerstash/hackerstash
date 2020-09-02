@@ -14,26 +14,22 @@ home = Blueprint('home', __name__)
 @recaptcha_required
 def index() -> str:
     if request.method == 'GET':
-        waitlist_count = Waitlist.query.count()
-        added_to_waitlist = request.cookies.get('added_to_waitlist')
-        recaptcha_site_key = config['recaptcha_site_key']
-
-        return render_template(
-            'home/index.html',
-            waitlist_count=waitlist_count,
-            added_to_waitlist=added_to_waitlist,
-            recaptcha_site_key=recaptcha_site_key
-        )
+        params = {
+            'waitlist_count': Waitlist.query.count(),
+            'added_to_waitlist': request.cookies.get('added_to_waitlist'),
+            'recaptcha_site_key': config['recaptcha_site_key']
+        }
+        return render_template('home/index.html', **params)
 
     first_mame = request.form['first_name']
     email = request.form['email']
 
+    logging.info(f'Adding {first_mame} ({email}) to the waitlist')
     Waitlist.create_is_not_exists(first_name=first_mame, email=email)
     email_factory('waitlist_confirmation', email, {'first_name': first_mame, 'email': email}).send()
 
     resp = make_response(redirect(url_for('home.index')))
     resp.set_cookie('added_to_waitlist', '1', max_age=31557600)
-
     return resp
 
 

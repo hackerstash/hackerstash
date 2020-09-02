@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from hackerstash.config import config
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.logging import logging
 from hackerstash.utils.recaptcha import recaptcha_required
 
 contact = Blueprint('contact', __name__)
@@ -20,6 +21,6 @@ def index() -> str:
         'message': request.form['message']
     }
 
+    logging.info('Sending contact email: %s', payload)
     email_factory('contact', request.form['email'], payload).send()
-
     return redirect(url_for('contact.index', success=True))

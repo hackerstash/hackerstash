@@ -12,15 +12,14 @@ api_admin = Blueprint('api_admin', __name__)
 @admin_api_key_required
 def delete_user(user_id: str):
     user = User.query.get(user_id)
+    logging.info(f'Deleting user \'{user.username}\' via the admin API')
 
     # Can't think of a way to cascade this at the db level
     if user.member and len(user.member.project.members) == 1:
         db.session.delete(user.member.project)
-
     try:
         db.session.delete(user)
         db.session.commit()
-
         return jsonify({'status': 'Accepted'}), 202
     except Exception as e:
         logging.stack('Failed to delete user %s', e)
@@ -30,6 +29,7 @@ def delete_user(user_id: str):
 @api_admin.route('/api/admin/contests/end', methods=['POST'])
 @admin_api_key_required
 def end_contest():
+    logging.info('Ending the contest via the admin API')
     try:
         week = request.args.get('week')
         year = request.args.get('year')
