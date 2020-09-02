@@ -352,7 +352,11 @@ def delete_progress(project_id: str, progress_id: str):
 def progress_settings(project_id: str):
     project = Project.query.get(project_id)
     project.progress_settings.enabled = request.form['enabled'] == 'on'
-    project.progress_settings.columns = request.form.getlist('column')
+    # There are forms where we update the settings but
+    # not the columns. Only set it if it's present!
+    columns = request.form.getlist('column')
+    if columns:
+        project.progress_settings.columns = columns
     db.session.commit()
     return redirect(url_for('projects.edit', project_id=project_id, tab='3', saved=1))
 
