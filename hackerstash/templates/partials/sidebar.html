@@ -58,7 +58,7 @@
                 <a class="project {{ 'active' if request.path == url_for('projects.show', project_id=g.user.member.project.id) }}" href="{{ url_for('projects.show', project_id=g.user.member.project.id) }}">
                     {{ avatar(g.user.member.project, 'x-sm') }}
                     <p class="split">
-                        <span>{{ g.user.member.project.name }}</span>
+                        <span class="truncate">{{ g.user.member.project.name }}</span>
                         <span>{{ g.user.member.project.vote_score }}</span>
                     </p>
                 </a>

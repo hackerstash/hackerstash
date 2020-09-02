@@ -176,11 +176,12 @@
       .split {
         display: flex;
         justify-content: space-between;
-        width: 100%;
+        width: calc(100% - 2.5rem);
 
         span:nth-of-type(2) {
           color: $blue-500;
           font-size: 14px;
+          margin-left: .5rem;
         }
       }
 
