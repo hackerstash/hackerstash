@@ -13,6 +13,7 @@ def recaptcha_required(f):
             token = request.form.get('g-recaptcha-response')
 
             if not token:
+                logging.warning('No recaptcha token submitted')
                 raise Forbidden()
 
             data = {
