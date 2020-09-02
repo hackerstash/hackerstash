@@ -37,6 +37,8 @@ def show(post_id: str) -> str:
     # one day
     if post_id.isnumeric():
         post = Post.query.get(post_id)
+        if not post:
+            return render_template('posts/404.html')
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     post = Post.query.filter_by(url_slug=post_id).first()
