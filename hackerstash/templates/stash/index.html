@@ -7,6 +7,57 @@
             <h2>{{ g.user.member.project.name }}'s Stash</h2>
         </header>
 
-        <p>Coming soon...</p>
+        <div class="split">
+            <div class="left">
+                <div class="stash-box">
+                    <p>Stash 💸</p>
+                    <h1>$0</h1>
+                    <button class="button modal-open" data-modal="stash-modal">Cash out</button>
+                </div>
+            </div>
+            <div class="right">
+                <p class="mb-2">Your stash is a wallet for your project’s tournament winnings. Each time you win a prize it will be added to your stash and it’s available to cash out at any time.</p>
+                <label class="label">💡 Tips</label>
+                <ul>
+                    <li>Think of a purchase that would best help drive your project forward and make that your cash out goal - it will keep motivated and focused on building a stash that you’ll spend wisely.</li>
+                    <li>If you’ve won a prize, make sure you thank your fellow community members! They wanted you to win, and will love hearing how you plan to use your winnings to support your business.</li>
+                    <li>Winning prizes is a great perk, but it won’t happen every week. The HackerStash community survives and thrives by putting people first, prizes second.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="mt-2 mb-2 prize-heading">Prize & Cash Out History</h3>
+
+        <div class="table">
+            <div class="table-header">
+                <p class="col-4">Transaction Type</p>
+                <p class="col-3">Date</p>
+                <p class="col-3">Tournament ID</p>
+                <p class="col-2">Value</p>
+            </div>
+            <ul class="table-body">
+                <div class="mt-4">
+                    {% include "partials/no_results.html" %}
+                </div>
+            </ul>
+        </div>
     </div>
+
+    <div id="stash-modal" class="modal">
+        <div class="modal-body sm">
+            <header>
+                <h3>Cash Out</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <div class="wrap">
+                    <p>During the trial tournaments triggering your cash out is not currently possible. Please wait patiently for a few more weeks and the functionality should be there 🙂.</p>
+                    <p>If you wish to cash out sooner, please email hello@hackerstash.com and let us know, we can try and arrange a manual transaction.</p>
+                </div>
+                <footer class="mt-3">
+                    <button class="button secondary modal-close">Cancel</button>
+                </footer>
+            </main>
+        </div>
+     </div>
 {% endblock %}

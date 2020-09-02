@@ -43,6 +43,11 @@
     }
   }
 
+  &.success {
+    background: $darkblue-800;
+    border-color: $green-400;
+  }
+
   &.link {
     align-items: center;
     background: none;

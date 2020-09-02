@@ -1,0 +1,67 @@
+.page.stash {
+  .split {
+    border-bottom: 1px solid $darkblue-900;
+    display: flex;
+    margin-top: 3rem;
+    padding-bottom: 3rem;
+
+    .left {
+      margin-right: 2rem;
+      width: 300px;
+
+      .stash-box {
+        background: $darkblue-900;
+        border: 2px solid $green-400;
+        border-radius: .5rem;
+        padding: 3rem 2rem;
+        text-align: center;
+
+        h1 {
+          margin-bottom: 2rem;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    }
+
+    .right {
+      flex: 1;
+
+      ul {
+        margin: 0;
+        padding: 0 0 0 1.25rem;
+
+        li {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+
+    @include tablet-down {
+      flex-direction: column;
+
+      .left {
+        margin: 0 0 2rem 0;
+        width: 100%;
+
+        .stash-box {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .prize-heading {
+    border-bottom: 1px solid $darkblue-900;
+    padding-bottom: 1.5rem;
+  }
+}
+
+#stash-modal {
+  .wrap {
+    height: calc(100% - 7.6em);
+    padding: 1rem 1rem 0 1rem;
+  }
+}
