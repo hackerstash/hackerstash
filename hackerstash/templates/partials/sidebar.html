@@ -1,5 +1,7 @@
 {% from "partials/avatar.html" import avatar %}
 
+{% set user_project_path = url_for('projects.show', project_id=g.user.member.project.id) if g.user and g.user.member else None %}
+
 <aside id="sidebar" class="sidebar">
     <div class="logo">
         <a href="{{ url_for('home.index') }}">
@@ -33,7 +35,7 @@
             <i class="icon ri-flashlight-line"></i>
             Posts
         </a>
-        <a class="{{ 'active' if request.path.startswith('/projects') }}" href="{{ url_for('projects.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/projects') and request.path != user_project_path }}" href="{{ url_for('projects.index') }}">
             <i class="icon ri-profile-line"></i>
             Projects
         </a>
@@ -55,7 +57,7 @@
             </a>
 
             {% if g.user.member %}
-                <a class="project {{ 'active' if request.path == url_for('projects.show', project_id=g.user.member.project.id) }}" href="{{ url_for('projects.show', project_id=g.user.member.project.id) }}">
+                <a class="project {{ 'active' if request.path == user_project_path }}" href="{{ user_project_path }}">
                     {{ avatar(g.user.member.project, 'x-sm') }}
                     <p class="split">
                         <span class="truncate">{{ g.user.member.project.name }}</span>
