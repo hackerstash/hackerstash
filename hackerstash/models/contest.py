@@ -5,6 +5,7 @@ from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
+from hackerstash.models.transaction import Transaction
 from hackerstash.utils.contest import get_week_and_year
 
 
@@ -95,6 +96,8 @@ class Contest(db.Model):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
             notification_factory('contest_ended', {'past_result': past_result}).publish()
+            if past_result.prize > 0:
+                Transaction.add_prize_winnings(past_result)
 
         # Create next weeks tournament
         args = {'week': week + 1, 'year': year, 'tournament': contest.tournament + 1}

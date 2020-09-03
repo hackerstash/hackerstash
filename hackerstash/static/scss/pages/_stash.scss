@@ -57,6 +57,37 @@
     border-bottom: 1px solid $darkblue-900;
     padding-bottom: 1.5rem;
   }
+
+  .no-transactions {
+    justify-content: center;
+  }
+
+  .tournament-name,
+  .value {
+    color: $mauve-500;
+  }
+
+  .tag {
+    margin: 0;
+
+    &.prize {
+      background: $blue-900;
+      color: $mauve-500;
+    }
+
+    &.cash_out {
+      background: $green-400;
+      color: $darkblue-800;
+    }
+  }
+
+  .table {
+    @include tablet-down {
+      li {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 #stash-modal {

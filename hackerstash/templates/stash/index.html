@@ -36,9 +36,22 @@
                 <p class="col-2">Value</p>
             </div>
             <ul class="table-body">
-                <div class="mt-4">
-                    {% include "partials/no_results.html" %}
-                </div>
+                {% for transaction in project.transactions %}
+                    <li>
+                        <p class="col-4">
+                            <span class="tag {{ transaction.type }}">
+                                {{ 'Prize' if transaction.type == 'prize' else 'Cash out' }}
+                            </span>
+                        </p>
+                        <p class="col-3 small">{{ transaction.created_at | to_contest_date }}</p>
+                        <p class="col-3 tournament-name">{{ transaction.tournament_name }}</p>
+                        <p class="col-2 value">${{ transaction.value }}</p>
+                    </li>
+                {% else %}
+                    <li class="mt-4 no-transactions">
+                        {% include "partials/no_results.html" %}
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
