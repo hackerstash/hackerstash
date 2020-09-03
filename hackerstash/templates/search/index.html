@@ -1,0 +1,52 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Search' %}
+
+{% block body %}
+    <div class="page search">
+        <header class="header">
+            <h2>Search results for: "{{ request.args.q }}"</h2>
+        </header>
+
+        <div class="wrap-620">
+            {% if results.comments %}
+                <label class="mb-1-5">Comments:</label>
+                {% for comment in results.comments %}
+                    <div class="row mb-1">
+                        <p class="mb-0-5"><a href="{{ comment.url }}">TODO</a></p>
+                        <div class="rich-text">{{ comment.body | to_safe_html | safe }}</div>
+                    </div>
+                {% endfor %}
+                <hr class="divider">
+            {% endif %}
+            {% if results.posts %}
+                <label class="mt-3 mb-1-5">Posts:</label>
+                {% for post in results.posts %}
+                    <div class="row mb-1">
+                        <p class="mb-0-5"><a href="{{ post.url }}">{{ post.title }}</a></p>
+                        <div class="rich-text">{{ post.body | to_safe_html | safe }}</div>
+                    </div>
+                {% endfor %}
+                <hr class="divider">
+            {% endif %}
+            {% if results.projects %}
+            <label class="mt-3 mb-1-5">Projects:</label>
+                {% for project in results.projects %}
+                    <div class="row mb-1">
+                        <p class="mb-0-5"><a href="{{ project.url }}">{{ project.name }}</a></p>
+                        <div class="rich-text">{{ project.description | to_safe_html | safe }}</div>
+                    </div>
+                {% endfor %}
+                <hr class="divider">
+            {% endif %}
+            {% if results.users %}
+                <label class="mt-3 mb-1-5">Users:</label>
+                {% for user in results.users %}
+                    <div class="row mb-1">
+                        <p class="mb-0-5"><a href="{{ user.url }}">{{ user.name }}</a></p>
+                        <div class="rich-text">{{ user.bio | to_safe_html | safe }}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
