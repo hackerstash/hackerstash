@@ -4,14 +4,14 @@
 {% block body %}
     <div class="page stash">
         <header class="header">
-            <h2>{{ g.user.member.project.name }}'s Stash</h2>
+            <h2>{{ project.name }}'s Stash</h2>
         </header>
 
         <div class="split">
             <div class="left">
                 <div class="stash-box">
                     <p>Stash 💸</p>
-                    <h1>$0</h1>
+                    <h1>${{ project.stash or 0 }}</h1>
                     <button class="button modal-open" data-modal="stash-modal">Cash out</button>
                 </div>
             </div>

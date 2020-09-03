@@ -47,7 +47,7 @@
             </div>
             <div class="button-group">
                 {% if project.has_member(g.user) %}
-                    <a aria-label="View Stash" href="{{ url_for('stash.index') }}" class="button success">🦄 Stash $0</a>
+                    <a aria-label="View Stash" href="{{ url_for('stash.index') }}" class="button success">🦄 Stash ${{ project.stash or 0 }}</a>
                     <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
                 {% endif %}
             </div>

@@ -1,6 +1,7 @@
 import boto3
 from hackerstash.db import db
 from hackerstash.server import app
+from hackerstash.lib.logging import logging
 from hackerstash.models.admin import Admin
 
 client = boto3.client('ssm', region_name='eu-west-1')
@@ -22,5 +23,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
         create_root_admin_user()
-
-        print('Created root admin user')
+        logging.info('Created root admin user')

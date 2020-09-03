@@ -23,9 +23,12 @@ class Transaction(db.Model):
     def add_prize_winnings(cls, past_result):
         logging.info(f'Adding prize transaction for \'{past_result.project.name}\' - ${past_result.prize}')
         tournament_name = f'{past_result.contest.year}.{past_result.contest.week}'
+        # Increase their stash
+        past_result.project.add_funds(past_result.prize['value'])
+        # Record the transaction
         transaction = cls(
             type='prize',
-            value=past_result.prize,
+            value=past_result.prize['value'],
             tournament_name=tournament_name,
             project=past_result.project
         )

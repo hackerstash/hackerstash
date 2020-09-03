@@ -1,6 +1,7 @@
 import boto3
 from hackerstash.db import db
 from hackerstash.server import app
+from hackerstash.lib.logging import logging
 from hackerstash.models.waitlist import Waitlist
 
 client = boto3.client('dynamodb', region_name='eu-west-1')
@@ -31,8 +32,6 @@ def insert_to_pg(records):
 if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
-
         waitlist = get_waitlist()
         waitlist = insert_to_pg(waitlist)
-
-        print(f'Inserted {len(waitlist)} records')
+        logging.info(f'Inserted {len(waitlist)} records')

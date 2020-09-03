@@ -1,5 +1,6 @@
 from hackerstash.db import db
 from hackerstash.server import app
+from hackerstash.lib.logging import logging
 from hackerstash.models.contest import Contest
 from hackerstash.utils.contest import get_week_and_year
 
@@ -15,4 +16,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
         create_first_contest()
-        print('Created first tournament')
+        logging.info('Created first tournament')

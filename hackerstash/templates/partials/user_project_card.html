@@ -32,7 +32,7 @@
                             <p><span>{{ user.member.project.members | length }}</span> Team members</p>
                             <p><i class="icon ri-focus-2-line"></i>Points: {{ user.member.project.vote_score }}</p>
                             {% if user.member.project.has_member(g.user) %}
-                                <p>🦄 Stash: $0</p>
+                                <p>🦄 Stash: ${{ user.member.project.stash or 0 }}</p>
                             {% endif %}
                         </div>
                     </div>

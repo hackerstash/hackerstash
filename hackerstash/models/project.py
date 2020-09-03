@@ -2,6 +2,7 @@ import json
 from flask import url_for
 from sqlalchemy.types import ARRAY
 from hackerstash.db import db
+from hackerstash.lib.logging import logging
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
@@ -33,6 +34,8 @@ class Project(db.Model):
     business_models = db.Column(ARRAY(db.String))
     fundings = db.Column(ARRAY(db.String))
     platforms_and_devices = db.Column(ARRAY(db.String))
+
+    stash = db.Column(db.Integer)
 
     members = db.relationship('Member', backref='project', cascade='all,delete')
     invites = db.relationship('Invite', backref='project', cascade='all,delete')
@@ -192,3 +195,16 @@ class Project(db.Model):
     def prize(self):
         # Not 0 indexed
         return get_prize_data_for_position(self.position - 1)
+
+    def add_funds(self, value):
+        if not self.stash:
+            self.stash = 0
+        self.stash += value
+        logging.info(f'Adding ${value} to {self.name}\'s stash, new value is ${self.stash}')
+
+    def remove_funds(self, value):
+        if (self.stash - value) < 0:
+            logging.error(f'Can\'t remove ${value} from {self.name} as their stash is only ${self.stash}!')
+        else:
+            self.stash -= value
+            logging.info(f'Removing ${value} to {self.name}\'s stash, new value is ${self.stash}')
