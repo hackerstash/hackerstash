@@ -96,7 +96,7 @@ class Contest(db.Model):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
             notification_factory('contest_ended', {'past_result': past_result}).publish()
-            if past_result.prize > 0:
+            if past_result.prize['value'] > 0:
                 Transaction.add_prize_winnings(past_result)
 
         # Create next weeks tournament
