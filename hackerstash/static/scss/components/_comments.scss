@@ -94,6 +94,12 @@
             }
           }
 
+          .delete-comment {
+            color: $blue-500;
+            font-weight: $font-weight-normal;
+            text-decoration: underline;
+          }
+
           .collapse-comments {
             span {
               color: $mauve-500;
@@ -151,6 +157,22 @@
   &.reply-form {
     .cancel {
       display: inline-block;
+    }
+  }
+}
+
+#delete-comment-modal {
+  .content {
+    height: calc(100% - 8.1rem);
+  }
+
+  footer {
+    .button {
+      margin-bottom: 1rem;
+
+      &.modal-close {
+        margin-bottom: 0;
+      }
     }
   }
 }

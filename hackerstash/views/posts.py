@@ -158,6 +158,28 @@ def create_comment(post_id: str) -> str:
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
 
+@posts.route('/posts/<post_id>/comment/<comment_id>/delete')
+@login_required
+def delete_comment(post_id: str, comment_id: str) -> str:
+    comment = Comment.query.get(comment_id)
+
+    if comment.user.id == g.user.id:
+        db.session.delete(comment)
+        # If there are comments nested under the deleted comment
+        # then just remove the reference. We'll probably need to
+        # do something smarter later!
+        for c in comment.post.comments:
+            if c.parent_comment_id == int(comment_id):
+                c.parent_comment_id = None
+        db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'fetch':
+        partial = get_template_attribute('partials/comments.html', 'comments')
+        return partial(comment.post.comments, True)
+    else:
+        return redirect(url_for('posts.show', post_id=comment.post.url_slug))
+
+
 @posts.route('/posts/<post_id>/vote')
 @login_required
 @published_project_required

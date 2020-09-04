@@ -26,6 +26,11 @@
                                     <i class="icon ri-reply-line"></i>
                                     <button class="button link small" data-id="{{ comment.id }}">Reply</button>
                                 </span>
+
+                                {% if g.user.id == comment.user.id %}
+                                    <span class="seperator reply">•</span>
+                                    <a href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
+                                {% endif %}
                             {% endif %}
 
                             {% if comment.children %}

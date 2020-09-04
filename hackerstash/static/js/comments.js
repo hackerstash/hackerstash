@@ -39,6 +39,37 @@ document.addEventListener('click', (event) => {
     if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
         event.target.closest('li').classList.toggle('collapsed');
     }
+
+    if (event.target.closest('.delete-comment')) {
+        event.preventDefault();
+
+        const link = event.target.closest('.delete-comment').getAttribute('href');
+
+        const existing = document.querySelector('#delete-comment-modal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'delete-comment-modal';
+        modal.classList.add('modal', 'open');
+        modal.innerHTML = `
+            <div class="modal-body sm">
+                <header>
+                    <h3>Delete comment</h3>
+                    <i class="icon ri-close-line modal-close"></i>
+                </header>
+                <main>
+                    <div class="content">
+                        <p>Are you sure you want to delete your comment?</p>
+                    </div>
+                    <footer>
+                        <a class="button tertiary" href="${link}">Delete</a>
+                        <button class="button secondary modal-close" type="button">Cancel</button>
+                    </footer>
+                </main>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
 });
 
 document.addEventListener('submit', (event) => {
