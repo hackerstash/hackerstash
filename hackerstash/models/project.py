@@ -3,6 +3,7 @@ from flask import url_for
 from sqlalchemy.types import ARRAY
 from hackerstash.db import db
 from hackerstash.lib.logging import logging
+from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
@@ -100,12 +101,20 @@ class Project(db.Model):
     def position(self) -> int:
         if not self.published:
             return -1
-        # NOTICE: Be aware that calling this will make an additional
-        # call to the database! Don't use it in a loop
-        projects = self.query.filter_by(published=True).all()
-        projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
-        # Where is Array.findIndex() 🤦‍
-        return [index for index, project in enumerate(projects) if project.id == self.id][0] + 1
+        # This is an awful design and is very expensive, so
+        # shove it in redis for a minute. At some point we
+        # should probably think about having projects own all
+        # the votes and not the posts/comments
+        if leaderboard := redis.get('leaderboard'):
+            leaderboard = json.loads(leaderboard)
+        else:
+            projects = self.query.filter_by(published=True).all()
+            projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
+            leaderboard = {}
+            for index, project in enumerate(projects):
+                leaderboard[project.id] = index
+            redis.set('leaderboard', json.dumps(leaderboard), ex=60)
+        return leaderboard.get(self.id, -1)
 
     @property
     def vote_score(self) -> int:
