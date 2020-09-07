@@ -112,9 +112,9 @@ class Project(db.Model):
             projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
             leaderboard = {}
             for index, project in enumerate(projects):
-                leaderboard[project.id] = index
+                leaderboard[str(project.id)] = index + 1
             redis.set('leaderboard', json.dumps(leaderboard), ex=60)
-        return leaderboard.get(self.id, -1)
+        return leaderboard.get(str(self.id), -1)
 
     @property
     def vote_score(self) -> int:
