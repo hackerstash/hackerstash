@@ -12,8 +12,6 @@ from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
-from hackerstash.models.progress import Progress
-from hackerstash.models.progress_setting import ProgressSetting
 from hackerstash.utils.auth import login_required, member_required, published_project_required
 
 projects = Blueprint('projects', __name__)
@@ -54,18 +52,15 @@ def show(project_id: str) -> str:
 def create() -> str:
     now = datetime.datetime.now()
     user = User.query.get(g.user.id)
-    columns = ['Backlog', 'To Do', 'In Progress', 'Testing', 'Done']
 
     if user.member:
         return redirect(url_for('projects.show', project_id=user.member.project.id))
 
     project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
     member = Member(owner=True, user=user, project=project)
-    prog_settings = ProgressSetting(enabled=False, columns=columns, project=project)
 
     db.session.add(project)
     db.session.add(member)
-    db.session.add(prog_settings)
     db.session.commit()
 
     return redirect(url_for('projects.edit', project_id=project.id))
@@ -232,7 +227,7 @@ def publish(project_id: str) -> str:
         if getattr(project, field) is None:
             logging.info(f'Project can\'t be published as \'{field}\' is None')
             flash(f'Please fill out all of the fields on the details tab', 'failure')
-            return redirect(url_for('projects.edit', project_id=project_id, tab=4))
+            return redirect(url_for('projects.edit', project_id=project_id, tab=3))
 
     project.published = True
     db.session.commit()
@@ -296,86 +291,3 @@ def accept_invite(invite_token: str) -> str:
     else:
         # They need to create an account first
         return redirect(url_for('auth.signup'))
-
-
-@projects.route('/projects/<project_id>/progress', methods=['POST'])
-@login_required
-@member_required
-def create_progress(project_id: str) -> str:
-    project = Project.query.get(project_id)
-
-    prog = Progress(
-        name=request.form['name'],
-        description=request.form['description'],
-        column=request.form['column'],
-        user=User.query.get(request.form['user']) if request.form['user'] else None,
-        project=project
-    )
-    db.session.add(prog)
-    db.session.commit()
-
-    return redirect(url_for('projects.show', project_id=project.id))
-
-
-@projects.route('/projects/<project_id>/progress/<progress_id>', methods=['POST'])
-@login_required
-@member_required
-def update_progress(project_id: str, progress_id: str):
-    prog = Progress.query.get(progress_id)
-    for key, value in request.form.items():
-        key = 'description' if key == 'body' else key
-        if key == 'user':
-            prog.user = User.query.get(value) if value else None
-        else:
-            setattr(prog, key, value)
-    db.session.commit()
-
-    if request.headers.get('X-Requested-With') == 'fetch':
-        return '', 204
-    else:
-        return redirect(url_for('projects.show', project_id=project_id))
-
-
-@projects.route('/projects/<project_id>/progress/<progress_id>/delete')
-@login_required
-@member_required
-def delete_progress(project_id: str, progress_id: str):
-    prog = Progress.query.get(progress_id)
-    db.session.delete(prog)
-    db.session.commit()
-    return redirect(url_for('projects.show', project_id=project_id))
-
-
-@projects.route('/projects/<project_id>/progress/update', methods=['POST'])
-@login_required
-@member_required
-def progress_settings(project_id: str):
-    project = Project.query.get(project_id)
-    project.progress_settings.enabled = request.form['enabled'] == 'on'
-    # There are forms where we update the settings but
-    # not the columns. Only set it if it's present!
-    columns = request.form.getlist('column')
-    if columns:
-        project.progress_settings.columns = columns
-    db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='3', saved=1))
-
-
-@projects.route('/projects/<project_id>/progress/delete_column', methods=['POST'])
-@login_required
-@member_required
-def delete_column(project_id):
-    project = Project.query.get(project_id)
-    old_column = request.form['old_column']
-    new_column = request.form.get('new_column')
-
-    # Remove the old column
-    project.progress_settings.columns = list(filter(lambda x: x != old_column, project.progress_settings.columns))
-    # Move over children
-    if new_column:
-        for prog in project.progress:
-            if prog.column == old_column:
-                prog.column = new_column
-
-    db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='3', saved=1))

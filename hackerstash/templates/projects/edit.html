@@ -21,8 +21,7 @@
             <div class="tab-header">
                 <a href="?tab=1" class="button {{ 'active' if active_tab == '1' }}">Project details</a>
                 <a href="?tab=2" class="button {{ 'active' if active_tab == '2' }}">Team</a>
-                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Kanban</a>
-                <a href="?tab=4" class="button {{ 'active' if active_tab == '4' }}">Subscription</a>
+                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
@@ -388,54 +387,6 @@
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == '3' }}">
-                    {% include "partials/messages.html" %}
-
-                    <form id="kanban-settings" class="form kanban" method="post" action="{{ url_for('projects.progress_settings', project_id=project.id) }}">
-                        <fieldset>
-                            <label class="label mt-2">Kanban functionality</label>
-                            <p class="wrap-620">You can turn on the HackerStash kanban board to help you keep track of your work and share progress on your project profile.</p>
-                            <ul class="radio-group mt-1 mb-3">
-                                <li>
-                                    <span class="radio">
-                                        <input class="input" type="radio" id="enabled-on" name="enabled" value="on" {{ 'checked' if project.progress_settings.enabled }}>
-                                        <span class="indicator"><span></span></span>
-                                    </span>
-                                    <label class="label" for="enabled-on">On</label>
-                                </li>
-                                <li>
-                                    <span class="radio">
-                                        <input class="input" type="radio" id="enabled-off" name="enabled" value="off" {{ 'checked' if not project.progress_settings.enabled }}>
-                                        <span class="indicator"><span></span></span>
-                                    </span>
-                                    <label class="label" for="enabled-off">Off</label>
-                                </li>
-                            </ul>
-
-                            {% if project.progress_settings.enabled %}
-                                <p class="wrap-620 mb-2">You can add, remove or rename columns using the options below. To reorder the columns please use the drag icon on the left-hand side.</p>
-
-                                <ul class="columns wrap-620">
-                                    {% for column in project.progress_settings.columns %}
-                                        <li>
-                                            <i class="ri-drag-move-2-fill drag"></i>
-                                            <input name="column" class="input mb-0" type="text" value="{{ column }}" autocomplete="off" required>
-                                            <i class="ri-close-line modal-open remove" data-modal="delete-column-{{ column | replace(' ', '___') }}"></i>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-
-                                <button class="button link add-column">+ <span>Add Column</span></button>
-                            {% endif %}
-
-                            <div class="button-group">
-                                <button class="button" type="submit">Save changes</button>
-                                <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-
-                <div class="tab {{ 'active' if active_tab == '4' }}">
                     {% if project.published %}
                         <div class="subscription-published">
                             <h3 class="mt-2 mb-3">Project Published</h3>
@@ -524,49 +475,10 @@
             </div>
         </div>
     </div>
-
-    {% for column in project.progress_settings.columns %}
-        <div id="delete-column-{{ column | replace(' ', '___') }}" class="modal">
-            <div class="modal-body sm">
-                <header>
-                    <h3>Delete column</h3>
-                    <i class="icon ri-close-line modal-close"></i>
-                </header>
-                <main>
-                    <form class="form" action="{{ url_for('projects.delete_column', project_id=project.id) }}" method="post">
-                        <fieldset>
-                            <input type="hidden" name="old_column" value="{{ column }}">
-                            {% if project.progress_settings.column_has_children(column) %}
-                                <p class="mt-1">To confirm the deletion of your '{{ column }}' column, please select a column for to remaining '{{ column }}' tasks to be reassigned to:</p>
-                                <label class="label" for="column">Column</label>
-                                <div class="select w-100 mb-3">
-                                    <select id="column" name="new_column">
-                                        <option disabled selected value>Please select</option>
-                                        {% for col in project.progress_settings.columns if col != column %}
-                                            <option value="{{ col }}">{{ col }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <i class="icon ri-arrow-drop-down-line"></i>
-                                </div>
-                            {% else %}
-                                <p class="mt-1 mb-2">Are you sure you want to remove the '{{ column }}' column from your board?</p>
-                            {% endif %}
-
-                            <footer>
-                                <button class="button tertiary" type="submit">Delete column</button>
-                                <button class="button secondary modal-close" type="button">Cancel</button>
-                            </footer>
-                        </fieldset>
-                    </form>
-                </main>
-            </div>
-        </div>
-    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
     <script type="text/javascript" src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/sortable.js"></script>
     <script type="text/javascript">
         window.onload = () => createEditor('.editor-form');
     </script>
