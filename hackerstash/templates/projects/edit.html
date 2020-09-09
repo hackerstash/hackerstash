@@ -74,7 +74,7 @@
                                 </div>
 
                                 <label class="label" for="description">Short description</label>
-                                {{ editor_light(project.description) }}
+                                {{ editor_light(project.description or '') }}
 
                                 <label class="label mt-1-5" for="url">Web address <span>(URL)</span></label>
                                 <input class="input" name="url" id="url" placeholder="e.g. catbook.com" value="{{ project.url or '' }}">
