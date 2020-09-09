@@ -68,6 +68,9 @@ def create() -> str:
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
+    if not project.published:
+        return redirect(url_for('posts.index'))
+
     title = request.form['title']
     url_slug = Post.generate_url_slug(title)
     body, mentioned_users = proccess_mentions(request.form['body'])
@@ -137,11 +140,13 @@ def create_comment(post_id: str) -> str:
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
-    if not request.form['body']:
+    if not request.form['body'] or not user.member.project.published:
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     body, mentioned_users = proccess_mentions(request.form['body'])
     parent_comment_id = request.form.get('parent_comment_id')
+    # Some weirdness going on with bad values trying to get added
+    parent_comment_id = parent_comment_id if parent_comment_id.isnumberic() else None
     comment = Comment(body=body, parent_comment_id=parent_comment_id, user=user, post_id=post.id)
 
     post.comments.append(comment)
