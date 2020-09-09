@@ -24,7 +24,7 @@ def to_safe_html(value: str) -> str:
     # List of all allowed tags
     tags = ['h1', 'h2', 'h3', 'p', 'span', 'ul', 'ol', 'li', 'pre', 'a', 'img', 'strong', 'br', 'em', 'u', 's']
     # List of all allowed attributes for tags
-    attrs = {'img': ['src'], 'a': ['href', 'data-preview', 'class']}
+    attrs = {'img': ['src'], 'a': ['href', 'data-preview', 'class', 'target', 'rel']}
     return bleach.clean(value or '', tags=tags, attributes=attrs, strip=True)
 
 

@@ -146,7 +146,7 @@ def create_comment(post_id: str) -> str:
     body, mentioned_users = proccess_mentions(request.form['body'])
     parent_comment_id = request.form.get('parent_comment_id')
     # Some weirdness going on with bad values trying to get added
-    parent_comment_id = parent_comment_id if parent_comment_id.isnumberic() else None
+    parent_comment_id = parent_comment_id if parent_comment_id and parent_comment_id.isnumeric() else None
     comment = Comment(body=body, parent_comment_id=parent_comment_id, user=user, post_id=post.id)
 
     post.comments.append(comment)

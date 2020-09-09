@@ -1,6 +1,19 @@
 function createEditor(form) {
     const selector = s => document.querySelector(`${form} ${s}`);
 
+    const Link = Quill.import('formats/link');
+
+    class CustomLink extends Link {
+        static create(value) {
+            const node = super.create(value);
+            node.setAttribute('target', '_blank');
+            node.setAttribute('rel', 'nofollow noreferrer');
+            return node;
+        }
+    }
+
+    Quill.register(CustomLink);
+
     const editor = new Quill(`${form} .editor`, {
         modules: {
             toolbar: {
