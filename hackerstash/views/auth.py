@@ -11,6 +11,11 @@ from hackerstash.lib.emails.factory import email_factory
 auth = Blueprint('auth', __name__)
 
 
+def set_session(user):
+    session['id'] = user.id
+    session.permanent = True
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login() -> str:
     if request.method == 'GET':
@@ -29,7 +34,7 @@ def login() -> str:
 
         if code:
             if Token.verify(email, code):
-                session['id'] = user.id
+                set_session(user)
                 Token.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
@@ -63,7 +68,7 @@ def signup() -> str:
                 user = User(email=email)
                 db.session.add(user)
                 db.session.commit()
-                session['id'] = user.id
+                set_session(user)
                 Token.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
@@ -100,7 +105,7 @@ def google_callback() -> str:
     user = User.query.filter_by(email=google_user['email']).first()
 
     if user:
-        session['id'] = user.id
+        set_session(user)
         return redirect(url_for('users.show', user_id=user.id))
 
     # Use their google photo if it exists
@@ -114,7 +119,7 @@ def google_callback() -> str:
     )
     db.session.add(user)
     db.session.commit()
-    session['id'] = user.id
+    set_session(user)
 
     return redirect(url_for('users.new'))
 
@@ -127,7 +132,7 @@ def twitter_callback() -> str:
     user = User.query.filter_by(email=twitter_user['email']).first()
 
     if user:
-        session['id'] = user.id
+        set_session(user)
         return redirect(url_for('users.show', user_id=user.id))
 
     name = twitter_user['name'].split(' ')
@@ -151,6 +156,6 @@ def twitter_callback() -> str:
     )
     db.session.add(user)
     db.session.commit()
-    session['id'] = user.id
+    set_session(user)
 
     return redirect(url_for('users.new'))

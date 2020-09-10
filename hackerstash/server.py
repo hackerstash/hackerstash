@@ -1,9 +1,8 @@
+from datetime import timedelta
 from flask import Flask
 from flask_migrate import Migrate
-from flask_session import Session
 from hackerstash.config import config
 from hackerstash.db import db
-from hackerstash.lib.redis import redis
 
 from hackerstash.utils.assets import assets
 from hackerstash.utils import filters
@@ -34,15 +33,13 @@ from hackerstash.views.users import users
 from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
 
 app = Flask(__name__)
-session = Session()
 migrate = Migrate()
 
 app.debug = config['debug']
 app.secret_key = config['secret']
-app.config['SESSION_TYPE'] = 'redis'
-app.config['SESSION_REDIS'] = redis
 app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
+app.permanent_session_lifetime = timedelta(days=365)
 
 # Add API blueprints
 app.register_blueprint(api_admin)
@@ -77,7 +74,6 @@ app.register_blueprint(twitter_blueprint)
 def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
-    session.init_app(app)
     assets.init_app(app)
     filters.init_app(app)
     hooks.init_app(app)
