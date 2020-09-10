@@ -63,14 +63,20 @@
             </div>
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'posts' }}">
-                    {{ posts(user.posts) }}
+                    {% if active_tab == 'posts' %}
+                        {{ posts(user.posts) }}
+                    {% endif %}
                 </div>
                 <div class="tab {{ 'active' if active_tab == 'comments' }}">
-                    {{ comments(user.comments) }}
+                    {% if active_tab == 'comments' %}
+                        {{ comments(user.comments) }}
+                    {% endif %}
                 </div>
                 <div class="tab {{ 'active' if active_tab == 'votes' }}">
-                    <p class="wrap-620 mb-2-5">Record of points @{{ user.username }} has awarded to projects, posts and comments of competitors</p>
-                    {{ votes(user.votes) }}
+                    {% if active_tab == 'votes' %}
+                        <p class="wrap-620 mb-2-5">Record of points @{{ user.username }} has awarded to projects, posts and comments of competitors</p>
+                        {{ votes(user.votes) }}
+                    {% endif %}
                 </div>
             </div>
         </div>

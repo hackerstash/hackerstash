@@ -16,9 +16,9 @@ class HealthCheckFilter(logging.Filter):
         return '/__ping' not in record.getMessage()
 
 
-# class StaticFileFilter(logging.Filter):
-#     def filter(self, record):
-#         return '/static/' not in record.getMessage()
+class StaticFileFilter(logging.Filter):
+    def filter(self, record):
+        return '/static/' not in record.getMessage()
 
 
 bind = '0.0.0.0:5000'

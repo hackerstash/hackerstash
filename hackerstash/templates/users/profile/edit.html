@@ -41,8 +41,7 @@
                 <input class="input" name="twitter" id="twitter" placeholder="e.g. @hackerstash" value="{{ g.user.twitter or '' }}">
 
                 <label class="label" for="bio">Bio</label>
-                {{ editor_light(g.user.bio) }}
-<!--                <textarea class="input textarea" name="bio" id="bio" rows="5">{{ g.user.bio or '' }}</textarea>-->
+                {{ editor_light(g.user.bio or '') }}
 
                 <div class="button-group mt-3">
                     <button class="button" type="submit">Save changes</button>
