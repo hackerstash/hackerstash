@@ -30,8 +30,15 @@ def sum_of_project_votes(project) -> int:
     score += sum_of_votes(project.votes)
     score += sum_of_weekly_challenges(project)
 
+    # Tally up all the votes from the posts that
+    # are owned by the project
     for post in project.posts:
         score += sum_of_votes(post.votes)
-        for comment in post.comments:
+
+    # Tally up all the votes that are authored by
+    # members of the project
+    for member in project.members:
+        for comment in member.user.comments:
             score += sum_of_votes(comment.votes)
+
     return score
