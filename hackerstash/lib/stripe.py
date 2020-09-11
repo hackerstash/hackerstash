@@ -60,8 +60,9 @@ def handle_checkout_complete(customer_id, subscription_id):
     db.session.commit()
 
 
-def handle_subscription_cancelled(member, subscription_id):
+def handle_subscription_cancelled(member):
     logging.info(f'Cancelling subscription for project "{member.project.name}"')
     member.project.published = False
-    stripe.Subscription.delete(subscription_id)
+    stripe.Customer.delete(member.stripe_customer_id)
+    stripe.Subscription.delete(member.stripe_subscription_id)
     db.session.commit()

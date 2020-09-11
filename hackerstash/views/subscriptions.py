@@ -81,5 +81,5 @@ def checkout_failure():
 @login_required
 def cancel_subscription():
     member = g.user.member
-    handle_subscription_cancelled(member, member.stripe_subscription_id)
+    handle_subscription_cancelled(member)
     return redirect(url_for('projects.edit', project_id=member.project.id, tab='3'))
