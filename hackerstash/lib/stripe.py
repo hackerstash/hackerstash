@@ -8,21 +8,19 @@ stripe.api_key = config['stripe_api_secret_key']
 
 
 def create_customer(user):
+    logging.info(f'Created a new customer for "{user.username}"')
     customer = stripe.Customer.create(email=user.email)
     user.member.stripe_customer_id = customer['id']
+    db.session.commit()
     return customer
 
 
-def create_session(customer_id):
+def create_session(member):
+    logging.info(f'Creating session for "{member.user.username}"')
     return stripe.checkout.Session.create(
-        customer=customer_id,
+        customer=member['customer_id'],
         payment_method_types=['card'],
-        line_items=[
-            {
-                'price': config['stripe_price_id'],
-                'quantity': 1,
-            }
-        ],
+        line_items=[{'price': config['stripe_price_id'], 'quantity': 1}],
         mode='subscription',
         success_url=config['stripe_success_uri'],
         cancel_url=config['stripe_failure_uri']
@@ -63,7 +61,7 @@ def handle_checkout_complete(customer_id, subscription_id):
 
 
 def handle_subscription_cancelled(member, subscription_id):
-    member.project.published = False
     logging.info(f'Cancelling subscription for project "{member.project.name}"')
+    member.project.published = False
     stripe.Subscription.delete(subscription_id)
     db.session.commit()

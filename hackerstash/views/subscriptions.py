@@ -1,6 +1,5 @@
 import json
 from flask import Blueprint, request, jsonify, g, redirect, url_for, flash
-from hackerstash.db import db
 from hackerstash.lib.logging import logging
 from hackerstash.lib.stripe import create_customer, create_session, \
     handle_invoice_paid, handle_payment_failed, handle_checkout_complete, \
@@ -48,23 +47,14 @@ def create_stripe_customer():
     if member.stripe_customer_id:
         logging.info(f'User "{g.user.username}" is already a customer')
         return jsonify({'customer_id': member.stripe_customer_id})
-    # TODO:
-    # Additional checks should be added here to make sure there is not already
-    # a paying user for this project
     customer = create_customer(g.user)
-    db.session.commit()
-    logging.info(f'Created a new customer for "{g.user.username}"')
     return jsonify({'customer_id': customer['id']})
 
 
 @subscriptions.route('/stripe/session', methods=['POST'])
 @login_required
 def create_checkout_session():
-    member = g.user.member
-    if not member or not member.stripe_customer_id:
-        logging.info(f'User "{g.user.username}" is not a customer so can\'t checkout')
-        return jsonify({'error': 'Not a stripe customer'})
-    session = create_session(member.stripe_customer_id)
+    session = create_session(g.user.member)
     logging.info(f'Created session for "{g.user.username}"')
     return jsonify({'session': session})
 
@@ -84,7 +74,7 @@ def checkout_failure():
     project = g.user.member.project
     logging.warning(f'Payment failed for "{project.name}"')
     flash('Subscription failed to create', 'failure')
-    return redirect(url_for('projects.edit', project_id=project.id, tab='3', success='0'))
+    return redirect(url_for('projects.edit', project_id=project.id, tab='3'))
 
 
 @subscriptions.route('/stripe/subscription/cancel')
