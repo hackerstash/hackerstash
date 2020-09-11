@@ -1,6 +1,7 @@
 import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from hackerstash.db import db
+from hackerstash.config import config
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
@@ -71,7 +72,8 @@ def create() -> str:
 @member_required
 def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
-    return render_template('projects/edit.html', project=project)
+    stripe_api_key = config['stripe_api_key']
+    return render_template('projects/edit.html', project=project, stripe_api_key=stripe_api_key)
 
 
 @projects.route('/projects/<project_id>/posts')
