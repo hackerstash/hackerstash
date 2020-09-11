@@ -36,11 +36,18 @@
         <hr class="divider mt-3 mb-3">
 
         {% if request.args.delete == '1' %}
-            <p>Are you sure you wish to remove {{ member.user.first_name }} from your team?</p>
-            <p>Once removed the user account will still be active but no longer associated with your project. Any remaining points they have not used for voting will be redistributed between remaining Codefree team members. Historical posts by this team member will still be attributed to them, but any points they are awarded will still be applicable to your project.</p>
+            {% if member.user.id == g.user.id %}
+                <p>Are you sure you wish to remove yourself from the {{ project.name }} team?</p>
+                <p>Once removed your user account will still be active but no longer associated with this project. Your historical posts will still be be attributed to you, and any points they are awarded will still be applicable to the HackerStash project.</p>
+            {% else %}
+                <p>Are you sure you wish to remove {{ member.user.first_name }} from your team?</p>
+                <p>Once removed the user account will still be active but no longer associated with your project. Any remaining points they have not used for voting will be redistributed between remaining Codefree team members. Historical posts by this team member will still be attributed to them, but any points they are awarded will still be applicable to your project.</p>
+            {% endif %}
             <div class="button-group mt-3">
-                <a href="{{ url_for('projects.delete_member', project_id=project.id, member_id=member.id) }}" class="button tertiary">Delete forever</a>
-                <a class="button secondary" href="{{ url_for('projects.delete_member', project_id=project.id, member_id=member.id) }}">Cancel</a>
+                <a href="{{ url_for('projects.delete_member', project_id=project.id, member_id=member.id) }}" class="button tertiary">
+                    {{ "Yes, I'm leaving" if member.user.id == g.user.id else 'Yes, remove user'  }}
+                </a>
+                <a class="button secondary" href="?">Cancel</a>
             </div>
         {% else %}
             <div class="button-group">
