@@ -5,7 +5,7 @@
 {% from "partials/editor.html" import editor_light %}
 {% from "partials/previews.html" import user_preview %}
 
-{% set active_tab = request.args.get('tab') or '1' %}
+{% set active_tab = request.args.get('tab') or 'details' %}
 
 {% block body %}
     <div class="page edit-project">
@@ -19,13 +19,13 @@
 
         <div class="tabs">
             <div class="tab-header">
-                <a href="?tab=1" class="button {{ 'active' if active_tab == '1' }}">Project details</a>
-                <a href="?tab=2" class="button {{ 'active' if active_tab == '2' }}">Team</a>
-                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Subscription</a>
+                <a href="?tab=details" class="button {{ 'active' if active_tab == 'details' }}">Project details</a>
+                <a href="?tab=team" class="button {{ 'active' if active_tab == 'team' }}">Team</a>
+                <a href="?tab=subscriptions" class="button {{ 'active' if active_tab == 'subscriptions' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
-                <div class="tab {{ 'active' if active_tab == '1' }}">
+                <div class="tab {{ 'active' if active_tab == 'details' }}">
                     <form class="form editor-form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
                         <fieldset>
                             <section class="wrap-620 mt-2">
@@ -323,7 +323,7 @@
                     </form>
                 </div>
 
-                <div class="tab {{ 'active' if active_tab == '2' }}">
+                <div class="tab {{ 'active' if active_tab == 'team' }}">
                     <label class="label mt-1 mb-1">Team members</label>
                     <p class="wrap-620 mb-2">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
                     <ul class="team">
@@ -386,9 +386,37 @@
                     </form>
                 </div>
 
-                <div class="tab {{ 'active' if active_tab == '3' }}">
+                <div class="tab {{ 'active' if active_tab == 'subscriptions' }}">
                     {% if project.published %}
-                        <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel Subscription</a>
+                        {% if request.args.manage %}
+                            <a href="?tab=subscriptions" class="button secondary">Cancel</a>
+                        {% else %}
+                            <div class="subscription-published">
+                                <h3 class="mt-2 mb-3">Project Published</h3>
+                                <h4 class="mb-1-5">Payment schedule</h4>
+                                <dl>
+                                    <dt>Subscription</dt>
+                                    <dd>$5 per month</dd>
+                                    <dt>Next payment</dt>
+                                    <dd>N/A</dd>
+                                </dl>
+
+                                <h4 class="mt-2 mb-1-5">Payee details</h4>
+                                <dl>
+                                    <dt>Name</dt>
+                                    <dd>{{ payment_details.name }}</dd>
+                                    <dt>Email</dt>
+                                    <dd>{{ payment_details.email }}</dd>
+                                    <dt>Card number</dt>
+                                    <dd>{{ payment_details.card_number }}</dd>
+                                </dl>
+
+                                <div class="button-group mt-3">
+                                    <a href="?tab=subscriptions&manage=1" class="button">Manage subscription</a>
+                                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel subscription</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% else %}
                         <button class="button" id="checkout-button">Create Subscription</button>
                     {% endif %}

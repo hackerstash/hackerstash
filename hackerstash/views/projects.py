@@ -9,6 +9,7 @@ from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.project_filtering import project_filtering
+from hackerstash.lib.stripe import get_payment_details
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
@@ -73,7 +74,11 @@ def create() -> str:
 def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
     stripe_api_key = config['stripe_api_key']
-    return render_template('projects/edit.html', project=project, stripe_api_key=stripe_api_key)
+    payment_details = None
+    if request.args.get('tab') == 'subscriptions' and project.published:
+        payment_details = get_payment_details(g.user)
+    data = {'project': project, 'stripe_api_key': stripe_api_key, 'payment_details': payment_details}
+    return render_template('projects/edit.html', **data)
 
 
 @projects.route('/projects/<project_id>/posts')
@@ -149,7 +154,7 @@ def update_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
     member.role = request.form['role']
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2', saved=1))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='team', saved=1))
 
 
 @projects.route('/projects/<project_id>/members/<member_id>/delete')
@@ -171,7 +176,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     if g.user.id == member.user.id:
         return redirect(url_for('users.show', user_id=member.user.id))
     else:
-        return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+        return redirect(url_for('projects.edit', project_id=project_id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/members/create', methods=['POST'])
@@ -200,7 +205,7 @@ def invite_member(project_id: str) -> str:
         else:
             email_factory('invite_to_project', email, {'invite': invite, 'inviter': g.user}).send()
 
-    return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
+    return redirect(url_for('projects.edit', project_id=project.id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/invites/<invite_id>/delete')
@@ -210,41 +215,7 @@ def remove_invite(project_id: str, invite_id: str) -> str:
     invite = Invite.query.get(invite_id)
     db.session.delete(invite)
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
-
-
-@projects.route('/projects/<project_id>/publish', methods=['POST'])
-@login_required
-@member_required
-def publish(project_id: str) -> str:
-    project = Project.query.get(project_id)
-
-    required_fields = [
-        'name', 'start_month', 'start_year', 'description',
-        'url', 'location', 'platforms_and_devices', 'business_models', 'fundings'
-    ]
-
-    for field in required_fields:
-        # This was `if not x`, but some values can be 0
-        if getattr(project, field) is None:
-            logging.info(f'Project can\'t be published as \'{field}\' is None')
-            flash(f'Please fill out all of the fields on the details tab', 'failure')
-            return redirect(url_for('projects.edit', project_id=project_id, tab=3))
-
-    project.published = True
-    db.session.commit()
-    return redirect(url_for('projects.show', project_id=project.id))
-
-
-@projects.route('/projects/<project_id>/unpublish')
-@login_required
-@member_required
-def unpublish(project_id: str) -> str:
-    project = Project.query.get(project_id)
-    project.published = False
-    db.session.commit()
-
-    return redirect(url_for('projects.show', project_id=project.id))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/vote')

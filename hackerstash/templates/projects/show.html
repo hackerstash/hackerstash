@@ -80,7 +80,7 @@
                 <div class="title">
                     <h3>Team</h3>
                     {% if project.has_member(g.user) %}
-                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Edit</a>
+                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">Edit</a>
                     {% endif %}
                 </div>
                 <p class="mt-1-5">{% if project.members | length > 1 %}There are {{ project.members | length }} people{% else %}There is 1 person{% endif %} working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>

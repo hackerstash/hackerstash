@@ -54,7 +54,7 @@ def create_stripe_customer():
 @subscriptions.route('/stripe/session', methods=['POST'])
 @login_required
 def create_checkout_session():
-    session = create_session(g.user.member)
+    session = create_session(g.user)
     logging.info(f'Created session for "{g.user.username}"')
     return jsonify({'session': session})
 
@@ -65,7 +65,7 @@ def checkout_success():
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
     flash('Subscription created successfully')
-    return redirect(url_for('projects.edit', project_id=project.id, tab='3'))
+    return redirect(url_for('projects.edit', project_id=project.id, tab='subscriptions'))
 
 
 @subscriptions.route('/stripe/checkout/failure')
@@ -74,7 +74,7 @@ def checkout_failure():
     project = g.user.member.project
     logging.warning(f'Payment failed for "{project.name}"')
     flash('Subscription failed to create', 'failure')
-    return redirect(url_for('projects.edit', project_id=project.id, tab='3'))
+    return redirect(url_for('projects.edit', project_id=project.id, tab='subscriptions'))
 
 
 @subscriptions.route('/stripe/subscription/cancel')
@@ -82,4 +82,4 @@ def checkout_failure():
 def cancel_subscription():
     member = g.user.member
     handle_subscription_cancelled(member)
-    return redirect(url_for('projects.edit', project_id=member.project.id, tab='3'))
+    return redirect(url_for('projects.edit', project_id=member.project.id, tab='subscriptions'))

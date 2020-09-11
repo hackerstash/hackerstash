@@ -5,7 +5,7 @@
     <div class="page rules">
         <header class="header">
             <h2>Edit Team Member</h2>
-            <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">
+            <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">
                 <i class="ri-arrow-left-line"></i>
                 Back
             </a>
@@ -28,14 +28,14 @@
 
                 <div class="button-group">
                     <button type="submit" class="button">Save changes</button>
-                    <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Cancel</a>
+                    <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">Cancel</a>
                 </div>
             </fieldset>
         </form>
 
         <hr class="divider mt-3 mb-3">
 
-        {% if request.args.delete == '1' %}
+        {% if request.args.delete == 'details' %}
             {% if member.user.id == g.user.id %}
                 <p>Are you sure you wish to remove yourself from the {{ project.name }} team?</p>
                 <p>Once removed your user account will still be active but no longer associated with this project. Your historical posts will still be be attributed to you, and any points they are awarded will still be applicable to the HackerStash project.</p>
