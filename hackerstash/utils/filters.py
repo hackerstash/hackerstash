@@ -126,8 +126,8 @@ def fundings(value: str) -> str:
     return items.get(value, value)
 
 
-def to_ordinal_ending(number: int) -> str:
-    return "tsnrhtdd"[(number / 10 % 10 != 1) * (number % 10 < 4) * number % 10::4]
+def to_ordinal_ending(n: int) -> str:
+    return "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4]
 
 
 def to_nice_url(url: str) -> str:
