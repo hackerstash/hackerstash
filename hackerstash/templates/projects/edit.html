@@ -10,10 +10,20 @@
 {% block body %}
     <div class="page edit-project">
         <header class="header">
-            <h2>Edit Project</h2>
+            <div>
+                <h2>Edit Project</h2>
+                {% if project.published %}
+                    <span class="tag publish-status success">Published</span>
+                {% else %}
+                    <span class="tag publish-status tertiary">Unublished</span>
+                {% endif %}
 
-            {% if not project.published %}
-                <span class="tag tertiary">UNPUBLISHED</span>
+            </div>
+
+            {% if project.published and g.user.member.owner %}
+                <a class="button secondary" href="{{ url_for('projects.subscription', project_id=project.id) }}">Manage Subscription</a>
+            {% else %}
+                <button class="button success modal-open" data-modal="publish-modal">Publish Project</button>
             {% endif %}
         </header>
 
@@ -21,7 +31,6 @@
             <div class="tab-header">
                 <a href="?tab=details" class="button {{ 'active' if active_tab == 'details' }}">Project details</a>
                 <a href="?tab=team" class="button {{ 'active' if active_tab == 'team' }}">Team</a>
-                <a href="?tab=subscriptions" class="button {{ 'active' if active_tab == 'subscriptions' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
@@ -385,51 +394,15 @@
                         </fieldset>
                     </form>
                 </div>
-
-                <div class="tab {{ 'active' if active_tab == 'subscriptions' }}">
-                    {% if project.published %}
-                        {% if request.args.manage %}
-                            <a href="?tab=subscriptions" class="button secondary">Cancel</a>
-                        {% else %}
-                            <div class="subscription-published">
-                                <h3 class="mt-2 mb-3">Project Published</h3>
-                                <h4 class="mb-1-5">Payment schedule</h4>
-                                <dl>
-                                    <dt>Subscription</dt>
-                                    <dd>$5 per month</dd>
-                                    <dt>Next payment</dt>
-                                    <dd>N/A</dd>
-                                </dl>
-
-                                <h4 class="mt-2 mb-1-5">Payee details</h4>
-                                <dl>
-                                    <dt>Name</dt>
-                                    <dd>{{ payment_details.name }}</dd>
-                                    <dt>Email</dt>
-                                    <dd>{{ payment_details.email }}</dd>
-                                    <dt>Card number</dt>
-                                    <dd>{{ payment_details.card_number }}</dd>
-                                </dl>
-
-                                <div class="button-group mt-3">
-                                    <a href="?tab=subscriptions&manage=1" class="button">Manage subscription</a>
-                                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel subscription</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% else %}
-                        <button class="button" id="checkout-button">Create Subscription</button>
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
+
+    {% include "partials/publish_modal.html" %}
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://js.stripe.com/v3/"></script>
     <script type="text/javascript">
-        const stripe = Stripe('{{ stripe_api_key }}');
         window.onload = () => createEditor('.editor-form');
     </script>
 {% endblock %}

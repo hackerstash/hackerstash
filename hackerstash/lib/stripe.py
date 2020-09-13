@@ -12,26 +12,32 @@ def create_customer(user):
     # id to the project member. With this information you can
     # create a session, which will allow you to request the
     # first payment
-    logging.info(f'Created a new customer for "{user.username}"')
     customer = stripe.Customer.create(email=user.email)
-    user.member.stripe_customer_id = customer['id']
-    db.session.commit()
-    return customer
+    return customer['id']
 
 
-def create_session(user):
+def create_session(stripe_customer_id):
     # Create the session, this effectively gives them access to
     # the "cart". The session id is used by the front end to
     # redirect the user offsite to set up their payment details.
-    logging.info(f'Creating session for "{user.username}"')
     return stripe.checkout.Session.create(
-        customer=user.member.stripe_customer_id,
+        customer=stripe_customer_id,
         payment_method_types=['card'],
         line_items=[{'price': config['stripe_price_id'], 'quantity': 1}],
         mode='subscription',
         success_url=config['stripe_success_uri'],
         cancel_url=config['stripe_failure_uri']
     )
+
+
+def get_subscription(customer_id):
+    # Get the customers subscription if they have one. We use this
+    # to check that the user doesn't alreay have a subscription
+    # before creating a new one as we don't want to double charge
+    # them.
+    response = stripe.Subscription.list(customer=customer_id, limit=1)
+    subscriptions = response['data']
+    return subscriptions[0] if subscriptions else None
 
 
 def get_payment_details(user):
@@ -110,5 +116,6 @@ def handle_subscription_cancelled(member):
     logging.info(f'Cancelling subscription for project "{member.project.name}"')
     member.project.published = False
     stripe.Customer.delete(member.stripe_customer_id)
-    stripe.Subscription.delete(member.stripe_subscription_id)
+    # I think deleting the customer also deletes the subscription
+    # stripe.Subscription.delete(member.stripe_subscription_id)
     db.session.commit()

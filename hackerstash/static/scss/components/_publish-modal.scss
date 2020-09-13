@@ -1,0 +1,52 @@
+#publish-modal {
+  header div {
+    align-items: center;
+    display: flex;
+  }
+
+  .tag {
+    background: $blue-900;
+    border-color: $blue-900;
+    border-radius: .5rem;
+    color: $mauve-500;
+    padding: .2rem .5rem;
+  }
+
+  main {
+    .split {
+      display: flex;
+      padding: 1rem 1rem 2rem 1rem;
+    }
+
+    .right {
+      background: $darkblue-900;
+      border-radius: .5rem;
+      flex-shrink: 0;
+      margin-left: 2rem;
+      padding: 1.5rem;
+      width: 200px;
+    }
+  }
+
+  @include tablet-down {
+    header div {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .tag {
+        margin: .5rem 0 0 0;
+      }
+    }
+
+    main {
+      .split {
+        flex-direction: column;
+      }
+
+      .right {
+        margin: 1.5rem 0 0 0;
+        width: 100%;
+      }
+    }
+  }
+}

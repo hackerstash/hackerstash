@@ -1,7 +1,6 @@
 import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from hackerstash.db import db
-from hackerstash.config import config
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
@@ -73,12 +72,21 @@ def create() -> str:
 @member_required
 def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
-    stripe_api_key = config['stripe_api_key']
-    payment_details = None
-    if request.args.get('tab') == 'subscriptions' and project.published:
-        payment_details = get_payment_details(g.user)
-    data = {'project': project, 'stripe_api_key': stripe_api_key, 'payment_details': payment_details}
-    return render_template('projects/edit.html', **data)
+    return render_template('projects/edit.html', project=project)
+
+
+@projects.route('/projects/<project_id>/subscription')
+@login_required
+@member_required
+def subscription(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    # This is for the owner only!
+    if not g.user.member.owner:
+        return render_template('projects/401.html')
+    if not project.published:
+        return redirect(url_for('projects.show', project_id=project_id))
+    payment_details = get_payment_details(g.user)
+    return render_template('projects/subscription/index.html', project=project, payment_details=payment_details)
 
 
 @projects.route('/projects/<project_id>/posts')

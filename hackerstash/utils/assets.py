@@ -22,7 +22,6 @@ scripts = [
     'js/previews.js',
     'js/projects.js',
     'js/recaptcha.js',
-    'js/stripe.js',
     'js/toast.js',
     'js/typeaheads.js',
     'js/votes.js'

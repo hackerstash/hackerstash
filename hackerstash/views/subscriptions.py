@@ -1,9 +1,11 @@
 import json
-from flask import Blueprint, request, jsonify, g, redirect, url_for, flash
+from flask import Blueprint, request, jsonify, g, redirect, url_for, flash, get_template_attribute
+from hackerstash.db import db
+from hackerstash.config import config
 from hackerstash.lib.logging import logging
 from hackerstash.lib.stripe import create_customer, create_session, \
     handle_invoice_paid, handle_payment_failed, handle_checkout_complete, \
-    handle_subscription_deleted, handle_subscription_cancelled
+    handle_subscription_deleted, handle_subscription_cancelled, get_subscription
 from hackerstash.utils.auth import login_required
 
 subscriptions = Blueprint('subscriptions', __name__)
@@ -14,9 +16,6 @@ def webhook_received():
     request_data = json.loads(request.data)
     event_data = request_data['data']['object']
     event_type = request_data['type']
-
-    # Unused hooks:
-    # ['invoice.finalized', 'customer.subscription.trial_will_end']
 
     if event_type == 'invoice.paid':
         logging.info(f'Handling webhook event type "{event_type}"')
@@ -37,26 +36,37 @@ def webhook_received():
     return jsonify({'status': 'success'})
 
 
-@subscriptions.route('/stripe/customer', methods=['POST'])
+@subscriptions.route('/stripe/checkout', methods=['POST'])
 @login_required
-def create_stripe_customer():
+def checkout():
     member = g.user.member
-    if not member:
-        logging.info(f'User "{g.user.username}" is not a member of a project so can\'t become a customer')
-        return jsonify({'error': 'Not a member of a project'}), 400
-    if member.stripe_customer_id:
-        logging.info(f'User "{g.user.username}" is already a customer')
-        return jsonify({'customer_id': member.stripe_customer_id})
-    customer = create_customer(g.user)
-    return jsonify({'customer_id': customer['id']})
+    logging.info(f'Checking out user "{g.user.username}"')
+    # Only the owner of a project can create a subscription
+    if not member or not member.owner:
+        flash('Only the owner can create a subscription', 'error')
+        return redirect(url_for('projects.subscriptions'))
 
+    # Create the stripe customer and assign the customer id
+    # to the member if they aren't already a customer
+    if (customer_id := member.stripe_customer_id) is None:
+        customer_id = create_customer(g.user)
+        member.stripe_customer_id = customer_id
+        db.session.commit()
 
-@subscriptions.route('/stripe/session', methods=['POST'])
-@login_required
-def create_checkout_session():
-    session = create_session(g.user)
-    logging.info(f'Created session for "{g.user.username}"')
-    return jsonify({'session': session})
+    # If the subscription exists we should bail as we don't
+    # want to create more than one subscription
+    if member.stripe_subscription_id or get_subscription(customer_id):
+        # TODO Don't create a subscription if they exist
+        return redirect(url_for('projects.subscriptions'))
+
+    # Create the session that allows them to check out if they
+    # don't already have a subscription
+    session = create_session(customer_id)
+
+    # Render the checkout partial and send it. It will automatically
+    # redirect the user to the checkout
+    partial = get_template_attribute('partials/checkout.html', 'checkout')
+    return partial(session, config['stripe_api_key'])
 
 
 @subscriptions.route('/stripe/checkout/success')
@@ -65,7 +75,7 @@ def checkout_success():
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
     flash('Subscription created successfully')
-    return redirect(url_for('projects.edit', project_id=project.id, tab='subscriptions'))
+    return redirect(url_for('projects.subscriptions'))
 
 
 @subscriptions.route('/stripe/checkout/failure')
@@ -74,7 +84,7 @@ def checkout_failure():
     project = g.user.member.project
     logging.warning(f'Payment failed for "{project.name}"')
     flash('Subscription failed to create', 'failure')
-    return redirect(url_for('projects.edit', project_id=project.id, tab='subscriptions'))
+    return redirect(url_for('projects.edit', project_id=project.id))
 
 
 @subscriptions.route('/stripe/subscription/cancel')
@@ -82,4 +92,4 @@ def checkout_failure():
 def cancel_subscription():
     member = g.user.member
     handle_subscription_cancelled(member)
-    return redirect(url_for('projects.edit', project_id=member.project.id, tab='subscriptions'))
+    return redirect(url_for('projects.edit', project_id=member.project.id))
