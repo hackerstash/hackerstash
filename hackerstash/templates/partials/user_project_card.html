@@ -15,7 +15,10 @@
                         <h3>{{ user.member.project.name }} <p>UNPUBLISHED</p></h3>
                         <p>Publish your project to start participating in the HackerStash tournament.</p>
                         <div class="button-group">
-                            <a class="button arrow" href="{{ url_for('projects.show', project_id=user.member.project.id) }}">
+                            <button class="button success modal-open" data-modal="publish-modal">
+                                Publish Project
+                            </button>
+                            <a class="button secondary arrow" href="{{ url_for('projects.show', project_id=user.member.project.id) }}">
                                 Edit project
                                 <i class="ri-arrow-right-line"></i>
                             </a>

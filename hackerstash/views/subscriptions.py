@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, g, redirect, url_for, flash, get_template_attribute
+from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute
 from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.lib.logging import logging
@@ -43,7 +43,6 @@ def checkout():
     logging.info(f'Checking out user "{g.user.username}"')
     # Only the owner of a project can create a subscription
     if not member or not member.owner:
-        flash('Only the owner can create a subscription', 'error')
         return redirect(url_for('projects.subscriptions'))
 
     # Create the stripe customer and assign the customer id
@@ -74,7 +73,6 @@ def checkout():
 def checkout_success():
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
-    flash('Subscription created successfully')
     return redirect(url_for('projects.subscriptions'))
 
 
@@ -83,7 +81,6 @@ def checkout_success():
 def checkout_failure():
     project = g.user.member.project
     logging.warning(f'Payment failed for "{project.name}"')
-    flash('Subscription failed to create', 'failure')
     return redirect(url_for('projects.edit', project_id=project.id))
 
 
