@@ -4,7 +4,7 @@ BRANCH=${CODEBUILD_WEBHOOK_TRIGGER:7}  #Remove branch/
 
 if [[ "${BRANCH}" == 'master' ]]; then
   SERVICE="hackerstash"
-elif if [[ "${BRANCH}" == 'add-stripe' ]]; then
+elif [[ "${BRANCH}" == 'add-stripe' ]]; then
   SERVICE="hackerstash-staging"
 else
   exit 0
