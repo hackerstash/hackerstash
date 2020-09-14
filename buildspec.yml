@@ -13,7 +13,7 @@ phases:
     commands:
       - docker build -t $IMAGE_REPO_NAME .
       - echo $CODEBUILD_SOURCE_VERSION
-      - echo$(git symbolic-ref --short HEAD)
+      - echo$(git branch)
       #- docker tag $IMAGE_REPO_NAME ${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME
       #- docker run $IMAGE_REPO_NAME python -m 'scripts.build_assets'
       #- docker push ${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME
