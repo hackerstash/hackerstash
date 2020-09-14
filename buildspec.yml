@@ -14,6 +14,5 @@ phases:
       - ./build.sh
 
   post_build:
-    commands: #>
-      # aws ecs update-service --cluster hackerstash --service $IMAGE_REPO_NAME --force-new-deployment &&
-      # aws ecs wait services-stable --cluster hackerstash --services $IMAGE_REPO_NAME
+    commands:
+      - ./deploy.sh
