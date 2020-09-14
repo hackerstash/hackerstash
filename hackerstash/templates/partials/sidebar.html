@@ -35,7 +35,7 @@
             <i class="icon ri-flashlight-line"></i>
             Posts
         </a>
-        <a class="{{ 'active' if request.path.startswith('/projects') and request.path != user_project_path }}" href="{{ url_for('projects.index') }}">
+        <a class="{{ 'active' if request.path.startswith('/projects') and not request.path.startswith(user_project_path) }}" href="{{ url_for('projects.index') }}">
             <i class="icon ri-profile-line"></i>
             Projects
         </a>
@@ -57,7 +57,7 @@
             </a>
 
             {% if g.user.member %}
-                <a class="project {{ 'active' if request.path == user_project_path }}" href="{{ user_project_path }}">
+                <a class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
                     {{ avatar(g.user.member.project, 'x-sm') }}
                     <p class="split">
                         <span class="truncate">{{ g.user.member.project.name }}</span>
