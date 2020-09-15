@@ -1,6 +1,6 @@
 {% from "partials/avatar.html" import avatar %}
 
-{% set user_project_path = url_for('projects.show', project_id=g.user.member.project.id) if g.user and g.user.member else None %}
+{% set user_project_path = url_for('projects.show', project_id=g.user.member.project.id) if g.user and g.user.member else '' %}
 
 <aside id="sidebar" class="sidebar">
     <div class="logo">
