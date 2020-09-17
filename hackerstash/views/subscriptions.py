@@ -56,13 +56,14 @@ def checkout():
 
     # If the subscription exists we should bail as we don't
     # want to create more than one subscription
-    if (sub := get_subscription(customer_id)) or member.stripe_subscription_id:
+    if (existing_sub := get_subscription(customer_id)) or member.stripe_subscription_id:
         # This is a weird case where they have a subscription but we don't
         # have anything on our end. Likely an error occurred during the checkout 🤷‍
         # Either way, update it now!
-        if not member.stripe_subscription_id and sub:
+        if not member.stripe_subscription_id and existing_sub:
             logging.warning(f'Company "{member.project.name}" had a subscription but we didn\'t know about it!')
-            member.stripe_subscription_id = sub['id']
+            member.stripe_subscription_id = existing_sub['id']
+            member.project.published = True
             db.session.commit()
         return redirect(url_for('projects.subscription', project_id=member.project.id))
 
@@ -79,6 +80,9 @@ def checkout():
 @subscriptions.route('/stripe/checkout/success')
 @login_required
 def checkout_success():
+    # Callback from successful payment. This can't be relied
+    # on as confirmation of payment so do not update anything.
+    # Instead wait on the webook
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
     return redirect(url_for('projects.subscription', project_id=project.id))
