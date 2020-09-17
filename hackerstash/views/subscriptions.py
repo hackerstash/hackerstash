@@ -56,9 +56,12 @@ def checkout():
 
     # If the subscription exists we should bail as we don't
     # want to create more than one subscription
-    if member.stripe_subscription_id or get_subscription(customer_id):
-        # TODO Don't create a subscription if they exist
-        logging.info('TODO! Subscription exists, but may not exist on the project!')
+    if (sub := get_subscription(customer_id)) or member.stripe_subscription_id:
+        # This is a weird case where they have a subscription but we don't
+        # have anything on our end. Likely an error occurred during the checkout 🤷‍
+        # Either way, update it now!
+        if not member.stripe_subscription_id and sub:
+            logging.info('TODO %s', sub)
         return redirect(url_for('projects.subscription', project_id=member.project.id))
 
     # Create the session that allows them to check out if they
