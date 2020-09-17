@@ -43,7 +43,7 @@ def checkout():
     logging.info(f'Checking out user "{g.user.username}"')
     # Only the owner of a project can create a subscription
     if not member or not member.owner:
-        return redirect(url_for('projects.subscriptions'))
+        return redirect(url_for('projects.subscription'))
 
     # Create the stripe customer and assign the customer id
     # to the member if they aren't already a customer
@@ -56,7 +56,7 @@ def checkout():
     # want to create more than one subscription
     if member.stripe_subscription_id or get_subscription(customer_id):
         # TODO Don't create a subscription if they exist
-        return redirect(url_for('projects.subscriptions'))
+        return redirect(url_for('projects.subscription'))
 
     # Create the session that allows them to check out if they
     # don't already have a subscription
@@ -73,7 +73,7 @@ def checkout():
 def checkout_success():
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
-    return redirect(url_for('projects.subscriptions'))
+    return redirect(url_for('projects.subscription'))
 
 
 @subscriptions.route('/stripe/checkout/failure')
