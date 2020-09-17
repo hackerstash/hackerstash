@@ -100,28 +100,6 @@
     }
   }
 
-  .ql-editor {
-    background: $darkblue-700;
-    border: solid 2px $darkblue-600;
-    border-radius: .5rem;
-    height: 100%;
-    margin-bottom: 1.5rem;
-    overflow-y: auto;
-    padding: 1rem;
-    position: relative;
-    width: 100%;
-
-    &:focus {
-      background: $darkblue-900;
-      border-color: $mauve-500;
-
-      pre {
-        background: $darkblue-700;
-        margin: 0 0 1rem 0;
-      }
-    }
-  }
-
   .ql-clipboard {
     display: none;
   }
@@ -130,6 +108,37 @@
     background: $darkblue-900;
     font-size: 1rem;
     padding: 1rem;
+  }
+}
+
+.ql-editor,
+.editor:not(.ql-container) {
+  background: $darkblue-700;
+  border: solid 2px $darkblue-600;
+  border-radius: .5rem;
+  height: 100%;
+  margin-bottom: 1.5rem;
+  overflow-y: auto;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
+
+  &:focus {
+    background: $darkblue-900;
+    border-color: $mauve-500;
+
+    pre {
+      background: $darkblue-700;
+      margin: 0 0 1rem 0;
+    }
+  }
+}
+
+.editor:not(.ql-container) {
+  height: 500px;
+
+  &.light {
+    height: 160px;
   }
 }
 
