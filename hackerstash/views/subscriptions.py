@@ -61,7 +61,9 @@ def checkout():
         # have anything on our end. Likely an error occurred during the checkout 🤷‍
         # Either way, update it now!
         if not member.stripe_subscription_id and sub:
-            logging.info('TODO %s', sub)
+            logging.warning(f'Company "{member.project.name}" had a subscription but we didn\'t know about it!')
+            member.stripe_subscription_id = sub['id']
+            db.session.commit()
         return redirect(url_for('projects.subscription', project_id=member.project.id))
 
     # Create the session that allows them to check out if they
