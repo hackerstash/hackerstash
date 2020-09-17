@@ -11,8 +11,8 @@ phases:
 
   build:
     commands:
-      - ./build.sh
+      - ./bin/build.sh
 
   post_build:
     commands:
-      - ./deploy.sh
+      - ./bin/deploy.sh
