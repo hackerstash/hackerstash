@@ -8,7 +8,7 @@ class GunicornLogger(glogging.Logger):
         super().setup(cfg)
         logger = logging.getLogger('gunicorn.access')
         logger.addFilter(HealthCheckFilter())
-        # logger.addFilter(StaticFileFilter())
+        logger.addFilter(StaticFileFilter())
 
 
 class HealthCheckFilter(logging.Filter):

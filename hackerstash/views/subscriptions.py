@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute
+from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute, abort
 from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.lib.logging import logging
@@ -43,7 +43,9 @@ def checkout():
     logging.info(f'Checking out user "{g.user.username}"')
     # Only the owner of a project can create a subscription
     if not member or not member.owner:
-        return redirect(url_for('projects.subscription'))
+        # Not sure what to do in this case, they're fishing
+        # around as we don't expose this anywhere
+        return abort(403)
 
     # Create the stripe customer and assign the customer id
     # to the member if they aren't already a customer
@@ -56,7 +58,8 @@ def checkout():
     # want to create more than one subscription
     if member.stripe_subscription_id or get_subscription(customer_id):
         # TODO Don't create a subscription if they exist
-        return redirect(url_for('projects.subscription'))
+        logging.info('TODO! Subscription exists, but may not exist on the project!')
+        return redirect(url_for('projects.subscription', project_id=member.project.id))
 
     # Create the session that allows them to check out if they
     # don't already have a subscription
@@ -73,7 +76,7 @@ def checkout():
 def checkout_success():
     project = g.user.member.project
     logging.info(f'Payment succeeded for "{project.name}"')
-    return redirect(url_for('projects.subscription'))
+    return redirect(url_for('projects.subscription', project_id=project.id))
 
 
 @subscriptions.route('/stripe/checkout/failure')
