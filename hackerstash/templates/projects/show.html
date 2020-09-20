@@ -103,7 +103,8 @@
                     {% endif %}
                 </div>
                 <div class="list">
-                    {{ posts(project.posts, limit=5) }}
+                    {% set project_posts = project.posts | sort(attribute='created_at', reverse=True) %}
+                    {{ posts(project_posts, limit=5) }}
 
                     {% if project.posts | length > 5 %}
                         <a href="{{ url_for('projects.all_posts', project_id=project.id) }}" class="load-more">Load more</a>
