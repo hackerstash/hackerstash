@@ -38,7 +38,7 @@
                     <li>
                         <p class="col-3">{{ project.name }}</p>
                         <p class="col-2">
-                            <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
+                            <a href="{{ project.url if project.url and project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
                                 {{ project.url | to_nice_url }}
                             </a>
                         </p>
