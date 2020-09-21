@@ -31,6 +31,7 @@
             <div class="tabs mt-2">
                 <div class="tab-header">
                     <a href="{{ url_for('admin_dashboard.index', tab='overview') }}" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
+                    <a href="{{ url_for('admin_dashboard.index', tab='projects') }}" class="button {{ 'active' if active_tab == 'projects' }}">Projects</a>
                     <a href="{{ url_for('admin_dashboard.index', tab='admins') }}" class="button {{ 'active' if active_tab == 'admins' }}">Admin Users</a>
                     <a href="{{ url_for('admin_dashboard.index', tab='waitlist') }}" class="button {{ 'active' if active_tab == 'waitlist' }}">Waitlist</a>
                     <a href="{{ url_for('admin_dashboard.index', tab='tournaments') }}" class="button {{ 'active' if active_tab == 'tournaments' }}">Tournaments</a>

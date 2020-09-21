@@ -19,29 +19,31 @@
                 <p class="col-2"></p>
             </div>
             <ul class="table-body">
-                {% for contest in contests if not contest.is_current %}
-                    <li>
-                        <p class="col-1 year">
-                            {{ contest.year }}
-                        </p>
-                        <p class="col-2 tournament">
-                            #{{ contest.tournament }}
-                        </p>
-                        <p class="col-4 small">
-                            {{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}
-                        </p>
-                        <p class="col-3 winner">
-                            {% if contest.winner %}
-                                {{ avatar(contest.winner.project, 'x-sm') }}
-                                {{ project_preview(contest.winner.project) }}
-                            {% else %}
-                                <b>Unknown 🤷‍</b>
-                            {% endif %}
-                        </p>
-                        <p class="col-2">
-                            <a href="{{ url_for('past_results.show', contest_id=contest.id) }}">View full results</a>
-                        </p>
-                    </li>
+                {% for contest in contests | sort(attribute='tournament', reverse=True) %}
+                    {% if not contest.is_current %}
+                        <li>
+                            <p class="col-1 year">
+                                {{ contest.year }}
+                            </p>
+                            <p class="col-2 tournament">
+                                #{{ contest.tournament }}
+                            </p>
+                            <p class="col-4 small">
+                                {{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}
+                            </p>
+                            <p class="col-3 winner">
+                                {% if contest.winner %}
+                                    {{ avatar(contest.winner.project, 'x-sm') }}
+                                    {{ project_preview(contest.winner.project) }}
+                                {% else %}
+                                    <b>Unknown 🤷‍</b>
+                                {% endif %}
+                            </p>
+                            <p class="col-2">
+                                <a href="{{ url_for('past_results.show', contest_id=contest.id) }}">View full results</a>
+                            </p>
+                        </li>
+                    {% endif %}
                 {% else %}
                     {% include "partials/no_results.html" %}
                 {% endfor %}

@@ -50,7 +50,7 @@ class Contest(db.Model):
 
     @property
     def start_date(self):
-        date = f'{self.year}-W{self.week}'
+        date = f'{self.year}-W{self.week - 1}'
         return datetime.datetime.strptime(date + '-1', '%Y-W%W-%w')
 
     @property
