@@ -4,7 +4,7 @@ from hackerstash.lib.redis import redis
 challenge_types = [
     'published_a_post',
     'comment_on_a_competitors_post',
-    'award_points_to_three_projects',
+    'award_points_to_three_posts',
     'comment_on_five_competitors_posts',
     'earn_twenty_five_points_for_one_post',
     'have_five_comments_upvoted',
@@ -21,10 +21,12 @@ def mark_as_complete(challenge):
 def get_score_for_key(key: str) -> int:
     if key in ['comment_on_five_competitors_posts']:
         return 20
-    if key in ['earn_twenty_five_points_for_three_seperate_posts', 'have_five_comments_upvoted', 'award_points_to_three_projects']:
+    if key in ['earn_twenty_five_points_for_three_seperate_posts', 'have_five_comments_upvoted']:
         return 15
     if key in ['published_a_post', 'earn_twenty_five_points_for_one_post']:
         return 10
+    if key in ['award_points_to_three_posts']:
+        return 9
     if key in ['comment_on_a_competitors_post']:
         return 5
 
@@ -32,7 +34,7 @@ def get_score_for_key(key: str) -> int:
 def get_max_count_for_key(key: str) -> int:
     if key in ['published_a_post', 'comment_on_a_competitors_post', 'earn_twenty_five_points_for_one_post']:
         return 1
-    if key in ['award_points_to_three_projects', 'earn_twenty_five_points_for_three_seperate_posts']:
+    if key in ['award_points_to_three_posts', 'earn_twenty_five_points_for_three_seperate_posts']:
         return 3
     if key in ['comment_on_five_competitors_posts', 'have_five_comments_upvoted']:
         return 5
@@ -46,8 +48,8 @@ def get_completed_message_for_challenge(challenge) -> str:
         return f'You earned <span>{points} points</span> for your project by publishing your first post of the week ⛅️'
     if key == 'comment_on_a_competitors_post':
         return f'You earned <span>{points} points</span> for your project by commenting on a competitor’s post 💬'
-    if key == 'award_points_to_three_projects':
-        return f'You earned <span>{points} points</span> for your project by awarding points to 3 of your competitor’s projects 💪'
+    if key == 'award_points_to_three_posts':
+        return f'You earned <span>{points} points</span> for your project by awarding points to 3 of your competitor’s posts 😍'
     if key == 'comment_on_five_competitors_posts':
         return f'You earned <span>{points} points</span> for your project by commenting on 5 of your competitor’s posts 💬'
     if key == 'earn_twenty_five_points_for_one_post':

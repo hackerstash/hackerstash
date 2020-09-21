@@ -16,6 +16,10 @@ class PostVoted(Base):
         post = payload['post']
 
         if is_not_members_post(user, post):
+            if not self.has_completed(user.member.project, 'award_points_to_three_posts'):
+                logging.info(f'Awarding \'award_points_to_three_posts\' challenge for \'{user.member.project.name}\'')
+                user.member.project.create_or_inc_challenge('award_points_to_three_posts')
+
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_one_post'):
                 all_posts = post.project.posts
                 for p in all_posts:

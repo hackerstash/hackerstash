@@ -28,13 +28,17 @@
                             {{ challenge_status.comment_on_a_competitors_post.points }} points
                         </p>
                     </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_three_projects.complete }}">
+                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_three_posts.complete }}">
                         <p class="description">
-                            <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            <span class="text">Award points to 3 projects</span>
+                            {% if challenge_status.award_points_to_three_posts.complete %}
+                                <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
+                            {% else %}
+                                <span class="icon">{{ challenge_status.award_points_to_three_posts.count }}/{{ challenge_status.award_points_to_three_posts.max }}</span>
+                            {% endif %}
+                            <span class="text">Award points to 3 competitors posts</span>
                         </p>
                         <p class="points">
-                            {{ challenge_status.award_points_to_three_projects.points }} points
+                            {{ challenge_status.award_points_to_three_posts.points }} points
                         </p>
                     </li>
                     <li tabindex="0" class="{{ 'completed' if challenge_status.comment_on_five_competitors_posts.complete }}">
