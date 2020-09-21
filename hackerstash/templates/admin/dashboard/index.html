@@ -3,6 +3,7 @@
 
 {% set active_tab = request.args.tab or 'overview' %}
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import user_preview %}
 
 {% block body %}
     <div class="tab {{ 'active' if active_tab == 'overview' }}">
@@ -20,6 +21,47 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
+    <div class="tab {{ 'active' if active_tab == 'projects' }}">
+        <h4 class="mt-2 mb-2">Projects:</h4>
+         <div class="table">
+            <div class="table-header">
+                <p class="col-3">Name</p>
+                <p class="col-2">Url</p>
+                <p class="col-2">Members</p>
+                <p class="col-2">Status</p>
+                <p class="col-2">Stash</p>
+                <p class="col-1"></p>
+            </div>
+            <ul class="table-body projects-table">
+                {% for project in projects %}
+                    <li>
+                        <p class="col-3">{{ project.name }}</p>
+                        <p class="col-2">
+                            <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
+                                {{ project.url | to_nice_url }}
+                            </a>
+                        </p>
+                        <p class="col-2">
+                            <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
+                                <span>View</span> ({{ project.members | length }})
+                            </button>
+                        </p>
+                        <p class="col-2">
+                            {% if project.published %}
+                                <span class="tag ml-0 publish-status success">Published</span>
+                            {% else %}
+                                <span class="tag ml-0 publish-status tertiary">Unpublished</span>
+                            {% endif %}
+                        </p>
+                        <p class="col-2">${{ project.stash or 0 }}</p>
+                        <p class="col-1">
+                            <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">View</a>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+         </div>
     </div>
     <div class="tab {{ 'active' if active_tab == 'admins' }}">
         <h4 class="mt-2">Admin users:</h4>
@@ -144,4 +186,25 @@
             </main>
         </div>
     </div>
+
+    {% for project in projects %}
+        <div id="project-members-{{ project.id }}" class="modal members-modal">
+            <div class="modal-body sm">
+                <header>
+                    <h3>{{ project.name }}'s Members</h3>
+                    <i class="icon ri-close-line modal-close"></i>
+                </header>
+                <main>
+                    <ul class="members-list">
+                        {% for member in project.members %}
+                            <li>
+                                {{ avatar(member.user, 'sm') }}
+                                {{ user_preview(member.user) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </main>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

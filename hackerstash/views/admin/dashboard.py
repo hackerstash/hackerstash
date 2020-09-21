@@ -20,6 +20,8 @@ def index() -> str:
 
     if tab == 'overview':
         data['users'] = User.query.all()
+    if tab == 'projects':
+        data['projects'] = Project.query.all()
     if tab == 'admins':
         data['admins'] = Admin.query.all()
     if tab == 'waitlist':
