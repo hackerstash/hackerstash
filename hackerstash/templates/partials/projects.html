@@ -32,9 +32,11 @@
                                 <li>
                                     <p class="small">Website (URL)</p>
                                     <p class="small truncate">
-                                        <a target="_blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">
-                                            {{ project.url | to_nice_url }}
-                                        </a>
+                                        {% if project.url %}
+                                            <a target="_blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">
+                                                {{ project.url | to_nice_url }}
+                                            </a>
+                                        {% endif %}
                                     </p>
                                 </li>
                             {% endif %}

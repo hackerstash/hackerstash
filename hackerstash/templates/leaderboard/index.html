@@ -29,9 +29,11 @@
                             {{ project_preview(project) }}
                         </p>
                         <p class="col-3 small">
-                            <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
-                                {{ project.url | to_nice_url }}
-                            </a>
+                            {% if project.url %}
+                                <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
+                                    {{ project.url | to_nice_url }}
+                                </a>
+                            {% endif %}
                         </p>
                         <p class="col-2 small score">
                             <i>{{ project.vote_score }} points</i>
