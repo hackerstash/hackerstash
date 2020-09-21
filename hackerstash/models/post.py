@@ -26,6 +26,11 @@ class Post(db.Model):
     def __repr__(self) -> str:
         return f'<Post {self.title[:30]}...>'
 
+    # The default order should be newest first
+    __mapper_args__ = {
+        'order_by': created_at.desc()
+    }
+
     @property
     def day(self):
         # Returns day of the week (1-7)
