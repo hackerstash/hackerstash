@@ -131,7 +131,5 @@ def to_ordinal_ending(n: int) -> str:
 
 
 def to_nice_url(url: str) -> str:
-    if not url:
-        return 'Unknown'
     url = url.replace('https://', '').replace('http://', '').replace('www.', '')
     return re.sub(r'\/$', '', url)

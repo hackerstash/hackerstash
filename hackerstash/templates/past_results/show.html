@@ -44,7 +44,7 @@
                             {% endif %}
                         </p>
                         <p class="col-2 small">
-                            {% if past_result.project %}
+                            {% if past_result.project and past_result.project.url %}
                                 <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">
                                     {{ past_result.project.url | to_nice_url }}
                                 </a>
