@@ -25,6 +25,8 @@ previews.forEach((preview) => {
             </li>
         `).join('');
 
+        const admin = data.admin ? '<p class="small admin"><i class="ri-star-s-fill"></i> HackerStash Admin</p>' : '';
+
         card.innerHTML = `
             <div class="card-header">
                 <span class="avatar">
@@ -33,6 +35,7 @@ previews.forEach((preview) => {
                 <h4><a href="${data.url}">${data.name}</a></h4>
             </div>
             <p class="small">${data.description || ''}</p>
+            ${admin}
             <ul class="display-options">
                 ${lists}
             </ul>

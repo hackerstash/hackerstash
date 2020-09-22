@@ -1,5 +1,12 @@
 .preview {
   position: relative;
+
+  i {
+    color: $blue-500;
+    font-size: 12px;
+    margin-left: .15rem;
+    vertical-align: top;
+  }
 }
 
 .preview-card {
@@ -31,6 +38,22 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  .admin {
+    align-items: center;
+    background: $blue-900;
+    border-radius: .25rem;
+    color: $mauve-500;
+    display: flex;
+    padding: .25rem .5rem;
+    white-space: nowrap;
+    width: 164px;
+
+    i {
+      color: $mauve-500;
+      margin-right: .25rem;
     }
   }
 
