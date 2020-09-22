@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Posts / ' + post.title %}
 {% set og_title = post.title %}
 {% set og_description = post.body | to_plain_text %}
+{% set post_url = 'https://hackerstash.com' + url_for('posts.show', post_id=post.url_slug) %}
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import comments %}
@@ -29,20 +30,20 @@
                     {{ user_preview(post.user) }}
                 </p>
             </div>
+
             <div class="button-group">
                 {% if post.has_author(g.user) %}
                     <a aria-label="Edit post" href="{{ url_for('posts.edit', post_id=post.id) }}" class="button secondary">Edit</a>
-                    <a aria-label="Delete post" href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
                 {% else %}
                     <a aria-label="Back to all posts" href="{{ url_for('posts.index') }}" class="button secondary has-icon">
                         <i class="ri-arrow-left-line"></i>
                         Back
                     </a>
-                    <a target="_blank" rel="nofollow noreferrer" href="https://twitter.com/intent/tweet?url=https://hackerstash.com{{ url_for('posts.show', post_id=post.url_slug) }}" class="button has-icon twitter">
-                        <i class="icon ri-twitter-fill"></i>
-                        Share
-                    </a>
                 {% endif %}
+                <a target="_blank" rel="nofollow noreferrer" href="https://twitter.com/intent/tweet?original_referer={{ post_url }}&tw_p=tweetbutton&url={{ post_url }}&text={{ post.title }} - " class="button has-icon twitter">
+                    <i class="icon ri-twitter-fill"></i>
+                    Tweet
+                </a>
             </div>
         </header>
 

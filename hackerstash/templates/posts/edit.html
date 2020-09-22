@@ -34,9 +34,12 @@
 
                 <hr class="divider">
 
-                <div class="button-group">
-                    <button aria-label="Update post" class="button" type="submit">Update</button>
-                    <a aria-label="Cancel and return to post page" class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
+                <div class="actions">
+                    <div class="button-group">
+                        <button aria-label="Update post" class="button" type="submit">Update</button>
+                        <a aria-label="Cancel and return to post page" class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
+                    </div>
+                    <a aria-label="Delete post" href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
                 </div>
             </fieldset>
         </form>
