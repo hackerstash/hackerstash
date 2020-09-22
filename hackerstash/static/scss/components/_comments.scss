@@ -6,6 +6,12 @@
     display: none;
   }
 
+  .preview {
+    i {
+      vertical-align: baseline;
+    }
+  }
+
   li {
     list-style: none;
     padding: 1rem 0;
