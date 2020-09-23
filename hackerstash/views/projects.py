@@ -4,7 +4,6 @@ from hackerstash.db import db
 from hackerstash.lib.images import upload_image, delete_image
 from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.project_filtering import project_filtering
