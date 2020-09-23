@@ -134,7 +134,7 @@ def update_profile() -> str:
         user.avatar = None
 
     for key, value in request.form.items():
-        if key not in ['file', 'avatar']:
+        if key not in ['file', 'avatar', 'admin']:
             # Rich text always uses body as the key
             key = 'bio' if key == 'body' else key
             # Usernames must follow this pattern
