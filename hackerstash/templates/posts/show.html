@@ -21,13 +21,16 @@
                 {{ post_vote('lg', post) }}
             </div>
             <div class="details">
-                <p class="small">{{ post.created_at | to_human_date }}</p>
+                <p class="small">
+                    {{ post.created_at | to_human_date }}
+                </p>
                 <h2>{{ post.title }}</h2>
                 <p class="small">
                     {{ project_preview(post.project) }}
                     <span>update by </span>
                     {{ avatar(post.user, 'xx-sm') }}
                     {{ user_preview(post.user) }}
+                    {% if post.tag %} in {{ post.tag.name }}{% endif %}
                 </p>
             </div>
 

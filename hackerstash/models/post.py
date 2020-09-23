@@ -17,6 +17,7 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined')
     votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
 
@@ -57,6 +58,8 @@ class Post(db.Model):
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
+        if user.member and self.project.ghost:
+            return 'disabled ghost'
         if not user.member or not user.member.project.published:
             return 'disabled not-published'
         if self.project.id == user.member.project.id:
