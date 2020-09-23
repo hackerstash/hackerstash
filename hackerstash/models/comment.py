@@ -22,6 +22,11 @@ class Comment(db.Model):
     def __repr__(self) -> str:
         return f'<Comment {self.body[:30]}...>'
 
+    # The default order should be newest first
+    __mapper_args__ = {
+        'order_by': created_at.desc()
+    }
+
     def get_existing_vote_for_user(self, user):
         # Although a user clicked on the button, the
         # vote is actually made on behalf of the project

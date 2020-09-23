@@ -28,15 +28,6 @@
                             {{ challenge_status.comment_on_a_competitors_post.points }} points
                         </p>
                     </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_three_projects.complete }}">
-                        <p class="description">
-                            <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            <span class="text">Award points to 3 projects</span>
-                        </p>
-                        <p class="points">
-                            {{ challenge_status.award_points_to_three_projects.points }} points
-                        </p>
-                    </li>
                     <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_three_posts.complete }}">
                         <p class="description">
                             {% if challenge_status.award_points_to_three_posts.complete %}
@@ -50,32 +41,6 @@
                             {{ challenge_status.award_points_to_three_posts.points }} points
                         </p>
                     </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_ten_projects.complete }}">
-                        <p class="description">
-                            {% if challenge_status.award_points_to_ten_projects.complete %}
-                                <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            {% else %}
-                                <span class="icon">{{ challenge_status.award_points_to_ten_projects.count }}/{{ challenge_status.award_points_to_ten_projects.max }}</span>
-                            {% endif %}
-                            <span class="text">Award points to 10 projects</span>
-                        </p>
-                        <p class="points">
-                            {{ challenge_status.award_points_to_ten_projects.points }} points
-                        </p>
-                    </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_points_to_ten_posts.complete }}">
-                        <p class="description">
-                            {% if challenge_status.award_points_to_ten_posts.complete %}
-                                <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            {% else %}
-                                <span class="icon">{{ challenge_status.award_points_to_ten_posts.count }}/{{ challenge_status.award_points_to_ten_posts.max }}</span>
-                            {% endif %}
-                            <span class="text">Award points to 10 competitors posts</span>
-                        </p>
-                        <p class="points">
-                            {{ challenge_status.award_points_to_ten_posts.points }} points
-                        </p>
-                    </li>
                     <li tabindex="0" class="{{ 'completed' if challenge_status.comment_on_five_competitors_posts.complete }}">
                         <p class="description">
                             {% if challenge_status.comment_on_five_competitors_posts.complete %}
@@ -87,19 +52,6 @@
                         </p>
                         <p class="points">
                             {{ challenge_status.comment_on_five_competitors_posts.points }} points
-                        </p>
-                    </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.five_day_post_streak.complete }}">
-                        <p class="description">
-                            {% if challenge_status.five_day_post_streak.complete %}
-                                <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            {% else %}
-                                <span class="icon">{{ challenge_status.five_day_post_streak.count }}/{{ challenge_status.five_day_post_streak.max }}</span>
-                            {% endif %}
-                            <span class="text">Publish at least 1 new {{ g.user.member.project.name }} post a day for 5 days</span>
-                        </p>
-                        <p class="points">
-                            {{ challenge_status.five_day_post_streak.points }} points
                         </p>
                     </li>
                     <li tabindex="0" class="{{ 'completed' if challenge_status.earn_twenty_five_points_for_one_post.complete }}">
@@ -135,15 +87,6 @@
                         </p>
                         <p class="points">
                             {{ challenge_status.earn_twenty_five_points_for_three_seperate_posts.points }} points
-                        </p>
-                    </li>
-                    <li tabindex="0" class="{{ 'completed' if challenge_status.award_two_hundred_points.complete }}">
-                        <p class="description">
-                            <span class="icon"><i class="ri-checkbox-circle-line"></i></span>
-                            <span class="text">Award 200 points to other competitors</span>
-                        </p>
-                        <p class="points">
-                            {{ challenge_status.award_two_hundred_points.points }} points
                         </p>
                     </li>
                 </ul>

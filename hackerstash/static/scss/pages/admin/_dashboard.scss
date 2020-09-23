@@ -15,6 +15,11 @@
         margin: .25rem 0 0 0;
       }
 
+      .details {
+        align-items: center;
+        display: flex;
+      }
+
       a {
         color: $mauve-500;
         text-decoration: none;

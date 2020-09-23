@@ -10,6 +10,7 @@ from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.comment import Comment
+from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required
 
 posts = Blueprint('posts', __name__)
@@ -53,7 +54,8 @@ def show(post_id: str) -> str:
 @login_required
 @published_project_required
 def new() -> str:
-    return render_template('posts/new.html')
+    tags = Tag.query.all()
+    return render_template('posts/new.html', tags=tags)
 
 
 @posts.route('/posts/create', methods=['POST'])
@@ -72,10 +74,12 @@ def create() -> str:
         return redirect(url_for('posts.index'))
 
     title = request.form['title']
+    tag_id = request.form.get('tag')
     url_slug = Post.generate_url_slug(title)
     body, mentioned_users = proccess_mentions(request.form['body'])
+    tag = Tag.query.get(tag_id)
 
-    post = Post(title=title, body=body, user=user, url_slug=url_slug, project=project)
+    post = Post(title=title, body=body, user=user, url_slug=url_slug, tag=tag, project=project)
     db.session.add(post)
     db.session.commit()
 
@@ -100,8 +104,9 @@ def upload_images():
 @login_required
 @author_required
 def edit(post_id: str) -> str:
+    tags = Tag.query.all()
     post = Post.query.get(post_id)
-    return render_template('posts/edit.html', post=post)
+    return render_template('posts/edit.html', post=post, tags=tags)
 
 
 @posts.route('/posts/<post_id>/update', methods=['POST'])
@@ -110,6 +115,7 @@ def edit(post_id: str) -> str:
 def update(post_id: str) -> str:
     post = Post.query.get(post_id)
     title = request.form['title']
+    tag_id = request.form.get('tag')
     body, mentioned_users = proccess_mentions(request.form['body'])
 
     if post.title != request.form['title']:
@@ -117,6 +123,7 @@ def update(post_id: str) -> str:
 
     post.title = title
     post.body = body
+    post.tag = Tag.query.get(tag_id)
 
     db.session.commit()
 

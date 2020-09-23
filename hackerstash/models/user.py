@@ -21,6 +21,7 @@ class User(db.Model):
 
     username = db.Column(db.String, unique=True)
     email = db.Column(db.String, unique=True, nullable=False)
+    admin = db.Column(db.Boolean, default=False)
 
     bio = db.Column(db.String)
     location = db.Column(db.String)
@@ -88,6 +89,7 @@ class User(db.Model):
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
             'description': self.bio,
+            'admin': self.admin,
             'url': url_for('users.show', user_id=self.id),
             'lists': [
                 {

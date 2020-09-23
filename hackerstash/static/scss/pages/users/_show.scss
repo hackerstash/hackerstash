@@ -76,6 +76,8 @@
   }
 
   .profile-stats {
+    align-items: center;
+
     .button {
       margin: 0 .75rem 0 0;
 
@@ -97,6 +99,22 @@
       i {
         font-size: .875rem;
         margin-right: .35rem;
+      }
+    }
+
+    .admin {
+      align-items: center;
+      background: $blue-900;
+      border-radius: .25rem;
+      color: $mauve-500;
+      display: flex;
+      padding: .25rem .5rem;
+      white-space: nowrap;
+      width: 164px;
+
+      i {
+        color: $mauve-500;
+        margin-right: .25rem;
       }
     }
 

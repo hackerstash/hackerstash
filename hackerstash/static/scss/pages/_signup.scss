@@ -1,53 +1,7 @@
-$google-background: white;
-$google-foreground: $darkblue-900;
-
-$twitter-background: #1DA1F2;
-$twitter-foreground: white;
-
 .page.signup {
   .email {
     display: flex;
     flex-direction: column;
-  }
-
-  .google {
-    background: $google-background;
-    border-color: $google-background;
-    color: $google-foreground;
-
-    .google-icon {
-      background: url('/static/images/google-icon.svg');
-      background-size: 100%;
-      display: inline-block;
-      height: 1.4rem;
-      width: 1.4rem;
-    }
-
-    &:hover {
-      background: darken($google-background, 10%);
-    }
-
-    &:focus {
-      background: darken($google-background, 20%);
-    }
-  }
-
-  .twitter {
-    background: $twitter-background;
-    border-color: $twitter-background;
-    color: $twitter-foreground;
-
-    i {
-      color: $twitter-foreground !important;
-    }
-
-    &:hover {
-      background: darken($twitter-background, 10%);
-    }
-
-    &:focus {
-      background: darken($twitter-background, 20%);
-    }
   }
 
   .check-inbox {

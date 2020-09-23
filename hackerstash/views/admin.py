@@ -1,18 +1,17 @@
 import csv
 from io import StringIO
-from flask import Blueprint, render_template, request, redirect, url_for, g, session, Response
+from flask import Blueprint, render_template, request, redirect, url_for, Response
 from hackerstash.db import db
-from hackerstash.models.admin import Admin
 from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
 from hackerstash.models.user import User
 from hackerstash.models.waitlist import Waitlist
 from hackerstash.utils.auth import admin_login_required
 
-admin_dashboard = Blueprint('admin_dashboard', __name__)
+admin = Blueprint('admin', __name__)
 
 
-@admin_dashboard.route('/admin/dashboard')
+@admin.route('/admin')
 @admin_login_required
 def index() -> str:
     tab = request.args.get('tab', 'overview')
@@ -22,17 +21,15 @@ def index() -> str:
         data['users'] = User.query.all()
     if tab == 'projects':
         data['projects'] = Project.query.all()
-    if tab == 'admins':
-        data['admins'] = Admin.query.all()
     if tab == 'waitlist':
         data['waitlist'] = Waitlist.query.all()
     if tab == 'tournaments':
         data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 
-    return render_template('admin/dashboard/index.html', **data)
+    return render_template('admin/index.html', **data)
 
 
-@admin_dashboard.route('/admin/dashboard/tournament')
+@admin.route('/admin/tournament')
 @admin_login_required
 def tournament() -> str:
     contest_id = request.args.get('id')
@@ -41,10 +38,10 @@ def tournament() -> str:
         'contest': contest,
         'project_count': Project.query.filter_by(published=True).count()
     }
-    return render_template('admin/dashboard/tournament/index.html', **data)
+    return render_template('admin/tournament/index.html', **data)
 
 
-@admin_dashboard.route('/admin/dashboard/tournament/<contest_id>/update', methods=['POST'])
+@admin.route('/admin/tournament/<contest_id>/update', methods=['POST'])
 @admin_login_required
 def update_tournament(contest_id: str) -> str:
     contest = Contest.query.get(contest_id)
@@ -53,47 +50,10 @@ def update_tournament(contest_id: str) -> str:
     for i in range(200):
         contest.prizes[f'prize_{i}'] = int(request.form.get(f'prize_{i}', 0))
     db.session.commit()
-    return redirect(url_for('admin_dashboard.index', tab='tournaments'))
+    return redirect(url_for('admin.index', tab='tournaments'))
 
 
-@admin_dashboard.route('/admin/dashboard/tournament/end')
-@admin_login_required
-def end_tournament() -> str:
-    Contest.end()
-    return redirect(url_for('admin_dashboard.index', tab='tournaments'))
-
-
-@admin_dashboard.route('/admin/users/create', methods=['POST'])
-@admin_login_required
-def create_admin_user() -> str:
-    admin = Admin(
-        first_name=request.form['first_name'],
-        last_name=request.form['last_name'],
-        email=request.form['email'],
-        password=request.form['password'],
-        root=False
-    )
-    db.session.add(admin)
-    db.session.commit()
-    return redirect(url_for('admin_dashboard.index', tab='admins'))
-
-
-@admin_dashboard.route('/admin/users/<user_id>/delete')
-@admin_login_required
-def delete_admin_user(user_id: str) -> str:
-    user = Admin.query.get(user_id) or User.query.get(user_id)
-    if user and not user.root:
-        db.session.delete(user)
-        db.session.commit()
-
-        if user.id == g.admin_user.id:
-            session.pop('admin_id', None)
-            return redirect(url_for('home.index'))
-
-    return redirect(url_for('admin_dashboard.index', tab='admins'))
-
-
-@admin_dashboard.route('/admin/waitlist/download')
+@admin.route('/admin/waitlist/download')
 @admin_login_required
 def download_waitlist():
     waitlist = Waitlist.query.all()

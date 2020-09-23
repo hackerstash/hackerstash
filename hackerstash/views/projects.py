@@ -236,7 +236,6 @@ def vote_project(project_id: str) -> str:
 
     if project.id != g.user.member.project.id:
         project.vote(g.user, direction)
-        challenge_factory('project_voted', {'project': project})
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'project_vote')

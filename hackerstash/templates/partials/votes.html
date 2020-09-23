@@ -3,7 +3,7 @@
 
 {% macro votes(list) %}
     <ul class="votes-list">
-        {% for vote in list | sort(attribute='created_at', reverse=True) %}
+        {% for vote in list %}
             {% set positive = vote.score > 0 %}
             <li>
                 <p class="small date">• {{ vote.created_at | to_nice_date }}</p>

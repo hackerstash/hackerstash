@@ -1,5 +1,4 @@
 from hackerstash.db import db
-from sqlalchemy.dialects.postgresql import JSON
 
 
 class Notification(db.Model):
@@ -19,3 +18,8 @@ class Notification(db.Model):
 
     def __repr__(self) -> str:
         return f'<Notification {self.id}>'
+
+    # The default order should be newest first
+    __mapper_args__ = {
+        'order_by': created_at.desc()
+    }

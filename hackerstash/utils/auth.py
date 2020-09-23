@@ -2,7 +2,6 @@ from functools import wraps
 from flask import g, request, redirect, url_for, render_template, session
 from werkzeug.exceptions import Unauthorized
 from hackerstash.config import config
-from hackerstash.models.admin import Admin
 
 
 def login_required(f):
@@ -58,9 +57,7 @@ def admin_api_key_required(f):
 def admin_login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        admin_user = Admin.query.get(session['admin_id']) if session.get('admin_id') else None
-        if not admin_user:
+        if not g.user or not g.user.admin:
             return redirect(url_for('home.index'))
-        g.admin_user = admin_user
         return f(*args, **kwargs)
     return decorated_function

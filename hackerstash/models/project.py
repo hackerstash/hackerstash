@@ -46,6 +46,7 @@ class Project(db.Model):
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     transactions = db.relationship('Transaction', backref='project', cascade='all,delete')
 
+    ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())

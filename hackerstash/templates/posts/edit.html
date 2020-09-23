@@ -16,6 +16,17 @@
                         <label class="label" for="title">Title</label>
                         <input class="input" type="text" id="title" name="title" required value="{{ post.title }}">
 
+                        <label class="label" for="tag">Group</label>
+                        <div class="select mb-1-5">
+                            <select id="tag" name="tag">
+                                <option disabled selected value>Please select</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}" {{ 'selected' if post.tag.id == tag.id }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <i class="icon ri-arrow-drop-down-line"></i>
+                        </div>
+
                         <label class="label">Update</label>
                         {{ editor_full(post.body) }}
                     </div>
@@ -34,9 +45,12 @@
 
                 <hr class="divider">
 
-                <div class="button-group">
-                    <button aria-label="Update post" class="button" type="submit">Update</button>
-                    <a aria-label="Cancel and return to post page" class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
+                <div class="actions">
+                    <div class="button-group">
+                        <button aria-label="Update post" class="button" type="submit">Update</button>
+                        <a aria-label="Cancel and return to post page" class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
+                    </div>
+                    <a aria-label="Delete post" href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
                 </div>
             </fieldset>
         </form>
