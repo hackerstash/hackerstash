@@ -5,16 +5,16 @@
 
 {% block body %}
     <div class="tab active">
-        <form class="form" id="{{ 'prizes' if contest.is_current }}" method="post" action="{{ url_for('admin_dashboard.update_tournament', contest_id=contest.id) }}">
+        <form class="form" id="{{ 'prizes' if contest.is_current }}" method="post" action="{{ url_for('admin.update_tournament', contest_id=contest.id) }}">
             <fieldset>
                 <div class="header">
                     <h2>{{ 'Current Tournament' if contest.is_current else 'Tournament ' ~ contest.year ~ '.' ~ contest.week }}</h2>
                     <div class="button-group">
                         {% if contest.is_current %}
                             <button class="button" type="submit">Save changes</button>
-                            <a class="button secondary" href="{{ url_for('admin_dashboard.index', tab='tournaments') }}">Cancel</a>
+                            <a class="button secondary" href="{{ url_for('admin.index', tab='tournaments') }}">Cancel</a>
                         {% else %}
-                            <a class="button secondary" href="{{ url_for('admin_dashboard.index', tab='tournaments') }}">Back</a>
+                            <a class="button secondary" href="{{ url_for('admin.index', tab='tournaments') }}">Back</a>
                         {% endif %}
                     </div>
                 </div>

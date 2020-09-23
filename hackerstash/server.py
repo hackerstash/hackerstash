@@ -11,9 +11,7 @@ from hackerstash.utils import hooks
 from hackerstash.views.api.admin import api_admin
 from hackerstash.views.api.locations import api_locations
 
-from hackerstash.views.admin.auth import admin_auth
-from hackerstash.views.admin.dashboard import admin_dashboard
-
+from hackerstash.views.admin import admin
 from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
@@ -46,8 +44,7 @@ app.register_blueprint(api_admin)
 app.register_blueprint(api_locations)
 
 # Add Admin blueprints
-app.register_blueprint(admin_auth)
-app.register_blueprint(admin_dashboard)
+app.register_blueprint(admin)
 
 # Add regular blueprints
 app.register_blueprint(auth)
