@@ -35,7 +35,7 @@
 
         <hr class="divider mt-3 mb-3">
 
-        {% if request.args.delete == 'details' %}
+        {% if request.args.delete == '1' %}
             {% if member.user.id == g.user.id %}
                 <p>Are you sure you wish to remove yourself from the {{ project.name }} team?</p>
                 <p>Once removed your user account will still be active but no longer associated with this project. Your historical posts will still be be attributed to you, and any points they are awarded will still be applicable to the HackerStash project.</p>
