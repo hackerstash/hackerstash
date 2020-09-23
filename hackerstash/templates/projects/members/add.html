@@ -5,7 +5,7 @@
     <div class="page rules">
         <header class="header">
             <h2>Add Team Member</h2>
-            <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">
+            <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">
                 <i class="ri-arrow-left-line"></i>
                 Back
             </a>
@@ -26,7 +26,7 @@
 
                 <div class="button-group">
                     <button type="submit" class="button">Send invitation</button>
-                    <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='2') }}">Cancel</a>
+                    <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">Cancel</a>
                 </div>
             </fieldset>
         </form>

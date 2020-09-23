@@ -147,7 +147,7 @@ def update_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
     member.role = request.form['role']
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2', saved=1))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='team', saved=1))
 
 
 @projects.route('/projects/<project_id>/members/<member_id>/delete')
@@ -169,7 +169,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     if g.user.id == member.user.id:
         return redirect(url_for('users.show', user_id=member.user.id))
     else:
-        return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+        return redirect(url_for('projects.edit', project_id=project_id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/members/create', methods=['POST'])
@@ -198,7 +198,7 @@ def invite_member(project_id: str) -> str:
         else:
             email_factory('invite_to_project', email, {'invite': invite, 'inviter': g.user}).send()
 
-    return redirect(url_for('projects.edit', project_id=project.id, tab='2'))
+    return redirect(url_for('projects.edit', project_id=project.id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/invites/<invite_id>/delete')
@@ -208,7 +208,7 @@ def remove_invite(project_id: str, invite_id: str) -> str:
     invite = Invite.query.get(invite_id)
     db.session.delete(invite)
     db.session.commit()
-    return redirect(url_for('projects.edit', project_id=project_id, tab='2'))
+    return redirect(url_for('projects.edit', project_id=project_id, tab='team'))
 
 
 @projects.route('/projects/<project_id>/publish', methods=['POST'])
@@ -227,7 +227,7 @@ def publish(project_id: str) -> str:
         if getattr(project, field) is None:
             logging.info(f'Project can\'t be published as \'{field}\' is None')
             flash(f'Please fill out all of the fields on the details tab', 'failure')
-            return redirect(url_for('projects.edit', project_id=project_id, tab=3))
+            return redirect(url_for('projects.edit', project_id=project_id, tab='subscription'))
 
     project.published = True
     db.session.commit()

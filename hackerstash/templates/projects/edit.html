@@ -5,7 +5,7 @@
 {% from "partials/editor.html" import editor_light %}
 {% from "partials/previews.html" import user_preview %}
 
-{% set active_tab = request.args.get('tab') or '1' %}
+{% set active_tab = request.args.get('tab') or 'details' %}
 
 {% block body %}
     <div class="page edit-project">
@@ -19,13 +19,13 @@
 
         <div class="tabs">
             <div class="tab-header">
-                <a href="?tab=1" class="button {{ 'active' if active_tab == '1' }}">Project details</a>
-                <a href="?tab=2" class="button {{ 'active' if active_tab == '2' }}">Team</a>
-                <a href="?tab=3" class="button {{ 'active' if active_tab == '3' }}">Subscription</a>
+                <a href="?tab=details" class="button {{ 'active' if active_tab == 'details' }}">Project details</a>
+                <a href="?tab=team" class="button {{ 'active' if active_tab == 'team' }}">Team</a>
+                <a href="?tab=subscription" class="button {{ 'active' if active_tab == 'subscription' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
-                <div class="tab {{ 'active' if active_tab == '1' }}">
+                <div class="tab {{ 'active' if active_tab == 'details' }}">
                     <form class="form editor-form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
                         <fieldset>
                             <section class="wrap-620 mt-2">
@@ -323,7 +323,7 @@
                     </form>
                 </div>
 
-                <div class="tab {{ 'active' if active_tab == '2' }}">
+                <div class="tab {{ 'active' if active_tab == 'team' }}">
                     <label class="label mt-1 mb-1">Team members</label>
                     <p class="wrap-620 mb-2">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
                     <ul class="team">
@@ -386,7 +386,7 @@
                     </form>
                 </div>
 
-                <div class="tab {{ 'active' if active_tab == '3' }}">
+                <div class="tab {{ 'active' if active_tab == 'subscription' }}">
                     {% if project.published %}
                         <div class="subscription-published">
                             <h3 class="mt-2 mb-3">Project Published</h3>
