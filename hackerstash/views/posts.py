@@ -173,7 +173,7 @@ def create_comment(post_id: str) -> str:
     notification_factory('comment_created', {'comment': comment}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
-        partial = get_template_attribute('partials/comments.html', 'comments')
+        partial = get_template_attribute('partials/comments.html', 'nested_comments')
         return partial(comment.post.comments, True)
     else:
         return redirect(url_for('posts.show', post_id=post.url_slug))
@@ -195,7 +195,7 @@ def delete_comment(post_id: str, comment_id: str) -> str:
         db.session.commit()
 
     if request.headers.get('X-Requested-With') == 'fetch':
-        partial = get_template_attribute('partials/comments.html', 'comments')
+        partial = get_template_attribute('partials/comments.html', 'nested_comments')
         return partial(comment.post.comments, True)
     else:
         return redirect(url_for('posts.show', post_id=comment.post.url_slug))
@@ -234,7 +234,7 @@ def comment_vote(post_id: str, comment_id: str) -> str:
         notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
-        partial = get_template_attribute('partials/comments.html', 'comments')
+        partial = get_template_attribute('partials/comments.html', 'nested_comments')
         return partial(comment.post.comments, True)
     else:
         return redirect(url_for('posts.show', post_id=post_id))
