@@ -2,7 +2,7 @@
 {% set title = 'HackerStash / User' %}
 
 {% from "partials/avatar.html" import avatar %}
-{% from "partials/comments.html" import comments %}
+{% from "partials/comments.html" import flat_comments %}
 {% from "partials/posts.html" import posts %}
 {% from "partials/votes.html" import votes %}
 {% from "partials/user_project_card.html" import user_project_card %}
@@ -72,7 +72,7 @@
                 </div>
                 <div class="tab {{ 'active' if active_tab == 'comments' }}">
                     {% if active_tab == 'comments' %}
-                        {{ comments(user.comments) }}
+                        {{ flat_comments(user.comments) }}
                     {% endif %}
                 </div>
                 <div class="tab {{ 'active' if active_tab == 'votes' }}">

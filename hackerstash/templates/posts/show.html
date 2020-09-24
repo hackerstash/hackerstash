@@ -5,7 +5,7 @@
 {% set post_url = 'https://hackerstash.com' + url_for('posts.show', post_id=post.url_slug) %}
 
 {% from "partials/avatar.html" import avatar %}
-{% from "partials/comments.html" import comments %}
+{% from "partials/comments.html" import nested_comments %}
 {% from "partials/editor.html" import editor_light %}
 {% from "partials/previews.html" import project_preview, user_preview %}
 {% from "partials/vote.html" import post_vote %}
@@ -30,7 +30,7 @@
                     <span>update by </span>
                     {{ avatar(post.user, 'xx-sm') }}
                     {{ user_preview(post.user) }}
-                    {% if post.tag %} in {{ post.tag.name }}{% endif %}
+                    {% if post.tag %} in <a href="{{ url_for('posts.tags', tag=post.tag.id) }}">{{ post.tag.name }}</a>{% endif %}
                 </p>
             </div>
 
@@ -72,7 +72,7 @@
         {% endif %}
 
         <label class="label comment-count mt-3 mb-3">{{ post.comments | length }} Comments</label>
-        {{ comments(post.comments, true) }}
+        {{ nested_comments(post.comments, true) }}
     </div>
 {% endblock %}
 

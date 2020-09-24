@@ -2,7 +2,7 @@
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import comment_vote %}
 
-{% macro comments(list, nest=false) %}
+{% macro nested_comments(list, nest=false) %}
     <ul class="comments">
         {% for comment in list | nest_comments(nest) %}
             <li id="{{ comment.id }}">
@@ -46,12 +46,27 @@
                 </div>
 
                 {% if comment.children %}
-                    {{ comments(comment.children) }}
+                    {{ nested_comments(comment.children) }}
                 {% endif %}
             </li>
         {% else %}
             <li class="wrap-620">
                 {% include "partials/no_results.html" %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro flat_comments(list) %}
+    <ul class="comments flat">
+        {% for comment in list %}
+            <li>
+                <p class="small date">• {{ comment.created_at | to_nice_date }}</p>
+                {% if comment.parent_comment_id %}
+                    <p class="reply"><a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.parent_comment_id }}">Replied</a> to a <a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on the post <a href="{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a></p>
+                {% else %}
+                    <p class="reply"><a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">Commented</a> on the post <a href="{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a></p>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>

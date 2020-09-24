@@ -31,6 +31,15 @@ def index() -> str:
     return render_template('posts/index.html', all_posts=results, pagination=pagination)
 
 
+@posts.route('/posts/tags')
+def tags() -> str:
+    tag = Tag.query.get(request.args.get('tag'))
+    if not tag:
+        return redirect(url_for('posts.index'))
+    tagged_posts = Post.query.filter_by(tag_id=tag.id)
+    return render_template('posts/tags/index.html', tagged_posts=tagged_posts, tag=tag)
+
+
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
     # If they request the url with the id we should

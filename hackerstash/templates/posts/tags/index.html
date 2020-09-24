@@ -1,0 +1,20 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Posts / ' + tag.name %}
+
+{% from "partials/posts.html" import posts %}
+
+{% block body %}
+    <div class="page posts">
+        <header class="header">
+            <h2>Posts in {{ tag.name }}</h2>
+            <a href="{{ url_for('posts.index') }}" class="button secondary has-icon">
+                <i class="ri-arrow-left-line"></i>
+                All Posts
+            </a>
+        </header>
+
+        <div class="list">
+            {{ posts(tagged_posts) }}
+        </div>
+    </div>
+{% endblock %}
