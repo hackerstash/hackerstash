@@ -179,6 +179,46 @@
         margin: 0 auto;
         max-width: 630px;
         padding: 4rem 5rem;
+
+        h2 {
+          margin-bottom: 3.75rem;
+        }
+
+        b {
+          color: $mauve-500;
+        }
+
+        .row {
+          border-left: 2px solid $blue-500;
+          padding: 0 0 3rem 4.5rem;
+          position: relative;
+
+          &:last-of-type {
+            border-left: none;
+            padding-bottom: 0;
+          }
+
+          .small {
+            margin-bottom: 0;
+          }
+
+          .icon {
+            align-items: center;
+            background: $blue-900;
+            border-radius: 50%;
+            display: flex;
+            height: 3rem;
+            justify-content: center;
+            left: -1.5rem;
+            position: absolute;
+            top: -1rem;
+            width: 3rem;
+
+            i {
+              color: white;
+            }
+          }
+        }
       }
     }
 
