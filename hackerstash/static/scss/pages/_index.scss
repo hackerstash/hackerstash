@@ -68,14 +68,25 @@
 
       .accordion-wrapper {
         display: flex;
-        margin-top: 4rem;
+        margin: 4rem 0 7rem 0;
 
         .phone {
           margin-right: 5rem;
           width: 280px;
+
+          img {
+            display: none;
+            width: 100%;
+
+            &.active {
+              display: block;
+            }
+          }
         }
 
         .accordion {
+          align-items: center;
+          display: flex;
           flex: 1;
           height: 560px;
 
@@ -85,6 +96,7 @@
 
             li {
               border-top: 2px solid $darkblue-700;
+              cursor: pointer;
               list-style: none;
               margin: 0;
               padding: 0 2rem;
@@ -113,7 +125,6 @@
 
                 .toggle {
                   color: $mauve-500;
-                  cursor: pointer;
                   font-size: 1.5rem;
 
                   &:hover {
