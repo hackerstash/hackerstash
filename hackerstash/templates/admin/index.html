@@ -67,26 +67,6 @@
             </ul>
          </div>
     </div>
-    <div class="tab {{ 'active' if active_tab == 'waitlist' }}">
-        <div class="waitlist-header mt-1 mb-2">
-            <h4>{{ waitlist | length }} people on the waitlist</h4>
-            <a href="{{ url_for('admin.download_waitlist') }}" class="button has-icon">
-                <i class="ri-download-line"></i>
-                Download CSV
-            </a>
-        </div>
-
-        <input type="text" placeholder="Search..." class="input waitlist-filter">
-
-        <ul class="waitlist-list">
-            {% for w in waitlist %}
-                <li>
-                    <h4>{{ w.first_name }}</h4>
-                    <p>{{ w.email }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
     <div class="tab {{ 'active' if active_tab == 'tournaments' }}">
         <div class="button-group mt-2 mb-3">
             <a class="button has-icon" href="{{ url_for('admin.tournament') }}">

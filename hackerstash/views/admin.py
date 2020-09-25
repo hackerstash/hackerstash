@@ -1,11 +1,8 @@
-import csv
-from io import StringIO
-from flask import Blueprint, render_template, request, redirect, url_for, Response
+from flask import Blueprint, render_template, request, redirect, url_for
 from hackerstash.db import db
 from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
 from hackerstash.models.user import User
-from hackerstash.models.waitlist import Waitlist
 from hackerstash.utils.auth import admin_login_required
 
 admin = Blueprint('admin', __name__)
@@ -15,14 +12,12 @@ admin = Blueprint('admin', __name__)
 @admin_login_required
 def index() -> str:
     tab = request.args.get('tab', 'overview')
-    data = {'users': [], 'admins': [], 'waitlist': []}
+    data = {'users': [], 'admins': []}
 
     if tab == 'overview':
         data['users'] = User.query.all()
     if tab == 'projects':
         data['projects'] = Project.query.all()
-    if tab == 'waitlist':
-        data['waitlist'] = Waitlist.query.all()
     if tab == 'tournaments':
         data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 
@@ -51,24 +46,3 @@ def update_tournament(contest_id: str) -> str:
         contest.prizes[f'prize_{i}'] = int(request.form.get(f'prize_{i}', 0))
     db.session.commit()
     return redirect(url_for('admin.index', tab='tournaments'))
-
-
-@admin.route('/admin/waitlist/download')
-@admin_login_required
-def download_waitlist():
-    waitlist = Waitlist.query.all()
-
-    string = StringIO()
-    writer = csv.writer(string)
-    writer.writerow(['first_name', 'email', 'created_at'])
-
-    for w in waitlist:
-        writer.writerow([w.first_name, w.email, w.created_at])
-
-    return Response(
-        string.getvalue(),
-        mimetype='text/csv',
-        headers={
-            'Content-disposition': 'attachment; filename=waitlist.csv'
-        }
-    )

@@ -85,15 +85,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('waitlist',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('first_name', sa.String(), nullable=False),
-    sa.Column('email', sa.String(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
     op.create_table('challenges',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('key', sa.String(), nullable=True),
@@ -269,7 +260,6 @@ def downgrade():
     op.drop_table('members')
     op.drop_table('invites')
     op.drop_table('challenges')
-    op.drop_table('waitlist')
     op.drop_table('users')
     op.drop_table('tokens')
     op.drop_table('tags')

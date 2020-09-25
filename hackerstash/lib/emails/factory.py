@@ -15,7 +15,6 @@ from hackerstash.lib.emails.types.signup_token import SignupToken
 from hackerstash.lib.emails.types.voted_on_comment import VotedOnComment
 from hackerstash.lib.emails.types.voted_on_post import VotedOnPost
 from hackerstash.lib.emails.types.invite_to_project import InviteToProject
-from hackerstash.lib.emails.types.waitlist_confirmation import WaitlistConfirmation
 
 
 def email_factory(email_type, email, payload):
@@ -53,7 +52,5 @@ def email_factory(email_type, email, payload):
         return VotedOnComment(email, payload)
     if email_type == 'voted_on_post':
         return VotedOnPost(email, payload)
-    if email_type == 'waitlist_confirmation':
-        return WaitlistConfirmation(email, payload)
 
     raise Exception(f'{email_type} is not a valid email type')
