@@ -1,6 +1,10 @@
 .page.home {
   padding-top: 320px;
 
+  @include tablet-down {
+    padding-top: 540px;
+  }
+
   .header-banner {
     background-color: $blue-900;
     background-image: url('/static/images/map.svg');
@@ -23,10 +27,26 @@
       padding: 0 220px 0 330px;
       width: 1280px;
     }
+
+    @include tablet-down {
+      background-position: center 150px;
+      background-size: auto 600px;
+      height: 600px;
+
+      .title {
+        align-items: flex-start;
+        padding: 10rem 2rem 0 2rem;
+        width: 100%;
+      }
+    }
   }
 
   .home-section {
     display: flex;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
 
     .highlight {
       color: $blue-500;
@@ -41,11 +61,17 @@
         flex-shrink: 0;
         margin-left: 4rem;
         width: 418px;
+
+        @include tablet-down {
+          margin-left: 0;
+          width: 100%;
+        }
       }
 
       .sign-up {
         background: $darkblue-700;
         border-radius: 1rem;
+        margin-top: 2rem;
         padding: 2rem;
 
         .button-group {
@@ -53,6 +79,10 @@
 
           .button {
             flex: 1;
+          }
+
+          @include tablet-down {
+            flex-direction: column;
           }
         }
       }
@@ -64,11 +94,19 @@
 
       h2 {
         text-align: center;
+
+        @include tablet-down {
+          text-align: left;
+        }
       }
 
       .accordion-wrapper {
         display: flex;
         margin: 4rem 0 7rem 0;
+
+        @include tablet-down {
+          flex-direction: column;
+        }
 
         .phone {
           margin-right: 5rem;
@@ -82,6 +120,12 @@
               display: block;
             }
           }
+
+          @include tablet-down {
+            margin-right: 0;
+            order: 2;
+            width: 100%;
+          }
         }
 
         .accordion {
@@ -89,6 +133,10 @@
           display: flex;
           flex: 1;
           height: 560px;
+
+          @include tablet-down {
+            height: auto;
+          }
 
           ul {
             margin: 0;
@@ -167,6 +215,41 @@
                   border-top: none;
                 }
               }
+
+              @include tablet-down {
+                border: none !important;
+                height: auto !important;
+                margin-bottom: 3rem;
+                padding: 0;
+
+                &.active {
+                  background: none;
+                }
+
+                .toggle {
+                  display: none !important;
+                }
+
+                .title {
+                  align-items: flex-start;
+                  flex-direction: column;
+                  height: auto;
+
+                  p {
+                    margin: 1rem 0;
+                  }
+                }
+
+                .body {
+                  display: block !important;
+                  margin-top: 0;
+                  padding: 0;
+
+                  p:last-of-type {
+                    margin-bottom: 0;
+                  }
+                }
+              }
             }
           }
         }
@@ -179,6 +262,14 @@
         margin: 0 auto;
         max-width: 630px;
         padding: 4rem 5rem;
+
+        @include tablet-down {
+          border: 0;
+          border-radius: 0;
+          margin-left: -2rem;
+          padding: 3rem 2rem;
+          width: calc(100% + 4rem);
+        }
 
         h2 {
           margin-bottom: 3.75rem;
@@ -218,6 +309,18 @@
               color: white;
             }
           }
+
+          @include tablet-down {
+            margin-left: 1.5rem;
+            padding: 0 0 2rem 2.5rem;
+
+            .icon {
+              height: 2rem;
+              left: -1rem;
+              top: -.5rem;
+              width: 2rem;
+            }
+          }
         }
       }
     }
@@ -237,11 +340,19 @@
         height: 530px;
         margin-top: 4rem;
       }
+
+      @include tablet-down {
+        margin-top: 4rem;
+      }
     }
   }
 
   .thicc {
     height: 2px;
     margin: 5rem 0;
+
+    @include tablet-down {
+      margin: 3rem 0 2rem 0;
+    }
   }
 }
