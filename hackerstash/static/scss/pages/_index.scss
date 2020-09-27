@@ -8,7 +8,7 @@
   .header-banner {
     background-color: $blue-900;
     background-image: url('/static/images/map.svg');
-    background-position: right center;
+    background-position: calc(100% + 2.5rem) center;
     background-repeat: no-repeat;
     background-size: auto 450px;
     border-bottom: 2px solid $blue-500;
@@ -19,19 +19,37 @@
     width: 100%;
     z-index: 0;
 
+    &:after {
+      background: linear-gradient(270deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 657px;
+    }
+
     .title {
       align-items: center;
       display: flex;
       height: 100%;
       margin: 0 auto;
       padding: 0 220px 0 330px;
+      position: relative;
       width: 1280px;
+      z-index: 1;
     }
 
     @include tablet-down {
       background-position: center 150px;
       background-size: auto 600px;
       height: 600px;
+
+      &:after {
+        background: linear-gradient(180deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
+        width: 100%;
+      }
 
       .title {
         align-items: flex-start;
