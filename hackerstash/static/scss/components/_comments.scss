@@ -153,6 +153,21 @@
       }
     }
   }
+
+  &.flat {
+    .small {
+      margin-bottom: .5rem;
+    }
+
+    .reply {
+      color: $mauve-500;
+      margin-left: .5rem;
+
+      a {
+        color: $mauve-500;
+      }
+    }
+  }
 }
 
 .comment-form {
