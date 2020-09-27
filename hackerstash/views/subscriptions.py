@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute, abort
+from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute, abort, flash
 from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.lib.logging import logging
@@ -46,6 +46,14 @@ def checkout():
         # Not sure what to do in this case, they're fishing
         # around as we don't expose this anywhere
         return abort(403)
+
+    project = member.project
+    required_properties = ['name', 'description']
+    for prop in required_properties:
+        if getattr(project, prop) in [None, '', '<p><br></p>']:
+            logging.info(f'Project "{project.name}" was missing required property "{prop}" to publish')
+            flash('Project name and description are both required to publish', 'failure')
+            return redirect(url_for('projects.edit', project_id=project.id))
 
     # Create the stripe customer and assign the customer id
     # to the member if they aren't already a customer

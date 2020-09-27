@@ -35,9 +35,26 @@
 
                 <div class="button-group mt-3">
                     <a href="?manage=1" class="button">Manage subscription</a>
-                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel subscription</a>
+                    <button class="button tertiary modal-open" data-modal="cancel-subscription">Cancel subscription</button>
                 </div>
             </div>
         {% endif %}
+    </div>
+
+    <div id="cancel-subscription" class="modal cancel-subscription-modal">
+        <div class="modal-body sm">
+            <header>
+                <h3>Cancel Subscription</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <p class="mt-1">Are you sure you want to cancel your subscription?</p>
+
+                <footer class="mt-2">
+                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel subscription</a>
+                    <button class="button secondary modal-close">Cancel</button>
+                </footer>
+            </main>
+        </div>
     </div>
 {% endblock %}
