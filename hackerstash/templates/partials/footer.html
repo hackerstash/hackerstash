@@ -1,12 +1,16 @@
 <footer class="footer">
     <div class="container w-100">
-        <p class="small">© HackerStash, 2020.</p>
+        <p class="small">© HackerStash, 2020. <span class="seperator"></span> Funding, hacked.</p>
         <p class="small">
             <a href="{{ url_for('legal.terms') }}">Terms</a>
             <span class="seperator"></span>
             <a href="{{ url_for('legal.privacy') }}">Privacy</a>
             <span class="seperator"></span>
-            <a href="{{ url_for('developers.index') }}">Developers</a>
+            <a href="/blog">Blog</a>
+            <span class="seperator"></span>
+            <a href="{{ url_for('contact.index') }}">Contact Us</a>
+            <span class="seperator"></span>
+            <a class="twitter" href="https://twitter.com/HackerStash" target="_blank"><i class="ri-twitter-fill"></i></a>
         </p>
     </div>
 </footer>
