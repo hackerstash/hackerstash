@@ -39,6 +39,10 @@
       position: relative;
       width: 1280px;
       z-index: 1;
+
+      h1 {
+        color: white;
+      }
     }
 
     @include tablet-down {
