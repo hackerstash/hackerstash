@@ -110,6 +110,7 @@
 
         .phone {
           margin-right: 5rem;
+          position: relative;
           width: 280px;
 
           img {
@@ -121,9 +122,54 @@
             }
           }
 
+          .navigation {
+            display: flex;
+            justify-content: space-between;
+            left: -1rem;
+            margin-top: -.5rem;
+            position: absolute;
+            top: 50%;
+            width: calc(100% + 2rem);
+
+            i {
+              cursor: pointer;
+              font-size: 1.75rem;
+
+              &.disabled {
+                color: $darkblue-600;
+                pointer-events: none;
+              }
+            }
+          }
+
+          .indicators {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+
+            span {
+              background: $darkblue-600;
+              border-radius: 50%;
+              cursor: pointer;
+              height: .5rem;
+              margin-right: .5rem;
+              width: .5rem;
+
+              &:last-of-type {
+                margin-right: 0;
+              }
+
+              &.active {
+                background: $mauve-500
+              }
+            }
+          }
+
           @include tablet-down {
             margin-right: 0;
             order: 2;
+            padding: 0 2rem;
             width: 100%;
           }
         }
