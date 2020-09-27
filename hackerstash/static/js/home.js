@@ -10,7 +10,6 @@ if (accordion) {
             const item = event.target.closest('li');
             item.classList.add('active');
             const tab = item.getAttribute('data-tab');
-            console.log(tab);
             document.querySelector(`.phone img[data-tab="${tab}"]`).classList.add('active');
         });
     });

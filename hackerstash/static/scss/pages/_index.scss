@@ -93,8 +93,11 @@
       .sign-up {
         background: $darkblue-700;
         border-radius: 1rem;
-        margin-top: 2rem;
         padding: 2rem;
+
+        @include tablet-down {
+          margin-top: 2rem;
+        }
 
         .button-group {
           display: flex;
