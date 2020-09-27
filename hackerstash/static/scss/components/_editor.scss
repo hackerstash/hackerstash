@@ -104,6 +104,10 @@
     display: none;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   pre {
     background: $darkblue-900;
     font-size: 1rem;
