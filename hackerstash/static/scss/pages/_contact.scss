@@ -4,14 +4,6 @@
   }
   
   .contact-form {
-    margin: 0 auto;
-    max-width: 720px;
-    min-height: calc(100vh - 264px);
-
-    @include tablet-down {
-      min-height: calc(100vh - 216px);
-    }
-
     h2, p {
       margin-bottom: 2rem;
     }
