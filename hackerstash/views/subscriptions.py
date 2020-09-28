@@ -19,7 +19,7 @@ def webhook_received():
 
     if event_type == 'invoice.paid':
         logging.info(f'Handling webhook event type "{event_type}"')
-        handle_invoice_paid(event_data['customer'])
+        handle_invoice_paid(event_data)
 
     if event_type == 'invoice.payment_failed':
         logging.info(f'Handling webhook event type "{event_type}"')

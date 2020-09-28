@@ -1,6 +1,7 @@
 from flask import render_template
 from hackerstash.config import config
 from hackerstash.lib.emails.base import Base
+from hackerstash.utils.filters import to_contest_date
 
 
 class SubscriptionRenewed(Base):
@@ -22,5 +23,5 @@ class SubscriptionRenewed(Base):
 
     @property
     def subject(self) -> str:
-        start_date = self.payload['invoice']['start_date']
-        return f'😊 Receipt for Subscription Payment {start_date}'
+        start_date = self.payload['subscription']['start_date']
+        return f'😊 Receipt for Subscription Payment {to_contest_date(start_date)}'

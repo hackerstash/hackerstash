@@ -1,8 +1,10 @@
 import stripe
 from hackerstash.db import db
 from hackerstash.config import config
+from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import logging
 from hackerstash.models.member import Member
+from hackerstash.models.subscription import Subscription
 
 stripe.api_key = config['stripe_api_secret_key']
 
@@ -60,13 +62,23 @@ def get_payment_details(user):
         return details
 
 
-def handle_invoice_paid(customer_id):
+def handle_invoice_paid(event):
     # This event is sent when the user successfully signs up for
     # the first time. It is not safe to reply on the redirect!
     # This is the only place that should set the project as published.
+    customer_id = event['customer']
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
     project = member.project
-    project.published = True
+    subscription = Subscription.create_with_stripe_event(event, project)
+
+    if project.published:
+        # This is the first time so send the creation email
+        email_factory('subscription_renewed', member.user.email, {'member': member, 'subscription': subscription}).send()
+    else:
+        project.published = True
+        email_factory('subscription_created', member.user.email, {'member': member}).send()
+
+
     logging.info(f'Setting project "{project.name}" as published with customer_id "{customer_id}"')
     db.session.commit()
 
@@ -116,6 +128,7 @@ def handle_subscription_cancelled(member):
     logging.info(f'Cancelling subscription for project "{member.project.name}"')
     member.project.published = False
     stripe.Customer.delete(member.stripe_customer_id)
+    email_factory('subscription_cancelled', member.user.email, {'member': member}).send()
     # I think deleting the customer also deletes the subscription
     # stripe.Subscription.delete(member.stripe_subscription_id)
     db.session.commit()

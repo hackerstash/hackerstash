@@ -37,6 +37,13 @@
                     <a href="?manage=1" class="button">Manage subscription</a>
                     <button class="button tertiary modal-open" data-modal="cancel-subscription">Cancel subscription</button>
                 </div>
+
+                <hr class="divider mt-2 mb-2">
+
+                <h3 class="mb-1-5">Past receipts</h3>
+                {% for sub in project.subscriptions %}
+                    <p>{{ sub.start_date | to_contest_date }} <a href="{{ sub.receipt_url }}" class="ml-1" target="_blank" rel="nofollow noreferrer">View</a></p>
+                {% endfor %}
             </div>
         {% endif %}
     </div>

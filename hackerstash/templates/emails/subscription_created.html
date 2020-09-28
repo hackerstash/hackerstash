@@ -1,7 +1,7 @@
 {% extends "base_email.html" %}
 
 {% block body %}
-    <p>Dear {{ member.first_name }},</p>
+    <p>Dear {{ member.user.first_name }},</p>
 
     <p>We have successfully process your subscription and {{ member.project.name }} is now published on Hackerstash. You can manage your subscription at any time <a href="{{ host }}{{ url_for('projects.subscription', project_id=member.project.id) }}">here</a>.</p>
     <p>Now, come and <a href="{{ host }}{{ url_for('posts.new') }}">tell everyone</a> what you're working on!</p>
