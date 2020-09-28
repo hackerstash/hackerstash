@@ -1,0 +1,11 @@
+{% extends "base_email.html" %}
+
+{% block body %}
+    <p>Dear {{ member.first_name }},</p>
+
+    <p>We're emailing to confirm that we have successfully cancelled your subscription to the HackerStash community. Your project is no longer published and you will not be entitled to any further tournament prizes.</p>
+    <p>You can still access your account cash out any remaining funds in your stash. Additionally, you are welcome to republish your project at any time.</p>
+    <p>If you believe this cancellation was processed in error, please contact us via <a href="mailto:finance@hackerstash.com">finance@hackerstash.com</a>.</p>
+
+    <p>Kind Regards, <br>The HackerStash Team</p>
+{% endblock %}
