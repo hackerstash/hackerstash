@@ -1,4 +1,5 @@
 import stripe
+from datetime import datetime
 from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.lib.emails.factory import email_factory
@@ -78,16 +79,16 @@ def handle_invoice_paid(event):
         project.published = True
         email_factory('subscription_created', member.user.email, {'member': member}).send()
 
-
     logging.info(f'Setting project "{project.name}" as published with customer_id "{customer_id}"')
     db.session.commit()
 
 
-def handle_payment_failed(customer_id):
+def handle_payment_failed(event):
     # This is sent when the users card is declined whilst they
     # have a subscription (i.e. the direct debit fails). We only
     # want to unpublish the project as their customer/subscription
     # details are stil valid.
+    customer_id = event['customer']
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
     project = member.project
     project.published = False
@@ -95,11 +96,12 @@ def handle_payment_failed(customer_id):
     db.session.commit()
 
 
-def handle_subscription_deleted(customer_id):
+def handle_subscription_deleted(event):
     # Triggered when the user deletes their account (I presume offsite?)
     # this can't be triggered from within HackerStash and only comes from
     # the event. In this case we remove all traces of the user's payment
     # details.
+    customer_id = event['customer']
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
     project = member.project
     member.stripe_customer_id = None
@@ -110,12 +112,12 @@ def handle_subscription_deleted(customer_id):
     db.session.commit()
 
 
-def handle_checkout_complete(customer_id, subscription_id):
+def handle_checkout_complete(event):
     # This is fired when the user sets up the subscription for the first
     # time. The subscription_id is very important for looking stuff up,
     # as well as for when the user choses to cancel their subscription.
-    member = Member.query.filter_by(stripe_customer_id=customer_id).first()
-    member.stripe_subscription_id = subscription_id
+    member = Member.query.filter_by(stripe_customer_id=event['customer']).first()
+    member.stripe_subscription_id = event['subscription']
     logging.info(f'Setting subscription for project "{member.project.name}"')
     db.session.commit()
 
@@ -132,3 +134,16 @@ def handle_subscription_cancelled(member):
     # I think deleting the customer also deletes the subscription
     # stripe.Subscription.delete(member.stripe_subscription_id)
     db.session.commit()
+
+
+def handle_upcoming_invoice(event):
+    # A reminder is sent ever X number of days before the billing is
+    # due, the total is configurable within the Stripe console.
+    member = Member.query.filter_by(stripe_customer_id=event['customer']).first()
+    logging.info(f'Handling subscription reminder for project "{member.project.name}"')
+    period = event['lines']['data'][0]['period']
+    subscription = {
+        'renew_date': datetime.fromtimestamp(period['start']),
+        'total': int(event['amount_due'] / 100)
+    }
+    email_factory('subscription_renewal', member.user.email, {'member': member, 'subscription': subscription})

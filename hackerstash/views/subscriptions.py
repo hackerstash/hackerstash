@@ -5,7 +5,8 @@ from hackerstash.config import config
 from hackerstash.lib.logging import logging
 from hackerstash.lib.stripe import create_customer, create_session, \
     handle_invoice_paid, handle_payment_failed, handle_checkout_complete, \
-    handle_subscription_deleted, handle_subscription_cancelled, get_subscription
+    handle_subscription_deleted, handle_subscription_cancelled, get_subscription, \
+    handle_upcoming_invoice
 from hackerstash.utils.auth import login_required
 
 subscriptions = Blueprint('subscriptions', __name__)
@@ -17,21 +18,18 @@ def webhook_received():
     event_data = request_data['data']['object']
     event_type = request_data['type']
 
+    logging.info(f'Handling webhook event type "{event_type}"')
+
     if event_type == 'invoice.paid':
-        logging.info(f'Handling webhook event type "{event_type}"')
         handle_invoice_paid(event_data)
-
     if event_type == 'invoice.payment_failed':
-        logging.info(f'Handling webhook event type "{event_type}"')
-        handle_payment_failed(event_data['customer'])
-
+        handle_payment_failed(event_data)
     if event_type == 'checkout.session.completed':
-        logging.info(f'Handling webook event type "{event_type}"')
-        handle_checkout_complete(event_data['customer'], event_data['subscription'])
-
+        handle_checkout_complete(event_data)
     if event_type == 'customer.subscription.deleted':
-        logging.info(f'Handling webhook event type "{event_type}"')
-        handle_subscription_deleted(event_data['customer'])
+        handle_subscription_deleted(event_data)
+    if event_type == 'invoice.upcoming':
+        handle_upcoming_invoice(event_data)
 
     return jsonify({'status': 'success'})
 

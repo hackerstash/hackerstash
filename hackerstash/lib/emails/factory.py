@@ -14,6 +14,7 @@ from hackerstash.lib.emails.types.replied_to_comment import RepliedToComment
 from hackerstash.lib.emails.types.signup_token import SignupToken
 from hackerstash.lib.emails.types.subscription_cancelled import SubscriptionCancelled
 from hackerstash.lib.emails.types.subscription_created import SubscriptionCreated
+from hackerstash.lib.emails.types.subscription_renewal import SubscriptionRenewal
 from hackerstash.lib.emails.types.subscription_renewed import SubscriptionRenewed
 from hackerstash.lib.emails.types.voted_on_comment import VotedOnComment
 from hackerstash.lib.emails.types.voted_on_post import VotedOnPost
@@ -53,6 +54,8 @@ def email_factory(email_type, email, payload):
         return SubscriptionCancelled(email, payload)
     if email_type == 'subscription_created':
         return SubscriptionCreated(email, payload)
+    if email_type == 'subscription_renewal':
+        return SubscriptionRenewal(email, payload)
     if email_type == 'subscription_renewed':
         return SubscriptionRenewed(email, payload)
     if email_type == 'invite_to_project':
