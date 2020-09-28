@@ -4,7 +4,7 @@ from hackerstash.lib.logging import logging
 
 
 def is_not_members_comment(user, comment):
-    return user.member.project.id != comment.post.project.id
+    return user.member.project.id != comment.user.member.project.id
 
 
 class CommentVoted(Base):

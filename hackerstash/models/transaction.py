@@ -19,6 +19,11 @@ class Transaction(db.Model):
     def __repr__(self) -> str:
         return f'<Transaction {self.id}>'
 
+    # The default order should be newest first
+    __mapper_args__ = {
+        'order_by': created_at.desc()
+    }
+
     @classmethod
     def add_prize_winnings(cls, past_result):
         logging.info(f'Adding prize transaction for \'{past_result.project.name}\' - ${past_result.prize}')
