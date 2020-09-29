@@ -23,7 +23,6 @@ from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
 from hackerstash.views.rules import rules
-from hackerstash.views.search import search
 from hackerstash.views.stash import stash
 from hackerstash.views.subscriptions import subscriptions
 from hackerstash.views.users import users
@@ -58,7 +57,6 @@ app.register_blueprint(past_results)
 app.register_blueprint(posts)
 app.register_blueprint(projects)
 app.register_blueprint(rules)
-app.register_blueprint(search)
 app.register_blueprint(stash)
 app.register_blueprint(subscriptions)
 app.register_blueprint(users)

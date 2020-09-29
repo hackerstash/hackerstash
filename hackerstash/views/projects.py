@@ -6,6 +6,7 @@ from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.lib.pagination import paginate
 from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.lib.stripe import get_payment_details
 from hackerstash.models.user import User
@@ -19,17 +20,15 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index() -> str:
-    display = request.args.getlist('display')
     filtered_projects = project_filtering(request.args)
-    # Get the number of filters in use, the display arg
-    # shouldn't count towards the total
-    filters_count = len([x for x in list(request.args.keys()) if x != 'display'])
+    filters_count = len([x for x in list(request.args.keys()) if x != 'sorting'])
+    results, pagination = paginate(filtered_projects)
 
     return render_template(
         'projects/index.html',
-        filtered_projects=filtered_projects,
-        display=display,
-        filters_count=filters_count
+        filtered_projects=results,
+        filters_count=filters_count,
+        pagination=pagination
     )
 
 
