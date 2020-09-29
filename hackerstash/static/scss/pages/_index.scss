@@ -2,7 +2,7 @@
   padding-top: 320px;
 
   @include tablet-down {
-    padding-top: 540px;
+    padding-top: 420px;
   }
 
   .header-banner {
@@ -47,8 +47,8 @@
 
     @include tablet-down {
       background-position: center 150px;
-      background-size: auto 600px;
-      height: 600px;
+      background-size: auto 420px;
+      height: 420px;
 
       &:after {
         background: linear-gradient(180deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
