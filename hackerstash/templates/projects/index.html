@@ -33,6 +33,8 @@
         </header>
 
         {{ projects(filtered_projects) }}
+
+        {% include "partials/pagination.html" %}
     </div>
 
     <div id="filter-modal" class="modal">
