@@ -11,8 +11,14 @@ document.addEventListener('click', (event) => {
         const parent = button.getAttribute('data-parent');
 
         if (button.closest('.disabled')) {
-            const message = getDisabledToastMessage(button.closest('.disabled').classList);
-            return createToast(message, 'error');
+            const classList = button.closest('.disabled').classList;
+
+            if (classList.contains('logged-out')) {
+                return document.querySelector('#sign-up-modal').classList.add('open');
+            } else {
+                const message = getDisabledToastMessage(classList);
+                return createToast(message, 'error');
+            }
         }
 
         const options = {
@@ -35,10 +41,6 @@ document.addEventListener('click', (event) => {
     }
 
     function getDisabledToastMessage(classList) {
-        if (classList.contains('logged-out')) {
-            return 'You can\'t vote because you’re currently logged out.';
-        }
-
         if (classList.contains('not-published')) {
             return 'You can\'t vote because you do not have a published project.';
         }

@@ -1,0 +1,24 @@
+{% if not g.user %}
+    <div id="sign-up-modal" class="modal">
+        <div class="modal-body sm">
+            <header>
+                <h2>Join The Community</h2>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <p>To join the conversation you’ll need to create a HackerStash account and publish your project.</p>
+                <p>Publishing costs $9 per month, and you cancel any time.</p>
+                <div class="button-group mb-2">
+                    <a href="{{ url_for('auth.google_login') }}" class="button has-icon google">
+                        <i class="google-icon"></i> Google
+                    </a>
+                    <a href="{{ url_for('auth.twitter_login') }}" class="button has-icon twitter">
+                        <i class="icon ri-twitter-fill"></i> Twitter
+                    </a>
+                </div>
+                <p>Or, use your <a href="{{ url_for('auth.signup', use_email=1) }}">email address</a></p>
+                <p class="small mt-4 mb-0">By signing up using Google, Twitter, or your email address above, you acknowledge that you have read and agree to the HackerStash <a href="{{ url_for('legal.terms') }}">Terms of Use</a> and <a href="{{ url_for('legal.privacy') }}">Privacy Policy</a>.</p>
+            </main>
+        </div>
+    </div>
+{% endif %}
