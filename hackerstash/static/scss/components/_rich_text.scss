@@ -1,6 +1,10 @@
 .rich_text {
   color: $mauve-900;
 
+  * {
+    color: $mauve-900 !important;
+  }
+
   h1 {
     font-size: 24px;
     line-height: 28px;

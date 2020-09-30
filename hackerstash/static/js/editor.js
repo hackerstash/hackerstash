@@ -43,18 +43,6 @@ function createEditor(form) {
     const headingPicker = selector('.heading-picker');
     const imageUpload = selector('.ql-image[type=file]');
 
-    selector('.ql-editor').addEventListener('paste', event => {
-        event.preventDefault();
-
-        const html = event.clipboardData.getData('text/html').trim();
-        const node = new DOMParser().parseFromString(html, 'text/html').body;
-        node.querySelectorAll('*').forEach(x => x.removeAttribute('style'));
-
-        const delta = editor.clipboard.convert(node.innerHTML);
-        editor.setContents(delta, 'silent');
-        setTimeout(() => editor.setSelection(99999, 0, 'api'), 0);
-    });
-
     document.querySelector(form).addEventListener('submit', event => {
         event.preventDefault();
         selector('.body').value = editor.root.innerHTML;
