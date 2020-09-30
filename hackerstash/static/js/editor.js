@@ -199,8 +199,13 @@ function createEditor(form) {
 
     function insertUsernameIntoEditor(input, username) {
         if (usernameSearch) {
+            const usernameMatcher = new RegExp(`(@${usernameSearch})(?:<|\s|$)`);
+
             input.innerHTML = input.innerHTML
-                .replace(`@${usernameSearch}`, `@${username} `)
+                .replace(usernameMatcher, (all, match) => {
+                    const suffix = all.endsWith('<') ? ' <' : ' ';
+                    return `@${username}${suffix}`;
+                })
                 .replace(/<p><br><\/p>$/, '');
         }
 
