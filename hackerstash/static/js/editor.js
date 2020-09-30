@@ -1,4 +1,5 @@
 function createEditor(form) {
+    let usernameSearch = '';
     const selector = s => document.querySelector(`${form} ${s}`);
 
     const Link = Quill.import('formats/link');
@@ -125,6 +126,7 @@ function createEditor(form) {
         }
 
         const username = match[0].replace('@', '');
+        usernameSearch = username;
 
         const options = {
             credentials: 'include',
@@ -190,15 +192,17 @@ function createEditor(form) {
     });
 
     function closeMentionContainer() {
+        usernameSearch = '';
         const containers = document.querySelectorAll('.mention-container');
         containers.forEach(elem => elem.remove());
     }
 
     function insertUsernameIntoEditor(input, username) {
-        input.innerHTML = input
-            .innerHTML
-            .replace(/@([a-z0-9\_\-\.])+/, `@${username} `)
-            .replace(/<p><br><\/p>$/, '');
+        if (usernameSearch) {
+            input.innerHTML = input.innerHTML
+                .replace(`@${usernameSearch}`, `@${username} `)
+                .replace(/<p><br><\/p>$/, '');
+        }
 
         setTimeout(() => {
             editor.setSelection(99999, 0, 'api');
