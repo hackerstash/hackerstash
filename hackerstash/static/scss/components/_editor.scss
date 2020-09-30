@@ -87,6 +87,10 @@
   resize: both;
   white-space: pre-wrap;
 
+  * {
+    color: $mauve-900 !important;
+  }
+
   &.light {
     height: 160px;
   }
@@ -108,6 +112,10 @@
     background: $darkblue-900;
     font-size: 1rem;
     padding: 1rem;
+  }
+
+  * {
+    color: $mauve-500 !important;
   }
 }
 
