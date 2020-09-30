@@ -226,6 +226,7 @@ def post_vote(post_id: str) -> str:
 @published_project_required
 def comment_vote(post_id: str, comment_id: str) -> str:
     comment = Comment.query.get(comment_id)
+    size = request.args.get('size', 'sm')
     direction = request.args.get('direction', 'up')
 
     if comment.user.member.project.id != g.user.member.project.id:
@@ -234,7 +235,7 @@ def comment_vote(post_id: str, comment_id: str) -> str:
         notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()
 
     if request.headers.get('X-Requested-With') == 'fetch':
-        partial = get_template_attribute('partials/comments.html', 'nested_comments')
-        return partial(comment.post.comments, True)
+        partial = get_template_attribute('partials/vote.html', 'comment_vote')
+        return partial(size, comment)
     else:
         return redirect(url_for('posts.show', post_id=post_id))
