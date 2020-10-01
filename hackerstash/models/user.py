@@ -84,6 +84,12 @@ class User(db.Model):
         return list(filter(lambda x: not x.read, self.notifications))
 
     @property
+    def can_post(self):
+        if self.admin:
+            return True
+        return self.member and self.member.project.published
+
+    @property
     def preview_json(self) -> str:
         data = {
             'name': f'{self.first_name} {self.last_name}',

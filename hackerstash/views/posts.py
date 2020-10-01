@@ -79,9 +79,6 @@ def create() -> str:
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
-    if not project.published:
-        return redirect(url_for('posts.index'))
-
     title = request.form['title']
     tag_id = request.form.get('tag')
     url_slug = Post.generate_url_slug(title)
@@ -152,11 +149,12 @@ def destroy(post_id: str) -> str:
 
 @posts.route('/posts/<post_id>/comment', methods=['POST'])
 @login_required
+@published_project_required
 def create_comment(post_id: str) -> str:
     user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
 
-    if not request.form['body'] or not user.member.project.published:
+    if not request.form['body']:
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     body, mentioned_users = proccess_mentions(request.form['body'])

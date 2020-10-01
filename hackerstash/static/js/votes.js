@@ -49,6 +49,10 @@ document.addEventListener('click', (event) => {
             return 'You can\'t vote on your own project.';
         }
 
+        if (classList.contains('ghost')) {
+            return 'This post belong to an admin and can\'t be voted on.'
+        }
+
         return 'An unknown error has occurred, please try again.'
     }
 });

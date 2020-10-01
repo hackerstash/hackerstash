@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import g, request, redirect, url_for, render_template, session
+from flask import g, request, redirect, url_for, render_template
 from werkzeug.exceptions import Unauthorized
 from hackerstash.config import config
 
@@ -25,8 +25,9 @@ def member_required(f):
 def published_project_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.user.member or not g.user.member.project.published:
-            raise Unauthorized()
+        if not g.user.admin:
+            if not g.user.member or not g.user.member.project.published:
+                raise Unauthorized()
         return f(*args, **kwargs)
     return decorated_function
 

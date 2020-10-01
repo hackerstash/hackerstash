@@ -10,7 +10,7 @@
         <header class="header">
             <h2>Posts</h2>
 
-            {% if g.user and g.user.member and g.user.member.project.published %}
+            {% if g.user and g.user.can_post %}
                 <a aria-label="Crete new post" class="button" href="{{ url_for('posts.new') }}">+ New</a>
             {% endif %}
         </header>

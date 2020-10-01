@@ -64,6 +64,8 @@ class Post(db.Model):
             return 'disabled not-published'
         if self.project.id == user.member.project.id:
             return 'disabled own-project'
+        if self.project.ghost:
+            return 'disabled ghost'
 
         existing_vote = self.get_existing_vote_for_user(user)
         return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
