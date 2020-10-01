@@ -2,7 +2,7 @@
 
 {% if completed_challenge %}
     <div class="challenge-completed">
-         <i class="ri-close-line close" onclick="partysOver();"></i>
+         <i aria-label="Close confetti overlay" role="button" class="ri-close-line close" onclick="partysOver();"></i>
         <h3><i class="ri-checkbox-circle-line"></i>Challenge Complete!</h3>
         <p>{{ completed_challenge | safe }}</p>
     </div>

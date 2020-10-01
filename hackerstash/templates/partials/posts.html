@@ -3,16 +3,16 @@
 {% from "partials/vote.html" import post_vote %}
 
 {% macro posts(list, limit=999) %}
-    <div class="posts">
+    <ul class="posts" role="list">
         {% for post in list %}
             {% if loop.index < limit %}
-                <article class="post-row">
+                <li class="post-row" role="listitem">
                     <div class="post-votes post-votes-{{ post.id }}">
                         {{ post_vote('sm', post) }}
                     </div>
                     <div class="details ml-1-5">
                         <p>
-                            <a href="{{ url_for('posts.show', post_id=post.url_slug) }}">
+                            <a aria-label="View post" href="{{ url_for('posts.show', post_id=post.url_slug) }}">
                                 {{ post.title }}
                             </a>
                         </p>
@@ -21,7 +21,7 @@
                                 <span> update by </span>
                                 {{ avatar(post.user, 'xx-sm') }}
                                 {{ user_preview(post.user) }}
-                                {% if post.tag %} in <a href="{{ url_for('posts.tags', tag=post.tag.id) }}">{{ post.tag.name }}</a>{% endif %}
+                                {% if post.tag %} in <a aria-label="View all posts with the {{ post.tag.name }} tag" href="{{ url_for('posts.tags', tag=post.tag.id) }}">{{ post.tag.name }}</a>{% endif %}
                                 <span class="seperator d-none-small">•</span>
                             </span>
                             <span>
@@ -31,10 +31,10 @@
                             </span>
                         </p>
                     </div>
-                </article>
+                </li>
             {% endif %}
         {% else %}
             {% include "partials/no_results.html" %}
         {% endfor %}
-    </div>
+    </ul>
 {% endmacro %}

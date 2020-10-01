@@ -1,4 +1,5 @@
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import user_preview %}
 
 {% macro follows(users) %}
     <ul class="follow-list mt-3">
@@ -8,13 +9,11 @@
             <li>
                 {{ avatar(user) }}
                 <div class="details">
-                    <h4>
-                        <a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
-                    </h4>
+                    <h4>{{ user_preview(user) }}</h4>
                     <p class="small mb-0">@{{ user.username }}</p>
                 </div>
                 {% if not is_self and g.user %}
-                    <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if g.user.is_following(user) }}">
+                    <a aria-label="{{ 'Unfollow' if g.user.is_following(user) else 'Follow' }} {{ user.first_name }}" href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if g.user.is_following(user) }}">
                         {{ 'Unfollow' if g.user.is_following(user) else 'Follow' }}
                     </a>
                 {% endif %}

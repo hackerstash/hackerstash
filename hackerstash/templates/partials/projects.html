@@ -2,10 +2,10 @@
 {% from "partials/vote.html" import project_vote %}
 
 {% macro projects(list) %}
-    <div class="results">
+    <ul class="results" role="list">
         {% for project in list %}
-            <div class="project-card {{ 'extended' if display }}">
-                <a href="{{ url_for('projects.show', project_id=project.id) }}">
+            <li class="project-card" role="listitem">
+                <a aria-label="View the {{ project.name }} project page" href="{{ url_for('projects.show', project_id=project.id) }}">
                     <div class="title">
                         {{ avatar(project) }}
                         <h4 class="name">{{ project.name }}</h4>
@@ -15,9 +15,9 @@
                         <p><span>{{ project.members | length }}</span> members</p>
                     </div>
                 </a>
-            </div>
+            </li>
         {% endfor %}
-    </div>
+    </ul>
 
     {% if list | length == 0 %}
         {% include "partials/no_results.html" %}

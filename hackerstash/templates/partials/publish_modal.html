@@ -5,7 +5,7 @@
                 <h3>Project Publication</h3>
                 <div class="tag primary">$5 per month</div>
             </div>
-            <i class="icon ri-close-line modal-close"></i>
+            <i role="button" aria-label="Cancel" class="icon ri-close-line modal-close"></i>
         </header>
         <main>
             <form class="form" action="{{ url_for('subscriptions.checkout') }}" method="post">
@@ -25,8 +25,8 @@
                     </div>
 
                     <footer>
-                        <button class="button success" type="submit">Publish Project</button>
-                        <button class="button secondary modal-close" type="button">Cancel</button>
+                        <button aria-label="Publish project" class="button success" type="submit">Publish Project</button>
+                        <button aria-label="Cancel" class="button secondary modal-close" type="button">Cancel</button>
                     </footer>
                 </fieldset>
             </form>

@@ -4,12 +4,12 @@
 
 <aside id="sidebar" class="sidebar">
     <div class="logo">
-        <a href="{{ url_for('home.index') }}">
+        <a aria-label="View home page" href="{{ url_for('home.index') }}">
             <img src="/static/images/logo.svg">
         </a>
         <div class="actions">
             {% if g.user %}
-                <a aria-label="View notifications" data-count="{{ g.user.unread_notifications | length }}" class="notification-bell {{ 'unread' if g.user.unread_notifications }} {{ 'active' if request.path.startswith('/notifications') }}" href="{{ url_for('notifications.index') }}">
+                <a aria-label="View your notifications" data-count="{{ g.user.unread_notifications | length }}" class="notification-bell {{ 'unread' if g.user.unread_notifications }} {{ 'active' if request.path.startswith('/notifications') }}" href="{{ url_for('notifications.index') }}">
                     <i class="icon ri-notification-2-line"></i>
                 </a>
             {% endif %}
@@ -26,24 +26,24 @@
             <p class="small mb-0">{{ g.time_remaining }}</p>
         </div>
     </div>
-    <nav class="routes">
-        <a class="{{ 'active' if request.path.startswith('/leaderboard') }}" href="{{ url_for('leaderboard.index') }}">
+    <nav class="routes" role="navigation" aria-label="Main site links">
+        <a aria-label="View the leaderboard" class="{{ 'active' if request.path.startswith('/leaderboard') }}" href="{{ url_for('leaderboard.index') }}">
             <i class="icon ri-trophy-line"></i>
             Leaderboard
         </a>
-        <a class="{{ 'active' if request.path.startswith('/posts') }}" href="{{ url_for('posts.index') }}">
+        <a aria-label="View all posts" class="{{ 'active' if request.path.startswith('/posts') }}" href="{{ url_for('posts.index') }}">
             <i class="icon ri-flashlight-line"></i>
             Posts
         </a>
-        <a class="{{ 'active' if request.path.startswith('/projects') and not request.path.startswith(user_project_path) }}" href="{{ url_for('projects.index') }}">
+        <a aria-label="View all projects" class="{{ 'active' if request.path.startswith('/projects') and not request.path.startswith(user_project_path) }}" href="{{ url_for('projects.index') }}">
             <i class="icon ri-profile-line"></i>
             Projects
         </a>
-        <a class="{{ 'active' if request.path.startswith('/rules') }}" href="{{ url_for('rules.index') }}">
+        <a aria-label="View the rules" class="{{ 'active' if request.path.startswith('/rules') }}" href="{{ url_for('rules.index') }}">
             <i class="icon ri-lightbulb-line"></i>
             Rules
         </a>
-        <a class="{{ 'active' if request.path.startswith('/past_results') }}" href="{{ url_for('past_results.index') }}">
+        <a aria-label="View past results" class="{{ 'active' if request.path.startswith('/past_results') }}" href="{{ url_for('past_results.index') }}">
             <i class="icon ri-history-line"></i>
             Past Results
         </a>
@@ -51,13 +51,13 @@
     <hr class="divider">
     <div class="user-actions">
         {% if g.user %}
-            <a class="user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
+            <a aria-label="View your profile" class="user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
                 {{ avatar(g.user, 'x-sm') }}
                 <p>{{ g.user.first_name }} {{ g.user.last_name }}</p>
             </a>
 
             {% if g.user.member %}
-                <a class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
+                <a aria-label="View the {{ g.user.member.project.name }} project" class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
                     {{ avatar(g.user.member.project, 'x-sm') }}
                     <p class="split">
                         <span class="truncate">{{ g.user.member.project.name }}</span>
@@ -65,7 +65,7 @@
                     </p>
                 </a>
 
-                <a class="challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
+                <a aria-label="View your challenges" class="challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
                     <i class="icon ri-medal-2-line"></i>
                     <p class="split">
                         <span>Challenges</span>
@@ -74,8 +74,8 @@
                 </a>
             {% endif %}
         {% else %}
-            <a class="button" href="{{ url_for('auth.signup') }}">Sign Up</a>
-            <a class="button secondary" href="{{ url_for('auth.login') }}">Log In</a>
+            <a aria-label="View the sign up page" class="button" href="{{ url_for('auth.signup') }}">Sign Up</a>
+            <a aria-label="View the log in page" class="button secondary" href="{{ url_for('auth.login') }}">Log In</a>
         {% endif %}
     </div>
 </aside>
