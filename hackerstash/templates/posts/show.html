@@ -58,7 +58,7 @@
 
         <hr class="divider mt-3 mb-3">
 
-        {% if g.user and g.user.member and g.user.member.project.published %}
+        {% if g.user and g.user.can_post %}
             <form class="form wrap-620 comment-form editor-form" action="{{ url_for('posts.create_comment', post_id=post.id) }}" method="post">
                 <fieldset>
                     <label class="label" for="body">New comment</label>
