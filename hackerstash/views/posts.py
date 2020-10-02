@@ -26,7 +26,7 @@ def index() -> str:
     if tab == 'new':
         all_posts = Post.query.order_by(Post.created_at.desc()).all()
     if tab == 'top':
-        all_posts = Post.query.order_by(Post.vote_score.asc()).all()
+        all_posts = Post.query.order_by(Post.vote_score.desc()).all()
 
     results, pagination = paginate(all_posts)
     return render_template('posts/index.html', all_posts=results, pagination=pagination)
