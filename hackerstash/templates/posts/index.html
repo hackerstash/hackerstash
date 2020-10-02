@@ -3,8 +3,6 @@
 
 {% from "partials/posts.html" import posts %}
 
-{% set active_tab = request.args.get('tab') or 'new' %}
-
 {% block body %}
     <div class="page posts">
         <header class="header">
@@ -17,22 +15,28 @@
 
         <div class="tabs">
             <div class="tab-header">
-                <a id="new-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'new' else 'false' }}" href="?tab=new" class="button {{ 'active' if active_tab == 'new' }}">Newest</a>
-                <a id="top-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'top' else 'false' }}" href="?tab=top" class="button {{ 'active' if active_tab == 'top' }}">Top</a>
+                <a id="new-posts-tab" role="tab" aria-selected="{{ 'true' if tab == 'new' else 'false' }}" href="{{ url_for('posts.index') }}" class="button {{ 'active' if tab == 'new' }}">Newest</a>
+                <a id="top-posts-tab" role="tab" aria-selected="{{ 'true' if tab == 'top' else 'false' }}" href="{{ url_for('posts.index', tab='top') }}" class="button {{ 'active' if tab == 'top' }}">Top</a>
                 {% if g.user %}
-                <a id="following-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'following' else 'false' }}" href="?tab=following" class="button {{ 'active' if active_tab == 'following' }}">Following</a>
+                <a id="following-posts-tab" role="tab" aria-selected="{{ 'true' if tab == 'following' else 'false' }}" href="{{ url_for('posts.index', tab='following') }}" class="button {{ 'active' if tab == 'following' }}">Following</a>
                 {% endif %}
             </div>
             <div class="tab-body">
-                <div role="tabpanel" aria-labelledby="new-posts-tab" id="new-posts" class="tab {{ 'active' if active_tab == 'new' }}" {{ 'hidden' if active_tab != 'new' }}>
-                    {{ posts(all_posts) }}
+                <div role="tabpanel" aria-labelledby="new-posts-tab" id="new-posts" class="tab {{ 'active' if tab == 'new' }}" {{ 'hidden' if tab != 'new' }}>
+                    {% if tab == 'new' %}
+                        {{ posts(all_posts) }}
+                    {% endif %}
                 </div>
-                <div role="tabpanel" aria-labelledby="top-posts-tab" id="top-posts" class="tab {{ 'active' if active_tab == 'top' }}" {{ 'hidden' if active_tab != 'top' }}>
-                    {{ posts(all_posts) }}
+                <div role="tabpanel" aria-labelledby="top-posts-tab" id="top-posts" class="tab {{ 'active' if tab == 'top' }}" {{ 'hidden' if tab != 'top' }}>
+                    {% if tab == 'top' %}
+                        {{ posts(all_posts) }}
+                    {% endif %}
                 </div>
                 {% if g.user %}
-                <div role="tabpanel" aria-labelledby="following-posts-tab" id="following-posts" class="tab {{ 'active' if active_tab == 'following' }}" {{ 'hidden' if active_tab != 'following' }}>
-                    {{ posts(all_posts) }}
+                <div role="tabpanel" aria-labelledby="following-posts-tab" id="following-posts" class="tab {{ 'active' if tab == 'following' }}" {{ 'hidden' if tab != 'following' }}>
+                    {% if tab == 'following' %}
+                        {{ posts(all_posts) }}
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

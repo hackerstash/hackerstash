@@ -17,8 +17,8 @@ posts = Blueprint('posts', __name__)
 
 
 @posts.route('/posts')
-def index() -> str:
-    tab = request.args.get('tab', 'new')
+@posts.route('/posts/<tab>')
+def index(tab='new') -> str:
     all_posts = []
 
     if tab == 'following' and g.user:
@@ -29,7 +29,7 @@ def index() -> str:
         all_posts = Post.top()
 
     results, pagination = paginate(all_posts)
-    return render_template('posts/index.html', all_posts=results, pagination=pagination)
+    return render_template('posts/index.html', all_posts=results, pagination=pagination, tab=tab)
 
 
 @posts.route('/posts/tags')
