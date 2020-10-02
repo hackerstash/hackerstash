@@ -19,14 +19,15 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index() -> str:
     tab = request.args.get('tab', 'new')
+    all_posts = []
 
     if tab == 'following' and g.user:
-        following_ids = [x.id for x in g.user.following]
-        all_posts = Post.query.filter(Post.user_id.in_(following_ids))
-    else:
-        all_posts = Post.query.all()
+        all_posts = Post.query.filter(Post.user_id.in_([x.id for x in g.user.following])).all()
+    if tab == 'new':
+        all_posts = Post.query.order_by(Post.created_at.desc()).all()
+    if tab == 'top':
+        all_posts = Post.query.order_by(Post.vote_score.asc()).all()
 
-    all_posts = sorted(all_posts, key=lambda x: x.created_at if tab == 'new' else x.vote_score, reverse=True)
     results, pagination = paginate(all_posts)
     return render_template('posts/index.html', all_posts=results, pagination=pagination)
 

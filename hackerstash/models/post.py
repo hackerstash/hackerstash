@@ -1,9 +1,10 @@
 import re
 from random import randint
+from sqlalchemy import func, select
+from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
-from hackerstash.utils.votes import sum_of_votes
 
 
 class Post(db.Model):
@@ -19,7 +20,7 @@ class Post(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined')
-    votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
+    votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='dynamic')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -31,6 +32,14 @@ class Post(db.Model):
     __mapper_args__ = {
         'order_by': created_at.desc()
     }
+
+    @hybrid_property
+    def vote_score(self):
+        return sum(vote.score for vote in self.votes)
+
+    @vote_score.expression
+    def vote_score(cls):
+        return select([func.sum(Vote.score)]).where(Vote.post_id == cls.id).label('vote_score')
 
     @property
     def day(self):
@@ -81,13 +90,6 @@ class Post(db.Model):
             vote = Vote(type='post', score=score, user=user)
             self.votes.append(vote)
         db.session.commit()
-
-    @property
-    def vote_score(self) -> int:
-        # Comments should show the votes for all time. Only
-        # votes made this week will actually be taken into
-        # account at the end of the tournament
-        return sum_of_votes(self.votes, this_contest_only=False)
 
     @classmethod
     def generate_url_slug(cls, title: str) -> str:

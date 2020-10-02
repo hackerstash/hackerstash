@@ -1,7 +1,8 @@
+from sqlalchemy import func, select
+from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
-from hackerstash.utils.votes import sum_of_votes
 
 
 class Comment(db.Model):
@@ -14,7 +15,7 @@ class Comment(db.Model):
 
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    votes = db.relationship('Vote', backref='comment', cascade='all,delete', lazy='joined')
+    votes = db.relationship('Vote', backref='comment', cascade='all,delete', lazy='dynamic')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -26,6 +27,14 @@ class Comment(db.Model):
     __mapper_args__ = {
         'order_by': created_at.desc()
     }
+
+    @hybrid_property
+    def vote_score(self):
+        return sum(vote.score for vote in self.votes)
+
+    @vote_score.expression
+    def vote_score(cls):
+        return select([func.sum(Vote.score)]).where(Vote.post_id == cls.id).label('vote_score')
 
     def get_existing_vote_for_user(self, user):
         # Although a user clicked on the button, the
@@ -58,10 +67,3 @@ class Comment(db.Model):
 
         existing_vote = self.get_existing_vote_for_user(user)
         return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
-
-    @property
-    def vote_score(self) -> int:
-        # Comments should show the votes for all time. Only
-        # votes made this week will actually be taken into
-        # account at the end of the tournament
-        return sum_of_votes(self.votes, this_contest_only=False)
