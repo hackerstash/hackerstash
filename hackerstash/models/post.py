@@ -21,7 +21,7 @@ class Post(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined')
-    votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='dynamic')
+    votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())

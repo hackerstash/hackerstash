@@ -1,11 +1,4 @@
 from hackerstash.models.challenge import Challenge
-from hackerstash.utils.contest import get_week_and_year
-
-
-def is_this_week(date) -> bool:
-    current_week, current_year = get_week_and_year()
-    year, week, day = date.toisocalendar()
-    return current_week == week and current_year == year
 
 
 def sum_of_votes(votes, this_contest_only=True) -> int:

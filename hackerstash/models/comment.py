@@ -15,7 +15,7 @@ class Comment(db.Model):
 
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    votes = db.relationship('Vote', backref='comment', cascade='all,delete', lazy='dynamic')
+    votes = db.relationship('Vote', backref='comment', cascade='all,delete', lazy='joined')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
