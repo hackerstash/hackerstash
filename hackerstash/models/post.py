@@ -1,5 +1,6 @@
 import re
 from random import randint
+from flask import g
 from sqlalchemy import func, select
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
@@ -53,6 +54,19 @@ class Post(db.Model):
     @property
     def year(self):
         return self.created_at.year
+
+    @classmethod
+    def following(cls):
+        following_ids = [x.id for x in g.user.following]
+        return cls.query.filter(Post.user_id.in_(following_ids)).all()
+
+    @classmethod
+    def newest(cls):
+        return cls.query.order_by(Post.created_at.desc()).all()
+
+    @classmethod
+    def top(cls):
+        return cls.query.order_by(Post.vote_score == 0, Post.vote_score.desc()).all()
 
     def has_author(self, user):
         return self.user.id == user.id if user else False

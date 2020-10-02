@@ -22,11 +22,11 @@ def index() -> str:
     all_posts = []
 
     if tab == 'following' and g.user:
-        all_posts = Post.query.filter(Post.user_id.in_([x.id for x in g.user.following])).all()
+        all_posts = Post.following()
     if tab == 'new':
-        all_posts = Post.query.order_by(Post.created_at.desc()).all()
+        all_posts = Post.newest()
     if tab == 'top':
-        all_posts = Post.query.order_by(Post.vote_score.desc()).all()
+        all_posts = Post.top()
 
     results, pagination = paginate(all_posts)
     return render_template('posts/index.html', all_posts=results, pagination=pagination)
