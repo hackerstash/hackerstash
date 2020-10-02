@@ -15,7 +15,6 @@ from hackerstash.views.admin import admin
 from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
-from hackerstash.views.developers import developers
 from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
 from hackerstash.views.legal import legal
@@ -24,8 +23,8 @@ from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
 from hackerstash.views.rules import rules
-from hackerstash.views.search import search
 from hackerstash.views.stash import stash
+from hackerstash.views.subscriptions import subscriptions
 from hackerstash.views.users import users
 
 from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
@@ -50,7 +49,6 @@ app.register_blueprint(admin)
 app.register_blueprint(auth)
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
-app.register_blueprint(developers)
 app.register_blueprint(home)
 app.register_blueprint(leaderboard)
 app.register_blueprint(legal)
@@ -59,8 +57,8 @@ app.register_blueprint(past_results)
 app.register_blueprint(posts)
 app.register_blueprint(projects)
 app.register_blueprint(rules)
-app.register_blueprint(search)
 app.register_blueprint(stash)
+app.register_blueprint(subscriptions)
 app.register_blueprint(users)
 
 # Add blueprints for flask_dance

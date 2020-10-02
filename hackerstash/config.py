@@ -29,6 +29,13 @@ config = {
     # Admin
     'admin_api_key': os.environ.get('admin_api_key'),
 
+    # Stripe
+    'stripe_api_key': os.environ.get('stripe_api_key'),
+    'stripe_api_secret_key': os.environ.get('stripe_api_secret_key'),
+    'stripe_price_id': os.environ.get('stripe_price_id'),
+    'stripe_success_uri': os.environ.get('stripe_success_uri'),
+    'stripe_failure_uri': os.environ.get('stripe_failure_uri'),
+
     # Misc
     'app_environment': os.environ.get('app_environment', 'dev'),
     'error_webhook': os.environ.get('error_webhook')

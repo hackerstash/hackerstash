@@ -23,7 +23,7 @@
                 {% for project in projects %}
                     <li>
                         <p class="col-1 position">
-                            <span>{{ loop.index }}</span>
+                            <span>{{ project.position }}</span>
                         </p>
                         <p class="col-4 project">
                             {{ project_preview(project) }}
@@ -48,4 +48,6 @@
             </ul>
         </div>
     </div>
+
+    {% include "partials/pagination.html" %}
 {% endblock %}

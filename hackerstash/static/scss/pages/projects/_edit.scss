@@ -3,6 +3,35 @@
     margin-bottom: 2rem;
   }
 
+  .header div {
+    align-items: center;
+    display: flex;
+  }
+
+  @include tablet-down {
+    .header {
+      align-items: flex-start;
+      flex-direction: column;
+
+      div {
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .button {
+        margin: 1rem 0 0 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .publish-status {
+    border-radius: .5rem;
+    margin-left: 1.5rem;
+    padding: .2rem .5rem;
+    text-transform: uppercase;
+  }
+
   label {
     span {
       font-weight: $font-weight-normal;
@@ -76,114 +105,6 @@
   .delete-project {
     @include tablet-down {
       width: 100%;
-    }
-  }
-
-  .subscription-card {
-    background: $darkblue-700;
-    border-radius: 1rem;
-    display: flex;
-    padding: 3rem;
-
-    .left {
-      flex: 1;
-      margin-right: 3rem;
-    }
-
-    .right {
-      width: 202px;
-    }
-
-    .tag {
-      background: $blue-900;
-      border-color: $blue-900;
-      border-radius: .5rem;
-      font-style: 14px;
-      font-weight: $font-weight-normal;
-      padding: .15rem .5rem;
-    }
-
-    .learn-more {
-      background: $darkblue-900;
-      border-radius: .5rem;
-      padding: 1.5rem;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-
-      .col {
-        flex: 1;
-
-        &:first-of-type {
-          margin-right: 2rem;
-        }
-      }
-    }
-
-    .input {
-      background: $darkblue-800;
-    }
-
-    .actions {
-      align-items: center;
-      display: flex;
-
-      p {
-        margin: 0 0 0 1rem;
-      }
-    }
-
-    @include tablet-down {
-      flex-direction: column;
-      padding: 1.5rem;
-
-      .left {
-        margin: 0 0 2rem 0;
-      }
-
-      .right {
-        width: 100%
-      }
-
-      .tag {
-        margin: 1rem 0 0 0;
-      }
-
-      .row {
-        flex-direction: column;
-
-        .col:first-of-type {
-          margin: 0;
-        }
-      }
-
-      .actions {
-        flex-direction: column;
-
-        .button {
-          margin-bottom: 1.5rem;
-        }
-      }
-    }
-  }
-
-  .subscription-published {
-    dl {
-      overflow: hidden;
-
-      dt {
-        float: left;
-        margin: 0 0 .5rem 0;
-        width: 140px;
-      }
-
-      dd {
-        float: left;
-        margin: 0 0 .5rem 1rem;
-        width: calc(100% - 156px);
-      }
     }
   }
 

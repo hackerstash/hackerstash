@@ -85,15 +85,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('waitlist',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('first_name', sa.String(), nullable=False),
-    sa.Column('email', sa.String(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
     op.create_table('challenges',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('key', sa.String(), nullable=True),
@@ -253,6 +244,19 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('subscriptions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('invoice_id', sa.String(), nullable=True),
+    sa.Column('start_date', sa.DateTime(), nullable=True),
+    sa.Column('end_date', sa.DateTime(), nullable=True),
+    sa.Column('total', sa.Integer(), nullable=True),
+    sa.Column('receipt_url', sa.String(), nullable=True),
+    sa.Column('project_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     # ### end Alembic commands ###
 
 
@@ -269,10 +273,10 @@ def downgrade():
     op.drop_table('members')
     op.drop_table('invites')
     op.drop_table('challenges')
-    op.drop_table('waitlist')
     op.drop_table('users')
     op.drop_table('tokens')
     op.drop_table('tags')
     op.drop_table('projects')
     op.drop_table('contests')
+    op.drop_table('subscriptions')
     # ### end Alembic commands ###

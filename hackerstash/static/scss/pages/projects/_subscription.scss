@@ -1,0 +1,32 @@
+.page.project.subscription {
+  .header {
+    justify-content: space-between;
+  }
+
+  .subscription-published {
+    dl {
+      overflow: hidden;
+
+      dt {
+        float: left;
+        margin: 0 0 .5rem 0;
+        width: 140px;
+      }
+
+      dd {
+        float: left;
+        margin: 0 0 .5rem 1rem;
+        width: calc(100% - 156px);
+      }
+    }
+  }
+
+  @include tablet-down {
+    .header {
+      .button {
+        margin: 1rem 0 0 0;
+        width: 100%;
+      }
+    }
+  }
+}

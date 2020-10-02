@@ -1,0 +1,100 @@
+#sign-up-modal {
+  header {
+    align-items: flex-end;
+    background-color: $blue-900;
+    background-image: url('/static/images/map.svg');
+    background-position: center -50px;
+    background-size: auto 325px;
+    border-bottom: 2px solid $blue-500;
+    height: 232px;
+    position: relative;
+
+    h2 {
+      margin: 0 0 .5rem .5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .modal-close {
+      align-items: center;
+      background: $darkblue-900;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      height: 2rem;
+      justify-content: center;
+      position: absolute;
+      right: 2rem;
+      top: 2rem;
+      width: 2rem;
+      z-index: 2;
+    }
+
+    &:after {
+      background: linear-gradient(180deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+    }
+
+    @include tablet-down {
+      background: none;
+      border: none;
+      height: auto;
+
+      h2 {
+        margin: 4rem 0 1rem 0;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  main {
+    padding: 3rem 3rem;
+
+    p {
+      color: $mauve-500;
+      margin-bottom: 1.5rem;
+
+      &.small {
+        color: $mauve-900;
+      }
+    }
+
+    .button-group {
+      display: flex;
+
+      .button {
+        flex: 1;
+      }
+
+      @include tablet-down {
+        flex-direction: column;
+      }
+    }
+
+    @include tablet-down {
+      padding: 0 2rem 2rem;
+    }
+  }
+
+  .modal-body {
+    border: 2px solid $darkblue-900;
+
+    @include tablet-down {
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      max-height: 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}

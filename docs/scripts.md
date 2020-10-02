@@ -6,9 +6,9 @@ Running scripts is best done inside the Docker container where you have access t
 ```shell script
 # Locally
 $ docker-compose exec web sh
-$ python -m 'scripts.import_waitlist'
+$ python -m 'scripts.<name_of_script>'
 
 # Production
 $ docker exec -ti <container_id> sh
-$ python -m 'scripts.import_waitlist'
+$ python -m 'scripts.<name_of_script>'
 ```

@@ -1,42 +1,42 @@
 {% macro editor_full(body='') %}
     <div class="toolbar">
         <div class="popup-container">
-            <button type="button" class="button heading-picker"><i class="ri-font-size-2"></i></button>
+            <button aria-label="Format selection heading" type="button" class="button heading-picker"><i class="ri-font-size-2"></i></button>
             <div class="popup d-none">
-                <button class="ql-header" value="1">Heading 1</button>
-                <button class="ql-header" value="2">Heading 2</button>
-                <button class="ql-header" value="3">Heading 3</button>
-                <button class="ql-header" value="">Paragraph</button>
+                <button aria-label="Heading 1" class="ql-header" value="1">Heading 1</button>
+                <button aria-label="Heading 2" class="ql-header" value="2">Heading 2</button>
+                <button aria-label="Heading 3" class="ql-header" value="3">Heading 3</button>
+                <button aria-label="Paragraph" class="ql-header" value="">Paragraph</button>
             </div>
         </div>
-        <button type="button" class="ql-bold"><i class="ri-bold"></i></button>
-        <button type="button" class="ql-italic"><i class="ri-italic"></i></button>
-        <button type="button" class="ql-underline"><i class="ri-underline"></i></button>
-        <button type="button" class="ql-strike"><i class="ri-strikethrough"></i></button>
-        <button type="button" class="ql-list" value="ordered"><i class="ri-list-ordered"></i></button>
-        <button type="button" class="ql-list" value="bullet"><i class="ri-list-unordered"></i></button>
-        <button type="button" class="ql-image"><i class="ri-image-line"></i></button>
-        <button type="button" class="ql-code-block"><i class="ri-code-line"></i></button>
-        <button type="button" class="ql-link"><i class="ri-link"></i></button>
+        <button aria-label="Make selection bold" type="button" class="ql-bold"><i class="ri-bold"></i></button>
+        <button aria-label="Make selection italic" type="button" class="ql-italic"><i class="ri-italic"></i></button>
+        <button aria-label="Make selection underlined" type="button" class="ql-underline"><i class="ri-underline"></i></button>
+        <button aria-label="Make selection strike" type="button" class="ql-strike"><i class="ri-strikethrough"></i></button>
+        <button aria-label="Create ordered list" type="button" class="ql-list" value="ordered"><i class="ri-list-ordered"></i></button>
+        <button aria-label="Create unordered list" type="button" class="ql-list" value="bullet"><i class="ri-list-unordered"></i></button>
+        <button aria-label="Insert an image" type="button" class="ql-image"><i class="ri-image-line"></i></button>
+        <button aria-label="Insert a code block" type="button" class="ql-code-block"><i class="ri-code-line"></i></button>
+        <button aria-label="Insert a link" type="button" class="ql-link"><i class="ri-link"></i></button>
 
         <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" class="ql-image" multiple>
     </div>
-    <div class="editor post full">{{ body | safe }}</div>
+    <div role="textbox" aria-multiline="true" aria-required="true" class="editor post full">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
     <p class="uploading-images mt-1-5 d-none">Uploading...</p>
 {% endmacro %}
 
 {% macro editor_light(body='') %}
     <div class="toolbar">
-        <button type="button" class="ql-bold"><i class="ri-bold"></i></button>
-        <button type="button" class="ql-italic"><i class="ri-italic"></i></button>
-        <button type="button" class="ql-underline"><i class="ri-underline"></i></button>
-        <button type="button" class="ql-strike"><i class="ri-strikethrough"></i></button>
-        <button type="button" class="ql-list" value="ordered"><i class="ri-list-ordered"></i></button>
-        <button type="button" class="ql-list" value="bullet"><i class="ri-list-unordered"></i></button>
-        <button type="button" class="ql-code-block"><i class="ri-code-line"></i></button>
-        <button type="button" class="ql-link"><i class="ri-link"></i></button>
+        <button aria-label="Make selection bold" type="button" class="ql-bold"><i class="ri-bold"></i></button>
+        <button aria-label="Make selection italic" type="button" class="ql-italic"><i class="ri-italic"></i></button>
+        <button aria-label="Make selection underlined" type="button" class="ql-underline"><i class="ri-underline"></i></button>
+        <button aria-label="Make selection strike" type="button" class="ql-strike"><i class="ri-strikethrough"></i></button>
+        <button aria-label="Create ordered list" type="button" class="ql-list" value="ordered"><i class="ri-list-ordered"></i></button>
+        <button aria-label="Create unordered list" type="button" class="ql-list" value="bullet"><i class="ri-list-unordered"></i></button>
+        <button aria-label="Insert a code block" type="button" class="ql-code-block"><i class="ri-code-line"></i></button>
+        <button aria-label="Insert a link" type="button" class="ql-link"><i class="ri-link"></i></button>
     </div>
-    <div class="editor post light">{{ body | safe }}</div>
+    <div role="textbox" aria-multiline="true" aria-required="true" class="editor post light">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
 {% endmacro %}

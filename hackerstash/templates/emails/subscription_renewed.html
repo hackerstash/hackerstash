@@ -1,0 +1,18 @@
+{% extends "base_email.html" %}
+
+{% block body %}
+    <p>Dear {{ member.user.first_name }},</p>
+
+    <p>Thank you for your payment!</p>
+    <p>We have successfully processed your recurring (monthly) payment for the HackerStash community, and you may find your receipt <a href="{{ subscription.receipt_url }}">here</a>. If you believe this charge to be in error or have any questions, please email <a href="mailto:finance@hackerstash.com">finance@hackerstash.com</a>.</p>
+
+    <p>Invoice ID: {{ subscription.invoice_id }}</p>
+    <p>Project: {{ member.project.name }}</p>
+    <p>Start: {{ subscription.start_date | to_contest_date }}</p>
+    <p>End: {{ subscription.end_date | to_contest_date }}</p>
+    <p>Total: ${{ subscription.total }} USD</p>
+
+    <p>You can manage your subscription at any time by visiting the manage subscription page in your edit project view.</p>
+
+    <p>Kind Regards, <br>The HackerStash Team</p>
+{% endblock %}

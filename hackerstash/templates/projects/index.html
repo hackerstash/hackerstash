@@ -29,14 +29,12 @@
                     <i class="icon ri-filter-2-line"></i>
                     Filters ({{ filters_count }})
                 </button>
-                <button aria-label="Open display modal" class="button secondary has-icon modal-open" data-modal="display-modal">
-                    <i class="icon ri-eye-line"></i>
-                    Display
-                </button>
             </div>
         </header>
 
-        {{ projects(filtered_projects, display) }}
+        {{ projects(filtered_projects) }}
+
+        {% include "partials/pagination.html" %}
     </div>
 
     <div id="filter-modal" class="modal">
@@ -516,78 +514,6 @@
                         <footer>
                             <button class="button" type="submit">Apply filters</button>
                             <button class="button secondary" type="reset">Clear filters</button>
-                        </footer>
-                    </fieldset>
-                </form>
-            </main>
-        </div>
-    </div>
-
-    <div id="display-modal" class="modal">
-        <div class="modal-body md">
-            <header>
-                <h3>Display</h3>
-                <i class="icon ri-close-line modal-close"></i>
-            </header>
-            <main>
-                <form class="form" action="{{ url_for('projects.index') }}" method="get">
-                    <fieldset>
-                        <label class="label mt-2">Information on tiles</label>
-                        <ul class="checkbox-group stacked mb-3">
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="member_count" type="checkbox" id="display_member_count" {{ 'checked' if 'member_count' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_member_count">Team member count</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="time_commitment" type="checkbox" id="display_time_commitment" {{ 'checked' if 'time_commitment' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_time_commitment">Time commitment</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="location" type="checkbox" id="display_location" {{ 'checked' if 'location' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_location">Location</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="url" type="checkbox" id="display_url" {{ 'checked' if 'url' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_url">Website (URL)</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="platforms_and_devices" type="checkbox" id="display_platforms_and_devices" {{ 'checked' if 'platforms_and_devices' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_platforms_and_devices">Platforms and devices</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="business_models" type="checkbox" id="display_business_models" {{ 'checked' if 'business_models' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_business_models">Business model</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
-                                    <input name="display" value="fundings" type="checkbox" id="display_fudings" {{ 'checked' if 'fundings' in display }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="display_fudings">Fundings</label>
-                            </li>
-                        </ul>
-
-                        <footer>
-                            <button class="button" type="submit">Apply changes</button>
-                            <button class="button secondary modal-close" type="reset">Cancel</button>
                         </footer>
                     </fieldset>
                 </form>

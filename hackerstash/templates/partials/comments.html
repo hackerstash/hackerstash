@@ -5,13 +5,15 @@
 {% macro nested_comments(list, nest=false) %}
     <ul class="comments">
         {% for comment in list | nest_comments(nest) %}
-            <li id="{{ comment.id }}">
+            <li id="{{ comment.id }}" role="comment" data-author="{{ comment.user.first_name }} {{ comment.user.last_name }}">
                 {% if comment.children %}
-                    <button class="button link collapse"><span></span></button>
+                    <button aria-label="Collapse comments" class="button link collapse"><span></span></button>
                 {% endif %}
 
                 <div class="comment wrap-620">
-                    {{ comment_vote('x-sm', comment) }}
+                    <div class="comment-votes comment-votes-{{ comment.id }}">
+                        {{ comment_vote('x-sm', comment) }}
+                    </div>
                     <div class="details ml-1">
                         <span class="rich_text inline">{{ comment.body | to_safe_html | safe }}</span>
                         <p class="small mt-0-5">
@@ -24,20 +26,20 @@
                                 <span class="seperator reply split">•</span>
                                 <span class="reply add-reply">
                                     <i class="icon ri-reply-line"></i>
-                                    <button class="button link small" data-id="{{ comment.id }}">Reply</button>
+                                    <button aria-label="Reply to comment" class="button link small" data-id="{{ comment.id }}">Reply</button>
                                 </span>
 
                                 {% if g.user.id == comment.user.id %}
                                     <span class="seperator reply">•</span>
-                                    <a href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
+                                    <a aria-label="Delete comment" href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
                                 {% endif %}
                             {% endif %}
 
                             {% if comment.children %}
                                 <span class="seperator reply">&bull;</span>
                                 <span class="collapse-comments">
-                                    <button class="button link small hide">Collapse replies</button>
-                                    <button class="button link small show">Show replies</button>
+                                    <button aria-label="Collapse comments" class="button link small hide">Collapse replies</button>
+                                    <button aria-label="Show comment replies" class="button link small show">Show replies</button>
                                     <span class="show">[{{ comment.children | flatten_comments | length }}]</span>
                                 </span>
                             {% endif %}

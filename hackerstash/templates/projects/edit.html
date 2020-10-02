@@ -10,10 +10,20 @@
 {% block body %}
     <div class="page edit-project">
         <header class="header">
-            <h2>Edit Project</h2>
+            <div>
+                <h2>Edit Project</h2>
+                {% if project.published %}
+                    <span class="tag publish-status success">Published</span>
+                {% else %}
+                    <span class="tag publish-status tertiary">Unpublished</span>
+                {% endif %}
 
-            {% if not project.published %}
-                <span class="tag tertiary">UNPUBLISHED</span>
+            </div>
+
+            {% if project.published and g.user.member.owner %}
+                <a class="button secondary" href="{{ url_for('projects.subscription', project_id=project.id) }}">Manage Subscription</a>
+            {% else %}
+                <button class="button success modal-open" data-modal="publish-modal">Publish Project</button>
             {% endif %}
         </header>
 
@@ -21,12 +31,13 @@
             <div class="tab-header">
                 <a href="?tab=details" class="button {{ 'active' if active_tab == 'details' }}">Project details</a>
                 <a href="?tab=team" class="button {{ 'active' if active_tab == 'team' }}">Team</a>
-                <a href="?tab=subscription" class="button {{ 'active' if active_tab == 'subscription' }}">Subscription</a>
             </div>
 
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'details' }}">
                     <form class="form editor-form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
+                        {% include "partials/messages.html" %}
+
                         <fieldset>
                             <section class="wrap-620 mt-2">
                                 <h3>Summary</h3>
@@ -385,96 +396,11 @@
                         </fieldset>
                     </form>
                 </div>
-
-                <div class="tab {{ 'active' if active_tab == 'subscription' }}">
-                    {% if project.published %}
-                        <div class="subscription-published">
-                            <h3 class="mt-2 mb-3">Project Published</h3>
-                            <h4 class="mb-1-5">Payment schedule</h4>
-                            <dl>
-                                <dt>Subscription</dt>
-                                <dd>$12 per month</dd>
-                                <dt>Next payment</dt>
-                                <dd>N/A</dd>
-                            </dl>
-
-                            <h4 class="mt-2 mb-1-5">Payee details</h4>
-                            <dl>
-                                <dt>Name</dt>
-                                <dd>N/A</dd>
-                                <dt>Email</dt>
-                                <dd>N/A</dd>
-                                <dt>Card number</dt>
-                                <dd>XXXX XXXX XXXX 1234</dd>
-                            </dl>
-
-                            <div class="button-group mt-3">
-                                <button class="button">Manage subscription</button>
-                                <a href="{{ url_for('projects.unpublish', project_id=project.id) }}" class="button tertiary">Cancel subscription</a>
-                            </div>
-                        </div>
-                    {% else %}
-                        {% include "partials/messages.html" %}
-
-                        <div class="subscription-card mt-2">
-                            <div class="left">
-                                <h3 class="mb-2">Subscribe to publish <span class="tag primary">$12 per month</span></h3>
-                                <p class="mb-1-5">Use the form below to publish your project and immediately start participating in this months HackerStash tournament.</p>
-                                <p class="mb-1-5">Tournaments start on the 1st day of each month, with payments taking place on the 3rd day of the month. You can enroll any day of the month.</p>
-                                <p class="mb-1-5">If you choose to unpublish within the first 3 days of the month you can avoid participating in that month’s tournaments, payments taken on or after the 3rd of the month are non-refundable.</p>
-
-                                <form class="form" action="{{ url_for('projects.publish', project_id=project.id) }}" method="post">
-                                    <fieldset>
-                                        <div class="row mb-1">
-                                            <div class="col">
-                                                <label class="label" for="name">Name</label>
-                                                <input class="input" id="name" name="name" placeholder="John Doe">
-                                            </div>
-                                            <div class="col">
-                                                <label class="label" for="email">Email</label>
-                                                <input class="input" id="email" name="email" type="email" placeholder="john@hackerstash.com">
-                                            </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="col">
-                                                <label class="label" for="card_number">Card number</label>
-                                                <input class="input" id="card_number" name="card_number" placeholder="1234 1234 1234 1234">
-                                            </div>
-                                            <div class="col">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <label class="label" for="expiration">Expiration</label>
-                                                        <input class="input" id="expiration" name="expiration" placeholder="MM / YY">
-                                                    </div>
-                                                    <div class="col">
-                                                        <label class="label" for="cvc">CVC</label>
-                                                        <input class="input" id="cvc" name="cvc" placeholder="1234">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="actions">
-                                            <button class="button" type="submit">Subscribe &amp; publish</button>
-                                            <p>$12 per month, cancel any time.</p>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <div class="right">
-                                <div class="learn-more">
-                                    <h4 class="mb-1">Learn more</h4>
-                                    <p class="small">Radical transparency and community spirit form the backbone of the HackerStash tournament.</p>
-                                    <p class="small">If you’re looking for more information, don’t hesitate to visit one of the following pages:</p>
-                                    <p class="small">📜 <a class="ml-0-5" href="{{ url_for('rules.index') }}">Tournament rules</a></p>
-                                    <p class="small mb-0">📄 <a href="#" class="ml-0-5">FAQs</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
+
+    {% include "partials/publish_modal.html" %}
 {% endblock %}
 
 {% block scripts %}

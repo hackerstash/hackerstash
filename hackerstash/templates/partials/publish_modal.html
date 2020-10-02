@@ -1,0 +1,35 @@
+<div id="publish-modal" class="modal">
+    <div class="modal-body md">
+        <header>
+            <div>
+                <h3>Project Publication</h3>
+                <div class="tag primary">$5 per month</div>
+            </div>
+            <i role="button" aria-label="Cancel" class="icon ri-close-line modal-close"></i>
+        </header>
+        <main>
+            <form class="form" action="{{ url_for('subscriptions.checkout') }}" method="post">
+                <fieldset>
+                    <div class="split">
+                        <div class="left">
+                            <p>Click the button below to begin publishing your project, upon publication your project will immediately start participating in this week’s HackerStash tournament.</p>
+                            <p>Tournaments start on Mondays at <b>00.00am GMT</b>, and last for exactly 1 week. Payments are taken at the beginning of each month and you can enroll any day of the month. You will not be able to cash out any prizes until you have completed at least one full month’s billing cycle.</p>
+                            <p>If you choose to unpublish your project 4 or more days prior to the end of the tournament, you can receive a full refund for that week and would no longer be charged for later tournaments unless you republished.</p>
+                        </div>
+                        <div class="right">
+                            <h4 class="mb-1">Learn more</h4>
+                            <p class="small">Radical transparency and community spirit form the backbone of the HackerStash tournament 😊️.</p>
+                            <p class="small mb-1-5">If you’re looking for more information, don’t hesitate to visit one of the following pages:</p>
+                            <p class="small mb-0">📜 <a href="{{ url_for('rules.index') }}">Tournament rules</a></p>
+                        </div>
+                    </div>
+
+                    <footer>
+                        <button aria-label="Publish project" class="button success" type="submit">Publish Project</button>
+                        <button aria-label="Cancel" class="button secondary modal-close" type="button">Cancel</button>
+                    </footer>
+                </fieldset>
+            </form>
+        </main>
+    </div>
+</div>

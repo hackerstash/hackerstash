@@ -1,21 +1,21 @@
 {% if pagination and pagination.pages > 1 %}
-    <ul class="pagination">
+    <ul class="pagination" role="navigation" aria-label="Pagination">
         <li class="{{ 'disabled' if pagination.current == 1 }}">
-            <a href="?page={{ pagination.current - 1 }}" class="button">
+            <a aria-label="View previous page" aria-disabled="{{ 'true' if pagination.current == 1 else 'false' }}" href="?page={{ pagination.current - 1 }}" class="button">
                 <i class="ri-arrow-left-line"></i>
             </a>
         </li>
 
         {% for i in range(pagination.pages) %}
             <li class="page d-none-small {{ 'active' if pagination.current == (i + 1) }}">
-                <a href="?page={{ i + 1 }}" class="button">
+                <a aria-label="View page {{ i + 1 }}" href="?page={{ i + 1 }}" class="button">
                     {{ i + 1 }}
                 </a>
             </li>
         {% endfor %}
 
         <div class="select d-none-large mb-0">
-            <select onchange="location.search = `?page=${event.target.value}`">
+            <select aria-label="Select page" onchange="location.search = `?page=${event.target.value}`">
                 {% for i in range(pagination.pages) %}
                     <option {{ 'selected' if pagination.current == (i + 1) }} value="{{ i + 1 }}">Page {{ i + 1 }}</option>
                 {% endfor %}
@@ -24,7 +24,7 @@
         </div>
 
         <li class="{{ 'disabled' if pagination.current == pagination.pages }}">
-            <a href="?page={{ pagination.current + 1 }}" class="button">
+            <a aria-label="View next page" aria-disabled="{{ 'true' if pagination.current == pagination.pages else 'false' }}" href="?page={{ pagination.current + 1 }}" class="button">
                 <i class="ri-arrow-right-line"></i>
             </a>
         </li>

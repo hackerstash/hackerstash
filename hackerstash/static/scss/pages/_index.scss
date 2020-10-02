@@ -1,176 +1,429 @@
-.home {
+.page.home {
+  padding-top: 320px;
+
   @include tablet-down {
-    padding: 0 1.5rem;
+    padding-top: 420px;
   }
 
-  .title {
-    display: flex;
-    margin: 0 auto;
-    max-width: 960px;
+  .header-banner {
+    background-color: $blue-900;
+    background-image: url('/static/images/map.svg');
+    background-position: calc(100% + 2.5rem) center;
+    background-repeat: no-repeat;
+    background-size: auto 450px;
+    border-bottom: 2px solid $blue-500;
+    height: 280px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
 
-    @include tablet-down {
-      flex-direction: column;
+    &:after {
+      background: linear-gradient(270deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 657px;
     }
 
-    h1 {
-      flex: 1;
-    }
-
-    .caption {
-      background-color: $darkblue-700;
-      background-image: url('/static/images/moody-girl.svg');
-      background-repeat: no-repeat;
-      background-position: calc(100% - 1.5rem) calc(100% - 1.5rem);
-      border-radius: 1rem;
+    .title {
+      align-items: center;
       display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      justify-content: space-between;
-      min-height: 11.25rem;
-      padding: 1.5rem;
-      width: 20.5rem;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 220px 0 330px;
+      position: relative;
+      width: 1280px;
+      z-index: 1;
 
-      @include tablet-down {
-        margin-top: 3rem;
+      h1 {
+        color: white;
+      }
+    }
+
+    @include tablet-down {
+      background-position: center 150px;
+      background-size: auto 420px;
+      height: 420px;
+
+      &:after {
+        background: linear-gradient(180deg, rgba(36, 114, 211, 0) 0%, rgba(36, 114, 211, 0.75) 100%);
         width: 100%;
       }
 
-      h3 {
-        font-weight: $font-weight-normal;
-        max-width: 200px;
-      }
-
-      p {
-        margin-bottom: 0;
+      .title {
+        align-items: flex-start;
+        padding: 10rem 2rem 0 2rem;
+        width: 100%;
       }
     }
   }
 
-  .register {
+  .home-section {
     display: flex;
-    margin: 6rem auto 0 auto;
-    justify-content: space-between;
-    max-width: 960px;
-
-    > * {
-      width: calc(50% - 1.5rem);
-    }
 
     @include tablet-down {
       flex-direction: column;
-      margin-top: 3rem;
-
-      > * {
-        width: 100%;
-      }
     }
 
-    form {
-      background: $darkblue-700;
-      border-radius: 1rem;
-      padding: 3rem;
-
-      @include tablet-down {
-        order: 2;
-        padding: 1.5rem;
-      }
-
-      fieldset {
-        appearance: none;
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .input {
-        background: $darkblue-800;
-
-        &:disabled {
-          color: $mauve-500;
-        }
-      }
-
-      .button {
-        margin-top: .5rem;
-        width: 100%;
-
-        &:disabled {
-          background: $darkblue-800;
-        }
-      }
-
-      .recaptcha {
-        margin: 1rem 0 0 0;
-        text-align: center;
-
-        a {
-          color: $mauve-500;
-        }
-      }
+    .highlight {
+      color: $blue-500;
     }
 
-    .description {
-      .count {
-        margin: 5rem 0 0 3rem;
-        position: relative;
+    &.what-is {
+      .left {
+        flex: 1;
+      }
 
-        span {
-          color: $blue-500;
-        }
+      .right {
+        flex-shrink: 0;
+        margin-left: 4rem;
+        width: 418px;
 
-        img {
-          left: -5.5rem;
-          position: absolute;
-          top: 2rem;
+        @include tablet-down {
+          margin-left: 0;
+          width: 100%;
         }
       }
 
-      @include tablet-down {
-        margin-bottom: 4rem;
+      .sign-up {
+        background: $darkblue-700;
+        border-radius: 1rem;
+        padding: 2rem;
 
-        .count {
-          margin: 2rem 0 0 0;
+        @include tablet-down {
+          margin-top: 2rem;
+        }
 
-          img {
-            left: 8rem;
-            top: 2.5rem;
-            transform: rotate(-60deg) scale(.6);
+        .button-group {
+          display: flex;
+
+          .button {
+            flex: 1;
+          }
+
+          @include tablet-down {
+            flex-direction: column;
           }
         }
       }
     }
-  }
 
-  .features {
-    background: $darkblue-900;
-    border: 2px solid $darkblue-600;
-    border-radius: 1rem;
-    padding: 4rem 2rem 5rem 2rem;
-    margin: 5rem auto 0 auto;
-    max-width: 1280px;
+    &.why {
+      flex-direction: column;
+      justify-content: center;
 
-    h2 {
-      margin-bottom: 3rem;
-      text-align: center;
-    }
+      h2 {
+        text-align: center;
 
-    .grid {
-      display: grid;
-      grid-gap: 3rem 2rem;
-      grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-      margin: 0 auto;
-      max-width: 960px;
-
-      p:not(.small) {
-        align-items: center;
-        display: flex;
-        margin-bottom: 1.25rem;
-
-        i {
-          font-size: 1.75rem;
-          margin-right: 1rem;
+        @include tablet-down {
+          text-align: left;
         }
       }
+
+      .accordion-wrapper {
+        display: flex;
+        margin: 4rem 0 7rem 0;
+
+        @include tablet-down {
+          flex-direction: column;
+        }
+
+        .phone {
+          margin-right: 5rem;
+          position: relative;
+          width: 280px;
+
+          img {
+            display: none;
+            width: 100%;
+
+            &.active {
+              display: block;
+            }
+          }
+
+          .navigation {
+            display: flex;
+            justify-content: space-between;
+            left: -1rem;
+            margin-top: -.5rem;
+            position: absolute;
+            top: 50%;
+            width: calc(100% + 2rem);
+
+            i {
+              cursor: pointer;
+              font-size: 1.75rem;
+
+              &.disabled {
+                color: $darkblue-600;
+                pointer-events: none;
+              }
+            }
+          }
+
+          .indicators {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+
+            span {
+              background: $darkblue-600;
+              border-radius: 50%;
+              cursor: pointer;
+              height: .5rem;
+              margin-right: .5rem;
+              width: .5rem;
+
+              &:last-of-type {
+                margin-right: 0;
+              }
+
+              &.active {
+                background: $mauve-500
+              }
+            }
+          }
+
+          @include tablet-down {
+            margin-right: 0;
+            order: 2;
+            padding: 0 2rem;
+            width: 100%;
+          }
+        }
+
+        .accordion {
+          align-items: center;
+          display: flex;
+          flex: 1;
+          height: 560px;
+
+          @include tablet-down {
+            height: auto;
+          }
+
+          ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+              border-top: 2px solid $darkblue-700;
+              cursor: pointer;
+              list-style: none;
+              margin: 0;
+              padding: 0 2rem;
+
+              &:first-of-type {
+                border-top: none;
+              }
+
+              .title {
+                align-items: center;
+                display: flex;
+                height: 6rem;
+
+                p {
+                  color: $mauve-500;
+                  font-weight: $font-weight-bold;
+                  flex: 1;
+                  margin: 0;
+                }
+
+                i {
+                  color: $blue-500;
+                  font-size: 2.25rem;
+                  margin-right: 1rem;
+                }
+
+                .toggle {
+                  color: $mauve-500;
+                  font-size: 1.5rem;
+
+                  &:hover {
+                    color: $blue-500;
+                  }
+
+                  &.close {
+                    display: none;
+                  }
+                }
+              }
+
+              .body {
+                display: none;
+                margin-top: -.5rem;
+                padding: 0 1rem 0 3.25rem;
+              }
+
+              &.active {
+                background: $darkblue-900;
+                border-top: none;
+                border-radius: 1rem;
+                height: 240px;
+
+                .body {
+                  display: block;
+                }
+
+                .toggle {
+                  &.add {
+                    display: none;
+                  }
+
+                  &.close {
+                    display: block;
+                  }
+                }
+
+                + li {
+                  border-top: none;
+                }
+              }
+
+              @include tablet-down {
+                border: none !important;
+                height: auto !important;
+                margin-bottom: 3rem;
+                padding: 0;
+
+                &.active {
+                  background: none;
+                }
+
+                .toggle {
+                  display: none !important;
+                }
+
+                .title {
+                  align-items: flex-start;
+                  flex-direction: column;
+                  height: auto;
+
+                  p {
+                    margin: 1rem 0;
+                  }
+                }
+
+                .body {
+                  display: block !important;
+                  margin-top: 0;
+                  padding: 0;
+
+                  p:last-of-type {
+                    margin-bottom: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .tournament {
+        background: $darkblue-900;
+        border: 2px solid $darkblue-600;
+        border-radius: 1rem;
+        margin: 0 auto;
+        max-width: 630px;
+        padding: 4rem 5rem;
+
+        @include tablet-down {
+          border: 0;
+          border-radius: 0;
+          margin-left: -2rem;
+          padding: 3rem 2rem;
+          width: calc(100% + 4rem);
+        }
+
+        h2 {
+          margin-bottom: 3.75rem;
+        }
+
+        b {
+          color: $mauve-500;
+        }
+
+        .row {
+          border-left: 2px solid $blue-500;
+          padding: 0 0 3rem 4.5rem;
+          position: relative;
+
+          &:last-of-type {
+            border-left: none;
+            padding-bottom: 0;
+          }
+
+          .small {
+            margin-bottom: 0;
+          }
+
+          .icon {
+            align-items: center;
+            background: $blue-900;
+            border-radius: 50%;
+            display: flex;
+            height: 3rem;
+            justify-content: center;
+            left: -1.5rem;
+            position: absolute;
+            top: -1rem;
+            width: 3rem;
+
+            i {
+              color: white;
+            }
+          }
+
+          @include tablet-down {
+            margin-left: 1.5rem;
+            padding: 0 0 2rem 2.5rem;
+
+            .icon {
+              height: 2rem;
+              left: -1rem;
+              top: -.5rem;
+              width: 2rem;
+            }
+          }
+        }
+      }
+    }
+
+    &.started {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+
+      .small {
+        margin: 0 auto 1.5rem auto;
+      }
+
+      .video {
+        background: $blue-500;
+        border-radius: 1rem;
+        height: 530px;
+        margin-top: 4rem;
+      }
+
+      @include tablet-down {
+        margin-top: 4rem;
+      }
+    }
+  }
+
+  .thicc {
+    height: 2px;
+    margin: 5rem 0;
+
+    @include tablet-down {
+      margin: 3rem 0 2rem 0;
     }
   }
 }

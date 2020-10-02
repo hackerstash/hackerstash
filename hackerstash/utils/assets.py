@@ -15,6 +15,7 @@ scripts = [
     'js/comments.js',
     'js/confetti.js',
     'js/editor.js',
+    'js/home.js',
     'js/menu.js',
     'js/messages.js',
     'js/modals.js',

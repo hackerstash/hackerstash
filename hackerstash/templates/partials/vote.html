@@ -2,15 +2,15 @@
     <div class="votes">
         <div class="vote {{ size }} {{ project.vote_status(g.user) or '' }}">
             {% if g.user %}
-                <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='up', size=size) }}" data-parent="project-votes-{{ project.id }}" rel="nofollow" class="button vote-button upvote">+10</a>
+                <a aria-label="Upvote project" role="button" href="{{ url_for('projects.vote_project', project_id=project.id, direction='up', size=size) }}" data-parent="project-votes-{{ project.id }}" rel="nofollow" class="button vote-button upvote">+10</a>
             {% else %}
-                <button class="button vote-button upvote">+10</button>
+                <button aria-label="Upvote project" aria-disabled="true" class="button vote-button upvote">+10</button>
             {% endif %}
             <p>{{ project.vote_score }} <span> points</span></p>
             {% if g.user %}
-                <a href="{{ url_for('projects.vote_project', project_id=project.id, direction='down', size=size) }}" data-parent="project-votes-{{ project.id }}" rel="nofollow" class="button vote-button downvote">-10</a>
+                <a aria-label="Downvote project" role="button" href="{{ url_for('projects.vote_project', project_id=project.id, direction='down', size=size) }}" data-parent="project-votes-{{ project.id }}" rel="nofollow" class="button vote-button downvote">-10</a>
             {% else %}
-                <button class="button vote-button downvote">-10</button>
+                <button aria-label="Downvote project" aria-disabled="true" class="button vote-button downvote">-10</button>
             {% endif %}
         </div>
     </div>
@@ -20,15 +20,15 @@
     <div class="votes">
         <div class="vote {{ size }} {{ post.vote_status(g.user) or '' }}">
             {% if g.user %}
-                <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='up', size=size) }}" data-parent="post-votes-{{ post.id }}" rel="nofollow" class="button vote-button upvote">+5</a>
+                <a aria-label="Upvote post" role="button" href="{{ url_for('posts.post_vote', post_id=post.id, direction='up', size=size) }}" data-parent="post-votes-{{ post.id }}" rel="nofollow" class="button vote-button upvote">+5</a>
             {% else %}
-                <button class="button vote-button upvote">+5</button>
+                <button aria-label="Upvote post" aria-disabled="true" class="button vote-button upvote">+5</button>
             {% endif %}
             <p>{{ post.vote_score }} <span> points</span></p>
             {% if g.user %}
-                <a href="{{ url_for('posts.post_vote', post_id=post.id, direction='down', size=size) }}" data-parent="post-votes-{{ post.id }}" rel="nofollow" class="button vote-button downvote">-5</a>
+                <a aria-label="Downvote post" role="button" href="{{ url_for('posts.post_vote', post_id=post.id, direction='down', size=size) }}" data-parent="post-votes-{{ post.id }}" rel="nofollow" class="button vote-button downvote">-5</a>
             {% else %}
-                <button class="button vote-button downvote">-5</button>
+                <button aria-label="Downvote post" aria-disabled="true" class="button vote-button downvote">-5</button>
             {% endif %}
         </div>
     </div>
@@ -38,19 +38,19 @@
     <div class="votes">
         <div class="vote {{ size }} {{ comment.vote_status(g.user) or '' }}">
             {% if g.user %}
-                <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up') }}" data-parent="comments" rel="nofollow" class="button vote-button upvote">
+                <a aria-label="Upvote comment" role="button" href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='up', size='x-sm') }}" data-parent="comment-votes-{{ comment.id }}" rel="nofollow" class="button vote-button upvote">
                     <i class="ri-arrow-drop-up-line"></i>
                 </a>
             {% else %}
-                <button class="button vote-button upvote"><i class="ri-arrow-drop-up-line"></i></button>
+                <button aria-label="Upvote comment" aria-disabled="true" class="button vote-button upvote"><i class="ri-arrow-drop-up-line"></i></button>
             {% endif %}
             <p>{{ comment.vote_score }} <span> points</span></p>
             {% if g.user %}
-                <a href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down') }}" data-parent="comments" rel="nofollow" class="button vote-button downvote">
+                <a aria-label="Downvote comment" role="button" href="{{ url_for('posts.comment_vote', post_id=comment.post_id, comment_id=comment.id, direction='down', size='x-sm') }}" data-parent="comment-votes-{{ comment.id }}" rel="nofollow" class="button vote-button downvote">
                     <i class="ri-arrow-drop-down-line"></i>
                 </a>
             {% else %}
-                <button class="button vote-button downvote"><i class="ri-arrow-drop-down-line"></i></button>
+                <button aria-label="Downvote comment" aria-disabled="true" class="button vote-button downvote"><i class="ri-arrow-drop-down-line"></i></button>
             {% endif %}
         </div>
     </div>
