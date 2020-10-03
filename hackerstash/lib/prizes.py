@@ -33,8 +33,7 @@ class Prizes:
 
     @classmethod
     def cache_prizes(cls, prizes):
-        prizes = json.dumps(prizes)
-        redis.set(cls.redis_cache_key, prizes, ex=cls.sidebar_cache_time)
+        redis.set(cls.redis_cache_key, json.dumps(prizes), ex=cls.sidebar_cache_time)
         return prizes
 
     @classmethod

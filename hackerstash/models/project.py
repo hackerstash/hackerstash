@@ -8,7 +8,7 @@ from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
-from hackerstash.utils.prizes import Prizes
+from hackerstash.lib.prizes import Prizes
 from hackerstash.utils.votes import sum_of_project_votes
 
 # There are a lof of horrifically unperformant

@@ -1,5 +1,5 @@
 from hackerstash.db import db
-from hackerstash.utils.prizes import Prizes
+from hackerstash.lib.prizes import Prizes
 
 
 class PastResult(db.Model):
