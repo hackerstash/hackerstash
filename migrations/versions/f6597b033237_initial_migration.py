@@ -57,15 +57,6 @@ def upgrade():
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('tokens',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('email', sa.String(), nullable=False),
-    sa.Column('token', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('first_name', sa.String(), nullable=True),
@@ -274,7 +265,6 @@ def downgrade():
     op.drop_table('invites')
     op.drop_table('challenges')
     op.drop_table('users')
-    op.drop_table('tokens')
     op.drop_table('tags')
     op.drop_table('projects')
     op.drop_table('contests')

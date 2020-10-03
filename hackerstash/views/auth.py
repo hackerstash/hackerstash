@@ -4,8 +4,8 @@ from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.images import upload_image_from_url
 from hackerstash.lib.logging import logging
+from hackerstash.lib.tokens import Tokens
 from hackerstash.models.user import User
-from hackerstash.models.token import Token
 from hackerstash.lib.emails.factory import email_factory
 
 auth = Blueprint('auth', __name__)
@@ -33,15 +33,15 @@ def login() -> str:
         step = 2
 
         if code:
-            if Token.verify(email, code):
+            if Tokens.verify(email, code):
                 set_session(user)
-                Token.delete(email)
+                Tokens.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
             logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
             flash('The token is invalid', 'failure')
         else:
-            code = Token.generate(email)
+            code = Tokens.generate(email)
             email_factory('login_token', email, {'token': code}).send()
 
     return render_template('auth/login/index.html', step=step, email=email)
@@ -64,18 +64,18 @@ def signup() -> str:
         step = 2
 
         if code:
-            if Token.verify(email, code):
+            if Tokens.verify(email, code):
                 user = User(email=email)
                 db.session.add(user)
                 db.session.commit()
                 set_session(user)
-                Token.delete(email)
+                Tokens.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
             logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
             flash('The token is invalid', 'failure')
         else:
-            code = Token.generate(email)
+            code = Tokens.generate(email)
             email_factory('login_token', email, {'token': code}).send()
 
     return render_template('auth/signup/index.html', step=step, email=email)
