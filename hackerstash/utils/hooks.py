@@ -1,14 +1,8 @@
-import arrow
 from flask import session, request, url_for, g, redirect, render_template
 from werkzeug.exceptions import HTTPException
 from hackerstash.lib.logging import logging, publish_slack_message
-from hackerstash.models.contest import Contest
-from hackerstash.models.project import Project
+from hackerstash.lib.sidebar import Sidebar
 from hackerstash.models.user import User
-
-
-def get_remaining_tournament_time():
-    return arrow.utcnow().ceil('week').humanize(only_distance=True)
 
 
 def init_app(app):
@@ -33,16 +27,10 @@ def init_app(app):
                     and not request.path.startswith('/static'):
                 return redirect(url_for('users.new'))
 
-        count = Project.query.filter_by(published=True).count() * 2
-        contest = Contest.get_current()
-
-        if contest:
-            g.prize_pool = f'${count + contest.top_up}'
-            g.time_remaining = get_remaining_tournament_time()
-        else:
-            g.prize_pool = '$N/A'
-            g.time_remaining = 'N/A'
-            g.no_current_contest = True
+        sidebar = Sidebar()
+        g.prize_pool = sidebar.prize_pool
+        g.time_remaining = sidebar.time_remaining
+        g.no_current_contest = sidebar.no_current_contest
 
     @app.after_request
     def after_request_func(response):

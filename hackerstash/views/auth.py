@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
-from hackerstash.lib.images import upload_image_from_url
+from hackerstash.lib.images import Images
 from hackerstash.lib.logging import logging
 from hackerstash.lib.tokens import Tokens
 from hackerstash.models.user import User
@@ -109,7 +109,7 @@ def google_callback() -> str:
         return redirect(url_for('users.show', user_id=user.id))
 
     # Use their google photo if it exists
-    key = upload_image_from_url(google_user['picture']) if google_user['picture'] else None
+    key = Images.upload_from_url(google_user['picture']) if google_user['picture'] else None
 
     user = User(
         first_name=google_user['given_name'],
@@ -146,7 +146,7 @@ def twitter_callback() -> str:
         last_name = None
 
     # Use their twitter photo if it exists
-    key = upload_image_from_url(twitter_user['profile_image_url']) if twitter_user['profile_image_url'] else None
+    key = Images.upload_from_url(twitter_user['profile_image_url']) if twitter_user['profile_image_url'] else None
 
     user = User(
         first_name=first_name,

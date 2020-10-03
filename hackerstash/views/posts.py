@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
 from hackerstash.db import db
-from hackerstash.lib.images import upload_image
+from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
@@ -103,7 +103,7 @@ def create() -> str:
 def upload_images():
     images = []
     for file in request.files.getlist('file'):
-        images.append(upload_image(file))
+        images.append(Images.upload(file))
     return jsonify(images)
 
 

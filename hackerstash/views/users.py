@@ -2,8 +2,8 @@ import re
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g, jsonify
 from sqlalchemy import or_
 from hackerstash.db import db
-from hackerstash.lib.images import upload_image, delete_image
-from hackerstash.lib.invites import verify_invite
+from hackerstash.lib.images import Images
+from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
@@ -69,14 +69,14 @@ def create() -> str:
 
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
-        key = upload_image(request.files['file'])
+        key = Images.upload(request.files['file'])
         user.avatar = key
 
     db.session.commit()
 
     # If the user was invited but didn't have an
     # account, we can add them to the project now
-    verify_invite(user)
+    Invites.verify(user)
 
     return redirect(url_for('users.show', user_id=user.id))
 
@@ -127,10 +127,10 @@ def update_profile() -> str:
 
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
-        key = upload_image(request.files['file'])
+        key = Images.upload(request.files['file'])
         user.avatar = key
     elif not request.form['avatar'] and user.avatar:
-        delete_image(user.avatar)
+        Images.delete(user.avatar)
         user.avatar = None
 
     for key, value in request.form.items():

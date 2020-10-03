@@ -1,8 +1,8 @@
 import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from hackerstash.db import db
-from hackerstash.lib.images import upload_image, delete_image
-from hackerstash.lib.invites import generate_invite_link, decrypt_invite_link
+from hackerstash.lib.images import Images
+from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.notifications.factory import notification_factory
@@ -101,10 +101,10 @@ def update(project_id: str) -> str:
 
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
-        key = upload_image(request.files['file'])
+        key = Images.upload(request.files['file'])
         project.avatar = key
     elif 'avatar' in request.form and not request.form['avatar'] and project.avatar:
-        delete_image(project.avatar)
+        Images.delete(project.avatar)
         project.avatar = None
 
     for key, value in request.form.items():
@@ -190,7 +190,7 @@ def delete_member(project_id: str, member_id: str) -> str:
 @member_required
 def invite_member(project_id: str) -> str:
     email = request.form['email']
-    link = generate_invite_link(email)
+    link = Invites.generate(email)
     user = User.query.filter_by(email=email).first()
     project = Project.query.get(project_id)
     is_already_member = user and user.member
@@ -244,7 +244,7 @@ def vote_project(project_id: str) -> str:
 
 @projects.route('/projects/invites/<invite_token>')
 def accept_invite(invite_token: str) -> str:
-    data = decrypt_invite_link(invite_token)
+    data = Invites.decode(invite_token)
     user = User.query.filter_by(email=data['email']).first()
     invite = Invite.query.filter_by(email=data['email']).first()
 
