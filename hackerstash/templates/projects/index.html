@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Projects' %}
 
 {% from "partials/projects.html" import projects %}
+{% from "partials/pagination.html" import crap_pagination %}
 
 {% set selected_sorting = request.args.sorting or 'alphabetical_asc' %}
 
@@ -34,7 +35,7 @@
 
         {{ projects(filtered_projects) }}
 
-        {% include "partials/pagination.html" %}
+        {{ crap_pagination(pagination) }}
     </div>
 
     <div id="filter-modal" class="modal">

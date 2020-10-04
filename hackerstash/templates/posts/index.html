@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Posts' %}
 
 {% from "partials/posts.html" import posts %}
+{% from "partials/pagination.html" import pagination %}
 
 {% set active_tab = request.args.get('tab') or 'new' %}
 
@@ -26,18 +27,18 @@
             <div class="tab-body">
                 <div role="tabpanel" aria-labelledby="new-posts-tab" id="new-posts" class="tab {{ 'active' if active_tab == 'new' }}" {{ 'hidden' if active_tab != 'new' }}>
                     {% if active_tab == 'new' %}
-                        {{ posts(all_posts) }}
+                        {{ posts(paginated_posts.items) }}
                     {% endif %}
                 </div>
                 <div role="tabpanel" aria-labelledby="top-posts-tab" id="top-posts" class="tab {{ 'active' if active_tab == 'top' }}" {{ 'hidden' if active_tab != 'top' }}>
                     {% if active_tab == 'top' %}
-                        {{ posts(all_posts) }}
+                        {{ posts(paginated_posts.items) }}
                     {% endif %}
                 </div>
                 {% if g.user %}
                 <div role="tabpanel" aria-labelledby="following-posts-tab" id="following-posts" class="tab {{ 'active' if active_tab == 'following' }}" {{ 'hidden' if active_tab != 'following' }}>
                     {% if active_tab == 'following' %}
-                        {{ posts(all_posts) }}
+                        {{ posts(paginated_posts.items) }}
                     {% endif %}
                 </div>
                 {% endif %}
@@ -45,5 +46,5 @@
         </div>
     </div>
 
-    {% include "partials/pagination.html" %}
+    {{ pagination(paginated_posts) }}
 {% endblock %}

@@ -5,7 +5,6 @@ from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.pagination import paginate
 from hackerstash.models.user import User
 from hackerstash.models.post import Post
 from hackerstash.models.project import Project
@@ -19,17 +18,16 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index() -> str:
     tab = request.args.get('tab', 'new')
-    all_posts = []
+    paginated_posts = []
 
     if tab == 'following' and g.user:
-        all_posts = Post.following()
+        paginated_posts = Post.following()
     if tab == 'new':
-        all_posts = Post.newest()
+        paginated_posts = Post.newest()
     if tab == 'top':
-        all_posts = Post.top()
+        paginated_posts = Post.top()
 
-    results, pagination = paginate(all_posts)
-    return render_template('posts/index.html', all_posts=results, pagination=pagination)
+    return render_template('posts/index.html', paginated_posts=paginated_posts)
 
 
 @posts.route('/posts/tags')

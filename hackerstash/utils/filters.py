@@ -2,6 +2,7 @@ import re
 import arrow
 import bleach
 import calendar
+from flask import request, url_for
 
 
 def init_app(app):
@@ -18,6 +19,7 @@ def init_app(app):
     app.jinja_env.filters['fundings'] = fundings
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
     app.jinja_env.filters['to_nice_url'] = to_nice_url
+    app.jinja_env.filters['paginate_to_page'] = paginate_to_page
 
 
 def to_safe_html(value: str) -> str:
@@ -133,3 +135,10 @@ def to_ordinal_ending(n: int) -> str:
 def to_nice_url(url: str) -> str:
     url = url.replace('https://', '').replace('http://', '').replace('www.', '')
     return re.sub(r'\/$', '', url)
+
+
+def paginate_to_page(page: int = 0):
+    # Splattigng the page into the args is messy business
+    # in the template!
+    combined_args = {**request.args, **{'page': page}}
+    return url_for(request.endpoint, **combined_args)

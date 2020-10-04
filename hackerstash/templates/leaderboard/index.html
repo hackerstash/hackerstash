@@ -2,6 +2,7 @@
 {% set title = 'HackerStash / Leaderboard' %}
 
 {% from "partials/prize.html" import prize %}
+{% from "partials/pagination.html" import crap_pagination %}
 {% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
 
@@ -49,5 +50,5 @@
         </div>
     </div>
 
-    {% include "partials/pagination.html" %}
+    {{ crap_pagination(pagination) }}
 {% endblock %}

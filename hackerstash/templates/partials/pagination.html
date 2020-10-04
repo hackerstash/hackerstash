@@ -1,32 +1,69 @@
-{% if pagination and pagination.pages > 1 %}
-    <ul class="pagination" role="navigation" aria-label="Pagination">
-        <li class="{{ 'disabled' if pagination.current == 1 }}">
-            <a aria-label="View previous page" aria-disabled="{{ 'true' if pagination.current == 1 else 'false' }}" href="?page={{ pagination.current - 1 }}" class="button">
-                <i class="ri-arrow-left-line"></i>
-            </a>
-        </li>
-
-        {% for i in range(pagination.pages) %}
-            <li class="page d-none-small {{ 'active' if pagination.current == (i + 1) }}">
-                <a aria-label="View page {{ i + 1 }}" href="?page={{ i + 1 }}" class="button">
-                    {{ i + 1 }}
+{% macro crap_pagination(pagination) %}
+    {% if pagination and pagination.pages > 1 %}
+        <ul class="pagination" role="navigation" aria-label="Pagination">
+            <li class="{{ 'disabled' if pagination.current == 1 }}">
+                <a aria-label="View previous page" aria-disabled="{{ 'true' if pagination.current == 1 else 'false' }}" href="?page={{ pagination.current - 1 }}" class="button">
+                    <i class="ri-arrow-left-line"></i>
                 </a>
             </li>
-        {% endfor %}
 
-        <div class="select d-none-large mb-0">
-            <select aria-label="Select page" onchange="location.search = `?page=${event.target.value}`">
-                {% for i in range(pagination.pages) %}
-                    <option {{ 'selected' if pagination.current == (i + 1) }} value="{{ i + 1 }}">Page {{ i + 1 }}</option>
-                {% endfor %}
-            </select>
-            <i class="ri-arrow-drop-down-line"></i>
-        </div>
+            {% for i in range(pagination.pages) %}
+                <li class="page d-none-small {{ 'active' if pagination.current == (i + 1) }}">
+                    <a aria-label="View page {{ i + 1 }}" href="?page={{ i + 1 }}" class="button">
+                        {{ i + 1 }}
+                    </a>
+                </li>
+            {% endfor %}
 
-        <li class="{{ 'disabled' if pagination.current == pagination.pages }}">
-            <a aria-label="View next page" aria-disabled="{{ 'true' if pagination.current == pagination.pages else 'false' }}" href="?page={{ pagination.current + 1 }}" class="button">
-                <i class="ri-arrow-right-line"></i>
-            </a>
-        </li>
-    </ul>
-{% endif %}
+            <div class="select d-none-large mb-0">
+                <select aria-label="Select page" onchange="paginate(event)">
+                    {% for i in range(pagination.pages) %}
+                        <option {{ 'selected' if pagination.current == (i + 1) }} value="{{ i + 1 }}">Page {{ i + 1 }}</option>
+                    {% endfor %}
+                </select>
+                <i class="ri-arrow-drop-down-line"></i>
+            </div>
+
+            <li class="{{ 'disabled' if pagination.current == pagination.pages }}">
+                <a aria-label="View next page" aria-disabled="{{ 'true' if pagination.current == pagination.pages else 'false' }}" href="?page={{ pagination.current + 1 }}" class="button">
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% macro pagination(data) %}
+    {% if data.pages > 1 %}
+        <ul class="pagination" role="navigation" aria-label="Pagination">
+            <li class="{{ 'disabled' if not data.has_prev }}">
+                <a aria-label="View previous page" aria-disabled="{{ 'false' if data.has_next else 'true' }}" href="{{ data.prev_num | paginate_to_page }}" class="button">
+                    <i class="ri-arrow-left-line"></i>
+                </a>
+            </li>
+
+            {% for page in data.iter_pages() %}
+                <li class="page d-none-small {{ 'active' if page == data.page }}">
+                    <a aria-label="View page {{ page }}" href="{{ page | paginate_to_page }}" class="button">
+                        {{ page }}
+                    </a>
+                </li>
+            {% endfor %}
+
+            <div class="select d-none-large mb-0">
+                <select aria-label="Select page" onchange="paginate(event)">
+                    {% for page in data.iter_pages() %}
+                        <option {{ 'selected' if page == data.page }} value="{{ page }}">Page {{ page }}</option>
+                    {% endfor %}
+                </select>
+                <i class="ri-arrow-drop-down-line"></i>
+            </div>
+
+            <li class="{{ 'disabled' if not data.has_next }}">
+                <a aria-label="View next page" aria-disabled="{{ 'false' if data.has_prev else 'true' }}" href="{{ data.next_num | paginate_to_page }}" class="button">
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+{% endmacro %}

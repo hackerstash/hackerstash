@@ -20,6 +20,7 @@ scripts = [
     'js/messages.js',
     'js/modals.js',
     'js/notifications.js',
+    'js/pagination.js',
     'js/previews.js',
     'js/projects.js',
     'js/recaptcha.js',
