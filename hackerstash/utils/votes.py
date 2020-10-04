@@ -1,15 +1,8 @@
 from hackerstash.models.challenge import Challenge
 
 
-def sum_of_votes(votes, this_contest_only=True) -> int:
-    score = 0
-    for vote in votes:
-        # Either:
-        # - we want to show everything (!this_contest_only) or
-        # - we want to show only this week and the stuff must match
-        if not this_contest_only or this_contest_only and vote.is_current_contest:
-            score += vote.score
-    return score
+def sum_of_votes(votes) -> int:
+    return sum(vote.score for vote in votes if vote.is_current_contest)
 
 
 def sum_of_weekly_challenges(project) -> int:

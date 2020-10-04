@@ -1,6 +1,8 @@
 import json
 from flask import url_for
+from sqlalchemy import func, select
 from sqlalchemy.types import ARRAY
+from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.lib.logging import logging
 from hackerstash.lib.redis import redis

@@ -1,0 +1,29 @@
+.page.legal {
+  .legal {
+    ol {
+      li {
+        font-size: 24px;
+
+        ol {
+          li {
+            color: $mauve-900;
+            font-size: 16px;
+            margin: 0 0 .5rem 0;
+          }
+        }
+      }
+    }
+
+    b {
+      color: $mauve-500;
+    }
+
+    h3 {
+      margin: 2rem 0 1rem 0;
+    }
+
+    h4 {
+      margin: 0 0 1rem 0;
+    }
+  }
+}
