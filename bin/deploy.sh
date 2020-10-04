@@ -11,4 +11,4 @@ else
 fi
 
 aws ecs update-service --cluster "${CLUSTER}" --service "hackerstash " --force-new-deployment
-aws ecs wait services-stable --cluster "${CLUSTER} --services "hackerstash"
+aws ecs wait services-stable --cluster "${CLUSTER}" --services "hackerstash"
