@@ -132,7 +132,8 @@ def handle_subscription_cancelled(member):
     # to None.
     logging.info(f'Cancelling subscription for project "{member.project.name}"')
     member.project.published = False
-    stripe.Customer.delete(member.stripe_customer_id)
+    if member.stripe_customer_id:
+        stripe.Customer.delete(member.stripe_customer_id)
     email_factory('subscription_cancelled', member.user.email, {'member': member}).send()
     # I think deleting the customer also deletes the subscription
     # stripe.Subscription.delete(member.stripe_subscription_id)
