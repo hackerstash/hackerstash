@@ -11,41 +11,36 @@
             </a>
         </header>
 
-        {% if request.args.manage %}
-            <a href="?" class="button secondary">Cancel</a>
-        {% else %}
-            <div class="subscription-published">
-                <h4 class="mb-1-5">Payment schedule</h4>
-                <dl>
-                    <dt>Subscription</dt>
-                    <dd>$9 per month</dd>
-                    <dt>Next payment</dt>
-                    <dd>N/A</dd>
-                </dl>
+        <div class="subscription-published">
+            <h4 class="mb-1-5">Payment schedule</h4>
+            <dl>
+                <dt>Subscription</dt>
+                <dd>$9 per month</dd>
+                <dt>Next payment</dt>
+                <dd>N/A</dd>
+            </dl>
 
-                <h4 class="mt-2 mb-1-5">Payee details</h4>
-                <dl>
-                    <dt>Name</dt>
-                    <dd>{{ payment_details.name or 'Unknown' }}</dd>
-                    <dt>Email</dt>
-                    <dd>{{ payment_details.email or 'Unknown' }}</dd>
-                    <dt>Card number</dt>
-                    <dd>{{ payment_details.card_number or 'Unknown' }}</dd>
-                </dl>
+            <h4 class="mt-2 mb-1-5">Payee details</h4>
+            <dl>
+                <dt>Name</dt>
+                <dd>{{ payment_details.name or 'Unknown' }}</dd>
+                <dt>Email</dt>
+                <dd>{{ payment_details.email or 'Unknown' }}</dd>
+                <dt>Card number</dt>
+                <dd>{{ payment_details.card_number or 'Unknown' }}</dd>
+            </dl>
 
-                <div class="button-group mt-3">
-                    <a href="?manage=1" class="button">Manage subscription</a>
-                    <button class="button tertiary modal-open" data-modal="cancel-subscription">Cancel subscription</button>
-                </div>
-
-                <hr class="divider mt-2 mb-2">
-
-                <h3 class="mb-1-5">Past receipts</h3>
-                {% for sub in project.subscriptions %}
-                    <p>{{ sub.start_date | to_contest_date }} <a href="{{ sub.receipt_url }}" class="ml-1" target="_blank" rel="nofollow noreferrer">View</a></p>
-                {% endfor %}
+            <div class="button-group mt-3">
+                <button class="button tertiary modal-open" data-modal="cancel-subscription">Cancel subscription</button>
             </div>
-        {% endif %}
+
+            <hr class="divider mt-2 mb-2">
+
+            <h3 class="mb-1-5">Past receipts</h3>
+            {% for sub in project.subscriptions %}
+                <p>{{ sub.start_date | to_contest_date }} <a href="{{ sub.receipt_url }}" class="ml-1" target="_blank" rel="nofollow noreferrer">View</a></p>
+            {% endfor %}
+        </div>
     </div>
 
     <div id="cancel-subscription" class="modal cancel-subscription-modal">

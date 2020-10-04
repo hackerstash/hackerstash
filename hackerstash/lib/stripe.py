@@ -28,6 +28,7 @@ def create_session(stripe_customer_id):
         payment_method_types=['card'],
         line_items=[{'price': config['stripe_price_id'], 'quantity': 1}],
         mode='subscription',
+        allow_promotion_codes=True,
         success_url=config['stripe_success_uri'],
         cancel_url=config['stripe_failure_uri']
     )
