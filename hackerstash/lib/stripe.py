@@ -49,7 +49,7 @@ def get_payment_details(user):
     # database so that we don't get rate limited
     if details := user.member.stripe_payment_details:
         return details
-    else:
+    elif user.member.stripe_customer_id:
         logging.info(f'Fetching payment details for "{user.username}"')
         payment_methods = stripe.PaymentMethod.list(customer=user.member.stripe_customer_id, type='card')
         data = payment_methods['data'][0]
@@ -61,6 +61,9 @@ def get_payment_details(user):
         user.member.stripe_payment_details = details
         db.session.commit()
         return details
+    else:
+        logging.warning(f'Customer "{user.username}" is not a customer, are they a pioneer?')
+        return None
 
 
 def handle_invoice_paid(event):

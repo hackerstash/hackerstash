@@ -18,7 +18,7 @@
                 <h4 class="mb-1-5">Payment schedule</h4>
                 <dl>
                     <dt>Subscription</dt>
-                    <dd>$5 per month</dd>
+                    <dd>$9 per month</dd>
                     <dt>Next payment</dt>
                     <dd>N/A</dd>
                 </dl>
@@ -26,11 +26,11 @@
                 <h4 class="mt-2 mb-1-5">Payee details</h4>
                 <dl>
                     <dt>Name</dt>
-                    <dd>{{ payment_details.name }}</dd>
+                    <dd>{{ payment_details.name or 'Unknown' }}</dd>
                     <dt>Email</dt>
-                    <dd>{{ payment_details.email }}</dd>
+                    <dd>{{ payment_details.email or 'Unknown' }}</dd>
                     <dt>Card number</dt>
-                    <dd>{{ payment_details.card_number }}</dd>
+                    <dd>{{ payment_details.card_number or 'Unknown' }}</dd>
                 </dl>
 
                 <div class="button-group mt-3">
