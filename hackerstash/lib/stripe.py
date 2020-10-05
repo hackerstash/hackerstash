@@ -50,7 +50,7 @@ def get_payment_details(user):
     # database so that we don't get rate limited
     if details := user.member.stripe_payment_details:
         return details
-    elif user.member.stripe_customer_id:
+    elif user.member.stripe_customer_id and user.member.stripe_subscription_id:
         logging.info(f'Fetching payment details for "{user.username}"')
         payment_methods = stripe.PaymentMethod.list(customer=user.member.stripe_customer_id, type='card')
         data = payment_methods['data'][0]

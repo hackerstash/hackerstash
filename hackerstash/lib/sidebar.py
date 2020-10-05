@@ -36,6 +36,6 @@ class Sidebar:
             return self.cache_prize_pool(prize)
 
     def cache_prize_pool(self, prize: str):
-        logging.info('Caching sidebar data for 5 minutes')
+        logging.info('Caching sidebar data for 10 minutes')
         redis.set(self.redis_cache_key, prize, ex=self.sidebar_cache_time)
         return prize
