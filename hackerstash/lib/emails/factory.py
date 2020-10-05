@@ -1,3 +1,4 @@
+from hackerstash.lib.emails.types.cash_out_request import CashOutRequest
 from hackerstash.lib.emails.types.close_account import CloseAccount
 from hackerstash.lib.emails.types.commented_on_post import CommentedOnPost
 from hackerstash.lib.emails.types.contact import Contact
@@ -22,6 +23,8 @@ from hackerstash.lib.emails.types.invite_to_project import InviteToProject
 
 
 def email_factory(email_type, email, payload):
+    if email_type == 'cash_out_request':
+        return CashOutRequest(email, payload)
     if email_type == 'close_account':
         return CloseAccount(email, payload)
     if email_type == 'commented_on_post':

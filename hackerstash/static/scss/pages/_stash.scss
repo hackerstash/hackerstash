@@ -94,5 +94,25 @@
   .wrap {
     height: calc(100% - 7.6em);
     padding: 1rem 1rem 0 1rem;
+
+    p {
+      color: $mauve-500;
+    }
+
+    .value {
+      align-items: center;
+      display: flex;
+
+      .input {
+        margin: 0 .5rem;
+        width: 4rem;
+      }
+    }
+
+    .label {
+      span {
+        font-weight: $font-weight-normal;
+      }
+    }
   }
 }

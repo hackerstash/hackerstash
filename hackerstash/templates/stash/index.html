@@ -7,6 +7,8 @@
             <h2>{{ project.name }}'s Stash</h2>
         </header>
 
+        {% include "partials/messages.html" %}
+
         <div class="split">
             <div class="left">
                 <div class="stash-box">
@@ -57,19 +59,32 @@
     </div>
 
     <div id="stash-modal" class="modal">
-        <div class="modal-body sm">
+        <div class="modal-body md">
             <header>
-                <h3>Cash Out</h3>
+                <h3>Cash Out Request</h3>
                 <i class="icon ri-close-line modal-close"></i>
             </header>
             <main>
-                <div class="wrap">
-                    <p>During the trial tournaments triggering your cash out is not currently possible. Please wait patiently for a few more weeks and the functionality should be there 🙂.</p>
-                    <p>If you wish to cash out sooner, please email hello@hackerstash.com and let us know, we can try and arrange a manual transaction.</p>
-                </div>
-                <footer class="mt-3">
-                    <button class="button secondary modal-close">Cancel</button>
-                </footer>
+                <form class="form" method="post" action="{{ url_for('stash.index') }}">
+                    <fieldset>
+                        <div class="wrap">
+                            <p>You can cash out your Stash once you’ve completed one full Billing Cycle (1 month) as a user of HackerStash.</p>
+                            <p>Please complete the form below to submit your cash out request 😍</p>
+
+                            <label class="label mt-2" for="value">How much would you like to cash out?</label>
+                            <div class="value">
+                                $ <input class="input" name="value" id="value"> of ${{ project.stash or 0 }}
+                            </div>
+
+                            <label class="label mt-1-5" for="message">Message <span>(optional)</span></label>
+                            <textarea class="input textarea" rows="4" name="message" id="message" placeholder="e.g. Hey!"></textarea>
+                        </div>
+                        <footer class="mt-3">
+                            <button class="button" type="submit">Send request</button>
+                            <button class="button secondary modal-close" type="button">Cancel</button>
+                        </footer>
+                    </fieldset>
+                </form>
             </main>
         </div>
      </div>

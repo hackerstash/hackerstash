@@ -22,5 +22,5 @@ def index() -> str:
     }
 
     logging.info('Sending contact email: %s', payload)
-    email_factory('contact', request.form['email'], payload).send()
+    email_factory('contact', 'hello@hackerstash.com', payload).send()
     return redirect(url_for('contact.index', success=True))
