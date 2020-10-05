@@ -170,7 +170,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
 
     if member.owner:
-        logging.info(f'{g.user.username} tried to delete the owner ({member.user.username})')
+        logging.info(f'\'{g.user.username}\' tried to delete the owner ({member.user.username})')
         flash('The project owner can\'t be deleted', 'failure')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 

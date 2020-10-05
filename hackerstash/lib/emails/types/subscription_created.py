@@ -19,7 +19,7 @@ class SubscriptionCreated(Base):
     @property
     def text(self) -> str:
         project_name = self.payload['member'].project.name
-        return f'We have successfully process your subscription and {project_name} is now published on Hackerstash'
+        return f'We have successfully processed your subscription and {project_name} is now published on Hackerstash'
 
     @property
     def subject(self) -> str:

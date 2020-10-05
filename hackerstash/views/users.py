@@ -85,7 +85,7 @@ def create() -> str:
 @login_required
 def destroy() -> str:
     user = User.query.get(g.user.id)
-    logging.info(f'Deleteing user {g.user.username}')
+    logging.info(f'Deleteing user \'{g.user.username}\'')
 
     # Can't think of a way to cascade this at the db level
     if user.member and len(user.member.project.members) == 1:

@@ -18,7 +18,7 @@ def webhook_received():
     event_data = request_data['data']['object']
     event_type = request_data['type']
 
-    logging.info(f'Handling webhook event type "{event_type}"')
+    logging.info(f'Handling webhook event type \'{event_type}\'')
 
     if event_type == 'invoice.paid':
         handle_invoice_paid(event_data)
@@ -38,7 +38,7 @@ def webhook_received():
 @login_required
 def checkout():
     member = g.user.member
-    logging.info(f'Checking out user "{g.user.username}"')
+    logging.info(f'Checking out user \'{g.user.username}\'')
     # Only the owner of a project can create a subscription
     if not member or not member.owner:
         # Not sure what to do in this case, they're fishing
@@ -49,7 +49,7 @@ def checkout():
     required_properties = ['name', 'description']
     for prop in required_properties:
         if getattr(project, prop) in [None, '', '<p><br></p>']:
-            logging.info(f'Project "{project.name}" was missing required property "{prop}" to publish')
+            logging.info(f'Project \'{project.name}\' was missing required property \'{prop}\' to publish')
             flash('Project name and description are both required to publish', 'failure')
             return redirect(url_for('projects.edit', project_id=project.id))
 
@@ -90,7 +90,7 @@ def checkout_success():
     # on as confirmation of payment so do not update anything.
     # Instead wait on the webook
     project = g.user.member.project
-    logging.info(f'Payment succeeded for "{project.name}"')
+    logging.info(f'Payment succeeded for \'{project.name}\'')
     return redirect(url_for('projects.subscription', project_id=project.id))
 
 
