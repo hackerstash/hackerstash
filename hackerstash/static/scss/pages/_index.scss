@@ -397,6 +397,7 @@
     }
 
     &.started {
+      display: none;
       flex-direction: column;
       justify-content: center;
       text-align: center;
