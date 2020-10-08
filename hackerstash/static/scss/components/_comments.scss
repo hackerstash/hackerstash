@@ -67,6 +67,16 @@
             margin-bottom: .5rem;
           }
 
+          .preview {
+            color: $mauve-500;
+            font-weight: $font-weight-bold;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
           .seperator {
             margin: 0 .5rem;
 
