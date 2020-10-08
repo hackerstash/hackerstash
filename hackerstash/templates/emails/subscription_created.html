@@ -4,7 +4,15 @@
     <p>Dear {{ member.user.first_name }},</p>
 
     <p>We have successfully processed your subscription and {{ member.project.name }} is now published on Hackerstash. You can manage your subscription at any time <a href="{{ host }}{{ url_for('projects.subscription', project_id=member.project.id) }}">here</a>.</p>
-    <p>Now, come and <a href="{{ host }}{{ url_for('posts.new') }}">tell everyone</a> what you're working on!</p>
+    <p>Now, it's time to join the conversation! Here's some ideas on where to start:</p>
+
+    <p>
+        &bull; Create your <a href="{{ host }}{{ url_for('posts.index') }}">first post</a>, for example: introduce yourself and your project, or tell us about the biggest obstacle your currently facing.<br><br>
+        &bull; Check out the <a href="{{ host }}{{ url_for('challenges.index') }}">weekly challenges</a>. These are a great opportunity to help the community and earn some points for your project.<br><br>
+        &bull; <a href="{{ host }}{{ url_for('notifications.settings') }}">Set up your notifications</a> to make sure you only get the information that matters to you.
+    </p>
+
+    <p>If you ever have any questions, ideas for new features, or feedback, then please don't hesitate to contact us via hello@hackerstash.com or using our <a href="{{ host }}{{ url_for('contact.index') }}">contact page</a>.</p>
 
     <p>Kind Regards, <br>The HackerStash Team</p>
 {% endblock %}
