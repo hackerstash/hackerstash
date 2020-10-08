@@ -15,7 +15,7 @@
                         {{ comment_vote('x-sm', comment) }}
                     </div>
                     <div class="details ml-1">
-                        <span class="rich_text inline">{{ comment.body | to_safe_html | safe }}</span>
+                        <span class="rich-text inline">{{ comment.body | to_safe_html | safe }}</span>
                         <p class="small mt-0-5">
                             {{ avatar(comment.user, 'xx-sm') }}
                             {{ user_preview(comment.user) }}

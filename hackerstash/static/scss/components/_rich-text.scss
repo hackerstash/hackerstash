@@ -1,8 +1,12 @@
-.rich_text {
+.rich-text {
   color: $mauve-900;
 
   * {
     color: $mauve-900 !important;
+  }
+
+  a {
+    color: $blue-500 !important;
   }
 
   h1 {
