@@ -72,6 +72,12 @@
           width: 2.5rem;
         }
 
+        .info-icon {
+          color: $blue-500;
+          cursor: pointer;
+          margin-left: .5rem;
+        }
+
         i {
           color: $darkblue-800;
           font-size: 1.5rem;
@@ -99,5 +105,12 @@
         }
       }
     }
+  }
+}
+
+.voting-info-modal {
+  li {
+    color: $mauve-900;
+    margin-bottom: 1.5rem;
   }
 }

@@ -9,6 +9,7 @@ from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
 from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.lib.stripe import get_payment_details
+from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
 from hackerstash.models.project import Project
@@ -234,6 +235,7 @@ def vote_project(project_id: str) -> str:
 
     if project.id != g.user.member.project.id:
         project.vote(g.user, direction)
+        challenge_factory('project_voted', {})
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/vote.html', 'project_vote')
