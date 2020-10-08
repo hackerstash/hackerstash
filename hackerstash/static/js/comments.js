@@ -32,8 +32,7 @@ document.addEventListener('click', (event) => {
         });
 
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
-        createEditor('.reply-form');
-        form.querySelector('.ql-editor').focus();
+        createEditor('.reply-form', { focus: true });
     }
 
     if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
@@ -69,6 +68,35 @@ document.addEventListener('click', (event) => {
             </div>
         `;
         document.body.appendChild(modal);
+    }
+
+    if (event.target.closest('.edit-comment')) {
+        event.preventDefault();
+
+        const parent = event.target.closest('li');
+        const form = document.querySelector('.comment-form').cloneNode(true);
+        const wrapper = document.createElement('div');
+        const cancel = form.querySelector('.cancel');
+
+        // Create the form with which to reply to the comment
+        form.classList.add('reply-form');
+        form.querySelector('label').innerText = 'Edit';
+        form.querySelector('.ql-editor').innerHTML = parent.querySelector('.rich-text').innerHTML;
+        form.action = event.target.getAttribute('data-url');
+
+        // Create a wrapper to insert the form into
+        wrapper.classList.add('comment-reply');
+        wrapper.appendChild(form);
+
+        // Remove on cancel
+        cancel.addEventListener('click', (event) => {
+          event.target.closest('.comment-reply').remove();
+          parent.classList.remove('editing');
+        });
+
+        parent.parentNode.insertBefore(wrapper, parent);
+        parent.classList.add('editing');
+        createEditor('.reply-form', { focus: true });
     }
 });
 

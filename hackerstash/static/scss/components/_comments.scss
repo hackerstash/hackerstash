@@ -17,6 +17,18 @@
     padding: 1rem 0;
     position: relative;
 
+    &.editing {
+      padding: 0;
+
+      > .comment {
+        display: none;
+      }
+
+      + .comment-reply {
+        margin-top: 0;
+      }
+    }
+
     .collapse {
       cursor: pointer;
       display: flex;
@@ -183,16 +195,18 @@
 }
 
 #delete-comment-modal {
-  .content {
-    height: calc(100% - 8.1rem);
-  }
+  @include tablet-down {
+    .content {
+      height: calc(100% - 8.1rem);
+    }
 
-  footer {
-    .button {
-      margin-bottom: 1rem;
+    footer {
+      .button {
+        margin-bottom: 1rem;
 
-      &.modal-close {
-        margin-bottom: 0;
+        &.modal-close {
+          margin-bottom: 0;
+        }
       }
     }
   }

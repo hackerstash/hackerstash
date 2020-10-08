@@ -198,6 +198,24 @@ def delete_comment(post_id: str, comment_id: str) -> str:
         return redirect(url_for('posts.show', post_id=comment.post.url_slug))
 
 
+@posts.route('/posts/<post_id>/comment/<comment_id>/edit', methods=['POST'])
+@login_required
+def edit_comment(post_id: str, comment_id: str) -> str:
+    comment = Comment.query.get(comment_id)
+
+    if comment.user.id == g.user.id:
+        body, mentioned_users = proccess_mentions(request.form['body'])
+        comment.body = body
+        db.session.commit()
+        publish_comment_mentions(mentioned_users, comment)
+
+    if request.headers.get('X-Requested-With') == 'fetch':
+        partial = get_template_attribute('partials/comments.html', 'nested_comments')
+        return partial(comment.post.comments, True)
+    else:
+        return redirect(url_for('posts.show', post_id=comment.post.url_slug))
+
+
 @posts.route('/posts/<post_id>/vote')
 @login_required
 @published_project_required

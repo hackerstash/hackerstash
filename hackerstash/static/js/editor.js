@@ -1,4 +1,4 @@
-function createEditor(form) {
+function createEditor(form, options = {}) {
     let usernameSearch = '';
     const selector = s => document.querySelector(`${form} ${s}`);
 
@@ -40,6 +40,10 @@ function createEditor(form) {
             }
         },
     });
+
+    if (options.focus) {
+        editor.setSelection(99999, 0, 'api');
+    }
 
     const headingPicker = selector('.heading-picker');
     const imageUpload = selector('.ql-image[type=file]');

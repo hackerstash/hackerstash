@@ -31,6 +31,7 @@
 
                                 {% if g.user.id == comment.user.id %}
                                     <span class="seperator reply">•</span>
+                                    <button aria-label="Edit comment" data-url="{{ url_for('posts.edit_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small edit-comment mr-0-5" data-id="{{ comment.id }}">Edit</button>
                                     <a aria-label="Delete comment" href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
                                 {% endif %}
                             {% endif %}
