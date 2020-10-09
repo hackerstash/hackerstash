@@ -11,8 +11,12 @@ notifications = Blueprint('notifications', __name__)
 @login_required
 def index() -> str:
     all_notifications = g.user.notifications
-    unread_notifications = list(filter(lambda x: not x.read, all_notifications))
-    return render_template('notifications/index.html', notifications=unread_notifications)
+    splits = {
+        'all': all_notifications,
+        'read': [x for x in all_notifications if x.read],
+        'unread': [x for x in all_notifications if not x.read]
+    }
+    return render_template('notifications/index.html', notifications=splits)
 
 
 @notifications.route('/notifications/settings')
@@ -51,7 +55,25 @@ def mark_as_read() -> str:
         notification.read_at = now
 
     db.session.commit()
+    return redirect(url_for('notifications.index'))
 
+
+@notifications.route('/notifications/delete')
+@login_required
+def delete() -> str:
+    user = User.query.get(g.user.id)
+    delete_all = request.args.get('all')
+
+    if delete_all:
+        for notification in user.notifications:
+            if notification.read:
+                db.session.delete(notification)
+    else:
+        notification_id = request.args.get('notification_id')
+        notification = Notification.query.get(notification_id)
+        db.session.delete(notification)
+
+    db.session.commit()
     return redirect(url_for('notifications.index'))
 
 

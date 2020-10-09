@@ -1,0 +1,16 @@
+{% macro notification(item, unread=False) %}
+    <li class="{{ item.type | replace('_', '-') }}">
+        <div class="details">
+            <p class="mb-0-5 notification-message">{{ item.message | safe }}</p>
+            <p class="small mb-0">{{ item.created_at | to_human_date }}</p>
+        </div>
+        {% if unread %}
+            <a class="button action read-button" href="{{ url_for('notifications.mark_as_read', notification_id=item.id) }}">
+                 <i class="ri-check-line"></i>
+            </a>
+        {% endif %}
+        <a class="button action close-button" href="{{ url_for('notifications.delete', notification_id=item.id) }}">
+            <i class="ri-delete-bin-line"></i>
+        </a>
+    </li>
+{% endmacro %}

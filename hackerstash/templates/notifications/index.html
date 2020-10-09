@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Notifications' %}
+{% from "partials/notification.html" import notification %}
 
 {% block body %}
     <div class="page notifications">
@@ -10,21 +11,30 @@
 
         {% include "partials/messages.html" %}
 
-        {% if notifications %}
-            <a href="{{ url_for('notifications.mark_as_read', all=1) }}" class="mt-2">Mark all as read</a>
-            <ul class="notification-list mt-2">
-                {% for notification in notifications %}
-                    <li class="{{ notification.type | replace('_', '-') }}">
-                        <div class="details">
-                            <p class="mb-0-5 notification-message">{{ notification.message | safe }}</p>
-                            <p class="small mb-0">{{ notification.created_at | to_human_date }}</p>
-                        </div>
-                        <a class="button close-button" href="{{ url_for('notifications.mark_as_read', notification_id=notification.id) }}">
-                            <i class="icon ri-close-line"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+        {% if notifications.all | length %}
+            {% if notifications.unread | length %}
+                <h4 class="notification-heading mb-1">
+                    <span>Unread</span>
+                    <a href="{{ url_for('notifications.mark_as_read', all=1) }}">Mark all as read</a>
+                </h4>
+                <ul class="notification-list mb-3">
+                    {% for n in notifications.unread %}
+                        {{ notification(n, unread=True) }}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if notifications.read | length %}
+                <h4 class="notification-heading mb-1">
+                    <span>Read</span>
+                    <a href="{{ url_for('notifications.delete', all=1) }}">Delete all</a>
+                </h4>
+                <ul class="notification-list">
+                    {% for n in notifications.read %}
+                        {{ notification(n) }}
+                    {% endfor %}
+                </ul>
+            {% endif %}
         {% else %}
             {% include "partials/no_results.html" %}
         {% endif %}
