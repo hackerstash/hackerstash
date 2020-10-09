@@ -155,6 +155,8 @@ def upgrade():
     sa.Column('you_were_invited_to_join_a_project_email', sa.Boolean(), nullable=True),
     sa.Column('you_were_removed_from_a_project_web', sa.Boolean(), nullable=True),
     sa.Column('you_were_removed_from_a_project_email', sa.Boolean(), nullable=True),
+    sa.Column('project_vote_reminder_web', sa.Boolean(), nullable=True),
+    sa.Column('project_vote_reminder_email', sa.Boolean(), nullable=True),
     sa.Column('prize_awarded_web', sa.Boolean(), nullable=True),
     sa.Column('prize_awarded_email', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),

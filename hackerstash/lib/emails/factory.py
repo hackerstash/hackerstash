@@ -10,6 +10,7 @@ from hackerstash.lib.emails.types.mentioned_in_comment import MentionedInComment
 from hackerstash.lib.emails.types.mentioned_in_post import MentionedInPost
 from hackerstash.lib.emails.types.new_follower import NewFollower
 from hackerstash.lib.emails.types.prize_awarded import PrizeAwarded
+from hackerstash.lib.emails.types.project_vote_reminder import ProjectVoteReminder
 from hackerstash.lib.emails.types.removed_from_project import RemovedFromProject
 from hackerstash.lib.emails.types.replied_to_comment import RepliedToComment
 from hackerstash.lib.emails.types.signup_token import SignupToken
@@ -47,6 +48,8 @@ def email_factory(email_type, email, payload):
         return NewFollower(email, payload)
     if email_type == 'prize_awarded':
         return PrizeAwarded(email, payload)
+    if email_type == 'project_vote_reminder':
+        return ProjectVoteReminder(email, payload)
     if email_type == 'removed_from_project':
         return RemovedFromProject(email, payload)
     if email_type == 'replied_to_comment':
