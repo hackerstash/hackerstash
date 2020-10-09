@@ -22,7 +22,7 @@ def index() -> str:
     if tab == 'users':
         data['users'] = User.query.order_by(User.created_at.desc()).all()
     if tab == 'projects':
-        data['projects'] = Project.query.all()
+        data['projects'] = Project.query.order_by(Project.created_at.desc()).all()
     if tab == 'tournaments':
         data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 

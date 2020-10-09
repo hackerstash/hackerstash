@@ -42,23 +42,16 @@
          <div class="table">
             <div class="table-header">
                 <p class="col-3">Name</p>
-                <p class="col-2">Url</p>
                 <p class="col-2">Members</p>
                 <p class="col-2">Status</p>
-                <p class="col-2">Stash</p>
+                <p class="col-3">Date Joined</p>
+                <p class="col-1">Stash</p>
                 <p class="col-1"></p>
             </div>
             <ul class="table-body projects-table">
                 {% for project in projects %}
                     <li>
                         <p class="col-3">{{ project.name }}</p>
-                        <p class="col-2">
-                            {% if project.url %}
-                                <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer">
-                                    {{ project.url | to_nice_url }}
-                                </a>
-                            {% endif %}
-                        </p>
                         <p class="col-2">
                             <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
                                 <span>View</span> ({{ project.members | length }})
@@ -71,7 +64,10 @@
                                 <span class="tag ml-0 publish-status tertiary">Unpublished</span>
                             {% endif %}
                         </p>
-                        <p class="col-2">${{ project.stash or 0 }}</p>
+                        <p class="col-3">
+                            {{ project.created_at | to_nice_date }}
+                        </p>
+                        <p class="col-1">${{ project.stash or 0 }}</p>
                         <p class="col-1">
                             <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">View</a>
                         </p>
