@@ -82,6 +82,7 @@ document.addEventListener('click', (event) => {
         form.classList.add('reply-form');
         form.querySelector('label').innerText = 'Edit';
         form.querySelector('.ql-editor').innerHTML = parent.querySelector('.rich-text').innerHTML;
+        form.querySelector('.button-group .button:first-of-type').innerText = 'Save Changes';
         form.action = event.target.getAttribute('data-url');
 
         // Create a wrapper to insert the form into
