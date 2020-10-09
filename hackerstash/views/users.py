@@ -117,11 +117,13 @@ def update_settings() -> str:
 
 
 @users.route('/users/profile')
+@login_required
 def edit_profile() -> str:
     return render_template('users/profile/edit.html')
 
 
 @users.route('/users/profile/update', methods=['POST'])
+@login_required
 def update_profile() -> str:
     user = User.query.get(g.user.id)
 

@@ -20,7 +20,7 @@ def index() -> str:
     tab = request.args.get('tab', 'new')
     paginated_posts = []
 
-    if tab == 'following' and g.user:
+    if tab == 'following' and 'user' in g:
         paginated_posts = Post.following()
     if tab == 'new':
         paginated_posts = Post.newest()

@@ -61,7 +61,7 @@
                         <p class="col-2">
                             {% if project.url %}
                                 <a target="_blank" href="{{ project.url }}">
-                                    {{ project.url }}
+                                    {{ project.url | to_nice_url }}
                                 </a>
                             {% else %}
                                 -
