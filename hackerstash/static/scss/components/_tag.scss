@@ -42,4 +42,11 @@
     background: $green-400;
     color: $darkblue-900;
   }
+
+  &.sm {
+    font-size: 12px;
+    height: 1.25rem;
+    margin-left: .25rem;
+    padding: .2rem .35rem;
+  }
 }

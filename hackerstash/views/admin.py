@@ -12,7 +12,12 @@ admin = Blueprint('admin', __name__)
 @admin_login_required
 def index() -> str:
     tab = request.args.get('tab', 'users')
-    data = {'users': [], 'admins': []}
+    data = {
+        'users': [],
+        'admins': [],
+        'user_count': User.query.count(),
+        'project_count': Project.query.count()
+    }
 
     if tab == 'users':
         data['users'] = User.query.order_by(User.created_at.desc()).all()
