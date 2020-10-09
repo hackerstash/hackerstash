@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from hackerstash.db import db
+from hackerstash.lib.sidebar import Sidebar
 from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
 from hackerstash.models.user import User
@@ -50,4 +51,5 @@ def update_tournament(contest_id: str) -> str:
     for i in range(200):
         contest.prizes[f'prize_{i}'] = int(request.form.get(f'prize_{i}', 0))
     db.session.commit()
+    Sidebar.clear_cache()
     return redirect(url_for('admin.index', tab='tournaments'))

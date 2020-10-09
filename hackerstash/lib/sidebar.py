@@ -20,6 +20,10 @@ class Sidebar:
     def time_remaining(self):
         return arrow.utcnow().ceil('week').humanize(only_distance=True)
 
+    @classmethod
+    def clear_cache(cls):
+        redis.delete(cls.redis_cache_key)
+
     @property
     def get_prize_pool(self):
         if cached := redis.get(self.redis_cache_key):
