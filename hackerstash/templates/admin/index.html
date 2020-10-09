@@ -41,21 +41,31 @@
     <div class="tab {{ 'active' if active_tab == 'projects' }}">
          <div class="table">
             <div class="table-header">
-                <p class="col-3">Name</p>
-                <p class="col-2">Members</p>
+                <p class="col-1">Avatar</p>
+                <p class="col-2">Name</p>
+                <p class="col-2">URL</p>
                 <p class="col-2">Status</p>
-                <p class="col-3">Date Joined</p>
+                <p class="col-3">Date Created</p>
                 <p class="col-1">Stash</p>
-                <p class="col-1"></p>
+                <p class="col-1">Members</p>
             </div>
             <ul class="table-body projects-table">
                 {% for project in projects %}
                     <li>
-                        <p class="col-3">{{ project.name }}</p>
+                        <p class="col-1">{{ avatar(project, size='sm') }}</p>
                         <p class="col-2">
-                            <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
-                                <span>View</span> ({{ project.members | length }})
-                            </button>
+                            <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">
+                                {{ project.name }}
+                            </a>
+                        </p>
+                        <p class="col-2">
+                            {% if project.url %}
+                                <a target="_blank" href="{{ project.url }}">
+                                    {{ project.url }}
+                                </a>
+                            {% else %}
+                                -
+                            {% endif %}
                         </p>
                         <p class="col-2">
                             {% if project.published %}
@@ -69,7 +79,9 @@
                         </p>
                         <p class="col-1">${{ project.stash or 0 }}</p>
                         <p class="col-1">
-                            <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">View</a>
+                            <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
+                                <span>View</span> ({{ project.members | length }})
+                            </button>
                         </p>
                     </li>
                 {% endfor %}
