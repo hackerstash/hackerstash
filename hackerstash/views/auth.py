@@ -102,6 +102,11 @@ def google_callback() -> str:
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
+    if 'email' not in google_user:
+        logging.warning('Google user payload did not contain an email %s', google_user)
+        flash('Google could not provide us with a complete profile, please pick a different auth type', 'failure')
+        return redirect(url_for('auth.signup'))
+
     user = User.query.filter_by(email=google_user['email']).first()
 
     if user:
@@ -112,8 +117,8 @@ def google_callback() -> str:
     key = Images.upload_from_url(google_user['picture']) if google_user['picture'] else None
 
     user = User(
-        first_name=google_user['given_name'],
-        last_name=google_user['family_name'],
+        first_name=google_user.get('given_name'),
+        last_name=google_user.get('family_name'),
         email=google_user['email'],
         avatar=key
     )
@@ -128,6 +133,11 @@ def google_callback() -> str:
 def twitter_callback() -> str:
     resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
+
+    if 'email' not in twitter_user:
+        logging.warning('Twitter user payload did not contain an email %s', twitter_user)
+        flash('Twitter could not provide us with a complete profile, please pick a different auth type', 'failure')
+        return redirect(url_for('auth.signup'))
 
     user = User.query.filter_by(email=twitter_user['email']).first()
 
