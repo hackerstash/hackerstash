@@ -11,7 +11,7 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin')
 @admin_login_required
 def index() -> str:
-    tab = request.args.get('tab', 'overview')
+    tab = request.args.get('tab', 'users')
     data = {'users': [], 'admins': []}
 
     if tab == 'users':
