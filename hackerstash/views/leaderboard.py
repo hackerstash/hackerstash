@@ -8,6 +8,6 @@ leaderboard = Blueprint('leaderboard', __name__)
 @leaderboard.route('/leaderboard')
 def index() -> str:
     projects = Project.query.filter_by(published=True).all()
-    projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
+    projects = sorted(projects, key=lambda x: x.position)
     results, pagination = paginate(projects)
     return render_template('leaderboard/index.html', projects=results, pagination=pagination)
