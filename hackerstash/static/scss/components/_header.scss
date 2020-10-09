@@ -20,7 +20,16 @@
       text-decoration: none;
 
       &:hover {
-        text-decoration: underline;
+        color: $blue-500;
+      }
+
+      &.back-to-app {
+        align-items: center;
+        display: inline-flex;
+
+        i {
+          margin-right: .5rem;
+        }
       }
     }
   }

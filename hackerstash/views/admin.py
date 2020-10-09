@@ -14,8 +14,8 @@ def index() -> str:
     tab = request.args.get('tab', 'overview')
     data = {'users': [], 'admins': []}
 
-    if tab == 'overview':
-        data['users'] = User.query.all()
+    if tab == 'users':
+        data['users'] = User.query.order_by(User.created_at.desc()).all()
     if tab == 'projects':
         data['projects'] = Project.query.all()
     if tab == 'tournaments':

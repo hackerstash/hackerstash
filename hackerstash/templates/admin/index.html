@@ -6,26 +6,39 @@
 {% from "partials/previews.html" import user_preview %}
 
 {% block body %}
-    <div class="tab {{ 'active' if active_tab == 'overview' }}">
-        <h4 class="mt-2">All Users:</h4>
-        <ul class="users">
-            {% for user in users %}
-                <li>
-                    <div class="details">
-                        {{ avatar(user, size='md') }}
-                        <span>
-                            <h4>
-                                <a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
-                            </h4>
-                            <p>{{ user.email }}</p>
-                        </span>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="tab {{ 'active' if active_tab == 'users' }}">
+        <div class="table">
+            <div class="table-header">
+                <p class="col-1">Avatar</p>
+                <p class="col-2">Name</p>
+                <p class="col-4">Email</p>
+                <p class="col-3">Date Joined</p>
+                <p class="col-2">Project Status</p>
+            </div>
+             <ul class="table-body users-tables">
+                 {% for user in users %}
+                    <li>
+                        <p class="col-1">{{ avatar(user, size='sm') }}</p>
+                        <p class="col-2"><a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a></p>
+                        <p class="col-4">{{ user.email }}</p>
+                        <p class="col-3">{{ user.created_at | to_nice_date }}</p>
+                        <p class="col-2">
+                            {% if user.member %}
+                                {% if user.member.project.published %}
+                                    <span class="tag ml-0 publish-status success">Published</span>
+                                {% else %}
+                                    <span class="tag ml-0 publish-status tertiary">Unpublished</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="tag ml-0 publish-status">None</span>
+                            {% endif %}
+                        </p>
+                    </li>
+                 {% endfor %}
+             </ul>
+        </div>
     </div>
     <div class="tab {{ 'active' if active_tab == 'projects' }}">
-        <h4 class="mt-2 mb-2">Projects:</h4>
          <div class="table">
             <div class="table-header">
                 <p class="col-3">Name</p>

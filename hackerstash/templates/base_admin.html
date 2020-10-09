@@ -19,6 +19,10 @@
                 <a href="{{ url_for('admin.index') }}">
                     <img src="/static/images/logo.svg">
                 </a>
+                <a class="back-to-app" href="{{ url_for('home.index') }}">
+                     <i class="ri-arrow-left-line"></i>
+                    Back to app
+                </a>
             </div>
         </header>
 
@@ -27,7 +31,7 @@
 
             <div class="tabs mt-2">
                 <div class="tab-header">
-                    <a href="{{ url_for('admin.index', tab='overview') }}" class="button {{ 'active' if active_tab == 'overview' }}">Overview</a>
+                    <a href="{{ url_for('admin.index', tab='users') }}" class="button {{ 'active' if active_tab == 'users' }}">Users</a>
                     <a href="{{ url_for('admin.index', tab='projects') }}" class="button {{ 'active' if active_tab == 'projects' }}">Projects</a>
                     <a href="{{ url_for('admin.index', tab='tournaments') }}" class="button {{ 'active' if active_tab == 'tournaments' }}">Tournaments</a>
                 </div>
