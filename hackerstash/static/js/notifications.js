@@ -1,4 +1,5 @@
 const bell = document.querySelector('.notification-bell');
+const notificationList = document.querySelector('.notification-list');
 
 if (bell) {
     window.addEventListener('blur', () => {
@@ -46,4 +47,29 @@ if (bell) {
     }
 
     pollForNotifications();
+}
+
+if (notificationList) {
+    document.querySelectorAll('.notification-message a').forEach(element => {
+        element.addEventListener('click', async event => {
+            const parent = event.target.closest('li');
+            const readButton = parent.querySelector('.read-button');
+
+            if (readButton) {
+                event.preventDefault();
+                const link = event.target.getAttribute('href');
+                const markAsReadLink = readButton.getAttribute('href');
+
+                const options = {
+                    credentials: 'include',
+                    headers: {
+                        'x-requested-with': 'fetch'
+                    }
+                };
+
+                await fetch(markAsReadLink, options);
+                window.location = link;
+            }
+        });
+    });
 }
