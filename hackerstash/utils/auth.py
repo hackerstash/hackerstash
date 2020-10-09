@@ -16,7 +16,9 @@ def login_required(f):
 def member_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user' not in g or g.user.member.project.id != int(kwargs['project_id']):
+        if 'user' not in g:
+            return render_template('projects/401.html')
+        if not g.user.admin and g.user.member.project.id != int(kwargs['project_id']):
             return render_template('projects/401.html')
         return f(*args, **kwargs)
     return decorated_function
