@@ -58,7 +58,7 @@ def admin_api_key_required(f):
 def admin_login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.user or not g.user.admin:
+        if 'user' not in g or not g.user.admin:
             return redirect(url_for('home.index'))
         return f(*args, **kwargs)
     return decorated_function
