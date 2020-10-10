@@ -5,17 +5,19 @@
 {% macro nested_comments(list, nest=false) %}
     <ul class="comments">
         {% for comment in list | nest_comments(nest) %}
-            <li id="{{ comment.id }}" role="comment" data-author="{{ comment.user.first_name }} {{ comment.user.last_name }}">
+            <li id="{{ comment.id }}" class="comment-row" role="comment" data-author="{{ comment.user.first_name }} {{ comment.user.last_name }}">
                 {% if comment.children %}
                     <button aria-label="Collapse comments" class="button link collapse"><span></span></button>
                 {% endif %}
 
-                <div class="comment wrap-620">
+                <div class="comment">
                     <div class="comment-votes comment-votes-{{ comment.id }}">
                         {{ comment_vote('x-sm', comment) }}
                     </div>
                     <div class="details ml-1">
-                        <span class="rich-text inline">{{ comment.body | to_safe_html | safe }}</span>
+                        <div class="wrap-620">
+                            <span class="rich-text inline">{{ comment.body | to_safe_html | safe }}</span>
+                        </div>
                         <p class="small mt-0-5">
                             {{ avatar(comment.user, 'xx-sm') }}
                             {{ user_preview(comment.user) }}
@@ -63,7 +65,7 @@
 {% macro flat_comments(list) %}
     <ul class="comments flat">
         {% for comment in list %}
-            <li>
+            <li class="comment-row">
                 <p class="small date">• {{ comment.created_at | to_nice_date }}</p>
                 {% if comment.parent_comment_id %}
                     <p class="reply"><a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.parent_comment_id }}">Replied</a> to a <a href="{{ url_for('posts.show', post_id=comment.post.id) }}#{{ comment.id }}">comment</a> on the post <a href="{{ url_for('posts.show', post_id=comment.post.id) }}">{{ comment.post.title }}</a></p>
