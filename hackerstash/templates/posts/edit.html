@@ -50,11 +50,27 @@
                         <button aria-label="Update post" class="button" type="submit">Update</button>
                         <a aria-label="Cancel and return to post page" class="button secondary" href="{{ url_for('posts.show', post_id=post.url_slug) }}">Cancel</a>
                     </div>
-                    <a aria-label="Delete post" href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Delete</a>
+                    <button aria-label="Delete post" type="button" class="button tertiary modal-open" data-modal="delete-modal">Delete</button>
                 </div>
             </fieldset>
         </form>
     </div>
+
+    <div id="delete-modal" class="modal">
+        <div class="modal-body sm">
+            <header>
+                <h3>Delete Post</h3>
+                <i class="icon ri-close-line modal-close"></i>
+            </header>
+            <main>
+                <p class="mt-1">Are you sure you wish to delete your post?</p>
+                <footer class="mt-3">
+                    <a aria-label="Delete post" href="{{ url_for('posts.destroy', post_id=post.id) }}" class="button tertiary">Yes, I'm sure</a>
+                    <button class="button secondary modal-close" type="button">Cancel</button>
+                </footer>
+            </main>
+        </div>
+     </div>
 {% endblock %}
 
 {% block scripts %}
