@@ -79,7 +79,7 @@
 {% block scripts %}
     {% if g.user %}
     <script type="text/javascript">
-        window.onload = () => createEditor('.comment-form');
+        window.onload = () => createEditor('.comment-form', { light: true });
     </script>
     {% endif %}
 {% endblock %}

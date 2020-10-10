@@ -4,11 +4,16 @@
   border-left: 1.1em solid $blue-500;
   border-right: 1.1em solid $darkblue-800;
   border-top: 1.1em solid $darkblue-800;
+  display: inline-block;
   font-size: 10px;
   margin: 60px auto;
   position: relative;
   text-indent: -9999em;
   transform: translateZ(0);
+
+  &.x-sm {
+    margin: 0;
+  }
 
   &.sm {
     margin: 1rem auto;
@@ -28,6 +33,14 @@
   border-radius: 50%;
   height: 5em;
   width: 5em;
+}
+
+.spinner.x-sm,
+.spinner.x-sm:after {
+  border-radius: 50%;
+  border-width: .2rem;
+  height: 1.5em;
+  width: 1.5em;
 }
 
 .spinner.sm,

@@ -32,7 +32,7 @@ document.addEventListener('click', (event) => {
         });
 
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
-        createEditor('.reply-form', { focus: true });
+        createEditor('.reply-form', { focus: true, light: true });
     }
 
     if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
@@ -97,7 +97,7 @@ document.addEventListener('click', (event) => {
 
         parent.parentNode.insertBefore(wrapper, parent);
         parent.classList.add('editing');
-        createEditor('.reply-form', { focus: true });
+        createEditor('.reply-form', { focus: true, light: true });
     }
 });
 

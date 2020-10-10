@@ -23,7 +23,10 @@
     </div>
     <div role="textbox" aria-multiline="true" aria-required="true" class="editor post full">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
-    <p class="uploading-images mt-1-5 d-none">Uploading...</p>
+    <div class="uploading-images mt-1-5 d-none">
+        <span class="spinner x-sm"></span>
+        <p>Uploading...</p>
+    </div>
 {% endmacro %}
 
 {% macro editor_light(body='') %}

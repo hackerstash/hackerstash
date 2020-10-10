@@ -137,6 +137,15 @@
   }
 }
 
+.uploading-images:not(.d-none) {
+  align-items: center;
+  display: flex;
+
+  p {
+    margin: 0 0 0 .5rem;
+  }
+}
+
 .ql-editor,
 .editor:not(.ql-container) {
   background: $darkblue-700;

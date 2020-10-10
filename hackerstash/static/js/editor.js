@@ -61,7 +61,7 @@ function createEditor(form, options = {}) {
 
     if (imageUpload) {
         imageUpload.addEventListener('change', event => {
-            selector('.uploading-images').classList.remove('d-none');
+            setUploadingStart();
             const files = Array.from(event.target.files);
             uploadImages(files);
         });
@@ -170,9 +170,9 @@ function createEditor(form, options = {}) {
     selector('.editor').addEventListener('drop', event => {
         event.preventDefault();
 
-        if (event.dataTransfer.items) {
+        if (event.dataTransfer.items && !options.light) {
             const files = [];
-            selector('.uploading-images').classList.remove('d-none');
+            setUploadingStart();
 
             for (let i=0; i<event.dataTransfer.items.length; i++) {
                 if (event.dataTransfer.items[i].kind === 'file') {
@@ -185,17 +185,21 @@ function createEditor(form, options = {}) {
     });
 
     selector('.editor').addEventListener('dragenter', event => {
-        selector('.editor').classList.add('dragging');
+        if (!options.light) {
+            selector('.editor').classList.add('dragging');
+        }
     });
 
     selector('.editor').addEventListener('dragleave', event => {
-        selector('.editor').classList.remove('dragging');
+        if (!options.light) {
+            selector('.editor').classList.remove('dragging');
+        }
     });
 
     selector('.ql-editor').addEventListener('paste', event => {
-        if (event.clipboardData) {
+        if (event.clipboardData && !options.light) {
             const files = [];
-            selector('.uploading-images').classList.remove('d-none');
+            setUploadingStart();
 
             for (let i=0; i<event.clipboardData.items.length; i++) {
                 if (event.clipboardData.items[i].kind === 'file') {
@@ -232,8 +236,8 @@ function createEditor(form, options = {}) {
     }
 
     function uploadImages(files) {
-        if (files.length === 0) {
-            selector('.uploading-images').classList.add('d-none');
+        if (files.length === 0 || options.light) {
+            setUploadingEnd();
             return [];
         }
 
@@ -263,8 +267,18 @@ function createEditor(form, options = {}) {
                    img.src = `https://images.hackerstash.com/${key}`;
                    editor.appendChild(img);
                 });
-                selector('.uploading-images').classList.add('d-none');
+                setUploadingEnd();
             });
+    }
+
+    function setUploadingStart() {
+        selector('.uploading-images').classList.remove('d-none');
+        selector('button[type="submit"]').setAttribute('disabled', 'true');
+    }
+
+    function setUploadingEnd() {
+        selector('.uploading-images').classList.add('d-none');
+        selector('button[type="submit"]').removeAttribute('disabled');
     }
 
     return editor;
