@@ -61,37 +61,9 @@ function createEditor(form, options = {}) {
 
     if (imageUpload) {
         imageUpload.addEventListener('change', event => {
-            const uploading = selector('.uploading-images');
-            uploading.classList.remove('d-none');
-
-            const form = new FormData();
-            Array.from(event.target.files).forEach(file => form.append('file', file));
-
-            const options = {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'x-requested-with': 'fetch',
-                },
-                body: form
-           };
-
-           fetch('/posts/images', options)
-               .then((response) => {
-                   if (response.ok) {
-                       return response.json();
-                   }
-                   throw new Error(response.statusText);
-               })
-               .then(keys => {
-                   const editor = selector('.ql-editor');
-                   keys.forEach(key => {
-                       const img = document.createElement('img');
-                       img.src = `https://images.hackerstash.com/${key}`;
-                       editor.appendChild(img);
-                   });
-                   uploading.classList.add('d-none');
-               });
+            selector('.uploading-images').classList.remove('d-none');
+            const files = Array.from(event.target.files);
+            uploadImages(files);
         });
     }
 
@@ -195,6 +167,46 @@ function createEditor(form, options = {}) {
         setTimeout(() => closeMentionContainer(), 100);
     });
 
+    selector('.editor').addEventListener('drop', event => {
+        event.preventDefault();
+
+        if (event.dataTransfer.items) {
+            const files = [];
+            selector('.uploading-images').classList.remove('d-none');
+
+            for (let i=0; i<event.dataTransfer.items.length; i++) {
+                if (event.dataTransfer.items[i].kind === 'file') {
+                    files.push(event.dataTransfer.items[i].getAsFile());
+                }
+            }
+
+            uploadImages(files);
+        }
+    });
+
+    selector('.editor').addEventListener('dragenter', event => {
+        selector('.editor').classList.add('dragging');
+    });
+
+    selector('.editor').addEventListener('dragleave', event => {
+        selector('.editor').classList.remove('dragging');
+    });
+
+    selector('.ql-editor').addEventListener('paste', event => {
+        if (event.clipboardData) {
+            const files = [];
+            selector('.uploading-images').classList.remove('d-none');
+
+            for (let i=0; i<event.clipboardData.items.length; i++) {
+                if (event.clipboardData.items[i].kind === 'file') {
+                    files.push(event.clipboardData.items[i].getAsFile());
+                }
+            }
+
+            uploadImages(files);
+        }
+    });
+
     function closeMentionContainer() {
         usernameSearch = '';
         const containers = document.querySelectorAll('.mention-container');
@@ -217,6 +229,42 @@ function createEditor(form, options = {}) {
             editor.setSelection(99999, 0, 'api');
             closeMentionContainer();
         }, 0);
+    }
+
+    function uploadImages(files) {
+        if (files.length === 0) {
+            selector('.uploading-images').classList.add('d-none');
+            return [];
+        }
+
+        const form = new FormData();
+        files.forEach(file => form.append('file', file));
+
+        const options = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'x-requested-with': 'fetch',
+            },
+            body: form
+       };
+
+       fetch('/posts/images', options)
+           .then((response) => {
+               if (response.ok) {
+                   return response.json();
+               }
+               throw new Error(response.statusText);
+           })
+           .then(keys => {
+                const editor = selector('.ql-editor');
+                keys.forEach(key => {
+                   const img = document.createElement('img');
+                   img.src = `https://images.hackerstash.com/${key}`;
+                   editor.appendChild(img);
+                });
+                selector('.uploading-images').classList.add('d-none');
+            });
     }
 
     return editor;

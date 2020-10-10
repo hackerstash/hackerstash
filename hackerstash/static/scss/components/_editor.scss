@@ -99,6 +99,12 @@
     height: 160px;
   }
 
+  &.dragging {
+    .ql-editor {
+        border: 2px dashed $blue-500;
+    }
+  }
+
   @include tablet-down {
     height: 260px;
     margin-bottom: 2rem;
