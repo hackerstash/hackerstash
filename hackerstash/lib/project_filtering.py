@@ -28,7 +28,7 @@ def project_filtering(args):
 def get_args(raw_args) -> dict:
     args = {}
     for key, value in raw_args.to_dict().items():
-        if value and value != 'Please select':
+        if value and value != 'Please select' and key != 'page':
             if key in ['platforms_and_devices', 'business_models', 'fundings']:
                 args[key] = raw_args.getlist(key)
             else:
