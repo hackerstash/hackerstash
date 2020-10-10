@@ -23,7 +23,7 @@ projects = Blueprint('projects', __name__)
 def index() -> str:
     filtered_projects = project_filtering(request.args)
     filters_count = len([x for x in list(request.args.keys()) if x != 'sorting'])
-    results, pagination = paginate(filtered_projects)
+    results, pagination = paginate(filtered_projects, limit=24)  # The grid is 3 across, so 25 looks weird
 
     return render_template(
         'projects/index.html',
