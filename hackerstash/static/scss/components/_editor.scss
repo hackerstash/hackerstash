@@ -95,6 +95,14 @@
     color: $blue-500 !important;
   }
 
+  strong {
+    font-weight: $font-weight-bold;
+  }
+
+  h1, h2, h3, strong {
+    color: $mauve-500 !important;
+  }
+
   &.light {
     height: 160px;
   }
@@ -126,10 +134,6 @@
     background: $darkblue-900;
     font-size: 1rem;
     padding: 1rem;
-  }
-
-  * {
-    color: $mauve-500 !important;
   }
 }
 

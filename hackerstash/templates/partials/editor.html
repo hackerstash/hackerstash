@@ -21,7 +21,7 @@
 
         <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" class="ql-image" multiple>
     </div>
-    <div draggable="true" role="textbox" aria-multiline="true" aria-required="true" class="editor post full">{{ body | safe }}</div>
+    <div role="textbox" aria-multiline="true" aria-required="true" class="editor post full">{{ body | safe }}</div>
     <input class="body" type="hidden" name="body" required>
     <p class="uploading-images mt-1-5 d-none">Uploading...</p>
 {% endmacro %}
