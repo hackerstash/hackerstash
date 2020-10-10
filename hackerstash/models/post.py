@@ -20,7 +20,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
-    comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined')
+    comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined', order_by='Comment.created_at.desc()')
     votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
