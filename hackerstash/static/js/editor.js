@@ -236,7 +236,7 @@ function createEditor(form, options = {}) {
     }
 
     function uploadImages(files) {
-        if (files.length === 0 || options.light) {
+        if (files.length === 0) {
             setUploadingEnd();
             return [];
         }
