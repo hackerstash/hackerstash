@@ -1,16 +1,15 @@
 import json
 from flask import url_for
-from sqlalchemy import func, select
 from sqlalchemy.types import ARRAY
-from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.lib.logging import logging
 from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_weekly_vote_data
+from hackerstash.lib.prizes import Prizes
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
-from hackerstash.lib.prizes import Prizes
+from hackerstash.utils.filters import to_plain_text
 from hackerstash.utils.votes import sum_of_project_votes
 
 # There are a lof of horrifically unperformant
@@ -159,7 +158,7 @@ class Project(db.Model):
         data = {
             'name': self.name,
             'avatar': self.avatar,
-            'description': self.description,
+            'description': to_plain_text(self.description),
             'url': url_for('projects.show', project_id=self.id),
             'lists': [
                 {

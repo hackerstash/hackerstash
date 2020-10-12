@@ -3,6 +3,7 @@ import arrow
 from flask import url_for
 from hackerstash.db import db
 from hackerstash.lib.redis import redis
+from hackerstash.utils.filters import to_plain_text
 
 follow = db.Table(
     'users_following',
@@ -94,7 +95,7 @@ class User(db.Model):
         data = {
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
-            'description': self.bio,
+            'description': to_plain_text(self.bio),
             'admin': self.admin,
             'url': url_for('users.show', user_id=self.id),
             'lists': [
