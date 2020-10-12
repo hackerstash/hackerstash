@@ -1,4 +1,5 @@
 import arrow
+from flask import g
 from hackerstash.lib.logging import logging
 from hackerstash.lib.redis import redis
 from hackerstash.models.contest import Contest
@@ -43,3 +44,8 @@ class Sidebar:
         logging.info('Caching sidebar data for 10 minutes')
         redis.set(self.redis_cache_key, prize, ex=self.sidebar_cache_time)
         return prize
+
+    def set_global_values(self):
+        g.prize_pool = self.prize_pool
+        g.time_remaining = self.time_remaining
+        g.no_current_contest = self.no_current_contest
