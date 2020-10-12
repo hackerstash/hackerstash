@@ -95,7 +95,7 @@ class User(db.Model):
         data = {
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
-            'description': to_plain_text(self.bio),
+            'description': to_plain_text(self.bio, limit=240),
             'admin': self.admin,
             'url': url_for('users.show', user_id=self.id),
             'lists': [

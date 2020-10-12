@@ -30,8 +30,11 @@ def to_safe_html(value: str) -> str:
     return bleach.clean(value or '', tags=tags, attributes=attrs, strip=True)
 
 
-def to_plain_text(value: str) -> str:
-    return bleach.clean(value or '', tags=[], strip=True)
+def to_plain_text(value: str, limit: int = None) -> str:
+    text = bleach.clean(value or '', tags=[], strip=True)
+    if limit and len(text) > limit:
+        text = text[:limit - 3] + '...'
+    return text
 
 
 def to_human_date(date) -> str:

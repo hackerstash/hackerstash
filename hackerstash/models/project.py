@@ -158,7 +158,7 @@ class Project(db.Model):
         data = {
             'name': self.name,
             'avatar': self.avatar,
-            'description': to_plain_text(self.description),
+            'description': to_plain_text(self.description, limit=240),
             'url': url_for('projects.show', project_id=self.id),
             'lists': [
                 {
