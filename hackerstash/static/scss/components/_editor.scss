@@ -181,6 +181,16 @@
   }
 }
 
+.editor-limit {
+  font-size: 14px;
+  margin-top: .5rem;
+  text-align: right;
+
+  &.error {
+    color: $red-500;
+  }
+}
+
 .mention-container {
   background: white;
   border-radius: .5rem;

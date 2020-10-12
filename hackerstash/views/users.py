@@ -10,6 +10,7 @@ from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
+from hackerstash.utils.helpers import get_html_text_length
 
 users = Blueprint('users', __name__)
 
@@ -126,6 +127,10 @@ def edit_profile() -> str:
 @login_required
 def update_profile() -> str:
     user = User.query.get(g.user.id)
+
+    if get_html_text_length(request.form['body']) > 240:
+        flash('User bio exceeds 240 characters', 'failure')
+        return redirect(url_for('users.edit_profile'))
 
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':

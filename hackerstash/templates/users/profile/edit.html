@@ -14,6 +14,8 @@
             </a>
         </header>
 
+        {% include "partials/messages.html" %}
+
         <form class="form d-flex editor-form flex-column wrap-620" action="{{ url_for('users.update_profile') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 {{ avatar_upload(g.user) }}
@@ -41,7 +43,7 @@
                 <input class="input" name="twitter" id="twitter" placeholder="e.g. @hackerstash" value="{{ g.user.twitter or '' }}">
 
                 <label class="label" for="bio">Bio</label>
-                {{ editor_light(g.user.bio or '') }}
+                {{ editor_light(g.user.bio or '', limit=240) }}
 
                 <div class="button-group mt-3">
                     <button class="button" type="submit">Save changes</button>
@@ -54,6 +56,6 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form');
+        window.onload = () => createEditor('.editor-form', { limit: true });
     </script>
 {% endblock %}

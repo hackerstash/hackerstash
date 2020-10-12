@@ -85,7 +85,7 @@
                                 </div>
 
                                 <label class="label" for="description">Short description</label>
-                                {{ editor_light(project.description or '') }}
+                                {{ editor_light(project.description or '', limit=240) }}
 
                                 <label class="label mt-1-5" for="url">Web address <span>(URL)</span></label>
                                 <input class="input" name="url" id="url" placeholder="e.g. catbook.com" value="{{ project.url or '' }}">
@@ -405,6 +405,6 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form');
+        window.onload = () => createEditor('.editor-form', { limit: true });
     </script>
 {% endblock %}

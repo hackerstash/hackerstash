@@ -3,6 +3,7 @@ import arrow
 import bleach
 import calendar
 from flask import request, url_for
+from hackerstash.utils.helpers import html_to_plain_text
 
 
 def init_app(app):
@@ -30,11 +31,8 @@ def to_safe_html(value: str) -> str:
     return bleach.clean(value or '', tags=tags, attributes=attrs, strip=True)
 
 
-def to_plain_text(value: str, limit: int = None) -> str:
-    text = bleach.clean(value or '', tags=[], strip=True)
-    if limit and len(text) > limit:
-        text = text[:limit - 3] + '...'
-    return text
+def to_plain_text(value: str) -> str:
+    return html_to_plain_text(value)
 
 
 def to_human_date(date) -> str:

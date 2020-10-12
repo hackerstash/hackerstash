@@ -15,6 +15,7 @@ from hackerstash.models.member import Member
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
 from hackerstash.utils.auth import login_required, member_required, published_project_required
+from hackerstash.utils.helpers import get_html_text_length
 
 projects = Blueprint('projects', __name__)
 
@@ -100,6 +101,10 @@ def all_posts(project_id: str) -> str:
 def update(project_id: str) -> str:
     project = Project.query.get(project_id)
 
+    if get_html_text_length(request.form['body']) > 240:
+        flash('Project description exceeds 240 characters', 'failure')
+        return redirect(url_for('projects.edit', project_id=project.id))
+
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
         key = Images.upload(request.files['file'])
@@ -110,8 +115,6 @@ def update(project_id: str) -> str:
 
     for key, value in request.form.items():
         if key not in ['file', 'avatar']:
-            # TODO Fix limiting
-            value = value[:280] if key == 'description' else value
             # Rich text always uses body as the key
             key = 'description' if key == 'body' else key
             setattr(project, key, value)

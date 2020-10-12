@@ -8,8 +8,7 @@ from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.lib.prizes import Prizes
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
-from hackerstash.utils.helpers import find_in_list
-from hackerstash.utils.filters import to_plain_text
+from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 from hackerstash.utils.votes import sum_of_project_votes
 
 # There are a lof of horrifically unperformant
@@ -101,6 +100,10 @@ class Project(db.Model):
         return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
 
     @property
+    def plain_text_description(self):
+        return html_to_plain_text(self.bio, limit=240)
+
+    @property
     def position(self) -> int:
         if not self.published:
             return -1
@@ -158,7 +161,7 @@ class Project(db.Model):
         data = {
             'name': self.name,
             'avatar': self.avatar,
-            'description': to_plain_text(self.description, limit=240),
+            'description': self.plain_text_description,
             'url': url_for('projects.show', project_id=self.id),
             'lists': [
                 {

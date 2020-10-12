@@ -45,6 +45,23 @@ function createEditor(form, options = {}) {
         editor.setSelection(99999, 0, 'api');
     }
 
+    if (options.limit) {
+        const limit = selector('.editor-limit').getAttribute('data-limit');
+
+        selector('.ql-editor').addEventListener('keyup', event => {
+            const max = Number(limit);
+            const count = editor.root.innerText.trim().length;
+
+            selector('.editor-limit span').innerText = count;
+
+            if (count > max) {
+                selector('.editor-limit').classList.add('error');
+            } else {
+                selector('.editor-limit').classList.remove('error');
+            }
+        });
+    }
+
     const headingPicker = selector('.heading-picker');
     const imageUpload = selector('.ql-image[type=file]');
 
@@ -61,9 +78,11 @@ function createEditor(form, options = {}) {
 
     if (imageUpload) {
         imageUpload.addEventListener('change', event => {
-            setUploadingStart();
             const files = Array.from(event.target.files);
-            uploadImages(files);
+            if (files.length) {
+                setUploadingStart();
+                uploadImages(files);
+            }
         });
     }
 
@@ -199,7 +218,6 @@ function createEditor(form, options = {}) {
     selector('.ql-editor').addEventListener('paste', event => {
         if (event.clipboardData && !options.light) {
             const files = [];
-            setUploadingStart();
 
             for (let i=0; i<event.clipboardData.items.length; i++) {
                 if (event.clipboardData.items[i].kind === 'file') {
@@ -207,7 +225,10 @@ function createEditor(form, options = {}) {
                 }
             }
 
-            uploadImages(files);
+            if (files.length) {
+                setUploadingStart();
+                uploadImages(files);
+            }
         }
     });
 

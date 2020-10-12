@@ -3,7 +3,7 @@ import arrow
 from flask import url_for
 from hackerstash.db import db
 from hackerstash.lib.redis import redis
-from hackerstash.utils.filters import to_plain_text
+from hackerstash.utils.helpers import html_to_plain_text
 
 follow = db.Table(
     'users_following',
@@ -81,6 +81,10 @@ class User(db.Model):
         return following
 
     @property
+    def plain_text_description(self):
+        return html_to_plain_text(self.bio, limit=240)
+
+    @property
     def unread_notifications(self):
         return list(filter(lambda x: not x.read, self.notifications))
 
@@ -95,7 +99,7 @@ class User(db.Model):
         data = {
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
-            'description': to_plain_text(self.bio, limit=240),
+            'description': self.plain_text_description,
             'admin': self.admin,
             'url': url_for('users.show', user_id=self.id),
             'lists': [
