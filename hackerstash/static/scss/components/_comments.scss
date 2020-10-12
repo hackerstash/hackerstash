@@ -50,10 +50,22 @@
           border-color: $mauve-500;
         }
       }
+
+      @include tablet-down {
+        padding: 0;
+      }
+    }
+
+    .vote {
+      width: .5rem;
     }
 
     .comment-row {
       margin-left: 2.5rem;
+
+       @include tablet-down {
+         margin-left: 1.5rem;
+       }
     }
     
     .link {
