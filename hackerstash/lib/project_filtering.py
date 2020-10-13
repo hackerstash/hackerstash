@@ -1,5 +1,7 @@
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.models.project import Project
+
+log = Logging(module='ProjectFiltering')
 
 filter_args = [
     'team_size',
@@ -18,7 +20,7 @@ def project_filtering(args):
     if len(args) == 0:
         return default_response(projects)
 
-    logging.info('Filtering projects %s', args)
+    log.info('Filtering projects', {'filters': args})
 
     projects = sort_projects(projects, args.get('sorting'))
     projects = filter_projects(projects, args)

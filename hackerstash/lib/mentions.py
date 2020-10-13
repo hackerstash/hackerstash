@@ -1,13 +1,15 @@
 import re
 from flask import render_template_string
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.models.user import User
+
+log = Logging(module='Mentions')
 
 
 def get_user_from_mention(html: str, mention: str):
     try:
-        logging.info(f'Trying to extract a mention \'{mention}\'')
+        log.info(f'Trying to extract a mention', {'mention': mention})
         # The mention is already wrapped in an <a> tag. This
         # is likely because the post/comment is being updated
         if f'{mention}</a>' in html:
@@ -17,12 +19,12 @@ def get_user_from_mention(html: str, mention: str):
         if not user:
             return mention, None
 
-        logging.info(f'Found user with id \'{user.id}\' from mention \'{mention}\'')
+        log.info('Found username within mention', {'user_id': user.id, 'mention': mention})
         # Return both the string and the user
         replr = '<a class="mention" href="{{ url_for(\'users.show\', user_id=user.id) }}">@{{ user.username }}</a>'
         return render_template_string(replr, user=user), user
     except Exception as e:
-        logging.warning('Failed to extract mention: %s - %s', mention, e)
+        log.error('Failed to extract mention', e)
         return mention, None
 
 

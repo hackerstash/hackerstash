@@ -1,12 +1,14 @@
 import datetime
 from sqlalchemy.types import JSON
 from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
 from hackerstash.models.transaction import Transaction
 from hackerstash.utils.contest import get_week_and_year
+
+log = Logging(module='Models::Contest')
 
 
 class Contest(db.Model):
@@ -64,14 +66,14 @@ class Contest(db.Model):
 
     @classmethod
     def find_or_create(cls, week, year):
-        logging.info('Trying to find contest with args %s', {'week': week, 'year': year})
+        log.info('Trying to find contest', {'week': week, 'year': year})
         exists = cls.query.filter_by(year=year, week=week).first()
         if exists:
-            logging.info('Contest exists: %s', exists.id)
+            log.info('Contest exists', {'contest_id': exists.id})
             return exists
         else:
             previous = cls.previous()
-            logging.info('Contest does not exist')
+            log.info('Contest does not exist')
             new = cls(week=week, year=year, tournament=previous.tournament if previous else 1)
             db.session.add(new)
             db.session.commit()
@@ -101,7 +103,7 @@ class Contest(db.Model):
 
         # Create next weeks tournament
         args = {'week': week + 1, 'year': year, 'tournament': contest.tournament + 1}
-        logging.info('Creating a new contest with args: %s', args)
+        log.info('Creating a new contest', {'contest_args': args})
         new_contest = cls(**args)
         db.session.add(new_contest)
         db.session.commit()

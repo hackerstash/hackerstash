@@ -1,6 +1,8 @@
 from flask import g
 from hackerstash.lib.challenges.base import Base
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
+
+log = Logging(module='Challenges::CommentVoted')
 
 
 def is_not_members_comment(user, comment):
@@ -17,5 +19,5 @@ class CommentVoted(Base):
 
         if is_not_members_comment(user, comment):
             if not self.has_completed(comment_project, 'have_five_comments_upvoted'):
-                logging.info(f'Awarding \'have_five_comments_upvoted\' challenge for \'{comment_project.name}\'')
+                log.info('Incrementing challenge', {'type': 'have_five_comments_upvoted', 'project_id': comment_project.id})
                 comment.user.member.project.create_or_inc_challenge('have_five_comments_upvoted')

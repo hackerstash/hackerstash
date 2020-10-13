@@ -5,19 +5,23 @@ from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
 from hackerstash.utils.helpers import get_html_text_length
 
+log = Logging(module='Views::Users')
 users = Blueprint('users', __name__)
 
 
 @users.route('/users/<user_id>')
 def show(user_id: str) -> str:
-    user = User.query.get(user_id)
+    if user_id.isnumeric():
+        user = User.query.get(user_id)
+    else:
+        user = User.query.filter_by(username=user_id).first()
     if not user:
         return render_template('users/404.html')
     return render_template('users/show.html', user=user)
@@ -46,8 +50,10 @@ def new() -> str:
 def follow(user_id: str) -> str:
     user = User.query.get(user_id)
     if g.user.is_following(user):
+        log.info('Unfollowing user', {'user_id': g.user.id, 'follow_id': user.id})
         g.user.unfollow(user)
     else:
+        log.info('Following user', {'user_id': g.user.id, 'follow_id': user.id})
         g.user.follow(user)
         notification_factory('follower_created', {'user': user, 'follower': g.user}).publish()
     db.session.commit()
@@ -57,8 +63,9 @@ def follow(user_id: str) -> str:
 @users.route('/users/create', methods=['POST'])
 @login_required
 def create() -> str:
+    log.info('Creating user', {'user_data': request.form})
     if User.query.filter_by(username=request.form['username']).first():
-        logging.info(f'{request.form["username"]} is already taken')
+        log.warn('Username is already taken', {'username': request.form['username']})
         flash('This username is already taken', 'failure')
         return render_template('users/new.html')
 
@@ -85,16 +92,15 @@ def create() -> str:
 @users.route('/users/destroy')
 @login_required
 def destroy() -> str:
-    user = User.query.get(g.user.id)
-    logging.info(f'Deleteing user \'{g.user.username}\'')
+    log.info('Deleteing user', {'user_id': g.user.id})
 
     # Can't think of a way to cascade this at the db level
-    if user.member and len(user.member.project.members) == 1:
-        db.session.delete(user.member.project)
+    if g.user.member and len(g.user.member.project.members) == 1:
+        db.session.delete(g.user.member.project)
 
-    email_factory('close_account', user.email, {}).send()
+    email_factory('close_account', g.user.email, {}).send()
 
-    db.session.delete(user)
+    db.session.delete(g.user)
     db.session.commit()
     session.pop('id', None)
 
@@ -110,11 +116,11 @@ def edit_settings() -> str:
 @users.route('/users/settings/update', methods=['POST'])
 @login_required
 def update_settings() -> str:
-    user = User.query.get(g.user.id)
-    user.email = request.form['email']
-    user.telephone = request.form['telephone']
+    log.info('Updating user settings', {'user_id': g.user.id, 'user_data': request.form})
+    g.user.email = request.form['email']
+    g.user.telephone = request.form['telephone']
     db.session.commit()
-    return redirect(url_for('users.show', user_id=user.id, saved=1))
+    return redirect(url_for('users.show', user_id=g.user.id, saved=1))
 
 
 @users.route('/users/profile')
@@ -126,7 +132,7 @@ def edit_profile() -> str:
 @users.route('/users/profile/update', methods=['POST'])
 @login_required
 def update_profile() -> str:
-    user = User.query.get(g.user.id)
+    log.info('Updating user profile', {'user_id': g.user.id, 'user_data': request.form})
 
     if get_html_text_length(request.form['body']) > 240:
         flash('User bio exceeds 240 characters', 'failure')
@@ -135,10 +141,10 @@ def update_profile() -> str:
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
         key = Images.upload(request.files['file'])
-        user.avatar = key
-    elif not request.form['avatar'] and user.avatar:
-        Images.delete(user.avatar)
-        user.avatar = None
+        g.user.avatar = key
+    elif not request.form['avatar'] and g.user.avatar:
+        Images.delete(g.user.avatar)
+        g.user.avatar = None
 
     for key, value in request.form.items():
         if key not in ['file', 'avatar', 'admin']:
@@ -146,10 +152,10 @@ def update_profile() -> str:
             key = 'bio' if key == 'body' else key
             # Usernames must follow this pattern
             value = re.sub(r'[^a-z0-9\_\-\.]+', '', value, flags=re.IGNORECASE) if key == 'username' else value
-            setattr(user, key, value)
+            setattr(g.user, key, value)
 
     db.session.commit()
-    return redirect(url_for('users.show', user_id=user.id, saved=1))
+    return redirect(url_for('users.show', user_id=g.user.id, saved=1))
 
 
 @users.route('/users/usernames')
