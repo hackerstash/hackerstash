@@ -5,9 +5,7 @@ from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.models.user import User
 from hackerstash.models.post import Post
-from hackerstash.models.project import Project
 from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required

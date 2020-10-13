@@ -18,7 +18,10 @@ users = Blueprint('users', __name__)
 
 @users.route('/users/<user_id>')
 def show(user_id: str) -> str:
-    user = User.query.get(user_id)
+    if user_id.isnumeric():
+        user = User.query.get(user_id)
+    else:
+        user = User.query.filter_by(username=user_id).first()
     if not user:
         return render_template('users/404.html')
     return render_template('users/show.html', user=user)
