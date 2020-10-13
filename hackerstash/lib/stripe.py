@@ -96,6 +96,12 @@ def handle_payment_failed(event):
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
     project = member.project
     project.published = False
+    # I'm not sure this is recommended, but it caught us off guard
+    # when a user's payment failed (but got a subscription), then
+    # when they resubscribed we automatically published their project.
+    if member.stripe_subscription_id:
+        stripe.Subscription.delete(member.stripe_subscription_id)
+
     logging.info(f'Setting project \'{project.name}\' as unpublished with customer_id \'{customer_id}\'')
     db.session.commit()
 
