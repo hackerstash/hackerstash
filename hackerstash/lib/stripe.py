@@ -102,6 +102,8 @@ def handle_payment_failed(event):
     # when they resubscribed we automatically published their project.
     if member.stripe_subscription_id:
         stripe.Subscription.delete(member.stripe_subscription_id)
+        member.stripe_subscription_id = None
+        member.stripe_payment_details = None
 
     log.info('Setting project as unpublished', {'project_id': project.id, 'customer_id': customer_id})
     db.session.commit()
