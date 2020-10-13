@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, jsonify
 from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 
+log = Logging(module='Views::Home')
 home = Blueprint('home', __name__)
 
 
@@ -18,5 +19,5 @@ def ping():
         redis.keys('*')
         return jsonify({'status': 'PONG! Have a nice day.'})
     except Exception as e:
-        logging.stack(e)
+        log.error('Failed to ping!', e)
         return jsonify({'status': 'AHHHHHHHHH'}), 500

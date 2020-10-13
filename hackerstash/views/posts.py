@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, g, request, redirect, url_for, get
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
@@ -12,6 +12,7 @@ from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required
 
+log = Logging(module='Views::Posts')
 posts = Blueprint('posts', __name__)
 
 
@@ -49,7 +50,7 @@ def show(post_id: str) -> str:
         post = Post.query.get(post_id)
         if not post:
             return render_template('posts/404.html')
-        logging.info(f'Redirecting post \'{post.id}\' as it was accessed via it\'s id')
+        log.info(f'Redirecting post as it was accessed by the id', {'post_id': post.id})
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     post = Post.query.filter_by(url_slug=post_id).first()
@@ -74,7 +75,7 @@ def create() -> str:
     project = Project.query.get(g.user.member.project_id)
 
     if 'title' not in request.form or 'body' not in request.form:
-        logging.info('Not all fields were submitted during post create: %s', request.form)
+        log.info('Not all fields were submitted during post create', {'request_data': request.form})
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 

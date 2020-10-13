@@ -1,7 +1,9 @@
 from flask import g
 from hackerstash.lib.challenges.base import Base
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.utils.contest import get_week_and_year
+
+log = Logging(module='Challenges::PostVoted')
 
 
 def is_not_members_post(user, post):
@@ -17,7 +19,7 @@ class PostVoted(Base):
 
         if is_not_members_post(user, post):
             if not self.has_completed(user.member.project, 'award_points_to_three_posts'):
-                logging.info(f'Awarding \'award_points_to_three_posts\' challenge for \'{user.member.project.name}\'')
+                log.info('Incrementing challenge', {'type': 'award_points_to_three_posts', 'project_id': user.member.project.id})
                 user.member.project.create_or_inc_challenge('award_points_to_three_posts')
 
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_one_post'):
@@ -27,7 +29,7 @@ class PostVoted(Base):
                     votes_this_week = list(filter(lambda x: x.is_current_contest, p.votes))
                     this_week_score = sum(vote.score for vote in votes_this_week)
                     if this_week_score >= 25:
-                        logging.info(f'Awarding \'earn_twenty_five_points_for_one_post\' challenge for \'{post.project.name}\'')
+                        log.info('Incrementing challenge', {'type': 'earn_twenty_five_points_for_one_post', 'project_id': post.project.id})
                         post.project.create_or_inc_challenge('earn_twenty_five_points_for_one_post')
 
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_three_seperate_posts'):
@@ -40,5 +42,5 @@ class PostVoted(Base):
                         count += 1
 
                 # Can't be any higher than 3
-                logging.info(f'Setting \'earn_twenty_five_points_for_three_seperate_posts\' challenge for \'{post.project.name}\' to \'{count}\'')
+                log.info('Incrementing challenge', {'type': 'earn_twenty_five_points_for_three_seperate_posts', 'project_id': post.project.id})
                 post.project.create_or_set_challenge('earn_twenty_five_points_for_three_seperate_posts', count)

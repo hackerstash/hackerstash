@@ -1,8 +1,10 @@
 import arrow
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
+
+log = Logging(module='Sidebar')
 
 
 class Sidebar:
@@ -40,6 +42,6 @@ class Sidebar:
             return self.cache_prize_pool(prize)
 
     def cache_prize_pool(self, prize: str):
-        logging.info('Caching sidebar data for 10 minutes')
+        log.info('Caching sidebar data for 10 minutes')
         redis.set(self.redis_cache_key, prize, ex=self.sidebar_cache_time)
         return prize

@@ -4,7 +4,7 @@ from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
 from hackerstash.lib.project_filtering import project_filtering
@@ -17,6 +17,7 @@ from hackerstash.models.invite import Invite
 from hackerstash.utils.auth import login_required, member_required, published_project_required
 from hackerstash.utils.helpers import get_html_text_length
 
+log = Logging(module='Views::Project')
 projects = Blueprint('projects', __name__)
 
 
@@ -174,7 +175,7 @@ def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
 
     if member.owner:
-        logging.info(f'\'{g.user.username}\' tried to delete the owner ({member.user.username})')
+        log.info('Someone tried to delete the owner', {'user_id': g.user.id, 'owner_user_id': member.user.id})
         flash('The project owner can\'t be deleted', 'failure')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 

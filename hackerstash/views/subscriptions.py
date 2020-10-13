@@ -2,13 +2,14 @@ import json
 from flask import Blueprint, request, jsonify, g, redirect, url_for, get_template_attribute, abort, flash
 from hackerstash.db import db
 from hackerstash.config import config
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.stripe import create_customer, create_session, \
     handle_invoice_paid, handle_payment_failed, handle_checkout_complete, \
     handle_subscription_deleted, handle_subscription_cancelled, get_subscription, \
     handle_upcoming_invoice
 from hackerstash.utils.auth import login_required
 
+log = Logging(module='Views::Subscriptions')
 subscriptions = Blueprint('subscriptions', __name__)
 
 
@@ -18,7 +19,7 @@ def webhook_received():
     event_data = request_data['data']['object']
     event_type = request_data['type']
 
-    logging.info(f'Handling webhook event type \'{event_type}\'')
+    log.info(f'Handling Stripe webhook', {'event_type': event_type, 'event_data': event_data})
 
     if event_type == 'invoice.paid':
         handle_invoice_paid(event_data)
@@ -38,7 +39,7 @@ def webhook_received():
 @login_required
 def checkout():
     member = g.user.member
-    logging.info(f'Checking out user \'{g.user.username}\'')
+    log.info(f'Checking out user', {'user_id': g.user.id})
     # Only the owner of a project can create a subscription
     if not member or not member.owner:
         # Not sure what to do in this case, they're fishing
@@ -49,7 +50,7 @@ def checkout():
     required_properties = ['name', 'description']
     for prop in required_properties:
         if getattr(project, prop) in [None, '', '<p><br></p>']:
-            logging.info(f'Project \'{project.name}\' was missing required property \'{prop}\' to publish')
+            log.info('Project was missing property to publish', {'project_id': project.id, 'property': prop})
             flash('Project name and description are both required to publish', 'failure')
             return redirect(url_for('projects.edit', project_id=project.id))
 
@@ -67,7 +68,7 @@ def checkout():
         # have anything on our end. Likely an error occurred during the checkout 🤷‍
         # Either way, update it now!
         if not member.stripe_subscription_id and existing_sub:
-            logging.warning(f'Company "{member.project.name}" had a subscription but we didn\'t know about it!')
+            log.warn('Company already had a subscription during checkout', {'project_id': project.id})
             member.stripe_subscription_id = existing_sub['id']
             member.project.published = True
             db.session.commit()
@@ -90,7 +91,7 @@ def checkout_success():
     # on as confirmation of payment so do not update anything.
     # Instead wait on the webook
     project = g.user.member.project
-    logging.info(f'Payment succeeded for \'{project.name}\'')
+    log.info('Payment succeeded', {'project_id': project.id})
     return redirect(url_for('projects.subscription', project_id=project.id))
 
 
@@ -98,7 +99,7 @@ def checkout_success():
 @login_required
 def checkout_failure():
     project = g.user.member.project
-    logging.warning(f'Payment failed for "{project.name}"')
+    log.warn('Payment failed', {'project_id': project.id})
     return redirect(url_for('projects.edit', project_id=project.id))
 
 

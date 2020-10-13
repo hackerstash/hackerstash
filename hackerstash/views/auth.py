@@ -3,11 +3,12 @@ from flask_dance.contrib.google import google
 from flask_dance.contrib.twitter import twitter
 from hackerstash.db import db
 from hackerstash.lib.images import Images
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.tokens import Tokens
 from hackerstash.models.user import User
 from hackerstash.lib.emails.factory import email_factory
 
+log = Logging(module='Views::Auth')
 auth = Blueprint('auth', __name__)
 
 
@@ -38,7 +39,7 @@ def login() -> str:
                 Tokens.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
-            logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
+            log.warn('Incorrect code submitted', {'email': email, 'code': code})
             flash('The token is invalid', 'failure')
         else:
             code = Tokens.generate(email)
@@ -72,7 +73,7 @@ def signup() -> str:
                 Tokens.delete(email)
                 return redirect(url_for('users.show', user_id=user.id))
 
-            logging.info(f'Incorrect code submitted by {email} - \'{code}\'')
+            log.warn('Incorrect code submitted', {'email': email, 'code': code})
             flash('The token is invalid', 'failure')
         else:
             code = Tokens.generate(email)
@@ -103,7 +104,7 @@ def google_callback() -> str:
     google_user = resp.json()
 
     if not google_user.get('email'):
-        logging.warning('Google user payload did not contain an email %s', google_user)
+        log.warn('Google user payload did not contain an email', {'google_user': google_user})
         flash('Google could not provide us with a complete profile, please pick a different auth type', 'failure')
         return redirect(url_for('auth.signup'))
 
@@ -135,7 +136,7 @@ def twitter_callback() -> str:
     twitter_user = resp.json()
 
     if not twitter_user.get('email'):
-        logging.warning('Twitter user payload did not contain an email %s', twitter_user)
+        log.warn('Twitter user payload did not contain an email', {'twitter_user': twitter_user})
         flash('Twitter could not provide us with a complete profile, please pick a different auth type', 'failure')
         return redirect(url_for('auth.signup'))
 

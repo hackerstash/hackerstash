@@ -5,13 +5,14 @@ from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
 from hackerstash.utils.helpers import get_html_text_length
 
+log = Logging(module='Views::Users')
 users = Blueprint('users', __name__)
 
 
@@ -58,7 +59,7 @@ def follow(user_id: str) -> str:
 @login_required
 def create() -> str:
     if User.query.filter_by(username=request.form['username']).first():
-        logging.info(f'{request.form["username"]} is already taken')
+        log.info('Username is already taken', {'username': request.form['username']})
         flash('This username is already taken', 'failure')
         return render_template('users/new.html')
 
@@ -86,7 +87,7 @@ def create() -> str:
 @login_required
 def destroy() -> str:
     user = User.query.get(g.user.id)
-    logging.info(f'Deleteing user \'{g.user.username}\'')
+    log.info('Deleteing user', {'user_id': user.id})
 
     # Can't think of a way to cascade this at the db level
     if user.member and len(user.member.project.members) == 1:
