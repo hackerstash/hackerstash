@@ -53,8 +53,8 @@ def signup() -> str:
         step = 1 if 'use_email' in request.args else 0
         return render_template('auth/signup/index.html', step=step)
 
-    email = request.form.get('email')
-    code = request.form.get('code')
+    email = request.form['email']
+    code = request.form['code']
     user = User.query.filter_by(email=email).first()
 
     if user:
@@ -102,7 +102,7 @@ def google_callback() -> str:
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
-    if 'email' not in google_user:
+    if not google_user.get('email'):
         logging.warning('Google user payload did not contain an email %s', google_user)
         flash('Google could not provide us with a complete profile, please pick a different auth type', 'failure')
         return redirect(url_for('auth.signup'))
@@ -134,7 +134,7 @@ def twitter_callback() -> str:
     resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
 
-    if 'email' not in twitter_user:
+    if not twitter_user.get('email'):
         logging.warning('Twitter user payload did not contain an email %s', twitter_user)
         flash('Twitter could not provide us with a complete profile, please pick a different auth type', 'failure')
         return redirect(url_for('auth.signup'))
