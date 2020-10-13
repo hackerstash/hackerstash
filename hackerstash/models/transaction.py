@@ -1,5 +1,7 @@
 from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
+
+log = Logging(module='Models::Transaction')
 
 
 class Transaction(db.Model):
@@ -26,7 +28,7 @@ class Transaction(db.Model):
 
     @classmethod
     def add_prize_winnings(cls, past_result):
-        logging.info(f'Adding prize transaction for \'{past_result.project.name}\' - ${past_result.prize}')
+        log.info('Adding prize transaction', {'project_id': past_result.project.id, 'prize': past_result.prize})
         tournament_name = f'{past_result.contest.year}.{past_result.contest.week}'
         # Increase their stash
         past_result.project.add_funds(past_result.prize['value'])

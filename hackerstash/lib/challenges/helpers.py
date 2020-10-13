@@ -1,5 +1,7 @@
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
+
+log = Logging(module='Challenges')
 
 challenge_types = [
     'published_a_post',
@@ -14,7 +16,7 @@ challenge_types = [
 
 
 def mark_as_complete(challenge):
-    logging.info(f'Challenge \'{challenge.key}\' has been completed by \'{challenge.project.name}\', let the confetti commence!')
+    log.info('Challenge completed', {'challenge_id': challenge.id})
     message = get_completed_message_for_challenge(challenge)
     redis.set(f'{challenge.project.id}:challenge_completed', message)
 

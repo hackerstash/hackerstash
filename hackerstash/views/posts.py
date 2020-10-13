@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, g, request, redirect, url_for, get
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.user import User
@@ -12,6 +12,7 @@ from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required
 
+log = Logging(module='Views::Posts')
 posts = Blueprint('posts', __name__)
 
 
@@ -49,7 +50,7 @@ def show(post_id: str) -> str:
         post = Post.query.get(post_id)
         if not post:
             return render_template('posts/404.html')
-        logging.info(f'Redirecting post \'{post.id}\' as it was accessed via it\'s id')
+        log.info('Redirecting post as it was accessed by the id', {'post_id': post.id})
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
     post = Post.query.filter_by(url_slug=post_id).first()
@@ -70,11 +71,10 @@ def new() -> str:
 @login_required
 @published_project_required
 def create() -> str:
-    user = User.query.get(g.user.id)
-    project = Project.query.get(g.user.member.project_id)
+    log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.member.project.id, 'post_data': request.form})
 
     if 'title' not in request.form or 'body' not in request.form:
-        logging.info('Not all fields were submitted during post create: %s', request.form)
+        log.warn('Not all fields were submitted during post create', {'request_data': request.form})
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
@@ -82,9 +82,9 @@ def create() -> str:
     tag_id = request.form.get('tag')
     url_slug = Post.generate_url_slug(title)
     body, mentioned_users = proccess_mentions(request.form['body'])
-    tag = Tag.query.get(tag_id)
+    tag = Tag.query.get(tag_id) if tag_id else None
 
-    post = Post(title=title, body=body, user=user, url_slug=url_slug, tag=tag, project=project)
+    post = Post(title=title, body=body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.member.project)
     db.session.add(post)
     db.session.commit()
 
@@ -123,12 +123,14 @@ def update(post_id: str) -> str:
     tag_id = request.form.get('tag')
     body, mentioned_users = proccess_mentions(request.form['body'])
 
+    log.info('Updating post', {'user_id': g.user.id, 'post_id': post.id, 'post_data': request.form})
+
     if post.title != request.form['title']:
         post.url_slug = Post.generate_url_slug(title)
 
     post.title = title
     post.body = body
-    post.tag = Tag.query.get(tag_id)
+    post.tag = Tag.query.get(tag_id) if tag_id else None
 
     db.session.commit()
 
@@ -140,6 +142,7 @@ def update(post_id: str) -> str:
 @login_required
 @author_required
 def destroy(post_id: str) -> str:
+    log.info('Deleting post', {'post_id': post_id})
     post = Post.query.get(post_id)
     db.session.delete(post)
     db.session.commit()
@@ -150,8 +153,9 @@ def destroy(post_id: str) -> str:
 @login_required
 @published_project_required
 def create_comment(post_id: str) -> str:
-    user = User.query.get(g.user.id)
     post = Post.query.get(post_id)
+
+    log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
 
     if not request.form['body']:
         return redirect(url_for('posts.show', post_id=post.url_slug))
@@ -160,7 +164,7 @@ def create_comment(post_id: str) -> str:
     parent_comment_id = request.form.get('parent_comment_id')
     # Some weirdness going on with bad values trying to get added
     parent_comment_id = parent_comment_id if parent_comment_id and parent_comment_id.isnumeric() else None
-    comment = Comment(body=body, parent_comment_id=parent_comment_id, user=user, post_id=post.id)
+    comment = Comment(body=body, parent_comment_id=parent_comment_id, user=g.user, post_id=post.id)
 
     post.comments.append(comment)
     db.session.commit()
@@ -180,6 +184,8 @@ def create_comment(post_id: str) -> str:
 @login_required
 def delete_comment(post_id: str, comment_id: str) -> str:
     comment = Comment.query.get(comment_id)
+
+    log.info('Deleting comment', {'post_id': post_id, 'comment_id': comment.id, 'user_id': g.user.id})
 
     if comment.user.id == g.user.id:
         db.session.delete(comment)
@@ -203,6 +209,8 @@ def delete_comment(post_id: str, comment_id: str) -> str:
 def edit_comment(post_id: str, comment_id: str) -> str:
     comment = Comment.query.get(comment_id)
 
+    log.info('Editing comment', {'post_id': post_id, 'comment_id': comment.id, 'user_id': g.user.id, 'comment_data': request.form})
+
     if comment.user.id == g.user.id:
         body, mentioned_users = proccess_mentions(request.form['body'])
         comment.body = body
@@ -224,6 +232,8 @@ def post_vote(post_id: str) -> str:
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
 
+    log.info('Voting post', {'user_id': g.user.id, 'post_id': post.id, 'direction': direction})
+
     if post.project.id != g.user.member.project.id:
         post.vote(g.user, direction)
         challenge_factory('post_voted', {'post': post})
@@ -243,6 +253,8 @@ def comment_vote(post_id: str, comment_id: str) -> str:
     comment = Comment.query.get(comment_id)
     size = request.args.get('size', 'sm')
     direction = request.args.get('direction', 'up')
+
+    log.info('Voting comment', {'user_id': g.user.id, 'comment_id': comment.id, 'direction': direction})
 
     if comment.user.member.project.id != g.user.member.project.id:
         comment.vote(g.user, direction)

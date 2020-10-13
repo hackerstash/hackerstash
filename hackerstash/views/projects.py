@@ -4,7 +4,7 @@ from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
 from hackerstash.lib.project_filtering import project_filtering
@@ -17,6 +17,7 @@ from hackerstash.models.invite import Invite
 from hackerstash.utils.auth import login_required, member_required, published_project_required
 from hackerstash.utils.helpers import get_html_text_length
 
+log = Logging(module='Views::Project')
 projects = Blueprint('projects', __name__)
 
 
@@ -52,13 +53,14 @@ def show(project_id: str) -> str:
 @login_required
 def create() -> str:
     now = datetime.datetime.now()
-    user = User.query.get(g.user.id)
 
-    if user.member:
-        return redirect(url_for('projects.show', project_id=user.member.project.id))
+    log.info('Creating project', {'user_id': g.user.id})
+
+    if g.user.member:
+        return redirect(url_for('projects.show', project_id=g.user.member.project.id))
 
     project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
-    member = Member(owner=True, user=user, project=project)
+    member = Member(owner=True, user=g.user, project=project)
 
     db.session.add(project)
     db.session.add(member)
@@ -101,6 +103,8 @@ def all_posts(project_id: str) -> str:
 def update(project_id: str) -> str:
     project = Project.query.get(project_id)
 
+    log.info('Updating project', {'project_id': project.id, 'user_id': g.user.id, 'project_data': request.form})
+
     if get_html_text_length(request.form['body']) > 240:
         flash('Project description exceeds 240 characters', 'failure')
         return redirect(url_for('projects.edit', project_id=project.id))
@@ -135,6 +139,7 @@ def update(project_id: str) -> str:
 @member_required
 def destroy(project_id: str) -> str:
     project = Project.query.get(project_id)
+    log.info('Deleting project', {'project_id': project.id, 'user_id': g.user.id})
     db.session.delete(project)
     db.session.commit()
     return redirect(url_for('projects.index'))
@@ -162,6 +167,7 @@ def edit_member(project_id: str, member_id: str) -> str:
 @member_required
 def update_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
+    log.info('Updating team member', {'member_id': member.id, 'member_data': request.form})
     member.role = request.form['role']
     db.session.commit()
     return redirect(url_for('projects.edit', project_id=project_id, tab='team', saved=1))
@@ -172,9 +178,10 @@ def update_member(project_id: str, member_id: str) -> str:
 @member_required
 def delete_member(project_id: str, member_id: str) -> str:
     member = Member.query.get(member_id)
+    log.info('Deleting team member', {'member_id': member.id, 'user_id': g.user.id})
 
     if member.owner:
-        logging.info(f'\'{g.user.username}\' tried to delete the owner ({member.user.username})')
+        log.warn('Someone tried to delete the owner', {'user_id': g.user.id, 'owner_user_id': member.user.id})
         flash('The project owner can\'t be deleted', 'failure')
         return redirect(url_for('projects.edit_member', project_id=project_id, member_id=member_id))
 
@@ -199,6 +206,8 @@ def invite_member(project_id: str) -> str:
     project = Project.query.get(project_id)
     is_already_member = user and user.member
 
+    log.info('Inviting team member', {'email': email, 'is_already_member': is_already_member})
+
     if not project.has_member_with_email(email) and not is_already_member:
         invite = Invite(
             email=email,
@@ -222,6 +231,7 @@ def invite_member(project_id: str) -> str:
 @login_required
 @member_required
 def remove_invite(project_id: str, invite_id: str) -> str:
+    log.info('Removing invite', {'project_id': project_id, 'invite_id': invite_id})
     invite = Invite.query.get(invite_id)
     db.session.delete(invite)
     db.session.commit()
@@ -235,6 +245,8 @@ def vote_project(project_id: str) -> str:
     project = Project.query.get(project_id)
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
+
+    log.info('Voting project', {'user_id': g.user.id, 'project_id': project.id, 'direction': direction})
 
     if project.id != g.user.member.project.id:
         project.vote(g.user, direction)
@@ -253,11 +265,15 @@ def accept_invite(invite_token: str) -> str:
     user = User.query.filter_by(email=data['email']).first()
     invite = Invite.query.filter_by(email=data['email']).first()
 
+    log.info('Accepting invite', {'data': data})
+
     if not invite:
+        log.warn('Invite does not exist', {'data': data})
         # The invite has been removed
         return redirect(url_for('home.index'))
 
     if user:
+        log.info('Creating member', {'user_id': user.id, 'data': data})
         member = Member(
             owner=False,
             role=invite.role,

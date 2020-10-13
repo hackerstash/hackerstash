@@ -1,6 +1,8 @@
 from flask import g
 from hackerstash.lib.challenges.base import Base
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
+
+log = Logging(module='Challenges::PostCreated')
 
 
 class PostCreated(Base):
@@ -10,5 +12,5 @@ class PostCreated(Base):
         project = g.user.member.project
 
         if not self.has_completed(project, 'published_a_post'):
-            logging.info(f'Awarding \'published_a_post\' challenge for \'{project.name}\'')
+            log.info('Incrementing challenge', {'type': 'published_a_post', 'project_id': project.id})
             project.create_or_inc_challenge('published_a_post')

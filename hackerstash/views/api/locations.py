@@ -1,8 +1,9 @@
 import requests
 from flask import Blueprint, jsonify, request, session
 from hackerstash.config import config
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 
+log = Logging(module='Views::Api::Locations')
 api_locations = Blueprint('api_locations', __name__)
 
 
@@ -29,5 +30,5 @@ def index() -> str:
         locations = list(map(lambda x: x['description'], response['predictions']))
         return jsonify(locations)
     except Exception as e:
-        logging.stack(e)
+        log.error('Failed to get response from google', e)
         return jsonify([])

@@ -1,9 +1,11 @@
 import json
 from sqlalchemy import text
 from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 from hackerstash.utils.contest import get_week_and_year
+
+log = Logging(module='Prizes')
 
 
 class Prizes:
@@ -34,7 +36,7 @@ class Prizes:
 
     @classmethod
     def cache_prizes(cls, prizes):
-        logging.info('Caching prize data for 5 minutes')
+        log.info('Caching prize data for 5 minutes')
         redis.set(cls.redis_cache_key, json.dumps(prizes), ex=cls.sidebar_cache_time)
         return prizes
 

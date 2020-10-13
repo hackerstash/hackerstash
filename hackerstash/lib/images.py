@@ -2,8 +2,9 @@ import uuid
 import boto3
 import requests
 from hackerstash.config import config
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 
+log = Logging(module='Images')
 client = boto3.client('s3', region_name='eu-west-1')
 
 
@@ -32,7 +33,7 @@ class Images:
             r.raise_for_status()
             return cls.upload(r.raw.read())
         except Exception as e:
-            logging.stack(e)
+            log.error('Failed to upload image', e)
 
     @classmethod
     def delete(cls, key: str):
@@ -43,4 +44,4 @@ class Images:
             }
             client.delete_object(**params)
         except Exception as e:
-            logging.stack(e)
+            log.error('Failed to delete image', e)

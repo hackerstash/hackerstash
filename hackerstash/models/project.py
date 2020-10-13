@@ -2,7 +2,7 @@ import json
 from flask import url_for
 from sqlalchemy.types import ARRAY
 from hackerstash.db import db
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_weekly_vote_data
 from hackerstash.lib.prizes import Prizes
@@ -11,6 +11,7 @@ from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 from hackerstash.utils.votes import sum_of_project_votes
 
+log = Logging(module='Models::Project')
 # There are a lof of horrifically unperformant
 # things in here, they are all done in the name
 # of speed
@@ -213,11 +214,11 @@ class Project(db.Model):
         if not self.stash:
             self.stash = 0
         self.stash += value
-        logging.info(f'Adding ${value} to {self.name}\'s stash, new value is ${self.stash}')
+        log.info('Adding funds to stash', {'project_id': self.id, 'new_total': self.stash})
 
     def remove_funds(self, value):
         if (self.stash - value) < 0:
-            logging.error(f'Can\'t remove ${value} from {self.name} as their stash is only ${self.stash}!')
+            log.warn('Unable to remove funds from stash', {'project_id': self.id, 'value': value, 'stash': self.stash})
         else:
             self.stash -= value
-            logging.info(f'Removing ${value} to {self.name}\'s stash, new value is ${self.stash}')
+            log.info('Removing funds from stash', {'project_id': self.id, 'new_total': self.stash})

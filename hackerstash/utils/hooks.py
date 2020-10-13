@@ -1,10 +1,12 @@
 from flask import session, request, url_for, g, redirect, render_template
 from werkzeug.exceptions import HTTPException
-from hackerstash.lib.logging import logging, publish_slack_message
+from hackerstash.lib.logging import Logging
 from hackerstash.lib.sidebar import Sidebar
 from hackerstash.models.user import User
 from hackerstash.utils.headers import Headers
 from hackerstash.utils.page import Page
+
+log = Logging(module='Hooks')
 
 
 def init_app(app):
@@ -22,7 +24,7 @@ def init_app(app):
 
             if not g.user:
                 # Something is wrong with the user here
-                logging.warning('User had a session cookie but no user was found')
+                log.warn('User had a session cookie but no user was found')
                 session.pop('id', None)
                 return redirect(url_for('auth.login'))
 
@@ -45,6 +47,5 @@ def init_app(app):
     def handle_exception(error):
         if isinstance(error, HTTPException):
             return error
-        logging.stack(error)
-        publish_slack_message(error)
+        log.error('Unhandled exception caught', error)
         return render_template('500.html'), 500

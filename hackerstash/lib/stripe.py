@@ -3,10 +3,11 @@ from datetime import datetime
 from hackerstash.db import db
 from hackerstash.config import config
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.logging import logging
+from hackerstash.lib.logging import Logging
 from hackerstash.models.member import Member
 from hackerstash.models.subscription import Subscription
 
+log = Logging(module='Stripe')
 stripe.api_key = config['stripe_api_secret_key']
 
 
@@ -51,7 +52,7 @@ def get_payment_details(user):
     if details := user.member.stripe_payment_details:
         return details
     elif user.member.stripe_customer_id and user.member.stripe_subscription_id:
-        logging.info(f'Fetching payment details for \'{user.username}\'')
+        log.info(f'Fetching payment details for', {'user_id': user.id})
         payment_methods = stripe.PaymentMethod.list(customer=user.member.stripe_customer_id, type='card')
         data = payment_methods['data'][0]
         details = {
@@ -63,7 +64,7 @@ def get_payment_details(user):
         db.session.commit()
         return details
     else:
-        logging.warning(f'Customer "{user.username}" is not a customer, are they a pioneer?')
+        log.warn(f'Customer is not a customer, are they a pioneer?', {'user_id': user.id})
         return None
 
 
@@ -83,7 +84,7 @@ def handle_invoice_paid(event):
         project.published = True
         email_factory('subscription_created', member.user.email, {'member': member}).send()
 
-    logging.info(f'Setting project \'{project.name}\' as published with customer_id \'{customer_id}\'')
+    log.info('Setting project as published', {'project_id': project.id, 'customer_id': customer_id})
     db.session.commit()
 
 
@@ -96,7 +97,15 @@ def handle_payment_failed(event):
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
     project = member.project
     project.published = False
-    logging.info(f'Setting project \'{project.name}\' as unpublished with customer_id \'{customer_id}\'')
+    # I'm not sure this is recommended, but it caught us off guard
+    # when a user's payment failed (but got a subscription), then
+    # when they resubscribed we automatically published their project.
+    if member.stripe_subscription_id:
+        stripe.Subscription.delete(member.stripe_subscription_id)
+        member.stripe_subscription_id = None
+        member.stripe_payment_details = None
+
+    log.info('Setting project as unpublished', {'project_id': project.id, 'customer_id': customer_id})
     db.session.commit()
 
 
@@ -112,7 +121,7 @@ def handle_subscription_deleted(event):
     member.stripe_subscription_id = None
     member.stripe_payment_details = None
     project.published = False
-    logging.info(f'Setting project \'{project.name}\' as unpublished with customer_id \'{customer_id}\'')
+    log.info('Setting project as unpublished', {'project_id': project.id, 'customer_id': customer_id})
     db.session.commit()
 
 
@@ -122,7 +131,7 @@ def handle_checkout_complete(event):
     # as well as for when the user choses to cancel their subscription.
     member = Member.query.filter_by(stripe_customer_id=event['customer']).first()
     member.stripe_subscription_id = event['subscription']
-    logging.info(f'Setting subscription for project \'{member.project.name}\'')
+    log.info(f'Setting subscription_id', {'project_id': member.project.id, 'subscription_id': event['subscription']})
     db.session.commit()
 
 
@@ -131,7 +140,7 @@ def handle_subscription_cancelled(member):
     # immediately set the published status to False, although we will
     # wait for the events from stripe to set the user specific details
     # to None.
-    logging.info(f'Cancelling subscription for project \'{member.project.name}\'')
+    log.info('Cancelling subscription', {'project_id': member.project.id})
     member.project.published = False
     if member.stripe_customer_id:
         stripe.Customer.delete(member.stripe_customer_id)
@@ -145,7 +154,7 @@ def handle_upcoming_invoice(event):
     # A reminder is sent ever X number of days before the billing is
     # due, the total is configurable within the Stripe console.
     member = Member.query.filter_by(stripe_customer_id=event['customer']).first()
-    logging.info(f'Handling subscription reminder for project \'{member.project.name}\'')
+    log.info(f'Processing subscription reminder', {'project_id': member.project.id})
     period = event['lines']['data'][0]['period']
     subscription = {
         'renew_date': datetime.fromtimestamp(period['start']),

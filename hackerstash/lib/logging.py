@@ -1,18 +1,46 @@
 import sys
-import logging
+import json
 import traceback
 import requests
 from hackerstash.config import config
 
 
-def log_stacktrace(error):
-    # This is required as cloudwatch will print each line in the
-    # native exception as it's own entry which is impossible to
-    # debug. Instead we format the exception and pass it into the
-    # logger so dumped as JSON
-    exc_type, exc_value, exc_traceback = sys.exc_info()
-    stack = ''.join(traceback.format_tb(exc_traceback)).strip().replace('"', '\\"').replace('\n', '')
-    logging.error(stack + '    ' + str(error))
+class Logging:
+    def __init__(self, module: str = None):
+        self.module = module
+
+    def _log(self, msg, payload, level):
+        payload = payload or {}
+        log = {
+            'message': msg,
+            'level': level,
+            'module': self.module,
+            **payload
+        }
+        print(json.dumps(log))
+
+    def debug(self, msg, payload=None):
+        self._log(msg, payload, 'DEBUG')
+
+    def info(self, msg, payload=None):
+        self._log(msg, payload, 'INFO')
+
+    def warn(self, msg, payload=None):
+        self._log(msg, payload, 'WARN')
+
+    def error(self, msg, error):
+        payload = {
+            'error': repr(error),
+            'stack': get_traceback(error)
+        }
+        self._log(msg, payload, 'ERROR')
+        publish_slack_message(error)
+
+
+def get_traceback(error):
+    exc_traceback = sys.exc_info()[2]
+    stack = ''.join(traceback.format_tb(exc_traceback))
+    return stack + '    ' + str(error)
 
 
 def publish_slack_message(error):
@@ -31,8 +59,3 @@ def publish_slack_message(error):
         finally:
             pass
 
-
-logging_format = '{"time": "%(asctime)s", "name": "%(name)s", "level": "%(levelname)s", "origin": "%(filename)s:%(lineno)d", "message": "%(message)s"}'
-
-logging.basicConfig(format=logging_format, level=logging.INFO)
-logging.stack = log_stacktrace
