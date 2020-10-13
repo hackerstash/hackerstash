@@ -4,7 +4,7 @@ BRANCH=${CODEBUILD_WEBHOOK_TRIGGER:7}  #Remove branch/
 
 if [[ "${BRANCH}" == 'master' ]]; then
   CLUSTER="prod"
-elif [[ "${BRANCH}" == 'caching' ]]; then
+elif [[ "${BRANCH}" == 'staging' ]]; then
   CLUSTER="staging"
 else
   exit 0

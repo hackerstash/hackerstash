@@ -3,6 +3,8 @@ from werkzeug.exceptions import HTTPException
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.sidebar import Sidebar
 from hackerstash.models.user import User
+from hackerstash.utils.headers import Headers
+from hackerstash.utils.page import Page
 
 log = Logging(module='Hooks')
 
@@ -10,12 +12,14 @@ log = Logging(module='Hooks')
 def init_app(app):
     @app.before_request
     def before_request_func():
-        # Don't want to be hitting the database for images
-        # and whatnot
-        if request.path.startswith('/static'):
+        page = Page(request.path)
+
+        # Don't want to be hitting the database for images and whatnot
+        if page.static:
             return
 
         if 'id' in session:
+            page = Page(request.path)
             g.user = User.query.get(session['id'])
 
             if not g.user:
@@ -24,43 +28,16 @@ def init_app(app):
                 session.pop('id', None)
                 return redirect(url_for('auth.login'))
 
-            if not g.user.username \
-                    and request.path not in [url_for('users.new'), url_for('users.create')] \
-                    and not request.path.startswith('/static'):
+            if not g.user.username and not page.onboarding:
                 return redirect(url_for('users.new'))
 
         sidebar = Sidebar()
-        g.prize_pool = sidebar.prize_pool
-        g.time_remaining = sidebar.time_remaining
-        g.no_current_contest = sidebar.no_current_contest
+        sidebar.set_global_values()
 
     @app.after_request
     def after_request_func(response):
-        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-        response.headers['X-XSS-Protection'] = '1; mode=block'
-        response.headers['Referrer-Policy'] = 'no-referrer-when-downgrade'
-
-        #Caching bandaid
-        if 'id' in session:
-            cache_mode = 'private'
-        else:
-            cache_mode = 'public'
-
-        if request.path.startswith('/static') or request.path.endswith('.js') or request.path.endswith('.css'):
-            response.headers['Cache-Control'] = 'public, max-age=31536000'
-        elif request.path == '/' or request.path == '/contact' or request.path == '/rules' \
-                or request.path.startswith('/past_results'):
-            response.headers['Cache-Control'] = cache_mode + ', max-age=3600'
-        elif request.path == '/leaderboard':
-            response.headers['Cache-Control'] = cache_mode + ', max-age=12'
-        elif request.path.startswith('/users') or request.path.startswith('/projects') \
-                or request.path.startswith('/posts'):
-            response.headers['Cache-Control'] = cache_mode + ', max-age=5'
-        elif request.path == '/challenges' or request.path == '/notifications' or request.path.startswith('/admin'):
-            response.headers['Cache-Control'] = 'private, no-cache'
-        return response
+        headers = Headers(response)
+        return headers.set_cache_headers()
 
     @app.errorhandler(404)
     def page_not_found(_error):
