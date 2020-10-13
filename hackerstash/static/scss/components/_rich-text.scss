@@ -37,10 +37,10 @@
 
   p {
     margin-bottom: 1rem !important;
+  }
 
-    &:last-of-type {
-      margin-bottom: 0 !important;
-    }
+  & > *:last-child {
+    margin-bottom: 0 !important;
   }
 
   .divider {
