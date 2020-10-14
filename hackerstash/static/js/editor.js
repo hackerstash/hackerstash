@@ -226,11 +226,28 @@ function createEditor(form, options = {}) {
             }
 
             if (files.length) {
+                removePastedImage();
                 setUploadingStart();
                 uploadImages(files);
             }
         }
     });
+
+    function removePastedImage() {
+        setTimeout(() => {
+            const img = selector('img[src^="data"]');
+
+            if (img) {
+                const parent = img.parentElement;
+
+                if (parent.nodeName === 'P') {
+                    parent.remove();
+                } else {
+                    img.remove();
+                }
+            }
+        }, 1);
+    }
 
     function closeMentionContainer() {
         usernameSearch = '';
