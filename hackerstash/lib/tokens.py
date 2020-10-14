@@ -1,4 +1,4 @@
-from random import randint
+import random
 from hackerstash.lib.redis import redis
 
 
@@ -10,7 +10,7 @@ class Tokens:
 
     @classmethod
     def generate(cls, email):
-        code = randint(100000, 999999)
+        code = random.randint(100000, 999999)
         redis.set(f'token:{email}', code)
         return code
 

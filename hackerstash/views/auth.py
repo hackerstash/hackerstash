@@ -55,7 +55,7 @@ def signup() -> str:
         return render_template('auth/signup/index.html', step=step)
 
     email = request.form['email']
-    code = request.form['code']
+    code = request.form.get('code')
     user = User.query.filter_by(email=email).first()
 
     if user:

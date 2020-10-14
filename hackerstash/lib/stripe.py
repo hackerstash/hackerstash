@@ -6,6 +6,7 @@ from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.models.member import Member
 from hackerstash.models.subscription import Subscription
+from hackerstash.utils.helpers import find_in_list
 
 log = Logging(module='Stripe')
 stripe.api_key = config['stripe_api_secret_key']
@@ -116,13 +117,16 @@ def handle_subscription_deleted(event):
     # details.
     customer_id = event['customer']
     member = Member.query.filter_by(stripe_customer_id=customer_id).first()
-    project = member.project
-    member.stripe_customer_id = None
-    member.stripe_subscription_id = None
-    member.stripe_payment_details = None
-    project.published = False
-    log.info('Setting project as unpublished', {'project_id': project.id, 'customer_id': customer_id})
-    db.session.commit()
+    if member:
+        project = member.project
+        member.stripe_customer_id = None
+        member.stripe_subscription_id = None
+        member.stripe_payment_details = None
+        project.published = False
+        log.info('Setting project as unpublished', {'project_id': project.id, 'customer_id': customer_id})
+        db.session.commit()
+    else:
+        log.info('Can not set project as unpublished as it does not exist', {'customer_id': customer_id})
 
 
 def handle_checkout_complete(event):
@@ -161,3 +165,15 @@ def handle_upcoming_invoice(event):
         'total': int(event['amount_due'] / 100)
     }
     email_factory('subscription_renewal', member.user.email, {'member': member, 'subscription': subscription})
+
+
+def handle_project_deleted(member):
+    # We need to ensure we delete the stripe customer before their
+    # account is closed or they will continue to be billed without their
+    # knowing.
+    log.info('Deleting stripe customer before their account is closed', {'member_id': member.id})
+    if member.stripe_subscription_id:
+        log.info('Found subscription', {'member_id': member.id, 'subscription_id': member.stripe_subscription_id})
+        stripe.Customer.delete(member.stripe_customer_id)
+    else:
+        log.info('No subscription to delete', {'member_id': member.id})

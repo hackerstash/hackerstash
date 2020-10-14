@@ -7,6 +7,7 @@ from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.lib.stripe import handle_project_deleted
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
@@ -96,6 +97,7 @@ def destroy() -> str:
 
     # Can't think of a way to cascade this at the db level
     if g.user.member and len(g.user.member.project.members) == 1:
+        handle_project_deleted(g.user.member)
         db.session.delete(g.user.member.project)
 
     email_factory('close_account', g.user.email, {}).send()
