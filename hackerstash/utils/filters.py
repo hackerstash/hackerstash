@@ -28,7 +28,7 @@ def to_safe_html(value: str) -> str:
     tags = ['h1', 'h2', 'h3', 'p', 'span', 'ul', 'ol', 'li', 'pre', 'a', 'img', 'strong', 'br', 'em', 'u', 's']
     # List of all allowed attributes for tags
     attrs = {'img': ['src'], 'a': ['href', 'data-preview', 'class', 'target', 'rel']}
-    return bleach.clean(value or '', tags=tags, attributes=attrs, strip=True)
+    return bleach.clean(value or '', tags=tags, attributes=attrs, protocols=['data', 'http', 'https'], strip=True)
 
 
 def to_plain_text(value: str) -> str:
