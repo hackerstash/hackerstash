@@ -1,7 +1,7 @@
 {% macro avatar(item, size = '') %}
     <span class="avatar {{ size }}">
         {% if item.avatar %}
-            <img src="https://images.hackerstash.com/{{ item.avatar }}">
+            <img alt="Avatar" src="https://images.hackerstash.com/{{ item.avatar }}">
         {% else %}
             <span class="placeholder">?</span>
         {% endif %}
@@ -12,7 +12,7 @@
     <div class="edit-avatar d-flex mb-2 {{ 'no-image' if not item.avatar }}">
         <span class="avatar lg">
             {% if item.avatar %}
-                <img src="https://images.hackerstash.com/{{ item.avatar }}">
+                <img alt="Avatar" src="https://images.hackerstash.com/{{ item.avatar }}">
             {% else %}
                 <span class="placeholder">$</span>
             {% endif %}
