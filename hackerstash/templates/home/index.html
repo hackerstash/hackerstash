@@ -20,15 +20,15 @@
                 <div class="sign-up">
                     <h3 class="mb-2">Sign up today!</h3>
                     <div class="button-group mb-2">
-                        <a href="{{ url_for('auth.google_login') }}" class="button has-icon google">
+                        <a aria-label="Sign up with Google" href="{{ url_for('auth.google_login') }}" class="button has-icon google">
                             <i class="google-icon"></i> Google
                         </a>
-                        <a href="{{ url_for('auth.twitter_login') }}" class="button has-icon twitter">
+                        <a aria-label="Sign up with Twitter" href="{{ url_for('auth.twitter_login') }}" class="button has-icon twitter">
                             <i class="icon ri-twitter-fill"></i> Twitter
                         </a>
                     </div>
-                    <p>Or, use your <a href="{{ url_for('auth.signup', use_email=1) }}">email address</a></p>
-                    <p class="small mt-2-5 mb-0">By signing up using Google, Twitter, or your email address above, you acknowledge that you have read and agree to the HackerStash <a href="{{ url_for('legal.terms') }}">Terms of Service</a> and <a href="{{ url_for('legal.privacy') }}">Privacy Policy</a>.</p>
+                    <p>Or, use your <a aria-label="Sign up with your email address" href="{{ url_for('auth.signup', use_email=1) }}">email address</a></p>
+                    <p class="small mt-2-5 mb-0">By signing up using Google, Twitter, or your email address above, you acknowledge that you have read and agree to the HackerStash <a aria-label="Visit the terms page" href="{{ url_for('legal.terms') }}">Terms of Service</a> and <a aria-label="Visit the privacy page" href="{{ url_for('legal.privacy') }}">Privacy Policy</a>.</p>
                 </div>
             </div>
         </section>
@@ -37,11 +37,11 @@
 
         <section class="home-section why">
             <h2>Why you should join</h2>
-            <div class="accordion-wrapper">
+            <div role="tablist" class="accordion-wrapper">
                 <div class="phone" data-index="0">
-                    <img alt="Image of an iPhone showing the HackerStash leaderboard" data-tab="leaderboard" class="active" src="/static/images/phone-leaderboard.svg">
-                    <img alt="Image of an iPhone showing the notifications page" data-tab="notifications" src="/static/images/phone-notifications.svg">
-                    <img alt="Image of an iPhone showing the rules page" data-tab="rules" src="/static/images/phone-rules.svg">
+                    <img alt="Image of an iPhone showing the HackerStash leaderboard" id="leaderboard-panel" data-tab="leaderboard" class="active" src="/static/images/phone-leaderboard.svg" role="tabpanel" aria-labelledby="leaderboard-panel">
+                    <img alt="Image of an iPhone showing the notifications page" id="notifications-panel" data-tab="notifications" src="/static/images/phone-notifications.svg" role="tabpanel" aria-labelledby="notifications-panel" hidden>
+                    <img alt="Image of an iPhone showing the rules page" id="rules-panel" data-tab="rules" src="/static/images/phone-rules.svg" role="tabpanel" aria-labelledby="rules-panel" hidden>
                     <div class="d-none-large navigation">
                         <i class="ri-arrow-left-line prev disabled"></i>
                         <i class="ri-arrow-right-line next"></i>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="accordion">
                     <ul>
-                        <li class="active" data-tab="leaderboard">
+                        <li class="active" data-tab="leaderboard" role="tab" id="leaderboard-tab" aria-selected="true" aria-controls="leaderboard-panel" tabindex="0">
                             <div class="title">
                                 <i class="ri-money-dollar-circle-line"></i>
                                 <p>Fund great projects, and your own!</p>
@@ -66,7 +66,7 @@
                                 <p class="small">Every week the top HackerStash projects win small cash prizes to help fund their projects, no strings attached.</p>
                             </div>
                         </li>
-                        <li data-tab="notifications">
+                        <li data-tab="notifications" role="tab" id="notifications-tab" aria-selected="false" aria-controls="notifications-panel" tabindex="0">
                             <div class="title">
                                 <i class="ri-rocket-2-line"></i>
                                 <p>Accelerate your business</p>
@@ -78,7 +78,7 @@
                                 <p class="small">You don’t need an elite network or deep expertise across all subject areas, by coming together and helping each other we can all learn to fail faster and succeed more often.</p>
                             </div>
                         </li>
-                        <li data-tab="rules">
+                        <li data-tab="rules" role="tab" id="rules-tab" aria-selected="false" aria-controls="rules-panel" tabindex="0">
                             <div class="title">
                                 <i class="ri-team-line"></i>
                                 <p>The community is in control</p>

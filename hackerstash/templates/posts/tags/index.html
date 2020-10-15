@@ -6,7 +6,7 @@
 {% block body %}
     <div class="page posts">
         <header class="header">
-            <h2>Posts in {{ tag.name }}</h2>
+            <h2 role="heading">Posts in {{ tag.name }}</h2>
             <a href="{{ url_for('posts.index') }}" class="button secondary has-icon">
                 <i class="ri-arrow-left-line"></i>
                 All Posts

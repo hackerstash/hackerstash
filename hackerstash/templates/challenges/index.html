@@ -4,7 +4,7 @@
 {% block body %}
     <div class="page challenges">
         <header class="header">
-            <h2>Weekly Challenges</h2>
+            <h2 role="heading">Weekly Challenges</h2>
         </header>
 
         <div class="split">
@@ -118,10 +118,10 @@
     </div>
 
     <div id="voting-info" class="modal voting-info-modal">
-        <div class="modal-body md">
+        <div class="modal-body md" role="dialog" aria-labelledby="voting-info-modal-header">
             <header>
-                <h3>Voting on projects</h3>
-                <i class="icon ri-close-line modal-close"></i>
+                <h3 id="voting-info-modal-header">Voting on projects</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close voting info modal"></i>
             </header>
             <main>
                 <p class="mt-1">You can vote on any project by visiting their project page and using the voting ticket by their project name.</p>

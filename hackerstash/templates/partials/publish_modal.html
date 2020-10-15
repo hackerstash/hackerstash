@@ -1,11 +1,11 @@
 <div id="publish-modal" class="modal">
-    <div class="modal-body md">
+    <div class="modal-body md" role="dialog" aria-labelledby="project-publish-modal-header">
         <header>
             <div>
-                <h3>Project Publication</h3>
+                <h3 id="project-publish-modal-header">Project Publication</h3>
                 <div class="tag primary">$9 per month</div>
             </div>
-            <i role="button" aria-label="Cancel" class="icon ri-close-line modal-close"></i>
+            <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close project publish modal"></i>
         </header>
         <main>
             <form class="form" action="{{ url_for('subscriptions.checkout') }}" method="post">

@@ -6,7 +6,7 @@
 {% block body %}
     <div class="page user follow">
         <header class="header">
-            <h2>{{ user.first_name }}'s followers</h2>
+            <h2 role="heading">{{ user.first_name }}'s followers</h2>
             <a href="{{ url_for('users.show', user_id=user.id) }}" class="button secondary has-icon">
                 <i class="ri-arrow-left-line"></i>
                 Back

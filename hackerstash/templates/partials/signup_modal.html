@@ -1,9 +1,9 @@
 {% if not g.user %}
     <div id="sign-up-modal" class="modal">
-        <div class="modal-body sm">
+        <div class="modal-body sm" role="dialog" aria-labelledby="sign-up-modal-header">
             <header>
-                <h2>Join The Community</h2>
-                <i role="button" aria-label="Close" class="icon ri-close-line modal-close"></i>
+                <h2 id="sign-up-modal-header">Join The Community</h2>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close sign up modal"></i>
             </header>
             <main>
                 <p>To join the conversation you’ll need to create a HackerStash account and publish your project.</p>

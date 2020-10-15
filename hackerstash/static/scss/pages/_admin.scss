@@ -1,51 +1,15 @@
 .page.admin.dashboard {
-  .users {
-    margin: 0;
-    padding: 0;
-
-    li {
-      align-items: center;
-      border-bottom: 1px solid $darkblue-900;
-      display: flex;
-      justify-content: space-between;
-      list-style: none;
-      padding: 1rem 0;
-
-      p {
-        margin: .25rem 0 0 0;
-      }
-
-      .details {
-        align-items: center;
-        display: flex;
-      }
-
-      a {
-        color: $mauve-500;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  .create-admin-form {
-    fieldset {
-      display: flex;
-      flex-wrap: wrap;
-
-      .col {
-        margin-right: 1rem;
-        width: calc(25% - 1rem);
-      }
-    }
-  }
-
   .tournaments {
     .winner {
       display: inline-flex;
+    }
+  }
+
+  .users-table {
+    @include tablet-down {
+      li {
+        padding: 1rem;
+      }
     }
   }
 
@@ -53,6 +17,12 @@
     .modal-open span {
       color: $blue-500;
       text-decoration: underline;
+    }
+
+    @include tablet-down {
+      li {
+        padding: 1rem;
+      }
     }
   }
 

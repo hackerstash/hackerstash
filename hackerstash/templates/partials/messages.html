@@ -1,9 +1,9 @@
 {% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
         {% for category, message in messages %}
-            <div class="message {{ category }} wrap-620">
+            <div role="alert" class="message {{ category }} wrap-620">
                 <p>{{ message }}</p>
-                <i role="button" aria-label="Dismiss message" class="icon ri-close-line close-message"></i>
+                <i role="button" tabindex="0" aria-label="Dismiss message" class="icon ri-close-line close-message"></i>
             </div>
         {% endfor %}
     {% endif %}

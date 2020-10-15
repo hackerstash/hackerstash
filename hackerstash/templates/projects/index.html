@@ -9,7 +9,7 @@
 {% block body %}
     <div class="page projects">
         <header class="header">
-            <h2>Projects</h2>
+            <h2 role="heading">Projects</h2>
 
             <div class="filters">
                 <label class="label">Sorting</label>
@@ -39,10 +39,10 @@
     </div>
 
     <div id="filter-modal" class="modal">
-        <div class="modal-body md">
+        <div class="modal-body md" role="dialog" aria-labelledby="filter-project-modal-header">
             <header>
-                <h3>Filters</h3>
-                <i class="icon ri-close-line modal-close"></i>
+                <h3 id="filter-project-modal-header">Filters</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close project filter modal"></i>
             </header>
             <main>
                 <form class="form" action="{{ url_for('projects.index') }}" method="get">

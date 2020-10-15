@@ -15,7 +15,7 @@
         <header class="header profile-bio">
             <div class="profile-details d-flex">
                 {{ avatar(user) }}
-                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <h2 role="heading">{{ user.first_name }} {{ user.last_name }}</h2>
                 <p class="username">@{{ user.username }}</p>
                 {% if is_self %}
                     <a class="small log-out" href="{{ url_for('auth.signout') }}">Log out</a>

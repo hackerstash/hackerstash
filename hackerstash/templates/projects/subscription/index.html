@@ -4,7 +4,7 @@
 {% block body %}
     <div class="page project subscription">
         <header class="header">
-            <h2>Manage Subscription</h2>
+            <h2 role="heading">Manage Subscription</h2>
             <a class="button secondary has-icon" href="{{ url_for('projects.edit', project_id=project.id) }}">
                 <i class="ri-arrow-left-line"></i>
                 Back
@@ -44,16 +44,16 @@
     </div>
 
     <div id="cancel-subscription" class="modal cancel-subscription-modal">
-        <div class="modal-body sm">
+        <div class="modal-body sm" role="dialog" aria-labelledby="cancel-subscription-modal-header">
             <header>
-                <h3>Cancel Subscription</h3>
-                <i class="icon ri-close-line modal-close"></i>
+                <h3 id="cancel-subscription-modal-header">Cancel Subscription</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close cancel subscription modal"></i>
             </header>
             <main>
                 <p class="mt-1">Are you sure you want to cancel your subscription?</p>
 
                 <footer class="mt-2">
-                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary">Cancel subscription</a>
+                    <a href="{{ url_for('subscriptions.cancel_subscription') }}" class="button tertiary" role="button" tabindex="0">Cancel subscription</a>
                     <button class="button secondary modal-close">Cancel</button>
                 </footer>
             </main>

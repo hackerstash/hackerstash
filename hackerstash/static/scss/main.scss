@@ -50,7 +50,6 @@
 @import './components/vote';
 
 // Pages
-@import './pages/admin/dashboard';
 @import './pages/posts/index';
 @import './pages/posts/new';
 @import './pages/posts/show';
@@ -63,6 +62,7 @@
 @import './pages/users/profile';
 @import './pages/users/settings';
 @import './pages/users/show';
+@import './pages/admin';
 @import './pages/challenges';
 @import './pages/contact';
 @import './pages/index';

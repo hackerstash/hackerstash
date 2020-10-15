@@ -4,7 +4,7 @@
 {% block body %}
     <div class="page stash">
         <header class="header">
-            <h2>{{ project.name }}'s Stash</h2>
+            <h2 role="heading">{{ project.name }}'s Stash</h2>
         </header>
 
         {% include "partials/messages.html" %}
@@ -59,10 +59,10 @@
     </div>
 
     <div id="stash-modal" class="modal">
-        <div class="modal-body md">
+        <div class="modal-body md" role="dialog" aria-labelledby="stash-modal-header">
             <header>
-                <h3>Cash Out Request</h3>
-                <i class="icon ri-close-line modal-close"></i>
+                <h3 id="stash-modal-header">Cash Out Request</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close stash modal"></i>
             </header>
             <main>
                 <form class="form" method="post" action="{{ url_for('stash.index') }}">
@@ -80,8 +80,8 @@
                             <textarea class="input textarea" rows="4" name="message" id="message" placeholder="e.g. Hey!"></textarea>
                         </div>
                         <footer class="mt-3">
-                            <button class="button" type="submit">Send request</button>
-                            <button class="button secondary modal-close" type="button">Cancel</button>
+                            <button class="button" type="submit" role="button">Send request</button>
+                            <button class="button secondary modal-close" role="button" type="button">Cancel</button>
                         </footer>
                     </fieldset>
                 </form>

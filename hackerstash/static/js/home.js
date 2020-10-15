@@ -4,13 +4,28 @@ const carousell = document.querySelector('.phone');
 if (accordion) {
     accordion.querySelectorAll('li').forEach(element => {
         element.addEventListener('click', event => {
-            accordion.querySelectorAll('li').forEach(x => x.classList.remove('active'));
-            document.querySelectorAll('.phone img').forEach(x => x.classList.remove('active'));
+            accordion.querySelectorAll('li').forEach(x => {
+                x.classList.remove('active');
+                x.setAttribute('aria-selected', 'false');
+            });
+
+            document.querySelectorAll('.phone img').forEach(x => {
+                x.classList.remove('active');
+                x.setAttribute('hidden', 'true');
+            });
 
             const item = event.target.closest('li');
             item.classList.add('active');
+            item.setAttribute('aria-selected', 'true');
             const tab = item.getAttribute('data-tab');
             document.querySelector(`.phone img[data-tab="${tab}"]`).classList.add('active');
+            document.querySelector(`.phone img[data-tab="${tab}"]`).removeAttribute('hidden');
+        });
+
+        element.addEventListener('keyup', event => {
+            if (event.keyCode == 13) {
+                event.target.click();
+            }
         });
     });
 }

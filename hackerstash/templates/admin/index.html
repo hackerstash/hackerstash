@@ -15,7 +15,7 @@
                 <p class="col-3">Date Joined</p>
                 <p class="col-2">Project Status</p>
             </div>
-             <ul class="table-body users-tables">
+             <ul class="table-body users-table">
                  {% for user in users %}
                     <li>
                         <p class="col-1">{{ avatar(user, size='sm') }}</p>
@@ -131,10 +131,10 @@
 
     {% for project in projects %}
         <div id="project-members-{{ project.id }}" class="modal members-modal">
-            <div class="modal-body sm">
+            <div class="modal-body sm" role="dialog" aria-labelledby="project-members-{{ project.id }}-modal-header">
                 <header>
-                    <h3>{{ project.name }}'s Members</h3>
-                    <i class="icon ri-close-line modal-close"></i>
+                    <h3 id="project-members-{{ project.id }}-modal-heaeder">{{ project.name }}'s Members</h3>
+                    <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close project member modal"></i>
                 </header>
                 <main>
                     <ul class="members-list">

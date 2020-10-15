@@ -6,7 +6,7 @@
 {% block body %}
     <div class="page posts new">
         <header class="header">
-            <h2>New Post</h2>
+            <h2 role="heading">New Post</h2>
         </header>
 
         <form role="form" aria-label="Create a new post" class="form editor-form" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
