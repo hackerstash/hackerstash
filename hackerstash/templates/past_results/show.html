@@ -17,9 +17,9 @@
             </a>
         </header>
 
-        <div class="message warning">
+        <div class="message warning" role="alert">
             <i class="ri-error-warning-line"></i>
-            <p><b>Please note:</b> you are viewing the leaderboard from a closed tournament. <a href="{{ url_for('leaderboard.index') }}">Click here</a> to visit the live leaderboard</p>
+            <p><b>Please note:</b> you are viewing the leaderboard from a closed tournament. <a aria-label="View the current tournament" href="{{ url_for('leaderboard.index') }}">Click here</a> to visit the live leaderboard</p>
         </div>
 
         <div class="table">
@@ -30,9 +30,9 @@
                 <p class="col-4">Score</p>
                 <p class="col-2">Prize</p>
             </div>
-            <ul class="table-body">
+            <ul class="table-body" role="list">
                 {% for past_result in contest.past_results %}
-                    <li>
+                    <li role="listitem">
                         <p class="col-1 position">
                             <span>{{ past_result.position }}</span>
                         </p>
@@ -45,7 +45,7 @@
                         </p>
                         <p class="col-2 small">
                             {% if past_result.project and past_result.project.url %}
-                                <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer">
+                                <a href="{{ past_result.project.url if past_result.project.url.startswith('http') else '//' + past_result.project.url }}" target="_blank" rel="nofollow noreferrer" aria-label="View the {{ past_result.project.name }} website">
                                     {{ past_result.project.url | to_nice_url }}
                                 </a>
                             {% endif %}

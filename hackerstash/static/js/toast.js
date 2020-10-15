@@ -1,5 +1,6 @@
 function createToast(message, type = '') {
     const toast = document.createElement('div');
+    toast.setAttribute('role', 'status');
     toast.classList.add('toast', type);
     toast.innerHTML = `
        <i class="ri-error-warning-line"></i>

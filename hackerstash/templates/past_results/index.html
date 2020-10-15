@@ -18,10 +18,10 @@
                 <p class="col-3">Winner</p>
                 <p class="col-2"></p>
             </div>
-            <ul class="table-body">
+            <ul class="table-body" role="list">
                 {% for contest in contests | sort(attribute='tournament', reverse=True) %}
                     {% if not contest.is_current %}
-                        <li>
+                        <li role="listitem">
                             <p class="col-1 year">
                                 {{ contest.year }}
                             </p>
@@ -40,7 +40,7 @@
                                 {% endif %}
                             </p>
                             <p class="col-2">
-                                <a href="{{ url_for('past_results.show', contest_id=contest.id) }}">View full results</a>
+                                <a href="{{ url_for('past_results.show', contest_id=contest.id) }}" aria-label="View the results from tournament {{ contest.tournament }}">View full results</a>
                             </p>
                         </li>
                     {% endif %}

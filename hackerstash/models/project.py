@@ -102,7 +102,7 @@ class Project(db.Model):
 
     @property
     def plain_text_description(self):
-        return html_to_plain_text(self.bio, limit=240)
+        return html_to_plain_text(self.description, limit=240)
 
     @property
     def position(self) -> int:
