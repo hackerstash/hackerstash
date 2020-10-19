@@ -12,6 +12,7 @@ class Challenge(db.Model):
     key = db.Column(db.String)
     count = db.Column(db.Integer, nullable=False)
     max = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 
@@ -25,6 +26,7 @@ class Challenge(db.Model):
         self.key = key
         self.count = 0
         self.max = get_max_count_for_key(key)
+        self.score = get_score_for_key(key)
         self.project = project
 
     def inc(self):
@@ -44,10 +46,6 @@ class Challenge(db.Model):
     @property
     def complete(self):
         return self.count >= self.max
-
-    @property
-    def score(self):
-        return get_score_for_key(self.key)
 
     @property
     def is_current_contest(self):
