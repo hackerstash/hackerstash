@@ -36,7 +36,8 @@ app.debug = config['debug']
 app.secret_key = config['secret']
 app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
-app.permanent_session_lifetime = timedelta(days=365)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
 
 # Add API blueprints
 app.register_blueprint(api_admin)

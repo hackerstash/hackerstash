@@ -39,6 +39,10 @@ def init_app(app):
         headers = Headers(response)
         return headers.set_cache_headers()
 
+    @app.errorhandler(401)
+    def unauthorized(_error):
+        return render_template('401.html'), 401
+
     @app.errorhandler(404)
     def page_not_found(_error):
         return render_template('404.html'), 404

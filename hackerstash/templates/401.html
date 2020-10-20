@@ -1,0 +1,17 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Unauthorized' %}
+
+{% block body %}
+    <div class="page">
+        <div class="error-view">
+            <header class="header">
+                <h2 role="heading"><i class="icon ri-lock-line"></i>Unauthorized</h2>
+            </header>
+            <p class="mt-3 mb-2">You don't have permission to view this page.</p>
+            <div class="button-group">
+                <a href="{{ url_for('home.index') }}" class="button">View Leaderboard</a>
+                <button onclick="history.back()" class="button secondary">Go back</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

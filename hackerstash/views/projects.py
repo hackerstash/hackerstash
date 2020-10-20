@@ -105,7 +105,7 @@ def update(project_id: str) -> str:
 
     log.info('Updating project', {'project_id': project.id, 'user_id': g.user.id, 'project_data': request.form})
 
-    if get_html_text_length(request.form['body']) > 240:
+    if get_html_text_length(request.form.get('body')) > 240:
         flash('Project description exceeds 240 characters', 'failure')
         return redirect(url_for('projects.edit', project_id=project.id))
 
