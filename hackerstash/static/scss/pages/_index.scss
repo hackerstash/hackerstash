@@ -430,3 +430,17 @@
     }
   }
 }
+
+.no-user {
+  .page.home {
+    @include tablet-down {
+      .header-banner {
+        height: 480px;
+
+        .title {
+          padding-top: 8rem;
+        }
+      }
+    }
+  }
+}

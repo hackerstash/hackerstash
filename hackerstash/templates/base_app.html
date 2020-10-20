@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}">
     {%- endassets -%}
 </head>
-<body>
+<body class="{{ 'has-user' if g.user else 'no-user' }}">
     {% if g.no_current_contest %}
         <p class="no-current-contest">There is no current contest!</p>
     {% endif %}
