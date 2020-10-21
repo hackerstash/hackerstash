@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
+RUN python -m 'scripts.build_assets'
+
 EXPOSE 5000
 
 # This may need tweaking
