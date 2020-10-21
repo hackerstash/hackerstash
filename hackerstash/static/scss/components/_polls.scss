@@ -9,7 +9,6 @@
     display: flex;
 
     h4 {
-      align-items: center;
       display: flex;
       flex: 1;
     }
@@ -23,6 +22,19 @@
     .button {
       color: $blue-500;
       text-decoration: underline;
+    }
+
+    @include tablet-down {
+      align-items: flex-start;
+      flex-direction: column;
+
+      i {
+        margin-top: .25rem;
+      }
+
+      .button {
+        margin-top: .5rem;
+      }
     }
   }
 
@@ -72,6 +84,27 @@
     }
   }
 
+  .poll-choices {
+    @include tablet-down {
+      .radio-group {
+        li {
+          align-items: flex-start;
+
+          .radio {
+            flex-shrink: 0;
+            margin: 0 .5rem 0 0;
+          }
+        }
+      }
+    }
+  }
+
+  .button-group {
+    .button {
+      margin-bottom: 0;
+    }
+  }
+
   .total-votes,
   .hide-results {
     display: none;
@@ -95,13 +128,32 @@
     .view-results,
     .poll-choices,
     .button-group,
-    .hide-results{
+    .hide-results {
       display: none;
     }
 
     .poll-results,
     .total-votes {
       display: block;
+    }
+  }
+
+  .view-results,
+  .hide-results {
+    @include tablet-down {
+      color: $blue-500;
+      margin: 1rem 0 0 0 !important;
+      text-decoration: underline;
+    }
+  }
+
+  .total-votes {
+    @include tablet-down {
+      text-align: center;
+
+      .hide-results {
+        margin: 1rem auto 0 auto !important;
+      }
     }
   }
 }
