@@ -47,6 +47,7 @@ class Project(db.Model):
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     transactions = db.relationship('Transaction', backref='project', cascade='all,delete')
     subscriptions = db.relationship('Subscription', backref='project', cascade='all,delete')
+    reviews = db.relationship('Review', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)

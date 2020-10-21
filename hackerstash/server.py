@@ -22,6 +22,7 @@ from hackerstash.views.notifications import notifications
 from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
+from hackerstash.views.reviews import reviews
 from hackerstash.views.rules import rules
 from hackerstash.views.stash import stash
 from hackerstash.views.subscriptions import subscriptions
@@ -57,6 +58,7 @@ app.register_blueprint(notifications)
 app.register_blueprint(past_results)
 app.register_blueprint(posts)
 app.register_blueprint(projects)
+app.register_blueprint(reviews)
 app.register_blueprint(rules)
 app.register_blueprint(stash)
 app.register_blueprint(subscriptions)
