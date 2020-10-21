@@ -35,6 +35,7 @@ class User(db.Model):
     comments = db.relationship('Comment', backref='user', cascade='all,delete')
     posts = db.relationship('Post', backref='user', cascade='all,delete')
     votes = db.relationship('Vote', backref='user', cascade='all,delete')
+    reviews = db.relationship('Review', backref='user', cascade='all,delete')
 
     notifications = db.relationship('Notification', backref='user', cascade='all,delete')
     notifications_settings = db.relationship('NotificationSetting', backref='user', uselist=False, cascade='all,delete')

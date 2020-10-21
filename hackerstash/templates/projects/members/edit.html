@@ -51,7 +51,7 @@
             </div>
         {% else %}
             <div class="button-group">
-                <a href="?delete=1" class="button tertiary">{{ 'Leave project' if member.user.id == g.user.id else 'Delete team member' }}</a>
+                <a href="?delete=1" class="button tertiary">{{ 'Leave project' if member.user.id == g.user.id else 'Remove team member' }}</a>
             </div>
         {% endif %}
     </div>

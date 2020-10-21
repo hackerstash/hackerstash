@@ -39,6 +39,10 @@
             <i class="icon ri-profile-line"></i>
             Projects
         </a>
+        <a aria-label="View HackerStash reviews" class="{{ 'active' if request.path.startswith('/reviews') }}" href="{{ url_for('reviews.index') }}">
+            <i class="icon ri-microscope-line"></i>
+            Reviews
+        </a>
         <a aria-label="View the rules" class="{{ 'active' if request.path.startswith('/rules') }}" href="{{ url_for('rules.index') }}">
             <i class="icon ri-lightbulb-line"></i>
             Rules

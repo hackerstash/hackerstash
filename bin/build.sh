@@ -13,7 +13,6 @@ echo "$DOCKER_TAG"
 docker build -t "${DOCKER_TAG}" .
 docker tag "${DOCKER_TAG}" "${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/${DOCKER_TAG}"
 docker tag "${DOCKER_TAG}" "${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/${DOCKER_TAG}-${CODEBUILD_BUILD_NUMBER}"
-docker run "${DOCKER_TAG}" python -m 'scripts.build_assets'
 docker push "${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/${DOCKER_TAG}"
 docker push "${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/${DOCKER_TAG}-${CODEBUILD_BUILD_NUMBER}"
 
