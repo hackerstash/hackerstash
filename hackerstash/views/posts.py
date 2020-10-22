@@ -11,7 +11,6 @@ from hackerstash.models.post import Post
 from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required
-from hackerstash.utils.helpers import find_index
 
 log = Logging(module='Views::Posts')
 posts = Blueprint('posts', __name__)
