@@ -12,5 +12,4 @@ RUN python -m 'scripts.build_assets'
 
 EXPOSE 5000
 
-# This may need tweaking
 CMD ["gunicorn", "--config=gunicorn.py", "wsgi:app"]
