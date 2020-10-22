@@ -1,7 +1,11 @@
 {%- macro project_preview(project) -%}
-    <a aria-label="View the {{ project.name }} project page" href="{{ url_for('projects.show', project_id=project.id) }}" class="preview" data-preview="{{ project.preview_json }}">
-        {{ project.name }}
-    </a>
+    {% if project.ghost %}
+        <span>{{ project.name }}</span>
+    {% else %}
+        <a aria-label="View the {{ project.name }} project page" href="{{ url_for('projects.show', project_id=project.id) }}" class="preview" data-preview="{{ project.preview_json }}">
+            {{ project.name }}
+        </a>
+    {% endif %}
 {%- endmacro -%}
 
 {%- macro user_preview(user) -%}
