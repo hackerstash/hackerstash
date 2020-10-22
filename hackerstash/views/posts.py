@@ -5,10 +5,12 @@ from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.models.poll import Poll
 from hackerstash.models.post import Post
 from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
 from hackerstash.utils.auth import login_required, author_required, published_project_required
+from hackerstash.utils.helpers import find_index
 
 log = Logging(module='Views::Posts')
 posts = Blueprint('posts', __name__)
@@ -84,6 +86,13 @@ def create() -> str:
 
     post = Post(title=title, body=body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.member.project)
     db.session.add(post)
+
+    if request.form.get('post_type') == 'poll':
+        question = request.form['question']
+        choices = [x[1] for x in request.form.items() if x[0].startswith('choice_')]
+        poll = Poll(question, choices, post)
+        db.session.add(poll)
+
     db.session.commit()
 
     publish_post_mentions(mentioned_users, post)
@@ -264,3 +273,18 @@ def comment_vote(post_id: str, comment_id: str) -> str:
         return partial(size, comment)
     else:
         return redirect(url_for('posts.show', post_id=post_id))
+
+
+@posts.route('/posts/<post_id>/poll', methods=['POST'])
+@login_required
+@published_project_required
+def answer_poll(post_id: str) -> str:
+    post = Post.query.get(post_id)
+    choice = request.form.get('poll_choice')
+
+    if choice:
+        post.poll.answer(choice)
+    else:
+        log.warn('User did not submit an answer', {'user_id': g.user.id})
+
+    return redirect(url_for('posts.show', post_id=post.url_slug))

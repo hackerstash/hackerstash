@@ -22,6 +22,7 @@ class Post(db.Model):
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     comments = db.relationship('Comment', backref='post', cascade='all,delete', lazy='joined', order_by='Comment.created_at.desc()')
     votes = db.relationship('Vote', backref='post', cascade='all,delete', lazy='joined')
+    poll = db.relationship('Poll', backref='post', cascade='all,delete', lazy='joined', uselist=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())

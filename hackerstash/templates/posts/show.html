@@ -7,6 +7,7 @@
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/comments.html" import nested_comments %}
 {% from "partials/editor.html" import editor_light %}
+{% from "partials/polls.html" import poll %}
 {% from "partials/previews.html" import project_preview, user_preview %}
 {% from "partials/vote.html" import post_vote %}
 
@@ -55,6 +56,8 @@
                 {{ post.body | to_safe_html | safe }}
             </div>
         </div>
+
+        {{ poll(post) }}
 
         <hr class="divider mt-3 mb-3">
 

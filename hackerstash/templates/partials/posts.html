@@ -12,6 +12,9 @@
                     </div>
                     <div class="details ml-1-5">
                         <p>
+                            {% if post.poll %}
+                                <i title="Poll" class="ri-bar-chart-horizontal-fill poll"></i>
+                            {% endif %}
                             <a aria-label="View post" href="{{ url_for('posts.show', post_id=post.url_slug) }}">
                                 {{ post.title }}
                             </a>

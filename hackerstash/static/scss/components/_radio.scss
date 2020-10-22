@@ -68,6 +68,14 @@
     }
   }
 
+  &.stacked {
+    flex-direction: column;
+
+    li {
+      width: 100%;
+    }
+  }
+
   @include tablet-down {
     flex-direction: column;
 

@@ -1,7 +1,9 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Create Post' %}
+{% set active_tab = request.args.get('tab') or 'post' %}
 
 {% from "partials/editor.html" import editor_full %}
+
 
 {% block body %}
     <div class="page posts new">
@@ -9,47 +11,124 @@
             <h2 role="heading">New Post</h2>
         </header>
 
-        <form role="form" aria-label="Create a new post" class="form editor-form" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
-            <fieldset>
-                <div class="split">
-                    <div class="left">
-                        <label class="label" for="title">Title</label>
-                        <input class="input" type="text" id="title" name="title" required value>
+        <div class="tabs">
+            <div class="tab-header">
+                <a href="?tab=post" class="button {{ 'active' if active_tab == 'post' }}">Post</a>
+                <a href="?tab=poll" class="button {{ 'active' if active_tab == 'poll' }}">Poll</a>
+            </div>
+             <div class="tab-body">
+                 <div class="tab post-tab {{ 'active' if active_tab == 'post' }}">
+                     {% if active_tab == 'post' %}
+                         <form role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+                            <fieldset>
+                                <input type="hidden" name="post_type" value="post">
+                                <div class="split">
+                                    <div class="left">
+                                        <label class="label" for="title">Title</label>
+                                        <input class="input" type="text" id="title" name="title" required value>
 
-                        <label class="label" for="tag">Group</label>
-                        <div class="select mb-1-5">
-                            <select id="tag" name="tag">
-                                <option disabled selected value>Please select</option>
-                                {% for tag in tags %}
-                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                {% endfor %}
-                            </select>
-                            <i class="icon ri-arrow-drop-down-line"></i>
-                        </div>
+                                        <label class="label" for="tag">Group</label>
+                                        <div class="select mb-1-5">
+                                            <select id="tag" name="tag">
+                                                <option disabled selected value>Please select</option>
+                                                {% for tag in tags %}
+                                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <i class="icon ri-arrow-drop-down-line"></i>
+                                        </div>
+                                        <label class="label">Post</label>
+                                        {{ editor_full() }}
+                                    </div>
+                                    <aside class="right" role="complementary" aria-label="Tips for posting on HackerStash">
+                                        <p><b>💡 Tips</b></p>
+                                        <ul>
+                                            <li>You’re posting on behalf of your project, if people upvote your post your project earns points too.</li>
+                                            <li>Make sure your title is clear and engaging.</li>
+                                            <li>Share what you’ve been working on - successes and failures.</li>
+                                            <li>If you’ve learned anything that could be helpful to other community members, let them know.</li>
+                                            <li>Nobody likes clickbait.</li>
+                                            <li>Don’t ask for votes.</li>
+                                        </ul>
+                                    </aside>
+                                </div>
 
-                        <label class="label">Update</label>
-                        {{ editor_full() }}
-                    </div>
-                    <aside class="right" role="complementary" aria-label="Tips for posting on HackerStash">
-                        <p><b>💡 Tips</b></p>
-                        <ul>
-                            <li>You’re posting on behalf of your project, if people upvote your post your project earns points too.</li>
-                            <li>Make sure your title is clear and engaging.</li>
-                            <li>Share what you’ve been working on - successes and failures.</li>
-                            <li>If you’ve learned anything that could be helpful to other community members, let them know.</li>
-                            <li>Nobody likes clickbait.</li>
-                            <li>Don’t ask for votes.</li>
-                        </ul>
-                    </aside>
-                </div>
+                                <hr class="divider">
+                                <div class="button-group">
+                                    <button aria-label="Create post" class="button" type="submit">Publish</button>
+                                    <a aria-label="Cancel and return to all posts" class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                     {% endif %}
+                 </div>
+                 <div class="tab poll-tab {{ 'active' if active_tab == 'poll' }}">
+                     {% if active_tab == 'poll' %}
+                        <form role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+                            <fieldset>
+                                <input type="hidden" name="post_type" value="poll">
+                                <div class="split">
+                                    <div class="left">
+                                        <label class="label" for="title">Title</label>
+                                        <input class="input" type="text" id="title" name="title" required value>
 
-                <hr class="divider">
-                <div class="button-group">
-                    <button aria-label="Create post" class="button" type="submit">Publish</button>
-                    <a aria-label="Cancel and return to all posts" class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
-                </div>
-            </fieldset>
-        </form>
+                                        <label class="label" for="tag">Group</label>
+                                        <div class="select mb-1-5">
+                                            <select id="tag" name="tag">
+                                                <option disabled selected value>Please select</option>
+                                                {% for tag in tags %}
+                                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <i class="icon ri-arrow-drop-down-line"></i>
+                                        </div>
+                                        <label class="label">Post</label>
+                                        {{ editor_full() }}
+
+                                        <h4 class="mt-2 mb-1-5">Poll</h4>
+
+                                        <label class="label" for="question">Question</label>
+                                        <input class="input mb-1" type="text" id="question" name="question" placeholder="What should people vote on?" required>
+
+                                        <label class="label" for="choice_1">Choices</label>
+                                        <div class="poll-choices">
+                                            <div class="poll-row" data-choice="1">
+                                                <input class="input mb-0" type="text" id="choice_1" name="choice_1" placeholder="Choice 1 (required)" required>
+                                                <i role="button" tabindex="0" aria-label="Delete choice" class="icon ri-close-line delete-choice"></i>
+                                            </div>
+                                            <div class="poll-row" data-choice="2">
+                                                <input class="input mb-0" type="text" id="choice_2" name="choice_2" placeholder="Choice 2 (required)" required>
+                                                <i role="button" tabindex="0" aria-label="Delete choice" class="icon ri-close-line delete-choice"></i>
+                                            </div>
+                                        </div>
+
+                                        <span class="add-choice-button mt-1 mb-3">+ <button role="button" aria-label="Create new choice" class="button link" type="button">Add choice</button></span>
+
+                                    </div>
+                                    <aside class="right" role="complementary" aria-label="Tips for posting on HackerStash">
+                                        <p><b>💡 Tips</b></p>
+                                        <ul>
+                                            <li>You’re posting on behalf of your project, if people upvote your post your project earns points too.</li>
+                                            <li>Make sure your title is clear and engaging.</li>
+                                            <li>Share what you’ve been working on - successes and failures.</li>
+                                            <li>If you’ve learned anything that could be helpful to other community members, let them know.</li>
+                                            <li>Nobody likes clickbait.</li>
+                                            <li>Don’t ask for votes.</li>
+                                        </ul>
+                                    </aside>
+                                </div>
+
+                                <hr class="divider">
+                                <div class="button-group">
+                                    <button aria-label="Create post" class="button" type="submit">Publish</button>
+                                    <a aria-label="Cancel and return to all posts" class="button secondary" href="{{ url_for('posts.index') }}">Cancel</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                     {% endif %}
+                 </div>
+             </div>
+        </div>
     </div>
 {% endblock %}
 

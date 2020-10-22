@@ -2,11 +2,12 @@
 {% set title = 'HackerStash / Posts / ' + post.title + ' / Edit' %}
 
 {% from "partials/editor.html" import editor_full %}
+{% from "partials/polls.html" import poll %}
 
 {% block body %}
-    <div class="page posts new">
+    <div class="page posts new {{ 'has-poll' if post.poll }}">
         <header class="header">
-            <h2 role="heading">Update Post</h2>
+            <h2 role="heading">Update {{ 'Poll' if post.poll else 'Post' }}</h2>
         </header>
 
         <form role="form" class="form editor-form" action="{{ url_for('posts.update', post_id=post.id) }}" method="post">
@@ -27,8 +28,15 @@
                             <i class="icon ri-arrow-drop-down-line"></i>
                         </div>
 
-                        <label class="label">Update</label>
+                        <label class="label">Post</label>
                         {{ editor_full(post.body) }}
+
+                        {% if post.poll %}
+                            <div class="mb-3">
+                                <h4 class="mt-2 mb-1-5">Poll</h4>
+                                {{ poll(post, read_only=True) }}
+                            </div>
+                        {% endif %}
                     </div>
                     <aside class="right" role="complementary" aria-label="Tips for posting on HackerStash">
                         <p><b>💡 Tips</b></p>

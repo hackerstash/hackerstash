@@ -1,0 +1,54 @@
+{% macro poll(post, read_only=False) %}
+    {% if post.poll %}
+        <div class="post-poll wrap-745 {{ 'read-only' if read_only or post.poll.has_answered }}">
+            <form class="form" method="post" action="{{ url_for('posts.answer_poll', post_id=post.id) }}">
+                <fieldset>
+                    <div class="poll-title mb-2">
+                        <h4>
+                            <i class="ri-bar-chart-horizontal-fill"></i>
+                            {{ post.poll.question }}
+                        </h4>
+                        <button class="button link view-results d-none-small" type="button" role="button" aria-label="View results of poll">View results</button>
+                        <button class="button link hide-results d-none-small" type="button" role="button" aria-label="View the poll voting">Back to voting</button>
+                    </div>
+                    <div class="poll-choices">
+                        <ul class="radio-group stacked">
+                            {% for choice in post.poll.choices %}
+                                <li class="mb-1">
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="{{ choice.id }}" name="poll_choice" value="{{ choice.id }}">
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="{{ choice.id }}">{{ choice.name }}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="poll-results">
+                        <ul>
+                            {% for choice in post.poll.choices %}
+                                <li class="mb-0-5">
+                                    <div class="choice">
+                                        <span>{{ post.poll.get_percentage_for_choice(choice.id) }}%</span> {{ choice.name }}
+                                    </div>
+                                    <div class="background {{ 'has-answered' if post.poll.has_answered_choice(choice.id) }}" style="width: {{ post.poll.get_percentage_for_choice(choice.id) }}%"></div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="button-group mt-1">
+                        <button class="button" type="submit" aria-label="Submit poll answer" {{ 'disabled' if not g.user or g.user.can_post }}>Vote</button>
+                        <button class="button link view-results d-none-large" type="button" role="button" aria-label="View results of poll">View results</button>
+                    </div>
+
+                    <div class="total-votes mt-1-5 ml-0-5">
+                        <p class="mb-0"><b>{{ post.poll.all_answered_user_ids | length }}</b> votes</p>
+                        <button class="button link hide-results d-none-large" type="button" role="button" aria-label="View the poll voting">Back to voting</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    {% endif %}
+{% endmacro %}
