@@ -28,4 +28,10 @@ if (locationTypeahead) {
                 locationOutput.appendChild(results);
             });
     });
+
+    document.addEventListener('click', event => {
+        setTimeout(() => {
+            locationOutput.innerHTML = '';
+        }, 0);
+    });
 }

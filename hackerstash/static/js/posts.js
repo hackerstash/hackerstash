@@ -32,6 +32,6 @@ document.addEventListener('click', event => {
         input.id = `choice_${number}`;
         input.name = `choice_${number}`;
         input.value = '';
-        input.placeholder = `Choice ${number} (required)`;
+        input.placeholder = `Choice ${number}`;
     }
 });

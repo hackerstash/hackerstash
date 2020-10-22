@@ -63,6 +63,7 @@
 
   + .search-results {
     position: relative;
+    z-index: 2;
 
     .results {
       background: white;
