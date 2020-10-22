@@ -91,14 +91,10 @@ class Post(db.Model):
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
-        if user.member and self.project.ghost:
-            return 'disabled ghost'
         if not user.member or not user.member.project.published:
             return 'disabled not-published'
         if self.project.id == user.member.project.id:
             return 'disabled own-project'
-        if self.project.ghost:
-            return 'disabled ghost'
 
         existing_vote = self.get_existing_vote_for_user(user)
         return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
