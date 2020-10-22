@@ -3,6 +3,7 @@ from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import Logging
+from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.poll import Poll
@@ -110,6 +111,22 @@ def upload_images():
     for file in request.files.getlist('file'):
         images.append(Images.upload(file))
     return jsonify(images)
+
+
+@posts.route('/posts/groups/request', methods=['POST'])
+@login_required
+@published_project_required
+def request_group():
+    tab = request.args.get('tab')
+    payload = {
+        'name': f'{g.user.first_name} {g.user.last_name}',
+        'email': g.user.email,
+        'subject': f'Group Request - {request.form["group_name"]}',
+        'message': request.form['group_reason']
+    }
+    email_factory('contact', 'hello@hackerstash.com', payload).send()
+    flash('Thanks, your group suggestion has been submitted')
+    return redirect(url_for('posts.new', tab=tab))
 
 
 @posts.route('/posts/<post_id>/edit')

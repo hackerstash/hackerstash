@@ -93,6 +93,26 @@
     }
   }
 
+  .groups {
+    align-items: center;
+    display: flex;
+
+    .button {
+      color: $blue-500;
+      margin-left: 2rem;
+      text-decoration: underline;
+    }
+
+    @include tablet-down {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .button {
+        margin: 1rem 0 0 0;
+      }
+    }
+  }
+
   &.has-poll {
     .editor {
       height: 180px;

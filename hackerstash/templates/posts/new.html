@@ -19,6 +19,8 @@
              <div class="tab-body">
                  <div class="tab post-tab {{ 'active' if active_tab == 'post' }}">
                      {% if active_tab == 'post' %}
+                        {% include "partials/messages.html" %}
+
                          <form role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <input type="hidden" name="post_type" value="post">
@@ -28,14 +30,17 @@
                                         <input class="input" type="text" id="title" name="title" required value>
 
                                         <label class="label" for="tag">Group</label>
-                                        <div class="select mb-1-5">
-                                            <select id="tag" name="tag">
-                                                <option disabled selected value>Please select</option>
-                                                {% for tag in tags %}
-                                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <i class="icon ri-arrow-drop-down-line"></i>
+                                        <div class="groups mb-1-5">
+                                            <div class="select mb-0">
+                                                <select id="tag" name="tag">
+                                                    <option disabled selected value>Please select</option>
+                                                    {% for tag in tags %}
+                                                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <i class="icon ri-arrow-drop-down-line"></i>
+                                            </div>
+                                            <button class="button link small modal-open" data-modal="request-group-modal" type="button">Request a group</button>
                                         </div>
                                         <label class="label">Post</label>
                                         {{ editor_full() }}
@@ -64,6 +69,8 @@
                  </div>
                  <div class="tab poll-tab {{ 'active' if active_tab == 'poll' }}">
                      {% if active_tab == 'poll' %}
+                        {% include "partials/messages.html" %}
+
                         <form role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <input type="hidden" name="post_type" value="poll">
@@ -73,14 +80,17 @@
                                         <input class="input" type="text" id="title" name="title" required value>
 
                                         <label class="label" for="tag">Group</label>
-                                        <div class="select mb-1-5">
-                                            <select id="tag" name="tag">
-                                                <option disabled selected value>Please select</option>
-                                                {% for tag in tags %}
-                                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <i class="icon ri-arrow-drop-down-line"></i>
+                                        <div class="groups mb-1-5">
+                                            <div class="select mb-0">
+                                                <select id="tag" name="tag">
+                                                    <option disabled selected value>Please select</option>
+                                                    {% for tag in tags %}
+                                                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <i class="icon ri-arrow-drop-down-line"></i>
+                                            </div>
+                                            <button class="button link small modal-open" data-modal="request-group-modal" type="button">Request a group</button>
                                         </div>
                                         <label class="label">Post</label>
                                         {{ editor_full() }}
@@ -128,6 +138,32 @@
                      {% endif %}
                  </div>
              </div>
+        </div>
+    </div>
+
+    <div id="request-group-modal" class="modal request-group-modal">
+        <div class="modal-body md" role="dialog" aria-labelledby="request-group-modal-header">
+            <header>
+                <h3 id="request-group-modal-header">Group Requests</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close request group modal"></i>
+            </header>
+            <main>
+                <form class="form" method="post" action="{{ url_for('posts.request_group') }}">
+                    <p class="mt-1">We’d like to slowly expand the range of groups as we improve the related functionality. If you have a group you’d like to see in HackerStash then let us know using the form below.</p>
+                    <p class="mb-2">Groups should be valuable to a broad subsection of the community, and for now they should not relate to a specific product or service.</p>
+
+                    <label class="label" for="group_name">Proposed group name</label>
+                    <input class="input wrap-300 mb-2" type="text" id="group_name" name="group_name" placeholder="e.g. Fundraising" required>
+
+                    <label class="label" for="group_reason">Reason</label>
+                    <textarea class="input textarea mb-2" id="group_reason" name="group_reason" rows="4" required></textarea>
+
+                    <footer>
+                        <button aria-label="Send request" class="button" type="submit">Send request</button>
+                        <button aria-label="Cancel" class="button secondary modal-close" type="button">Cancel</button>
+                    </footer>
+                </form>
+            </main>
         </div>
     </div>
 {% endblock %}
