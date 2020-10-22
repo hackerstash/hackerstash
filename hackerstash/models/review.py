@@ -18,3 +18,8 @@ class Review(db.Model):
 
     def __repr__(self) -> str:
         return f'<Review {self.title}>'
+
+    # The default order should be newest first
+    __mapper_args__ = {
+        'order_by': created_at.desc()
+    }
