@@ -3,7 +3,7 @@
 {% from "partials/vote.html" import comment_vote %}
 
 {% macro nested_comments(list, nest=false) %}
-    <ul class="comments">
+    <ul class="comments" data-comment-count="{{  list | length }}">
         {% for comment in list | nest_comments(nest) %}
             <li id="{{ comment.id }}" class="comment-row" role="comment" data-author="{{ comment.user.first_name }} {{ comment.user.last_name }}">
                 {% if comment.children %}

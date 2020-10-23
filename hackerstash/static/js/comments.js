@@ -127,7 +127,11 @@ document.addEventListener('submit', (event) => {
                 throw new Error(response.statusText);
             })
             .then((response) => {
-                document.querySelector('.comments').innerHTML = response;
+                const comments = document.querySelector('.comments');
+                comments.insertAdjacentHTML('afterend', response);
+                comments.remove();
+                const commentCount = document.querySelector('.comments').getAttribute('data-comment-count');
+                document.querySelector('.comment-count').innerHTML = `${commentCount} Comments`;
             });
     }
 });

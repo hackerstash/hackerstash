@@ -2,7 +2,7 @@ function createEditor(form, options = {}) {
     let usernameSearch = '';
     const selector = s => document.querySelector(`${form} ${s}`);
 
-    if (!selector(`${form} .editor`)) {
+    if (!document.querySelector(form)) {
         return;
     }
 

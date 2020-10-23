@@ -39,7 +39,8 @@ def tournament() -> str:
     contest = Contest.query.get(contest_id) if contest_id else Contest.get_current()
     data = {
         'contest': contest,
-        'project_count': Project.query.filter_by(published=True).count()
+        'user_count': User.query.count(),
+        'project_count': Project.query.count()
     }
     return render_template('admin/tournament/index.html', **data)
 
