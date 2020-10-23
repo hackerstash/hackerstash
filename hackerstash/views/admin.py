@@ -23,7 +23,7 @@ def index() -> str:
     }
 
     if tab == 'users':
-        data['users'] = User.query.order_by(User.created_at.desc()).paginate(page, 5, False)
+        data['users'] = User.query.order_by(User.created_at.desc()).paginate(page, 25, False)
     if tab == 'projects':
         data['projects'] = Project.query.order_by(Project.created_at.desc()).paginate(page, 25, False)
     if tab == 'tournaments':
