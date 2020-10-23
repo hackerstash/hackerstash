@@ -1,3 +1,4 @@
+from markdown import markdown
 from flask import Blueprint, render_template, jsonify, redirect, url_for
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
@@ -18,6 +19,18 @@ def favicon():
     # on requesting it from here regardless of what I put
     # in the <head> tag
     return redirect(url_for('static', filename='images/favicon.ico'))
+
+
+@home.route('/changelog')
+def changelog():
+    if cache := redis.get('changelog'):
+        html = cache.decode('utf-8')
+    else:
+        with open('CHANGELOG.md', 'r') as f:
+            md = f.read()
+            html = markdown(md)
+            redis.set('changelog', html, ex=86400)
+    return render_template('home/changelog/index.html', changelog=html)
 
 
 @home.route('/__ping')

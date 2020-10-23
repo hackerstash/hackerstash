@@ -1,0 +1,15 @@
+{% extends 'base_app.html' %}
+{% set title = 'HackerStash / Changelog' %}
+
+
+{% block body %}
+    <div class="page changelog">
+        <header class="header">
+            <h2 role="heading">Changelog</h2>
+        </header>
+
+        <div class="changelog">
+            {{ changelog | safe }}
+        </div>
+    </div>
+{% endblock %}
