@@ -26,6 +26,20 @@ document.addEventListener('click', event => {
         event.target.closest('.post-poll').classList.toggle('answered');
     }
 
+    if (event.target.closest('.submit-poll')) {
+        const classList = event.target.closest('.submit-poll').classList;
+
+        if (classList.contains('disabled')) {
+            event.preventDefault();
+
+            if (classList.contains('not-published')) {
+                return document.querySelector('#publish-modal').classList.add('open');
+            } else if (classList.contains('logged-out')) {
+                return document.querySelector('#sign-up-modal').classList.add('open');
+            }
+        }
+    }
+
     function setPollPosition(element, number) {
         const input = element.querySelector('input');
         element.setAttribute('data-choice', number);

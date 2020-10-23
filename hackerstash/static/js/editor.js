@@ -2,6 +2,10 @@ function createEditor(form, options = {}) {
     let usernameSearch = '';
     const selector = s => document.querySelector(`${form} ${s}`);
 
+    if (!selector(`${form} .editor`)) {
+        return;
+    }
+
     const Link = Quill.import('formats/link');
 
     class CustomLink extends Link {

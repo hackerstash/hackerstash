@@ -23,7 +23,7 @@
             {% if project.published and g.user.member.owner %}
                 <a class="button secondary" href="{{ url_for('projects.subscription', project_id=project.id) }}">Manage Subscription</a>
             {% else %}
-                <button class="button success modal-open" data-modal="publish-modal">Publish Project</button>
+                <button class="button success modal-open" data-modal="checkout-modal">Publish Project</button>
             {% endif %}
         </header>
 
@@ -400,7 +400,7 @@
         </div>
     </div>
 
-    {% include "partials/publish_modal.html" %}
+    {% include "partials/checkout_modal.html" %}
 {% endblock %}
 
 {% block scripts %}

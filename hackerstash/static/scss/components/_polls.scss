@@ -34,8 +34,10 @@
     }
   }
 
-  .button:disabled {
+  .button.disabled {
     background: $darkblue-800;
+    border-color: $darkblue-800;
+    cursor: default;
   }
 
   .poll-results {

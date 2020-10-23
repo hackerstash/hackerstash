@@ -15,6 +15,8 @@ document.addEventListener('click', (event) => {
 
             if (classList.contains('logged-out')) {
                 return document.querySelector('#sign-up-modal').classList.add('open');
+            } else if (classList.contains('not-published')) {
+                return document.querySelector('#publish-modal').classList.add('open');
             } else {
                 const message = getDisabledToastMessage(classList);
                 return createToast(message, 'error');
@@ -41,10 +43,6 @@ document.addEventListener('click', (event) => {
     }
 
     function getDisabledToastMessage(classList) {
-        if (classList.contains('not-published')) {
-            return 'You can\'t vote because you do not have a published project.';
-        }
-
         if (classList.contains('own-project')) {
             return 'You can\'t vote on your own project.';
         }

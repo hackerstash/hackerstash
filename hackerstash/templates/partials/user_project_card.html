@@ -15,7 +15,7 @@
                         <h3>{{ user.member.project.name }} <p>UNPUBLISHED</p></h3>
                         <p>Publish your project to start participating in the HackerStash tournament.</p>
                         <div class="button-group">
-                            <button aria-label="Open project publish modal" class="button success modal-open" data-modal="publish-modal">
+                            <button aria-label="Open project publish modal" class="button success modal-open" data-modal="checkout-modal">
                                 Publish Project
                             </button>
                             <a aria-label="View the edit project page" class="button secondary arrow" href="{{ url_for('projects.show', project_id=user.member.project.id) }}">

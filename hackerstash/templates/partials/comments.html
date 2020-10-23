@@ -24,7 +24,7 @@
                             <span class="seperator">•</span>
                             <span>{{ comment.created_at | to_human_date }}</span>
 
-                            {% if g.user %}
+                            {% if g.user and g.user.can_post %}
                                 <span class="seperator reply split">•</span>
                                 <span class="reply add-reply">
                                     <i class="icon ri-reply-line"></i>
