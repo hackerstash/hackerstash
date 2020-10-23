@@ -3,7 +3,6 @@
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
-{% from "partials/prize.html" import expected_prize %}
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
 
@@ -46,7 +45,6 @@
             </div>
             <div class="button-group">
                 {% if project.has_member(g.user) %}
-                    <a aria-label="View Stash" href="{{ url_for('stash.index') }}" class="button success">🦄 Stash ${{ project.stash or 0 }}</a>
                     <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
                 {% endif %}
             </div>
@@ -62,7 +60,6 @@
                 <h3>Current Position</h3>
                 <div class="positioning mt-1-5">
                     <h1>{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
-                    {{ expected_prize(project) }}
                 </div>
                 <h3 class="mt-2">Votes received</h3>
                 <div class="votes-received up">

@@ -8,7 +8,6 @@ from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.pagination import paginate
 from hackerstash.lib.project_filtering import project_filtering
-from hackerstash.lib.stripe import get_payment_details
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
@@ -75,20 +74,6 @@ def create() -> str:
 def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
     return render_template('projects/edit.html', project=project)
-
-
-@projects.route('/projects/<project_id>/subscription')
-@login_required
-@member_required
-def subscription(project_id: str) -> str:
-    project = Project.query.get(project_id)
-    # This is for the owner only!
-    if not g.user.member.owner:
-        return render_template('projects/401.html')
-    if not project.published:
-        return redirect(url_for('projects.show', project_id=project_id))
-    payment_details = get_payment_details(g.user)
-    return render_template('projects/subscription/index.html', project=project, payment_details=payment_details)
 
 
 @projects.route('/projects/<project_id>/posts')

@@ -7,7 +7,6 @@ from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.stripe import handle_project_deleted
 from hackerstash.models.user import User
 from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required

@@ -5,7 +5,6 @@ from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_weekly_vote_data
-from hackerstash.lib.prizes import Prizes
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
@@ -45,8 +44,6 @@ class Project(db.Model):
     votes = db.relationship('Vote', backref='project', cascade='all,delete', lazy='joined')
     past_results = db.relationship('PastResult', backref='project')
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
-    transactions = db.relationship('Transaction', backref='project', cascade='all,delete')
-    subscriptions = db.relationship('Subscription', backref='project', cascade='all,delete')
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
@@ -205,21 +202,3 @@ class Project(db.Model):
     def number_of_completed_challenges(self):
         completed = Challenge.get_completed_challenges_for_project(self)
         return len(completed)
-
-    @property
-    def prize(self):
-        # Not 0 indexed
-        return Prizes.get_for_position(self.position - 1)
-
-    def add_funds(self, value):
-        if not self.stash:
-            self.stash = 0
-        self.stash += value
-        log.info('Adding funds to stash', {'project_id': self.id, 'new_total': self.stash})
-
-    def remove_funds(self, value):
-        if (self.stash - value) < 0:
-            log.warn('Unable to remove funds from stash', {'project_id': self.id, 'value': value, 'stash': self.stash})
-        else:
-            self.stash -= value
-            log.info('Removing funds from stash', {'project_id': self.id, 'new_total': self.stash})

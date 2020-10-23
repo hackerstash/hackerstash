@@ -24,8 +24,6 @@ from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
 from hackerstash.views.reviews import reviews
 from hackerstash.views.rules import rules
-from hackerstash.views.stash import stash
-from hackerstash.views.subscriptions import subscriptions
 from hackerstash.views.users import users
 
 from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
@@ -60,8 +58,6 @@ app.register_blueprint(posts)
 app.register_blueprint(projects)
 app.register_blueprint(reviews)
 app.register_blueprint(rules)
-app.register_blueprint(stash)
-app.register_blueprint(subscriptions)
 app.register_blueprint(users)
 
 # Add blueprints for flask_dance

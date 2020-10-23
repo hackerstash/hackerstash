@@ -15,9 +15,9 @@
                         <h3>{{ user.member.project.name }} <p>UNPUBLISHED</p></h3>
                         <p>Publish your project to start participating in the HackerStash tournament.</p>
                         <div class="button-group">
-                            <button aria-label="Open project publish modal" class="button success modal-open" data-modal="checkout-modal">
+                            <a aria-label="Open project publish modal" class="button success" href="#TODO">
                                 Publish Project
-                            </button>
+                            </a>
                             <a aria-label="View the edit project page" class="button secondary arrow" href="{{ url_for('projects.show', project_id=user.member.project.id) }}">
                                 Edit project
                                 <i class="ri-arrow-right-line"></i>
@@ -59,9 +59,6 @@
                     <div class="details">
                         <p><span>{{ user.member.project.members | length }}</span> Team members</p>
                         <p><i class="icon ri-focus-2-line"></i>Points: {{ user.member.project.vote_score }}</p>
-                        {% if user.member.project.has_member(g.user) %}
-                            <p>🦄 Stash: ${{ user.member.project.stash or 0 }}</p>
-                        {% endif %}
                     </div>
                 </div>
             </div>

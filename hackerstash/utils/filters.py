@@ -122,7 +122,6 @@ def fundings(value: str) -> str:
         'bootstrapped': 'Bootstrapped',
         'crowd_funded': 'Crowd Funded',
         'donation_supported': 'Donation Supported',
-        'hackerstash': 'HackerStash',
         'self_funded': 'Self Funded',
         'vc_funded': 'VC Funded',
         'seed_funded': 'Seed Funded'

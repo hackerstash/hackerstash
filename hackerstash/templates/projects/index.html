@@ -485,13 +485,6 @@
                             </li>
                             <li>
                                 <span class="checkbox">
-                                    <input name="fundings" value="hackerstash" type="checkbox" id="hackerstash" {{ 'checked' if 'hackerstash' in request.args.getlist('fundings') }}>
-                                    <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                </span>
-                                <label class="label" for="hackerstash">HackerStash prizes</label>
-                            </li>
-                            <li>
-                                <span class="checkbox">
                                     <input name="fundings" value="self_funded" type="checkbox" id="self_funded" {{ 'checked' if 'self_funded' in request.args.getlist('fundings') }}>
                                     <span class="indicator"><i class="icon ri-check-line"></i></span>
                                 </span>

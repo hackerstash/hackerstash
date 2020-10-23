@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from hackerstash.db import db
-from hackerstash.lib.sidebar import Sidebar
+from flask import Blueprint, render_template, request
 from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
 from hackerstash.models.user import User
@@ -30,29 +28,3 @@ def index() -> str:
         data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 
     return render_template('admin/index.html', **data)
-
-
-@admin.route('/admin/tournament')
-@admin_login_required
-def tournament() -> str:
-    contest_id = request.args.get('id')
-    contest = Contest.query.get(contest_id) if contest_id else Contest.get_current()
-    data = {
-        'contest': contest,
-        'user_count': User.query.count(),
-        'project_count': Project.query.count()
-    }
-    return render_template('admin/tournament/index.html', **data)
-
-
-@admin.route('/admin/tournament/<contest_id>/update', methods=['POST'])
-@admin_login_required
-def update_tournament(contest_id: str) -> str:
-    contest = Contest.query.get(contest_id)
-    contest.top_up = request.form['top_up']
-    contest.prizes = {}
-    for i in range(200):
-        contest.prizes[f'prize_{i}'] = int(request.form.get(f'prize_{i}', 0))
-    db.session.commit()
-    Sidebar.clear_cache()
-    return redirect(url_for('admin.index', tab='tournaments'))

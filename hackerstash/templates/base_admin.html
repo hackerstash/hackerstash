@@ -39,7 +39,6 @@
                         Projects
                         <span class="tag sm">{{ project_count or 0 }}</span>
                     </a>
-                    <a href="{{ url_for('admin.index', tab='tournaments') }}" class="button {{ 'active' if active_tab == 'tournaments' }}">Tournaments</a>
                 </div>
                 <div class="tab-body">
                     {% block body %}

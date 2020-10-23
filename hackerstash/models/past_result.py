@@ -1,5 +1,4 @@
 from hackerstash.db import db
-from hackerstash.lib.prizes import Prizes
 
 
 class PastResult(db.Model):
@@ -18,10 +17,6 @@ class PastResult(db.Model):
 
     def __repr__(self) -> str:
         return f'<PastResult {self.id}>'
-
-    @property
-    def prize(self):
-        return Prizes.get_for_position(self.rank, self.contest.prizes)
 
     @property
     def position(self):

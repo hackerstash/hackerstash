@@ -152,22 +152,6 @@
 
                             <hr class="divider mt-2 mb-2">
 
-                            <label class="label">Prizes</label>
-                            <p class="mb-1-5">Send a notification when:</p>
-
-                            <ul class="checkbox-group stacked">
-                                <li>
-                                    <span class="checkbox">
-                                        <input type="checkbox" name="prize_awarded_web" id="prize_awarded_web" value="true" {{ 'checked' if g.user.notifications_settings.prize_awarded_web }}>
-                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        <input type="hidden" name="prize_awarded_web" value="false">
-                                    </span>
-                                    <label class="label" for="prize_awarded_web">You are awarded a prize</label>
-                                </li>
-                            </ul>
-
-                            <hr class="divider mt-2 mb-2">
-
                             <label class="label">Reminders</label>
                             <p class="mb-1-5">Send a notification when:</p>
 
@@ -320,22 +304,6 @@
                                 </ul>
 
                                <hr class="divider mt-2 mb-2">
-
-                                <label class="label">Prizes</label>
-                                <p class="mb-1-5">Send a notification when:</p>
-
-                                <ul class="checkbox-group stacked">
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" name="prize_awarded_email" id="prize_awarded_email" value="true" {{ 'checked' if g.user.notifications_settings.prize_awarded_email }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                            <input type="hidden" name="prize_awarded_email" value="false">
-                                        </span>
-                                        <label class="label" for="prize_awarded_email">You are awarded a prize</label>
-                                    </li>
-                                </ul>
-
-                                <hr class="divider mt-2 mb-2">
 
                                 <label class="label">Reminders</label>
                                 <p class="mb-1-5">Send a notification when:</p>

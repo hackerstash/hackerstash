@@ -20,10 +20,8 @@
 
             </div>
 
-            {% if project.published and g.user.member.owner %}
-                <a class="button secondary" href="{{ url_for('projects.subscription', project_id=project.id) }}">Manage Subscription</a>
-            {% else %}
-                <button class="button success modal-open" data-modal="checkout-modal">Publish Project</button>
+            {% if not project.published and g.user.member.owner %}
+                <a class="button success" href="#TODO">Publish Project</a>
             {% endif %}
         </header>
 
@@ -291,13 +289,6 @@
                                     </li>
                                     <li>
                                         <span class="checkbox">
-                                            <input type="checkbox" id="hackerstash" name="fundings" value="hackerstash" {{ 'checked' if 'hackerstash' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="hackerstash">HackerStash prizes</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
                                             <input type="checkbox" id="self_funded" name="fundings" value="self_funded" {{ 'checked' if 'self_funded' in (project.fundings or []) }}>
                                             <span class="indicator"><i class="icon ri-check-line"></i></span>
                                         </span>
@@ -399,8 +390,6 @@
             </div>
         </div>
     </div>
-
-    {% include "partials/checkout_modal.html" %}
 {% endblock %}
 
 {% block scripts %}

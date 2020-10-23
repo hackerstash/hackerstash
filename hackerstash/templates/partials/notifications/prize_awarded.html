@@ -1,7 +1,0 @@
-{% from "partials/prize.html" import prize %}
-
-<div class="prize-notification {{ past_result.prize.badge }}">
-    {{ prize(past_result) }}
-    <p>Congratulations! You won ${{ past_result.prize.value }} by coming {{ past_result.position }}{{ past_result.position | to_ordinal_ending }} in <a href="{{ url_for('past_results.show', contest_id=past_result.contest.id) }}">last week's tournament</a>!</p>
-    <a href="{{ url_for('stash.index') }}" class="button">Manage Stash</a>
-</div>

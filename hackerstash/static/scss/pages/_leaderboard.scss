@@ -11,16 +11,6 @@
     }
   }
 
-  .table .table-body li p:last-of-type {
-    overflow: visible;
-    text-align: end;
-    text-overflow: clip;
-
-    @include tablet-down {
-      text-align: left;
-    }
-  }
-
   .score {
     color: $mauve-1000;
   }
@@ -40,10 +30,6 @@
 
         &:empty {
           display: none;
-        }
-
-        .prize {
-          margin-top: 1rem;
         }
       }
     }

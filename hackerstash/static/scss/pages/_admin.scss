@@ -161,10 +161,6 @@
         }
       }
 
-      #prize-total {
-        pointer-events: none;
-      }
-
       .rank-body {
         .row {
           align-items: center;
@@ -180,13 +176,6 @@
             &:nth-of-type(2) {
               flex: 1;
               margin: 0 0 0 3rem;
-            }
-          }
-
-          .prize-value {
-            .input, p {
-              margin: 0;
-              width: 6.75rem;
             }
           }
         }

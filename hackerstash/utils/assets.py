@@ -10,7 +10,6 @@ styles = [
 ]
 
 scripts = [
-    'js/admin.js',
     'js/avatar.js',
     'js/buttons.js',
     'js/comments.js',

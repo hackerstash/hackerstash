@@ -1,11 +1,9 @@
 import datetime
-from sqlalchemy.types import JSON
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
-from hackerstash.models.transaction import Transaction
 from hackerstash.utils.contest import get_week_and_year
 
 log = Logging(module='Models::Contest')
@@ -21,21 +19,8 @@ class Contest(db.Model):
     tournament = db.Column(db.Integer, unique=True)
     past_results = db.relationship('PastResult', backref='contest', cascade='all,delete')
 
-    top_up = db.Column(db.Integer)
-    prizes = db.Column(JSON(none_as_null=True))
-
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-
-    def __init__(self, week, year, tournament):
-        self.week = week
-        self.year = year
-        self.tournament = tournament
-        self.top_up = 0
-        self.prizes = {}
-
-        for i in range(200):
-            self.prizes[f'prize_{i}'] = 0
 
     def __repr__(self) -> str:
         return f'<Contest {self.year}_{self.week}>'
@@ -97,9 +82,6 @@ class Contest(db.Model):
         for index, project in enumerate(projects):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
-            notification_factory('contest_ended', {'past_result': past_result}).publish()
-            if past_result.prize['value'] > 0:
-                Transaction.add_prize_winnings(past_result)
 
         # Create next weeks tournament
         args = {'week': week + 1, 'year': year, 'tournament': contest.tournament + 1}
@@ -113,5 +95,3 @@ class Contest(db.Model):
         week, year = get_week_and_year()
         return cls.query.filter_by(week=week, year=year).first()
 
-    def get_prize_for_position(self, position: int) -> int:
-        return self.prizes.get(f'prize_{position}', 0)

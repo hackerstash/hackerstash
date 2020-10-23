@@ -1,7 +1,6 @@
 {% extends 'base_app.html' %}
 {% set title = 'HackerStash / Leaderboard' %}
 
-{% from "partials/prize.html" import prize %}
 {% from "partials/pagination.html" import crap_pagination %}
 {% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
@@ -16,9 +15,8 @@
             <div class="table-header">
                 <p class="col-1">Rank</p>
                 <p class="col-4">Project name</p>
-                <p class="col-3">Url</p>
-                <p class="col-2">Score</p>
-                <p class="col-2">Expected prize</p>
+                <p class="col-4">Url</p>
+                <p class="col-3">Score</p>
             </div>
             <ul class="table-body" role="list">
                 {% for project in projects %}
@@ -29,7 +27,7 @@
                         <p class="col-4 project">
                             {{ project_preview(project) }}
                         </p>
-                        <p class="col-3 small">
+                        <p class="col-4 small">
                             {% if project.url %}
                                 <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer" aria-label="Visit the {{ project.name }} website">
                                     {{ project.url | to_nice_url }}
@@ -38,11 +36,8 @@
                                 -
                             {% endif %}
                         </p>
-                        <p class="col-2 small score">
+                        <p class="col-3 small score">
                             <i>{{ project.vote_score }} points</i>
-                        </p>
-                        <p class="col-2">
-                            {{ prize(project) }}
                         </p>
                     </li>
                 {% else %}

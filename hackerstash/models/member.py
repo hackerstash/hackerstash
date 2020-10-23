@@ -10,11 +10,6 @@ class Member(db.Model):
     owner = db.Column(db.Boolean, default=False)
     role = db.Column(db.String)
 
-    # This will only exist for the person who's paying for the project
-    stripe_customer_id = db.Column(db.String)
-    stripe_subscription_id = db.Column(db.String)
-    stripe_payment_details = db.Column(JSON(none_as_null=True))
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
 

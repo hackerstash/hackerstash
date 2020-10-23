@@ -82,7 +82,7 @@
     }
   }
 
-  .prize-pool {
+  .meta {
     background: $darkblue-800;
     border: 2px solid $darkblue-700;
     border-radius: .5rem;
@@ -200,7 +200,7 @@
   @include tablet-down  {
     padding: 1.125rem 1rem;
 
-    .prize-pool {
+    .meta {
       display: none;
     }
 
@@ -233,7 +233,7 @@
         margin-top: 1rem;
       }
 
-      .prize-pool {
+      .meta {
         display: block;
       }
 
