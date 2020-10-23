@@ -10,10 +10,7 @@
     <div class="page posts">
         <header class="header">
             <h2 role="heading">Posts</h2>
-
-            {% if g.user and g.user.can_post %}
-                <a aria-label="Crete new post" class="button" href="{{ url_for('posts.new') }}">+ New</a>
-            {% endif %}
+             <a aria-label="Crete new post" class="button {{ call_to_action_state() }}" href="{{ url_for('posts.new') }}">+ New</a>
         </header>
 
         <div class="tabs">

@@ -61,18 +61,16 @@
 
         <hr class="divider mt-3 mb-3">
 
-        {% if g.user and g.user.can_post %}
-            <form class="form wrap-620 comment-form editor-form" action="{{ url_for('posts.create_comment', post_id=post.id) }}" method="post">
-                <fieldset>
-                    <label class="label" for="body">New comment</label>
-                    {{ editor_light() }}
-                    <div class="button-group mt-1-5">
-                        <button aria-label="Create new comment" class="button" type="submit">Comment</button>
-                        <button aria-label="Cancel creating new comment" class="button secondary cancel" type="button">Cancel</button>
-                    </div>
-                </fieldset>
-            </form>
-        {% endif %}
+        <form class="form wrap-620 comment-form editor-form" action="{{ url_for('posts.create_comment', post_id=post.id) }}" method="post">
+            <fieldset>
+                <label class="label" for="body">New comment</label>
+                {{ editor_light() }}
+                <div class="button-group mt-1-5">
+                    <button aria-label="Create new comment" class="button {{ call_to_action_state() }}" type="submit">Comment</button>
+                    <button aria-label="Cancel creating new comment" class="button secondary cancel" type="button">Cancel</button>
+                </div>
+            </fieldset>
+        </form>
 
         <label class="label comment-count mt-3 mb-3">{{ post.comments | length }} Comments</label>
         {{ nested_comments(post.comments, true) }}
@@ -80,9 +78,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {% if g.user %}
     <script type="text/javascript">
         window.onload = () => createEditor('.comment-form', { light: true });
     </script>
-    {% endif %}
 {% endblock %}

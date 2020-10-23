@@ -66,7 +66,8 @@
       background: none;
     }
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       background: none;
 
       &:hover {
@@ -122,7 +123,8 @@
     }
   }
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
     background: $darkblue-700;
     border-color: $darkblue-700;
     color: $mauve-900;

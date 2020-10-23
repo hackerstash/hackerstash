@@ -24,18 +24,16 @@
                             <span class="seperator">•</span>
                             <span>{{ comment.created_at | to_human_date }}</span>
 
-                            {% if g.user and g.user.can_post %}
-                                <span class="seperator reply split">•</span>
-                                <span class="reply add-reply">
-                                    <i class="icon ri-reply-line"></i>
-                                    <button aria-label="Reply to comment" class="button link small" data-id="{{ comment.id }}">Reply</button>
-                                </span>
+                            <span class="seperator reply split">•</span>
+                            <span class="reply add-reply">
+                                <i class="icon ri-reply-line"></i>
+                                <button aria-label="Reply to comment" class="button link small" data-id="{{ comment.id }}">Reply</button>
+                            </span>
 
-                                {% if g.user.id == comment.user.id %}
-                                    <span class="seperator reply">•</span>
-                                    <button aria-label="Edit comment" data-url="{{ url_for('posts.edit_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small edit-comment mr-0-5" data-id="{{ comment.id }}">Edit</button>
-                                    <a aria-label="Delete comment" href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
-                                {% endif %}
+                            {% if g.user and g.user.id == comment.user.id %}
+                                <span class="seperator reply">•</span>
+                                <button aria-label="Edit comment" data-url="{{ url_for('posts.edit_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small edit-comment mr-0-5" data-id="{{ comment.id }}">Edit</button>
+                                <a aria-label="Delete comment" href="{{ url_for('posts.delete_comment', post_id=comment.post.id, comment_id=comment.id) }}" class="button link small delete-comment">Delete</a>
                             {% endif %}
 
                             {% if comment.children %}

@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="button-group mt-1">
-                        <button class="button submit-poll {{ 'disabled logged-out' if not g.user }} {{ 'disabled not-published' if g.user and not g.user.can_post }}" type="submit" aria-label="Submit poll answer">Vote</button>
+                        <button class="button submit-poll {{ call_to_action_state() }}" type="submit" aria-label="Submit poll answer">Vote</button>
                         <button class="button link view-results d-none-large" type="button" role="button" aria-label="View results of poll">View results</button>
                     </div>
 

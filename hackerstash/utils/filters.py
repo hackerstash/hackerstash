@@ -2,7 +2,7 @@ import re
 import arrow
 import bleach
 import calendar
-from flask import request, url_for
+from flask import request, url_for, g
 from hackerstash.utils.helpers import html_to_plain_text
 
 
@@ -21,6 +21,7 @@ def init_app(app):
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
     app.jinja_env.filters['to_nice_url'] = to_nice_url
     app.jinja_env.filters['paginate_to_page'] = paginate_to_page
+    app.jinja_env.globals['call_to_action_state'] = call_to_action_state
 
 
 def to_safe_html(value: str) -> str:
@@ -143,3 +144,11 @@ def paginate_to_page(page: int = 0):
     # in the template!
     combined_args = {**request.args, **{'page': page}}
     return url_for(request.endpoint, **combined_args)
+
+
+def call_to_action_state():
+    if 'user' not in g:
+        return 'disabled logged-out'
+    if g.user and not g.user.can_post:
+        return 'disabled not-published'
+    return ''

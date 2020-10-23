@@ -12,6 +12,7 @@ styles = [
 scripts = [
     'js/admin.js',
     'js/avatar.js',
+    'js/buttons.js',
     'js/comments.js',
     'js/confetti.js',
     'js/editor.js',
