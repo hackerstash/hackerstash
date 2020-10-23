@@ -36,8 +36,6 @@ class Project(db.Model):
     fundings = db.Column(ARRAY(db.String))
     platforms_and_devices = db.Column(ARRAY(db.String))
 
-    stash = db.Column(db.Integer)
-
     members = db.relationship('Member', backref='project', cascade='all,delete')
     invites = db.relationship('Invite', backref='project', cascade='all,delete')
     posts = db.relationship('Post', backref='project', cascade='all,delete')

@@ -10,18 +10,14 @@
 {% block body %}
     <div class="page edit-project">
         <header class="header">
-            <div>
-                <h2 role="heading">Edit Project</h2>
+            <h2 role="heading">Edit Project</h2>
+
+            {% if g.user.member.owner %}
                 {% if project.published %}
-                    <span class="tag publish-status success">Published</span>
+                    <a class="button secondary" href="{{ url_for('projects.unpublish', project_id=project.id) }}">Unpublish Project</a>
                 {% else %}
-                    <span class="tag publish-status tertiary">Unpublished</span>
+                    <a class="button success" href="{{ url_for('projects.publish', project_id=project.id) }}">Publish Project</a>
                 {% endif %}
-
-            </div>
-
-            {% if not project.published and g.user.member.owner %}
-                <a class="button success" href="#TODO">Publish Project</a>
             {% endif %}
         </header>
 

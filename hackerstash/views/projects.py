@@ -119,6 +119,26 @@ def update(project_id: str) -> str:
     return redirect(url_for('projects.show', project_id=project.id, saved=1))
 
 
+@projects.route('/projects/<project_id>/publish')
+@login_required
+@member_required
+def publish(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    project.published = True
+    db.session.commit()
+    return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/unpublish')
+@login_required
+@member_required
+def unpublish(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    project.published = False
+    db.session.commit()
+    return redirect(url_for('projects.show', project_id=project.id))
+
+
 @projects.route('/projects/<project_id>/delete')
 @login_required
 @member_required
