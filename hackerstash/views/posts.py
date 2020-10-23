@@ -73,7 +73,7 @@ def new() -> str:
 def create() -> str:
     log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.member.project.id, 'post_data': request.form})
 
-    if 'title' not in request.form or 'body' not in request.form:
+    if 'title' not in request.form or 'body' not in request.form or request.form['body'] == '<p><br></p>':
         log.warn('Not all fields were submitted during post create', {'request_data': request.form})
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
@@ -180,25 +180,25 @@ def create_comment(post_id: str) -> str:
 
     log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
 
-    if not request.form['body']:
-        return redirect(url_for('posts.show', post_id=post.url_slug))
+    if 'body' in request.form and request.form['body'] != '<p><br></p>':
+        body, mentioned_users = proccess_mentions(request.form['body'])
+        parent_comment_id = request.form.get('parent_comment_id')
+        # Some weirdness going on with bad values trying to get added
+        parent_comment_id = parent_comment_id if parent_comment_id and parent_comment_id.isnumeric() else None
+        comment = Comment(body=body, parent_comment_id=parent_comment_id, user=g.user, post_id=post.id)
 
-    body, mentioned_users = proccess_mentions(request.form['body'])
-    parent_comment_id = request.form.get('parent_comment_id')
-    # Some weirdness going on with bad values trying to get added
-    parent_comment_id = parent_comment_id if parent_comment_id and parent_comment_id.isnumeric() else None
-    comment = Comment(body=body, parent_comment_id=parent_comment_id, user=g.user, post_id=post.id)
+        post.comments.append(comment)
+        db.session.commit()
 
-    post.comments.append(comment)
-    db.session.commit()
-
-    publish_comment_mentions(mentioned_users, comment)
-    challenge_factory('comment_created', {'comment': comment})
-    notification_factory('comment_created', {'comment': comment}).publish()
+        publish_comment_mentions(mentioned_users, comment)
+        challenge_factory('comment_created', {'comment': comment})
+        notification_factory('comment_created', {'comment': comment}).publish()
+    else:
+        log.warn('Comment was empty', {'user_id': g.user.id, 'post_id': post.id})
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/comments.html', 'nested_comments')
-        return partial(comment.post.comments, True)
+        return partial(post.comments, True)
     else:
         return redirect(url_for('posts.show', post_id=post.url_slug))
 
