@@ -3,150 +3,161 @@
 
 {% set active_tab = request.args.tab or 'users' %}
 {% from "partials/avatar.html" import avatar %}
+{% from "partials/pagination.html" import pagination %}
 {% from "partials/previews.html" import user_preview %}
 
 {% block body %}
     <div class="tab {{ 'active' if active_tab == 'users' }}">
-        <div class="table">
-            <div class="table-header">
-                <p class="col-1">Avatar</p>
-                <p class="col-2">Name</p>
-                <p class="col-4">Email</p>
-                <p class="col-3">Date Joined</p>
-                <p class="col-2">Project Status</p>
+        {% if active_tab == 'users' %}
+            <div class="table">
+                <div class="table-header">
+                    <p class="col-1">Avatar</p>
+                    <p class="col-2">Name</p>
+                    <p class="col-4">Email</p>
+                    <p class="col-3">Date Joined</p>
+                    <p class="col-2">Project Status</p>
+                </div>
+                 <ul class="table-body users-table">
+                     {% for user in users.items %}
+                        <li>
+                            <p class="col-1">{{ avatar(user, size='sm') }}</p>
+                            <p class="col-2"><a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a></p>
+                            <p class="col-4">{{ user.email }}</p>
+                            <p class="col-3">{{ user.created_at | to_nice_date }}</p>
+                            <p class="col-2">
+                                {% if user.member %}
+                                    {% if user.member.project.published %}
+                                        <span class="tag ml-0 publish-status success">Published</span>
+                                    {% else %}
+                                        <span class="tag ml-0 publish-status tertiary">Unpublished</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="tag ml-0 publish-status">None</span>
+                                {% endif %}
+                            </p>
+                        </li>
+                     {% endfor %}
+                 </ul>
+                {{ pagination(users) }}
             </div>
-             <ul class="table-body users-table">
-                 {% for user in users %}
-                    <li>
-                        <p class="col-1">{{ avatar(user, size='sm') }}</p>
-                        <p class="col-2"><a href="{{ url_for('users.show', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a></p>
-                        <p class="col-4">{{ user.email }}</p>
-                        <p class="col-3">{{ user.created_at | to_nice_date }}</p>
-                        <p class="col-2">
-                            {% if user.member %}
-                                {% if user.member.project.published %}
+        {% endif %}
+    </div>
+    <div class="tab {{ 'active' if active_tab == 'projects' }}">
+        {% if active_tab == 'projects' %}
+             <div class="table">
+                <div class="table-header">
+                    <p class="col-1">Avatar</p>
+                    <p class="col-2">Name</p>
+                    <p class="col-2">URL</p>
+                    <p class="col-2">Status</p>
+                    <p class="col-3">Date Created</p>
+                    <p class="col-1">Stash</p>
+                    <p class="col-1">Members</p>
+                </div>
+                <ul class="table-body projects-table">
+                    {% for project in projects.items %}
+                        <li>
+                            <p class="col-1">{{ avatar(project, size='sm') }}</p>
+                            <p class="col-2">
+                                <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">
+                                    {{ project.name }}
+                                </a>
+                            </p>
+                            <p class="col-2">
+                                {% if project.url %}
+                                    <a target="_blank" href="{{ project.url }}">
+                                        {{ project.url | to_nice_url }}
+                                    </a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </p>
+                            <p class="col-2">
+                                {% if project.published %}
                                     <span class="tag ml-0 publish-status success">Published</span>
                                 {% else %}
                                     <span class="tag ml-0 publish-status tertiary">Unpublished</span>
                                 {% endif %}
-                            {% else %}
-                                <span class="tag ml-0 publish-status">None</span>
-                            {% endif %}
-                        </p>
-                    </li>
-                 {% endfor %}
-             </ul>
-        </div>
-    </div>
-    <div class="tab {{ 'active' if active_tab == 'projects' }}">
-         <div class="table">
-            <div class="table-header">
-                <p class="col-1">Avatar</p>
-                <p class="col-2">Name</p>
-                <p class="col-2">URL</p>
-                <p class="col-2">Status</p>
-                <p class="col-3">Date Created</p>
-                <p class="col-1">Stash</p>
-                <p class="col-1">Members</p>
-            </div>
-            <ul class="table-body projects-table">
-                {% for project in projects %}
-                    <li>
-                        <p class="col-1">{{ avatar(project, size='sm') }}</p>
-                        <p class="col-2">
-                            <a target="_blank" href="{{ url_for('projects.show', project_id=project.id) }}">
-                                {{ project.name }}
-                            </a>
-                        </p>
-                        <p class="col-2">
-                            {% if project.url %}
-                                <a target="_blank" href="{{ project.url }}">
-                                    {{ project.url | to_nice_url }}
-                                </a>
-                            {% else %}
-                                -
-                            {% endif %}
-                        </p>
-                        <p class="col-2">
-                            {% if project.published %}
-                                <span class="tag ml-0 publish-status success">Published</span>
-                            {% else %}
-                                <span class="tag ml-0 publish-status tertiary">Unpublished</span>
-                            {% endif %}
-                        </p>
-                        <p class="col-3">
-                            {{ project.created_at | to_nice_date }}
-                        </p>
-                        <p class="col-1">${{ project.stash or 0 }}</p>
-                        <p class="col-1">
-                            <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
-                                <span>View</span> ({{ project.members | length }})
-                            </button>
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
-         </div>
+                            </p>
+                            <p class="col-3">
+                                {{ project.created_at | to_nice_date }}
+                            </p>
+                            <p class="col-1">${{ project.stash or 0 }}</p>
+                            <p class="col-1">
+                                <button class="button link modal-open" data-modal="project-members-{{ project.id }}">
+                                    <span>View</span> ({{ project.members | length }})
+                                </button>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {{ pagination(projects) }}
+             </div>
+        {% endif %}
     </div>
     <div class="tab {{ 'active' if active_tab == 'tournaments' }}">
-        <div class="button-group mt-2 mb-3">
-            <a class="button has-icon" href="{{ url_for('admin.tournament') }}">
-                <i class="ri-arrow-right-line"></i>
-                Current tournament
-            </a>
-        </div>
-
-        <h3 class="mb-2">Past Tournaments</h3>
-
-        <div class="table tournaments">
-            <div class="table-header">
-                <p class="col-3">Tournament ID</p>
-                <p class="col-4">Dates</p>
-                <p class="col-3">Winner</p>
-                <p class="col-2"></p>
+        {% if active_tab == 'tournaments' %}
+            <div class="button-group mt-2 mb-3">
+                <a class="button has-icon" href="{{ url_for('admin.tournament') }}">
+                    <i class="ri-arrow-right-line"></i>
+                    Current tournament
+                </a>
             </div>
-            <ul class="table-body">
-                {% for contest in contests if not contest.is_current %}
-                    <li>
-                        <p class="col-3 tournament-id">
-                            {{ contest.year }}.{{ contest.week }}
-                        </p>
-                        <p class="col-4 small">
-                            {{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}
-                        </p>
-                        <p class="col-3 winner">
-                            {% if contest.winner %}
-                                {{ avatar(contest.winner.project, 'x-sm') }}
-                                {{ contest.winner.project.name }}
-                            {% endif %}
-                        </p>
-                        <p class="col-2">
-                            <a href="{{ url_for('admin.tournament', id=contest.id) }}">View</a>
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+
+            <h3 class="mb-2">Past Tournaments</h3>
+
+            <div class="table tournaments">
+                <div class="table-header">
+                    <p class="col-3">Tournament ID</p>
+                    <p class="col-4">Dates</p>
+                    <p class="col-3">Winner</p>
+                    <p class="col-2"></p>
+                </div>
+                <ul class="table-body">
+                    {% for contest in contests if not contest.is_current %}
+                        <li>
+                            <p class="col-3 tournament-id">
+                                {{ contest.year }}.{{ contest.week }}
+                            </p>
+                            <p class="col-4 small">
+                                {{ contest.start_date | to_contest_date }} -> {{ contest.end_date | to_contest_date }}
+                            </p>
+                            <p class="col-3 winner">
+                                {% if contest.winner %}
+                                    {{ avatar(contest.winner.project, 'x-sm') }}
+                                    {{ contest.winner.project.name }}
+                                {% endif %}
+                            </p>
+                            <p class="col-2">
+                                <a href="{{ url_for('admin.tournament', id=contest.id) }}">View</a>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 
-    {% for project in projects %}
-        <div id="project-members-{{ project.id }}" class="modal members-modal">
-            <div class="modal-body sm" role="dialog" aria-labelledby="project-members-{{ project.id }}-modal-header">
-                <header>
-                    <h3 id="project-members-{{ project.id }}-modal-heaeder">{{ project.name }}'s Members</h3>
-                    <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close project member modal"></i>
-                </header>
-                <main>
-                    <ul class="members-list">
-                        {% for member in project.members %}
-                            <li>
-                                {{ avatar(member.user, 'sm') }}
-                                {{ user_preview(member.user) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </main>
+    {% if active_tab == 'projects' %}
+        {% for project in projects.items %}
+            <div id="project-members-{{ project.id }}" class="modal members-modal">
+                <div class="modal-body sm" role="dialog" aria-labelledby="project-members-{{ project.id }}-modal-header">
+                    <header>
+                        <h3 id="project-members-{{ project.id }}-modal-heaeder">{{ project.name }}'s Members</h3>
+                        <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close project member modal"></i>
+                    </header>
+                    <main>
+                        <ul class="members-list">
+                            {% for member in project.members %}
+                                <li>
+                                    {{ avatar(member.user, 'sm') }}
+                                    {{ user_preview(member.user) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </main>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

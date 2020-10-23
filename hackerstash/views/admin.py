@@ -13,17 +13,19 @@ admin = Blueprint('admin', __name__)
 @admin_login_required
 def index() -> str:
     tab = request.args.get('tab', 'users')
+    page = request.args.get('page', 1, type=int)
     data = {
-        'users': [],
-        'admins': [],
+        'users': {},
+        'projects': {},
+        'contests': [],
         'user_count': User.query.count(),
         'project_count': Project.query.count()
     }
 
     if tab == 'users':
-        data['users'] = User.query.order_by(User.created_at.desc()).all()
+        data['users'] = User.query.order_by(User.created_at.desc()).paginate(page, 5, False)
     if tab == 'projects':
-        data['projects'] = Project.query.order_by(Project.created_at.desc()).all()
+        data['projects'] = Project.query.order_by(Project.created_at.desc()).paginate(page, 25, False)
     if tab == 'tournaments':
         data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 
