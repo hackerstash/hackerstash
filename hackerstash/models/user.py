@@ -96,6 +96,11 @@ class User(db.Model):
         return self.member and self.member.project.published
 
     @property
+    def project(self):
+        if self.member:
+            return self.member.project
+
+    @property
     def preview_json(self) -> str:
         data = {
             'name': f'{self.first_name} {self.last_name}',

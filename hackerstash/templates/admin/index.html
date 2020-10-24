@@ -25,8 +25,8 @@
                             <p class="col-4">{{ user.email }}</p>
                             <p class="col-3">{{ user.created_at | to_nice_date }}</p>
                             <p class="col-2">
-                                {% if user.member %}
-                                    {% if user.member.project.published %}
+                                {% if user.project %}
+                                    {% if user.project.published %}
                                         <span class="tag ml-0 publish-status success">Published</span>
                                     {% else %}
                                         <span class="tag ml-0 publish-status tertiary">Unpublished</span>

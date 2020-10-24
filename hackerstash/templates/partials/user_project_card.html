@@ -5,20 +5,20 @@
     {% set is_self = user.id == (g.user and g.user.id) %}
 
     {% if is_self %}
-        {% if user.member and not user.member.project.published %}
+        {% if user.project and not user.project.published %}
             <section class="project-card">
                 <div class="row">
                      <aside>
                          <i>⏳</i>
                      </aside>
                     <div>
-                        <h3>{{ user.member.project.name }} <p>UNPUBLISHED</p></h3>
+                        <h3>{{ user.project.name }} <p>UNPUBLISHED</p></h3>
                         <p>Publish your project to start participating in the HackerStash tournament.</p>
                         <div class="button-group">
-                            <a aria-label="Open project publish modal" class="button success" href="{{ url_for('projects.publish', project_id=g.user.member.project.id) }}">
+                            <a aria-label="Open project publish modal" class="button success" href="{{ url_for('projects.publish', project_id=g.user.project.id) }}">
                                 Publish Project
                             </a>
-                            <a aria-label="View the edit project page" class="button secondary arrow" href="{{ url_for('projects.show', project_id=user.member.project.id) }}">
+                            <a aria-label="View the edit project page" class="button secondary arrow" href="{{ url_for('projects.show', project_id=user.project.id) }}">
                                 Edit project
                                 <i class="ri-arrow-right-line"></i>
                             </a>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </section>
-        {% elif not user.member %}
+        {% elif not user.project %}
             <section class="project-card">
                 <div class="row">
                     <aside>
@@ -45,20 +45,20 @@
         {% endif %}
     {% endif %}
 
-    {% if user.member and user.member.project.published %}
+    {% if user.project and user.project.published %}
         <section class="project-card">
             <div class="row">
                 <aside>
-                    {{ avatar(user.member.project, 'md') }}
+                    {{ avatar(user.project, 'md') }}
                 </aside>
                 <div>
                     <h3>
-                        {{ project_preview(user.member.project) }}
+                        {{ project_preview(user.project) }}
                     </h3>
-                    <p class="rich-text">{{ user.member.project.description | to_safe_html | safe }}</p>
+                    <p class="rich-text">{{ user.project.description | to_safe_html | safe }}</p>
                     <div class="details">
-                        <p><span>{{ user.member.project.members | length }}</span> Team members</p>
-                        <p><i class="icon ri-focus-2-line"></i>Points: {{ user.member.project.vote_score }}</p>
+                        <p><span>{{ user.project.members | length }}</span> Team members</p>
+                        <p><i class="icon ri-focus-2-line"></i>Points: {{ user.project.vote_score }}</p>
                     </div>
                 </div>
             </div>

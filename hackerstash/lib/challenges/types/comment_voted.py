@@ -6,7 +6,7 @@ log = Logging(module='Challenges::CommentVoted')
 
 
 def is_not_members_comment(user, comment):
-    return user.member.project.id != comment.user.member.project.id
+    return user.project.id != comment.user.project.id
 
 
 class CommentVoted(Base):
@@ -15,9 +15,9 @@ class CommentVoted(Base):
 
         user = g.user
         comment = payload['comment']
-        comment_project = comment.user.member.project
+        comment_project = comment.user.project
 
         if is_not_members_comment(user, comment):
             if not self.has_completed(comment_project, 'have_five_comments_upvoted'):
                 log.info('Incrementing challenge', {'type': 'have_five_comments_upvoted', 'project_id': comment_project.id})
-                comment.user.member.project.create_or_inc_challenge('have_five_comments_upvoted')
+                comment.user.project.create_or_inc_challenge('have_five_comments_upvoted')

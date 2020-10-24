@@ -26,9 +26,6 @@
     {%- endassets -%}
 </head>
 <body class="{{ 'has-user' if g.user else 'no-user' }}">
-    {% if g.no_current_contest %}
-        <p class="no-current-contest">There is no current contest!</p>
-    {% endif %}
     <div class="hackerstash">
         {% include "partials/sidebar.html" %}
         <main>

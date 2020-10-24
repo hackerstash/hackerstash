@@ -63,8 +63,8 @@ def create() -> str:
 
     log.info('Creating project', {'user_id': g.user.id})
 
-    if g.user.member:
-        return redirect(url_for('projects.show', project_id=g.user.member.project.id))
+    if g.user.project:
+        return redirect(url_for('projects.show', project_id=g.user.project.id))
 
     project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
     member = Member(owner=True, user=g.user, project=project)
@@ -217,7 +217,7 @@ def invite_member(project_id: str) -> str:
     link = Invites.generate(email)
     user = User.query.filter_by(email=email).first()
     project = Project.query.get(project_id)
-    is_already_member = user and user.member
+    is_already_member = user and user.project
 
     log.info('Inviting team member', {'email': email, 'is_already_member': is_already_member})
 
@@ -261,7 +261,7 @@ def vote_project(project_id: str) -> str:
 
     log.info('Voting project', {'user_id': g.user.id, 'project_id': project.id, 'direction': direction})
 
-    if project.id != g.user.member.project.id:
+    if project.id != g.user.project.id:
         project.vote(g.user, direction)
         challenge_factory('project_voted', {})
 

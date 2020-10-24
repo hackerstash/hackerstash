@@ -9,7 +9,7 @@ class PostCreated(Base):
     def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 
-        project = g.user.member.project
+        project = g.user.project
 
         if not self.has_completed(project, 'published_a_post'):
             log.info('Incrementing challenge', {'type': 'published_a_post', 'project_id': project.id})

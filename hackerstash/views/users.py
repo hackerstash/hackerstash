@@ -95,9 +95,8 @@ def destroy() -> str:
     log.info('Deleteing user', {'user_id': g.user.id})
 
     # Can't think of a way to cascade this at the db level
-    if g.user.member and len(g.user.member.project.members) == 1:
-        handle_project_deleted(g.user.member)
-        db.session.delete(g.user.member.project)
+    if g.user.project and len(g.user.project.members) == 1:
+        db.session.delete(g.user.project)
 
     email_factory('close_account', g.user.email, {}).send()
 

@@ -71,7 +71,7 @@ def new() -> str:
 @login_required
 @published_project_required
 def create() -> str:
-    log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.member.project.id, 'post_data': request.form})
+    log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.project.id, 'post_data': request.form})
 
     if 'title' not in request.form or 'body' not in request.form or request.form['body'] == '<p><br></p>':
         log.warn('Not all fields were submitted during post create', {'request_data': request.form})
@@ -84,7 +84,7 @@ def create() -> str:
     body, mentioned_users = proccess_mentions(request.form['body'])
     tag = Tag.query.get(tag_id) if tag_id else None
 
-    post = Post(title=title, body=body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.member.project)
+    post = Post(title=title, body=body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.project)
     db.session.add(post)
 
     if request.form.get('post_type') == 'poll':
@@ -257,7 +257,7 @@ def post_vote(post_id: str) -> str:
 
     log.info('Voting post', {'user_id': g.user.id, 'post_id': post.id, 'direction': direction})
 
-    if post.project.id != g.user.member.project.id:
+    if post.project.id != g.user.project.id:
         post.vote(g.user, direction)
         challenge_factory('post_voted', {'post': post})
         notification_factory('post_voted', {'post': post, 'direction': direction, 'voter': g.user}).publish()
@@ -279,7 +279,7 @@ def comment_vote(post_id: str, comment_id: str) -> str:
 
     log.info('Voting comment', {'user_id': g.user.id, 'comment_id': comment.id, 'direction': direction})
 
-    if comment.user.member.project.id != g.user.member.project.id:
+    if comment.user.project.id != g.user.project.id:
         comment.vote(g.user, direction)
         challenge_factory('comment_voted', {'comment': comment})
         notification_factory('comment_voted', {'comment': comment, 'direction': direction, 'voter': g.user}).publish()

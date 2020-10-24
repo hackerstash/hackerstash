@@ -11,6 +11,6 @@ class ProjectVoted(Base):
 
         user = g.user
 
-        if not self.has_completed(user.member.project, 'award_ponts_to_three_projects'):
-            log.info('Incrementing challenge', {'type': 'award_ponts_to_three_projects', 'project_id': user.member.project.id})
-            user.member.project.create_or_inc_challenge('award_ponts_to_three_projects')
+        if not self.has_completed(user.project, 'award_ponts_to_three_projects'):
+            log.info('Incrementing challenge', {'type': 'award_ponts_to_three_projects', 'project_id': user.project.id})
+            user.project.create_or_inc_challenge('award_ponts_to_three_projects')

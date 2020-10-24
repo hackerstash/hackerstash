@@ -71,7 +71,7 @@ class Project(db.Model):
         return find_in_list(
             self.votes,
             # Projects are different as you can revote on them every month
-            lambda x: x.user.member.project.id == user.member.project.id and x.is_current_contest
+            lambda x: x.user.project.id == user.project.id and x.is_current_contest
         )
 
     def vote(self, user, direction):
@@ -88,9 +88,9 @@ class Project(db.Model):
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
-        if not user.member or not user.member.project.published:
+        if not user.member or not user.project.published:
             return 'disabled not-published'
-        if self.id == user.member.project.id:
+        if self.id == user.project.id:
             return 'disabled own-project'
 
         existing_vote = self.get_existing_vote_for_user(user)
