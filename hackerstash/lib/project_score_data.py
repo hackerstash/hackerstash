@@ -1,11 +1,15 @@
 import arrow
+import datetime
+from calendar import monthrange
 
 
-def build_weekly_vote_data(project):
+def build_monthly_vote_data(project):
     out = []
-    start_of_week = arrow.now().floor('week')
-    for i in range(7):
-        this_day = start_of_week.shift(days=+i)
+    now = datetime.datetime.now()
+    start_of_month = arrow.now().floor('month')
+    day_range = monthrange(now.year, now.month)
+    for i in range(day_range[1]):
+        this_day = start_of_month.shift(days=+i)
         out.append(get_vote_score_by_day(project, this_day) + get_challenge_score_by_day(project, this_day))
     return out
 

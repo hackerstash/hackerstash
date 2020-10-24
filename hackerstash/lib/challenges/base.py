@@ -1,6 +1,5 @@
 import datetime
 from hackerstash.models.challenge import Challenge
-from hackerstash.utils.contest import get_week_and_year
 
 
 class Base:
@@ -8,9 +7,9 @@ class Base:
         self.payload = payload
 
     @property
-    def week(self) -> int:
-        week, year = get_week_and_year()
-        return week
+    def month(self) -> int:
+        now = datetime.datetime.now()
+        return now.month
 
     @property
     def year(self) -> int:

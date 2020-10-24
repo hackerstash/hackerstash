@@ -1,10 +1,8 @@
 import datetime
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.past_result import PastResult
 from hackerstash.models.project import Project
-from hackerstash.utils.contest import get_week_and_year
 
 log = Logging(module='Models::Contest')
 
@@ -15,7 +13,7 @@ class Contest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     year = db.Column(db.Integer)
-    week = db.Column(db.Integer)
+    month = db.Column(db.Integer)
     tournament = db.Column(db.Integer, unique=True)
     past_results = db.relationship('PastResult', backref='contest', cascade='all,delete')
 
@@ -23,12 +21,12 @@ class Contest(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __repr__(self) -> str:
-        return f'<Contest {self.year}_{self.week}>'
+        return f'<Contest {self.year}_{self.month}>'
 
     @property
     def is_current(self):
-        week, year = get_week_and_year()
-        return self.week == week
+        now = datetime.datetime.now()
+        return self.month == now.month and self.year == now.year
 
     @property
     def winner(self):
@@ -37,12 +35,12 @@ class Contest(db.Model):
 
     @property
     def start_date(self):
-        date = f'{self.year}-W{self.week - 1}'
-        return datetime.datetime.strptime(date + '-1', '%Y-W%W-%w')
+        return datetime.datetime(self.year, self.month, 1)
 
     @property
     def end_date(self):
-        return self.start_date + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59)
+        next_month = datetime.datetime(self.year, self.month + 1, 1)
+        return next_month - datetime.timedelta(days=1, hours=23, minutes=59, seconds=59)
 
     @classmethod
     def previous(cls):
@@ -50,29 +48,26 @@ class Contest(db.Model):
         return previous[0] if len(previous) else None
 
     @classmethod
-    def find_or_create(cls, week, year):
-        log.info('Trying to find contest', {'week': week, 'year': year})
-        exists = cls.query.filter_by(year=year, week=week).first()
+    def find_or_create(cls, month, year):
+        log.info('Trying to find contest', {'month': month, 'year': year})
+        exists = cls.query.filter_by(year=year, month=month).first()
         if exists:
             log.info('Contest exists', {'contest_id': exists.id})
             return exists
         else:
             previous = cls.previous()
             log.info('Contest does not exist')
-            new = cls(week=week, year=year, tournament=previous.tournament if previous else 1)
+            new = cls(month=month, year=year, tournament=previous.tournament if previous else 1)
             db.session.add(new)
             db.session.commit()
             return new
 
     @classmethod
-    def end(cls, week=None, year=None) -> None:
+    def end(cls, month=None, year=None) -> None:
         now = datetime.datetime.now()
 
-        week = week or datetime.date(now.year, now.month, now.day).isocalendar()[1]
-        year = year or now.year
-
         # Get the current contest
-        contest = cls.find_or_create(week, year)
+        contest = cls.find_or_create(now.month, now.year)
 
         # Get the leaderboard as it stands
         projects = Project.query.filter_by(published=True).all()
@@ -83,8 +78,8 @@ class Contest(db.Model):
             past_result = PastResult(rank=index, score=project.vote_score, contest=contest, project=project)
             db.session.add(past_result)
 
-        # Create next weeks tournament
-        args = {'week': week + 1, 'year': year, 'tournament': contest.tournament + 1}
+        # Create next months tournament
+        args = {'month': month + 1, 'year': year, 'tournament': contest.tournament + 1}
         log.info('Creating a new contest', {'contest_args': args})
         new_contest = cls(**args)
         db.session.add(new_contest)
@@ -92,6 +87,6 @@ class Contest(db.Model):
 
     @classmethod
     def get_current(cls):
-        week, year = get_week_and_year()
-        return cls.query.filter_by(week=week, year=year).first()
+        now = datetime.datetime.now()
+        return cls.query.filter_by(month=now.month, year=now.year).first()
 

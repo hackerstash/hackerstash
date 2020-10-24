@@ -11,7 +11,7 @@ if (projectSorting) {
 }
 
 if (projectChart) {
-    var myBarChart = new Chart(projectChart, {
+    const myBarChart = new Chart(projectChart, {
         type: 'bar',
         options: {
             tooltips: {
@@ -26,7 +26,7 @@ if (projectChart) {
                         ticks: {
                             fontColor: '#DEE7FF',
                             beginAtZero: true,
-                            callback: val => val % 1 === 0 ? val : undefined
+                            callback: val => val % 1 === 0 ? val : undefined,
                         },
                         gridLines: {
                             color: '#101F3E',
@@ -37,7 +37,8 @@ if (projectChart) {
                 xAxes: [
                     {
                         ticks: {
-                            fontColor: '#DEE7FF'
+                            fontColor: '#DEE7FF',
+                            autoSkip: false
                         },
                         gridLines: {
                             display: false
@@ -47,7 +48,7 @@ if (projectChart) {
             }
         },
         data: {
-            labels: ['1', '2', '3', '4', '5', '6', '7'],
+            labels: daysLabelsForThisMonth(),
             datasets: [
                 {
                     label: '# of points',
@@ -58,6 +59,11 @@ if (projectChart) {
             ]
         }
     });
+
+    function daysLabelsForThisMonth() {
+        const count = new Date(2020, 10, 0).getDate();
+        return [...Array(count).keys()].map(x => '' + (x + 1));
+    }
 }
 
 if (description) {

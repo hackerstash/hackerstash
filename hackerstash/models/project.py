@@ -4,7 +4,7 @@ from sqlalchemy.types import ARRAY
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
-from hackerstash.lib.project_score_data import build_weekly_vote_data
+from hackerstash.lib.project_score_data import build_monthly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
@@ -70,7 +70,7 @@ class Project(db.Model):
         # downvote bombing other users
         return find_in_list(
             self.votes,
-            # Projects are different as you can revote on them every week
+            # Projects are different as you can revote on them every month
             lambda x: x.user.member.project.id == user.member.project.id and x.is_current_contest
         )
 
@@ -122,7 +122,7 @@ class Project(db.Model):
     @property
     def vote_score(self) -> int:
         # The project vote score behaves a bit differently to posts
-        # and comments as it only totals the scores for this week
+        # and comments as it only totals the scores for this month
         return sum_of_project_votes(self)
 
     @property
@@ -184,7 +184,7 @@ class Project(db.Model):
 
     @property
     def project_score_data(self):
-        return json.dumps(build_weekly_vote_data(self))
+        return json.dumps(build_monthly_vote_data(self))
 
     def create_or_inc_challenge(self, key: str):
         challenge = Challenge.find_or_create(self, key)

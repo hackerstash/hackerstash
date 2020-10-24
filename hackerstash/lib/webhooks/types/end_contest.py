@@ -9,9 +9,9 @@ class EndContest(Base):
     def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 
-        week = payload.get('week')
+        month = payload.get('month')
         year = payload.get('year')
 
-        log.info('Ending the contest', {'week': week, 'year': year})
+        log.info('Ending the contest', {'month': month, 'year': year})
 
-        Contest.end(int(week) if week else None, int(year) if year else None)
+        Contest.end(int(month) if month else None, int(year) if year else None)

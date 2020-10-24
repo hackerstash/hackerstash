@@ -1,5 +1,5 @@
+import datetime
 from hackerstash.db import db
-from hackerstash.utils.contest import get_week_and_year
 
 
 class Vote(db.Model):
@@ -28,8 +28,8 @@ class Vote(db.Model):
     }
 
     @property
-    def week(self):
-        return self.created_at.isocalendar()[1]
+    def month(self):
+        return self.created_at.month
 
     @property
     def year(self):
@@ -37,5 +37,5 @@ class Vote(db.Model):
 
     @property
     def is_current_contest(self):
-        week, year = get_week_and_year()
-        return week == self.week and year == self.year
+        now = datetime.datetime.now()
+        return now.month == self.month and now.year == self.year
