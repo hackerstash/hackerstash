@@ -1,6 +1,6 @@
 import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
-from sqlalchemy import func
+from sqlalchemy.orm import joinedload
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
@@ -38,7 +38,7 @@ def index() -> str:
     if sort == 'team_size_desc':
         pass  # TODO
 
-    paginated_projects = Project.query.order_by(order_by).paginate(page, 25, False)
+    paginated_projects = Project.query.options(joinedload(Project.members)).order_by(order_by).paginate(page, 25, False)
     return render_template('projects/index.html', paginated_projects=paginated_projects)
 
 

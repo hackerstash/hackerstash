@@ -2,6 +2,7 @@ import re
 from random import randint
 from flask import g, request
 from sqlalchemy import func, select
+from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.models.vote import Vote
@@ -62,21 +63,21 @@ class Post(db.Model):
         # by users that the current user follows
         page = request.args.get('page', 1, type=int)
         following_ids = [x.id for x in g.user.following]
-        return cls.query.filter(Post.user_id.in_(following_ids)).paginate(page, 25, False)
+        return cls.query.options(joinedload(Post.user)).filter(Post.user_id.in_(following_ids)).paginate(page, 25, False)
 
     @classmethod
     def newest(cls):
         # Return a paginated set of posts that are orederd by
         # their created date
         page = request.args.get('page', 1, type=int)
-        return cls.query.order_by(Post.created_at.desc()).paginate(page, 25, False)
+        return cls.query.options(joinedload(Post.user)).order_by(Post.created_at.desc()).paginate(page, 25, False)
 
     @classmethod
     def top(cls):
         # Return a paginated set of posts that are orederd by
         # the posts vote score
         page = request.args.get('page', 1, type=int)
-        return cls.query.order_by(Post.vote_score == 0, Post.vote_score.desc()).paginate(page, 25, False)
+        return cls.query.options(joinedload(Post.user)).order_by(Post.vote_score == 0, Post.vote_score.desc()).paginate(page, 25, False)
 
     def has_author(self, user):
         return self.user.id == user.id if user else False
