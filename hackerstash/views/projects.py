@@ -1,13 +1,12 @@
 import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
+from sqlalchemy import func
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.pagination import paginate
-from hackerstash.lib.project_filtering import project_filtering
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
@@ -22,16 +21,25 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index() -> str:
-    filtered_projects = project_filtering(request.args)
-    filters_count = len([x for x in list(request.args.keys()) if x != 'sorting'])
-    results, pagination = paginate(filtered_projects, limit=24)  # The grid is 3 across, so 25 looks weird
+    order_by = None
+    sort = request.args.get('sorting', 'alphabetical_asc')
+    page = request.args.get('page', 1, type=int)
 
-    return render_template(
-        'projects/index.html',
-        filtered_projects=results,
-        filters_count=filters_count,
-        pagination=pagination
-    )
+    if sort == 'alphabetical_asc':
+        order_by = Project.name.asc()
+    if sort == 'alphabetical_desc':
+        order_by = Project.name.desc()
+    if sort == 'created_at_desc':
+        order_by = Project.created_at.desc()
+    if sort == 'updated_at_asc':
+        order_by = Project.updated_at.asc()
+    if sort == 'team_size_asc':
+        pass  # TODO
+    if sort == 'team_size_desc':
+        pass  # TODO
+
+    paginated_projects = Project.query.order_by(order_by).paginate(page, 25, False)
+    return render_template('projects/index.html', paginated_projects=paginated_projects)
 
 
 @projects.route('/projects/<project_id>')
