@@ -42,10 +42,16 @@ def proccess_mentions(html):
 
 
 def publish_post_mentions(users, post):
+    mentioned = []
     for user in users:
-        notification_factory('mention_created', {'user': user, 'post': post}).publish()
+        if user.id not in mentioned:
+            mentioned.append(user.id)
+            notification_factory('mention_created', {'user': user, 'post': post}).publish()
 
 
 def publish_comment_mentions(users, comment):
+    mentioned = []
     for user in users:
-        notification_factory('mention_created', {'user': user, 'comment': comment}).publish()
+        if user.id not in mentioned:
+            mentioned.append(user.id)
+            notification_factory('mention_created', {'user': user, 'comment': comment}).publish()
