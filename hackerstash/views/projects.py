@@ -1,4 +1,3 @@
-import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from sqlalchemy.orm import joinedload
 from hackerstash.db import db
@@ -54,26 +53,6 @@ def show(project_id: str) -> str:
         return redirect(url_for('projects.edit', project_id=project.id))
 
     return render_template('projects/show.html', project=project)
-
-
-@projects.route('/projects/create')
-@login_required
-def create() -> str:
-    now = datetime.datetime.now()
-
-    log.info('Creating project', {'user_id': g.user.id})
-
-    if g.user.project:
-        return redirect(url_for('projects.show', project_id=g.user.project.id))
-
-    project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
-    member = Member(owner=True, user=g.user, project=project)
-
-    db.session.add(project)
-    db.session.add(member)
-    db.session.commit()
-
-    return redirect(url_for('projects.edit', project_id=project.id))
 
 
 @projects.route('/projects/<project_id>/edit')

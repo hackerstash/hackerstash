@@ -1,0 +1,24 @@
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/previews.html" import project_preview %}
+
+{% macro project_card(user) %}
+    {% if user.project and user.project.published %}
+        <section class="project-card">
+            <div class="row">
+                <aside>
+                    {{ avatar(user.project, 'md') }}
+                </aside>
+                <div>
+                    <h3>
+                        {{ project_preview(user.project) }}
+                    </h3>
+                    <p class="rich-text">{{ user.project.description | to_safe_html | safe }}</p>
+                    <div class="details">
+                        <p><span>{{ user.project.members | length }}</span> Team members</p>
+                        <p><i class="icon ri-focus-2-line"></i>Points: {{ user.project.vote_score }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endmacro %}

@@ -135,3 +135,8 @@ class User(db.Model):
         if self.member:
             challenge = redis.get(f'{self.member.project.id}:challenge_completed')
             return challenge.decode('utf-8') if challenge else None
+
+    @classmethod
+    def username_exists(cls, username: str):
+        user = User.query.filter_by(username=username).first()
+        return user is not None

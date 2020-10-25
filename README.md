@@ -27,9 +27,12 @@ $ docker-compose up
 
 ### Setup Database
 ```shell script
+# Enter the container
+$ docker-compose exec web sh
+
 # Run all the migrations
 $ flask db upgrade
 
 # Create the first tournament
-$ python -m 'scripts.create_current_tournament'
+$ python -m 'scripts.create_tournament'
 ```

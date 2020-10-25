@@ -1,19 +1,14 @@
-{% extends 'base_simple.html' %}
-{% set title = 'HackerStash / Create User' %}
+{% extends 'base_onboarding.html' %}
+{% set title = 'HackerStash / Onboarding' %}
 
 {% from "partials/avatar.html" import avatar_upload %}
 
 {% block body %}
-    <div class="pages new-user">
-        <form action="{{ url_for('users.create') }}" method="post" class="form new-user" enctype="multipart/form-data">
+    <div class="tab active user-tab">
+        {% include "partials/messages.html" %}
+
+        <form action="{{ url_for('onboarding.user_tab') }}" method="post" class="form wrap-620" enctype="multipart/form-data">
             <fieldset>
-                <img alt="HackerStash logo" class="mb-1" src="/static/images/logo.svg">
-                <h1>Welcome to HackerStash</h1>
-                <hr class="divider mt-2 mb-2">
-                <p class="mb-2">To log in and get started using HackerStash, please complete the basic profile information below.</p>
-
-                {% include "partials/messages.html" %}
-
                 <label class="label label mb-1-5 d-block">Profile image</label>
                 {{ avatar_upload(g.user) }}
 
@@ -30,9 +25,9 @@
                 <label class="label" for="username">Username</label>
                 <p>Please use characters A-Z, numbers, hyphens, underscores and periods.</p>
                 <div class="username">
-                    <input class="input" name="username" id="username" required pattern="[a-z0-9_\-\.]+" title="Usernames can't contain spaces, and can only include letters, numbers, hyphens, underscores and periods">
+                    <input class="input" name="username" id="username" required value="{{ g.user.username or '' }}" pattern="[a-z0-9_\-\.]+" title="Usernames can't contain spaces, and can only include letters, numbers, hyphens, underscores and periods">
                 </div>
-                <hr class="divider mt-4 mb-2">
+                <hr class="divider mt-3 mb-2">
                 <div class="button-group">
                     <button class="button" type="submit">Save and continue</button>
                 </div>

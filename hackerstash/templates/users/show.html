@@ -5,7 +5,7 @@
 {% from "partials/comments.html" import flat_comments %}
 {% from "partials/posts.html" import posts %}
 {% from "partials/votes.html" import votes %}
-{% from "partials/user_project_card.html" import user_project_card %}
+{% from "partials/project_card.html" import project_card %}
 
 {% set is_self = g.user and g.user.id == user.id %}
 {% set active_tab = request.args.tab or 'posts' %}
@@ -56,7 +56,7 @@
 
         {% include "partials/messages.html" %}
 
-        {{ user_project_card(user) }}
+        {{ project_card(user) }}
 
         <div class="tabs profile-tabs">
             <div class="tab-header">

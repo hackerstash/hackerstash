@@ -1,0 +1,27 @@
+{% extends 'base_onboarding.html' %}
+{% set title = 'HackerStash / Onboarding' %}
+
+{% block body %}
+    <div class="tab active project-tab">
+        <form class="form editor-form" action="{{ url_for('onboarding.project_tab') }}" method="post" enctype="multipart/form-data">
+            {% include "partials/messages.html" %}
+
+            <fieldset>
+                {% include "partials/project_edit.html" %}
+
+                <hr class="divider mb-2">
+
+                <section class="button-group">
+                    <a class="button secondary" href="{{ url_for('onboarding.user_tab') }}">Back</a>
+                    <button class="button success" type="submit">Save and publish</button>
+                </section>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        window.onload = () => createEditor('.editor-form');
+    </script>
+{% endblock %}

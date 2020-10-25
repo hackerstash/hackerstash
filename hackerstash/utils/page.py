@@ -55,4 +55,4 @@ class Page:
 
     @property
     def onboarding(self):
-        return self.path == url_for('users.new') or self.path == url_for('users.create')
+        return self.path.startswith('/onboarding')
