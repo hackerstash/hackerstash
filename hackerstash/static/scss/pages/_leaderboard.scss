@@ -1,4 +1,25 @@
 .page.leaderboard {
+  .header {
+    .tag {
+      background: $darkblue-900;
+      border: 2px solid $darkblue-700;
+      border-radius: .5rem;
+
+      span {
+        color: $blue-500;
+      }
+    }
+
+    @include tablet-down {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .tag {
+        margin: 1rem 0 0 0;
+      }
+    }
+  }
+
   .project {
     a {
       color: $mauve-500;
@@ -8,6 +29,30 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  .table {
+
+    li {
+      margin-bottom: 0;
+
+      &:nth-of-type(1) {
+        background: $darkblue-700;
+      }
+
+      &:nth-of-type(2) {
+        background: $darkblue-700;
+      }
+
+      &:nth-of-type(3) {
+        background: $darkblue-700;
+        border-bottom: 1px solid $green-400;
+      }
+    }
+
+    .prize {
+      text-align: right;
     }
   }
 

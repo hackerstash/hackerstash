@@ -53,4 +53,13 @@
       }
     }
   }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
+  }
 }

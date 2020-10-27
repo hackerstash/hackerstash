@@ -9,14 +9,16 @@
     <div class="page leaderboard">
         <header class="header mb-0">
             <h2 role="heading">Leaderboard</h2>
+            <span class="tag">Time remaining: <span>{{ remaining_days or 'Unknown' }}</span></span>
         </header>
 
         <div class="table">
             <div class="table-header">
                 <p class="col-1">Rank</p>
-                <p class="col-4">Project name</p>
-                <p class="col-4">Url</p>
-                <p class="col-3">Score</p>
+                <p class="col-3">Project name</p>
+                <p class="col-3">Url</p>
+                <p class="col-2">Score</p>
+                <p class="col-3 prize">Prize</p>
             </div>
             <ul class="table-body" role="list">
                 {% for project in projects %}
@@ -24,10 +26,10 @@
                         <p class="col-1 position">
                             <span>{{ project.position }}</span>
                         </p>
-                        <p class="col-4 project">
+                        <p class="col-3 project">
                             {{ project_preview(project) }}
                         </p>
-                        <p class="col-4 small">
+                        <p class="col-3 small">
                             {% if project.url %}
                                 <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="nofollow noreferrer" aria-label="Visit the {{ project.name }} website">
                                     {{ project.url | to_nice_url }}
@@ -36,8 +38,11 @@
                                 -
                             {% endif %}
                         </p>
-                        <p class="col-3 small score">
+                        <p class="col-2 small score">
                             <i>{{ project.vote_score }} points</i>
+                        </p>
+                        <p class="col-3 prize">
+
                         </p>
                     </li>
                 {% else %}

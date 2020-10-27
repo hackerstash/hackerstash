@@ -11,9 +11,12 @@
 
                 <hr class="divider mb-2">
 
-                <section class="button-group">
-                    <a class="button secondary" href="{{ url_for('onboarding.user_tab') }}">Back</a>
-                    <button class="button success" type="submit">Save and publish</button>
+                <section class="actions">
+                    <div class="button-group">
+                        <a class="button secondary" href="{{ url_for('onboarding.user_tab') }}">Back</a>
+                        <button class="button" type="submit">Save and publish</button>
+                    </div>
+                    <a class="button tertiary" href="{{ url_for('projects.show', project_id=project.id) }}">Skip</a>
                 </section>
             </fieldset>
         </form>
