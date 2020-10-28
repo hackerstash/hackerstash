@@ -1,5 +1,15 @@
 # Changelog
 
+### 28/10/20:
+- Update to Python 3.9
+
+### 25/10/20:
+- Fixed an issue where a user could receive multiple mentions per post/comment
+- Added the new onboarding UI
+
+### 24/10/20:
+- Removed Stripe and Stash related code
+
 ### 23/10/20:
 - Fixed an issue where the location typeahead could not be closed
 - Fixed an issue where the comment count would not update after creating a new comment

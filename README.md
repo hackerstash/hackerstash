@@ -4,7 +4,7 @@
 - Docker
 - docker-compose
 - AWS credentials at ~/.aws
-- Python 3.8
+- Python 3.9
 
 ### Installation:
 Clone the repo:
