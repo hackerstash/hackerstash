@@ -1,5 +1,5 @@
 .page.home {
-  padding-top: 390px;
+  padding-top: 320px;
 
   @include tablet-down {
     padding-top: 370px;
@@ -10,9 +10,9 @@
     background-image: url('/static/images/map.svg');
     background-position: calc(100% + 2.5rem) center;
     background-repeat: no-repeat;
-    background-size: auto 550px;
+    background-size: auto 450px;
     border-bottom: 2px solid $blue-500;
-    height: 356px;
+    height: 280px;
     left: 0;
     position: absolute;
     top: 0;
@@ -27,7 +27,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: 820px;
+      width: 657px;
     }
 
     .title {
@@ -43,7 +43,6 @@
 
       h1 {
         color: white;
-        margin-bottom: 2rem;
       }
     }
 
@@ -399,7 +398,7 @@
     }
 
     &.started {
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       text-align: center;
