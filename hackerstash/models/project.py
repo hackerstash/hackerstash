@@ -2,10 +2,13 @@ import json
 from flask import url_for
 from sqlalchemy.types import ARRAY
 from hackerstash.db import db
+from sqlalchemy import func, select
+from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_monthly_vote_data
 from hackerstash.models.challenge import Challenge
+from hackerstash.models.member import Member
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 from hackerstash.utils.votes import sum_of_project_votes
@@ -52,6 +55,14 @@ class Project(db.Model):
 
     def __repr__(self) -> str:
         return f'<Project {self.name}>'
+
+    @hybrid_property
+    def team_size(self):
+        return sum(self.members)
+
+    @team_size.expression
+    def team_size(cls):
+        return select([func.sum(Member.id)]).where(Member.project_id == cls.id).label('team_size')
 
     def has_member(self, user):
         member = self.get_member_by_id(user.id if user else None)

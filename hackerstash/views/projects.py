@@ -33,11 +33,11 @@ def index() -> str:
     if sort == 'updated_at_asc':
         order_by = Project.updated_at.asc()
     if sort == 'team_size_asc':
-        pass  # TODO
+        order_by = Project.team_size.asc()
     if sort == 'team_size_desc':
-        pass  # TODO
+        order_by = Project.team_size.desc()
 
-    paginated_projects = Project.query.options(joinedload(Project.members)).order_by(order_by).paginate(page, 25, False)
+    paginated_projects = Project.query.options(joinedload(Project.members)).order_by(order_by).paginate(page, 24, False)
     return render_template('projects/index.html', paginated_projects=paginated_projects)
 
 
