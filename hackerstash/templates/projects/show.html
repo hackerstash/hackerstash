@@ -1,14 +1,10 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Projects / ' + project.name %}
 
 {% from "partials/avatar.html" import avatar %}
 {% from "partials/posts.html" import posts %}
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
-
-{% block styles %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
-{% endblock %}
 
 {% block body %}
     <div class="page project">
@@ -149,7 +145,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
     <script type="text/javascript">
         window.projectScoreData = "{{ project.project_score_data }}";
     </script>

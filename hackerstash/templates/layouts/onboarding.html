@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block layout %}
+    <header class="onboarding-header">
+        <div class="wrapper">
+            <div class="content">
+                <img class="mb-0-5" src="/static/images/logo.svg">
+                <h1>Welcome to HackerStash</h1>
+                <p>To get started using HackerStash, please complete the steps below.</p>
+            </div>
+        </div>
+    </header>
+    <div class="wrapper onboarding">
+        <div class="tabs">
+            <div class="tab-header">
+                <a href="{{ url_for('onboarding.user_tab') }}" class="button {{ 'active' if request.path == url_for('onboarding.user_tab') }}">
+                    Users Profile
+                </a>
+                <a href="{{ url_for('onboarding.project_tab') }}" class="button {{ 'active' if request.path == url_for('onboarding.project_tab') }}">
+                    Project
+                </a>
+            </div>
+            <div class="tab-body">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

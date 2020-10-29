@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Community-led micro finance for hackers and entrepreneurs.">
-    <meta name="keywords" content="Hackers, Entrepreneurs, Funding, Investment">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex">
-    <title>{{ title or 'HackerStash' }}</title>
-    {% include "partials/favicons.html" %}
-    {% assets "scss_all" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}">
-    {% endassets %}
-</head>
-<body>
+{% extends 'layouts/base.html' %}
+
+{% block layout %}
     <div class="page admin dashboard">
         <header class="header">
             <div class="container">
@@ -20,7 +8,7 @@
                     <img alt="HackerStash logo" src="/static/images/logo.svg">
                 </a>
                 <a class="back-to-app" href="{{ url_for('home.index') }}">
-                     <i class="ri-arrow-left-line"></i>
+                    <i class="ri-arrow-left-line"></i>
                     Back to app
                 </a>
             </div>
@@ -47,12 +35,4 @@
             </div>
         </div>
     </div>
-
-    {% assets "js_all" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-
-    {% block scripts %}
-    {% endblock %}
-</body>
-</html>
+{% endblock %}
