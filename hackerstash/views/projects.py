@@ -43,7 +43,11 @@ def index() -> str:
     if sort == 'project_score_desc':
         order_by = func.array_position(Leaderboard.order(), Project.id)
 
-    paginated_projects = Project.query.options(joinedload(Project.members)).order_by(order_by).paginate(page, 24, False)
+    paginated_projects = Project.query\
+        .filter(Project.published == True)\
+        .options(joinedload(Project.members))\
+        .order_by(order_by)\
+        .paginate(page, 24, False)
     return render_template('projects/index.html', paginated_projects=paginated_projects)
 
 
