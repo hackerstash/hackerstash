@@ -1,5 +1,8 @@
 # Changelog
 
+### 30/10/20:
+- Move the leaderboard to a Redis ZSET
+
 ### 28/10/20:
 - Update to Python 3.9
 
