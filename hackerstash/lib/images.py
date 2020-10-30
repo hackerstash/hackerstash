@@ -1,6 +1,7 @@
 import uuid
 import boto3
 import requests
+from typing import BinaryIO
 from hackerstash.config import config
 from hackerstash.lib.logging import Logging
 
@@ -10,12 +11,11 @@ client = boto3.client('s3', region_name='eu-west-1')
 
 class Images:
     @classmethod
-    def upload(cls, image) -> str:
+    def upload(cls, image: BinaryIO) -> str:
         key = str(uuid.uuid4())
 
-        environment = config['app_environment']
-        if environment != 'live':
-            key = environment + '/' + key
+        if environment := config['app_environment']:
+            key = f'{environment}/{key}'
 
         params = {
             'Body': image,
@@ -27,7 +27,7 @@ class Images:
         return key
 
     @classmethod
-    def upload_from_url(cls, url: str):
+    def upload_from_url(cls, url: str) -> str:
         try:
             r = requests.get(url, stream=True)
             r.raise_for_status()
@@ -36,7 +36,7 @@ class Images:
             log.error('Failed to upload image', e)
 
     @classmethod
-    def delete(cls, key: str):
+    def delete(cls, key: str) -> None:
         try:
             params = {
                 'Bucket': 'images.hackerstash.com',

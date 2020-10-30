@@ -4,7 +4,7 @@ from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.emails.factory import email_factory
-from hackerstash.lib.mentions import proccess_mentions, publish_post_mentions, publish_comment_mentions
+from hackerstash.lib.mentions import Mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.poll import Poll
 from hackerstash.models.post import Post
@@ -81,10 +81,10 @@ def create() -> str:
     title = request.form['title']
     tag_id = request.form.get('tag')
     url_slug = Post.generate_url_slug(title)
-    body, mentioned_users = proccess_mentions(request.form['body'])
+    mentions = Mentions(request.form['body'])
     tag = Tag.query.get(tag_id) if tag_id else None
 
-    post = Post(title=title, body=body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.project)
+    post = Post(title=title, body=mentions.body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.project)
     db.session.add(post)
 
     if request.form.get('post_type') == 'poll':
@@ -95,7 +95,7 @@ def create() -> str:
 
     db.session.commit()
 
-    publish_post_mentions(mentioned_users, post)
+    mentions.publish_post(post)
     challenge_factory('post_created', {'post': post})
     notification_factory('post_created', {'post': post}).publish()
 
@@ -144,7 +144,7 @@ def update(post_id: str) -> str:
     post = Post.query.get(post_id)
     title = request.form['title']
     tag_id = request.form.get('tag')
-    body, mentioned_users = proccess_mentions(request.form['body'])
+    mentions = Mentions(request.form['body'])
 
     log.info('Updating post', {'user_id': g.user.id, 'post_id': post.id, 'post_data': request.form})
 
@@ -152,12 +152,12 @@ def update(post_id: str) -> str:
         post.url_slug = Post.generate_url_slug(title)
 
     post.title = title
-    post.body = body
+    post.body = mentions.body
     post.tag = Tag.query.get(tag_id) if tag_id else None
 
     db.session.commit()
 
-    publish_post_mentions(mentioned_users, post)
+    mentions.publish_post(post)
     return redirect(url_for('posts.show', post_id=post.url_slug, saved=1))
 
 
@@ -181,16 +181,16 @@ def create_comment(post_id: str) -> str:
     log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
 
     if 'body' in request.form and request.form['body'] != '<p><br></p>':
-        body, mentioned_users = proccess_mentions(request.form['body'])
+        mentions = Mentions(request.form['body'])
         parent_comment_id = request.form.get('parent_comment_id')
         # Some weirdness going on with bad values trying to get added
         parent_comment_id = parent_comment_id if parent_comment_id and parent_comment_id.isnumeric() else None
-        comment = Comment(body=body, parent_comment_id=parent_comment_id, user=g.user, post_id=post.id)
+        comment = Comment(body=mentions.body, parent_comment_id=parent_comment_id, user=g.user, post_id=post.id)
 
         post.comments.append(comment)
         db.session.commit()
 
-        publish_comment_mentions(mentioned_users, comment)
+        mentions.publish_comment(comment)
         challenge_factory('comment_created', {'comment': comment})
         notification_factory('comment_created', {'comment': comment}).publish()
     else:
@@ -235,10 +235,10 @@ def edit_comment(post_id: str, comment_id: str) -> str:
     log.info('Editing comment', {'post_id': post_id, 'comment_id': comment.id, 'user_id': g.user.id, 'comment_data': request.form})
 
     if comment.user.id == g.user.id:
-        body, mentioned_users = proccess_mentions(request.form['body'])
-        comment.body = body
+        mentions = Mentions(request.form['body'])
+        comment.body = mentions.body
         db.session.commit()
-        publish_comment_mentions(mentioned_users, comment)
+        mentions.publish_comment(comment)
 
     if request.headers.get('X-Requested-With') == 'fetch':
         partial = get_template_attribute('partials/comments.html', 'nested_comments')

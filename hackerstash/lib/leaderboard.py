@@ -6,7 +6,7 @@ from hackerstash.lib.redis import redis
 log = Logging(module='Leaderboard')
 
 
-def key():
+def key() -> str:
     now = datetime.now()
     return f'monthly_leaderboard:{now.month}:{now.year}'
 
