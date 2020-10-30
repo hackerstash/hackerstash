@@ -48,9 +48,7 @@
         <section class="stats">
             <div class="graph">
                 <h3>Project Score <span>{{ project.vote_score }}</span></h3>
-                <div class="graph-container">
-                    <canvas id="project-graph" width="520" height="200"></canvas>
-                </div>
+                <div class="graph-container"></div>
             </div>
             <div class="project-position">
                 <h3>Current Position</h3>
@@ -142,10 +140,4 @@
             </div>
         </section>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        window.projectScoreData = "{{ project.project_score_data }}";
-    </script>
 {% endblock %}

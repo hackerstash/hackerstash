@@ -6,7 +6,6 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.project_score_data import build_monthly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.member import Member
 from hackerstash.models.vote import Vote
@@ -175,10 +174,6 @@ class Project(db.Model):
 
         }
         return json.dumps(data)
-
-    @property
-    def project_score_data(self):
-        return json.dumps(build_monthly_vote_data(self))
 
     def create_or_inc_challenge(self, key: str):
         challenge = Challenge.find_or_create(self, key)

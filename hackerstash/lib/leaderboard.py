@@ -1,6 +1,5 @@
 import arrow
 from datetime import datetime
-from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.redis import redis
 
@@ -26,7 +25,7 @@ class Leaderboard:
         if reverse:
             order = redis.zrange(cls.key, 0, -1)
         else:
-            order = redis.zrevrange(cls.key, 0, -1) or []
+            order = redis.zrevrange(cls.key, 0, -1)
         # Decode the ids from bytes and convert to ints
         return [int(x.decode('utf-8')) for x in order]
 

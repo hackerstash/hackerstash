@@ -31,6 +31,5 @@ config = {
 
     # Misc
     'app_environment': os.environ.get('app_environment', 'dev'),
-    'error_webhook': os.environ.get('error_webhook')
 }
 
