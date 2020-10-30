@@ -1,9 +1,11 @@
 {% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Leaderboard' %}
 
-{% from "partials/pagination.html" import crap_pagination %}
+{% from "partials/pagination.html" import pagination %}
 {% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
+
+{% set first_page = request.args.get('page', '1') == '1' %}
 
 {% block body %}
     <div class="page leaderboard">
@@ -12,7 +14,7 @@
             <span class="tag">Time remaining: <span>{{ remaining_days or 'Unknown' }}</span></span>
         </header>
 
-        <div class="table">
+        <div class="table {{ 'first-page' if first_page }}">
             <div class="table-header">
                 <p class="col-1">Rank</p>
                 <p class="col-3">Project name</p>
@@ -21,7 +23,7 @@
                 <p class="col-3 prize">Prize</p>
             </div>
             <ul class="table-body" role="list">
-                {% for project in projects %}
+                {% for project in paginated_projects.items %}
                     <li role="listitem">
                         <p class="col-1 position">
                             <span>{{ project.position }}</span>
@@ -52,5 +54,5 @@
         </div>
     </div>
 
-    {{ crap_pagination(pagination) }}
+    {{ pagination(paginated_projects) }}
 {% endblock %}

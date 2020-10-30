@@ -1,6 +1,7 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
 
@@ -47,6 +48,8 @@ class Comment(db.Model):
         # Comments have a score of 1 point
         score = 1 if direction == 'up' else -1
         existing_vote = self.get_existing_vote_for_user(user)
+        # Update the leaderboard
+        Leaderboard(self.user.project).update(score)
 
         if existing_vote:
             db.session.delete(existing_vote)

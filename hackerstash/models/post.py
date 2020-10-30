@@ -5,6 +5,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
 
@@ -104,6 +105,8 @@ class Post(db.Model):
         # Posts have a score of 5 points
         score = 5 if direction == 'up' else -5
         existing_vote = self.get_existing_vote_for_user(user)
+        # Update the leaderboard
+        Leaderboard(self.project).update(score)
 
         if existing_vote:
             db.session.delete(existing_vote)

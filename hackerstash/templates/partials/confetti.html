@@ -7,10 +7,8 @@
         <p>{{ completed_challenge | safe }}</p>
     </div>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
-
     <script type="text/javascript">
-        itsPartyTime();
+        window.onload = () => itsPartyTime();
     </script>
 {% endif %}
 

@@ -4,19 +4,15 @@ from sqlalchemy.types import ARRAY
 from hackerstash.db import db
 from sqlalchemy import func, select
 from sqlalchemy.ext.hybrid import hybrid_property
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.redis import redis
 from hackerstash.lib.project_score_data import build_monthly_vote_data
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.member import Member
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
-from hackerstash.utils.votes import sum_of_project_votes
 
 log = Logging(module='Models::Project')
-# There are a lof of horrifically unperformant
-# things in here, they are all done in the name
-# of speed
 
 
 class Project(db.Model):
@@ -88,6 +84,8 @@ class Project(db.Model):
     def vote(self, user, direction):
         score = 10 if direction == 'up' else -10
         existing_vote = self.get_existing_vote_for_user(user)
+        # Update the leaderboard
+        Leaderboard(self).update(score)
 
         if existing_vote:
             db.session.delete(existing_vote)
@@ -115,26 +113,11 @@ class Project(db.Model):
     def position(self) -> int:
         if not self.published:
             return -1
-        # This is an awful design and is very expensive, so
-        # shove it in redis for a minute. At some point we
-        # should probably think about having projects own all
-        # the votes and not the posts/comments
-        if leaderboard := redis.get('leaderboard'):
-            leaderboard = json.loads(leaderboard)
-        else:
-            projects = self.query.filter_by(published=True).all()
-            projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
-            leaderboard = {}
-            for index, project in enumerate(projects):
-                leaderboard[str(project.id)] = index + 1
-            redis.set('leaderboard', json.dumps(leaderboard), ex=60)
-        return leaderboard.get(str(self.id), -1)
+        return Leaderboard(self).position
 
     @property
     def vote_score(self) -> int:
-        # The project vote score behaves a bit differently to posts
-        # and comments as it only totals the scores for this month
-        return sum_of_project_votes(self)
+        return Leaderboard(self).score
 
     @property
     def all_votes(self):

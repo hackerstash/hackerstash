@@ -32,8 +32,8 @@ from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
 app = Flask(__name__)
 migrate = Migrate()
 
-app.debug = config['debug']
-app.secret_key = config['secret']
+app.config['DEBUG'] = config['debug']
+app.config['SECRET_KEY'] = config['secret']
 app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'

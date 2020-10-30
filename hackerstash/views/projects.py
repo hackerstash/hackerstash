@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
+from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.challenges.factory import challenge_factory
@@ -21,7 +23,7 @@ projects = Blueprint('projects', __name__)
 @projects.route('/projects')
 def index() -> str:
     order_by = None
-    sort = request.args.get('sorting', 'alphabetical_asc')
+    sort = request.args.get('sorting', 'project_score_desc')
     page = request.args.get('page', 1, type=int)
 
     if sort == 'alphabetical_asc':
@@ -36,6 +38,10 @@ def index() -> str:
         order_by = Project.team_size.asc()
     if sort == 'team_size_desc':
         order_by = Project.team_size.desc()
+    if sort == 'project_score_asc':
+        order_by = func.array_position(Leaderboard.order(reverse=True), Project.id)
+    if sort == 'project_score_desc':
+        order_by = func.array_position(Leaderboard.order(), Project.id)
 
     paginated_projects = Project.query.options(joinedload(Project.members)).order_by(order_by).paginate(page, 24, False)
     return render_template('projects/index.html', paginated_projects=paginated_projects)
