@@ -14,12 +14,21 @@
 
             {% if g.user.member.owner %}
                 {% if project.published %}
-                    <a class="button secondary" href="{{ url_for('projects.unpublish', project_id=project.id) }}">Unpublish Project</a>
+                    <a class="button tertiary" href="{{ url_for('projects.unpublish', project_id=project.id) }}">Unpublish Project</a>
                 {% else %}
                     <a class="button success" href="{{ url_for('projects.publish', project_id=project.id) }}">Publish Project</a>
                 {% endif %}
             {% endif %}
         </header>
+
+        <div class="project-header" style="{{ ('background-image: url(https://images.hackerstash.com/' + project.banner + ');') if project.banner }}">
+            <form class="form upload-project-header" method="post" action="{{ url_for('projects.upload_header', project_id=project.id) }}" enctype="multipart/form-data">
+                <input class="input" id="header_file" type="file" name="header_file" accept="image/jpg, image/jpeg, image/png">
+                <label for="header_file">
+                    <i class="ri-image-add-line"></i>
+                </label>
+            </form>
+        </div>
 
         <div class="tabs">
             <div class="tab-header">
@@ -37,59 +46,26 @@
 
                             {% include "partials/project_edit.html" %}
 
-                            <hr class="divider mb-2">
+                            <section class="button-group">
+                                <button class="button" type="submit">Save changes</button>
+                                <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
+                            </section>
 
-                            <div class="project-actions">
-                                <section class="button-group">
-                                    <button class="button" type="submit">Save changes</button>
-                                    <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
-                                </section>
+                            <hr class="divider mb-2 mt-2">
 
-                                <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete</a>
-                            </div>
+                            <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete project</a>
                         </fieldset>
                     </form>
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == 'team' }}">
-                    <label class="label mt-1 mb-1">Team members</label>
-                    <p class="wrap-620 mb-2">If you’re working on your project with other people, invite them to HackerStash as team members. They will each being able to participate in the community as members of your team.</p>
-                    <ul class="team">
-                        {% for m in project.members %}
-                            <li>
-                                {{ avatar(m.user, 'sm') }}
-                                <p>{{ user_preview(m.user) }}</p>
-                                {% if m.user.id == g.user.id %}
-                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
-                                {% else %}
-                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Manage</a></p>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-
-                        {% for i in project.invites %}
-                            <li>
-                                {{ avatar({}, 'sm') }}
-                                <p>{{ i.first_name }}</p>
-                                <p><i>Invite sent</i></p>
-                                <p class="edit">
-                                    <a href="{{ url_for('projects.remove_invite', project_id=i.project.id, invite_id=i.id) }}">Remove</a>
-                                </p>
-                            </li>
-                        {% endfor %}
-
-                        <li class="invite">
-                            <a href="{{ url_for('projects.add_members', project_id=project.id) }}" class="button link">
-                                <span class="invite-icon"><i class="icon ri-add-line"></i></span>
-                                <span class="text">Add team member</span>
-                            </a>
-                        </li>
-                    </ul>
-
                     <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post">
                         <fieldset>
-                            <label class="label mt-3">Time commitment</label>
-                            <ul class="radio-group mt-1 mb-3">
+                            <label class="label mt-1" for="team_size">Team size</label>
+                            <input class="input wrap-216 mb-2" type="text" id="team_size" name="team_size" placeholder="e.g. 13" value="{{ project.team_size }}">
+
+                            <label class="label">Time commitment</label>
+                            <ul class="radio-group mt-1 mb-2">
                                 <li>
                                     <span class="radio">
                                         <input class="input" type="radio" id="full-time" name="time_commitment" value="FULL_TIME" {{ 'checked' if project.time_commitment == 'FULL_TIME' }}>
@@ -106,7 +82,41 @@
                                 </li>
                             </ul>
 
-                            <div class="button-group">
+                            <label class="label mb-1">Community members</label>
+                            <p class="wrap-620 mb-2">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
+                            <ul class="team">
+                                {% for m in project.members %}
+                                    <li>
+                                        {{ avatar(m.user, 'sm') }}
+                                        <p>{{ user_preview(m.user) }}</p>
+                                        {% if m.user.id == g.user.id %}
+                                            <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
+                                        {% else %}
+                                            <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Manage</a></p>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+
+                                {% for i in project.invites %}
+                                    <li>
+                                        {{ avatar({}, 'sm') }}
+                                        <p>{{ i.first_name }}</p>
+                                        <p><i>Invite sent</i></p>
+                                        <p class="edit">
+                                            <a href="{{ url_for('projects.remove_invite', project_id=i.project.id, invite_id=i.id) }}">Remove</a>
+                                        </p>
+                                    </li>
+                                {% endfor %}
+
+                                <li class="invite">
+                                    <a href="{{ url_for('projects.add_members', project_id=project.id) }}" class="button link">
+                                        <span class="invite-icon"><i class="icon ri-add-line"></i></span>
+                                        <span class="text">Add team member</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="button-group mt-3">
                                 <button class="button" type="submit">Save changes</button>
                                 <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
                             </div>

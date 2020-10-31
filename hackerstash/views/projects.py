@@ -116,6 +116,22 @@ def update(project_id: str) -> str:
     return redirect(url_for('projects.show', project_id=project.id, saved=1))
 
 
+@projects.route('/projects/<project_id>/upload_header', methods=['POST'])
+@login_required
+@member_required
+def upload_header(project_id: str) -> str:
+    project = Project.query.get(project_id)
+
+    log.info('Updating project header', {'project_id': project.id, 'user_id': g.user.id})
+
+    if 'header_file' in request.files and request.files['header_file'].filename != '':
+        key = Images.upload(request.files['header_file'])
+        project.banner = key
+        db.session.commit()
+
+    return redirect(url_for('projects.show', project_id=project.id, saved=1))
+
+
 @projects.route('/projects/<project_id>/publish')
 @login_required
 @member_required

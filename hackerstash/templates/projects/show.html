@@ -6,138 +6,143 @@
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
 
+{% set project_show = request.args.getlist('show') or ['posts', 'polls', 'comments'] %}
+
 {% block body %}
     <div class="page project">
+        <div class="project-header" style="{{ ('background-image: url(https://images.hackerstash.com/' + project.banner + ');') if project.banner }}"></div>
+
         <header class="header">
             <div role="heading" class="project-votes project-votes-{{ project.id }}">
                  {{ project_vote('lg', project) }}
             </div>
             <div class="details">
-                <div class="project-details">
+                <div class="project-avatar">
                     {{ avatar(project) }}
+                </div>
+                <div class="project-details">
                     <h2>{{ project.name }}</h2>
-                    <p class="d-none">@{{ project.name | lower }}</p>
-                </div>
-                <div class="mt-1 meta">
-                    {% if project.start_month and project.start_year %}
-                        <p><i class="icon ri-calendar-line"></i>Started {{ project.start_month | to_named_month }} {{ project.start_year }}</p>
-                    {% endif %}
-                    {% if project.location %}
-                        <p><i class="icon ri-map-pin-2-fill"></i>{{ project.location }}</p>
-                    {% endif %}
-                    {% if project.url %}
-                        <p>
-                            <a target="blank" rel="nofollow noreferrer" href="{{ project.url if project.url.startswith('http') else '//' + project.url }}">
-                                {{ project.url | to_nice_url }}
-                            </a>
-                        </p>
+                    {% if project.position > 0 %}
+                        <span class="tag">Rank: <span>{{ project.position }}{{ project.position | to_ordinal_ending }}</span></span>
                     {% endif %}
                 </div>
-                <div class="mt-2 wrap-620">
+                <div class="mt-1-5 wrap-620">
                     <div class="rich-text">
                         {{ project.description | to_safe_html | safe }}
                     </div>
                 </div>
+                <div class="mt-1-5 meta">
+                    <p><i class="icon ri-calendar-line"></i>Started {{ project.start_month | to_named_month }} {{ project.start_year }}</p>
+                    {% if project.location %}
+                        <p><i class="icon ri-map-pin-2-fill"></i>{{ project.location }}</p>
+                    {% endif %}
+                </div>
             </div>
             <div class="button-group">
                 {% if project.has_member(g.user) %}
-                    <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit</a>
+                    <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit project</a>
+                {% elif project.url %}
+                    <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
                 {% endif %}
             </div>
         </header>
-        <section class="stats">
-            <div class="graph">
-                <h3>Project Score <span>{{ project.vote_score }}</span></h3>
-                <div class="graph-container"></div>
-            </div>
-            <div class="project-position">
-                <h3>Current Position</h3>
-                <div class="positioning mt-1-5">
-                    <h1>{{ project.position }}<span>{{ project.position | to_ordinal_ending }}</span></h1>
-                </div>
-                <h3 class="mt-2">Votes received</h3>
-                <div class="votes-received up">
-                    <i class="icon ri-arrow-up-line"></i>
-                    <h3>{{ project.upvotes }} <span>upvotes</span></h3>
-                </div>
-                <div class="votes-received down">
-                    <i class="icon ri-arrow-down-line"></i>
-                    <h3>{{ project.downvotes }} <span>downvotes</span></h3>
-                </div>
-            </div>
-        </section>
-        <section class="team-posts">
-            <div class="team">
+        <div class="split">
+            <main class="activity">
                 <div class="title">
-                    <h3>Team</h3>
-                    {% if project.has_member(g.user) %}
-                        <a class="button secondary" href="{{ url_for('projects.edit', project_id=project.id, tab='team') }}">Edit</a>
-                    {% endif %}
+                    <h3>Activity</h3>
+                    <form id="project-show" class="form" method="get" action="{{ url_for('projects.show', project_id=project.id) }}">
+                        <fieldset>
+                            <ul class="checkbox-group">
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="show" id="show-posts" value="posts" {{ 'checked' if 'posts' in project_show }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                    </span>
+                                    <label class="label" for="show-posts">Posts</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="show" id="show-polls" value="polls" {{ 'checked' if 'polls' in project_show }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                    </span>
+                                    <label class="label" for="show-polls">Polls</label>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="show" id="show-comments" value="comments" {{ 'checked' if 'comments' in project_show }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                    </span>
+                                    <label class="label" for="show-comments">Comments</label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </form>
                 </div>
-                <p class="mt-1-5">{% if project.members | length > 1 %}There are {{ project.members | length }} people{% else %}There is 1 person{% endif %} working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>
-                <ul>
-                    {% for member in project.members %}
-                        <li>
-                            {{ avatar(member.user, 'sm') }}
-                            <p>
-                                {{ user_preview(member.user) }}
-                            </p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="posts">
-                <div class="title">
-                    <h3>Posts</h3>
-                    {% if project.has_member(g.user) %}
-                        <a class="button" href="{{ url_for('posts.new') }}">Add new</a>
-                    {% endif %}
-                </div>
-                <div class="list">
-                    {{ posts(project.posts, limit=5) }}
+                <div class="feed">
+                    {% for f in feed %}
 
-                    {% if project.posts | length > 5 %}
-                        <a href="{{ url_for('projects.all_posts', project_id=project.id) }}" class="load-more">Load more</a>
-                    {% endif %}
+                    {% else %}
+                        {% include "partials/no_results.html" %}
+                    {% endfor %}
                 </div>
-            </div>
-        </section>
-        <section class="lists">
-            <div class="grid">
-                <div>
-                    <h4>Platforms &amp; devices</h4>
+            </main>
+            <aside>
+                <div class="team">
+                    <div class="title">
+                        <h3>Team</h3>
+                    </div>
+                    <p class="mt-1-5">{% if project.team_size > 1 %}There are {{ project.team_size }} people{% else %}There is 1 person{% endif %} working on {{ project.name }} {{ 'full time' if project.time_commitment == 'FULL_TIME' else 'part time' }}.</p>
+                    <h4 class="mt-1-5 mb-1-5">Community members</h4>
+                    <ul class="team">
+                        {% for member in project.members %}
+                            <li>
+                                {{ avatar(member.user, 'sm') }}
+                                <p>
+                                    {{ user_preview(member.user) }}
+                                </p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="additional-info mt-3-5">
+                    <div class="title">
+                        <h3>Additional info</h3>
+                    </div>
+                    <h4 class="mb-1 mt-2">Platforms &amp; devices</h4>
                     <ul>
                         {% for p in project.platforms_and_devices or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ p | platforms_and_devices }}
                             </li>
+                        {% else %}
+                            <li>-</li>
                         {% endfor %}
                     </ul>
-                </div>
-                <div>
-                    <h4>Business model</h4>
+                    <h4 class="mb-1 mt-2">Business model</h4>
                     <ul>
                         {% for b in project.business_models or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ b | business_models }}
                             </li>
+                        {% else %}
+                            <li>-</li>
                         {% endfor %}
                     </ul>
-                </div>
-                <div>
-                    <h4>Funding</h4>
+                    <h4 class="mb-1 mt-2">Funding</h4>
                     <ul>
                         {% for f in project.fundings or [] %}
                             <li>
                                 <i class="icon ri-check-line"></i>
                                 {{ f | fundings }}
                             </li>
+                        {% else %}
+                            <li>-</li>
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
-        </section>
+            </aside>
+        </div>
     </div>
 {% endblock %}

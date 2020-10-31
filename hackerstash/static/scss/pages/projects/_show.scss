@@ -1,11 +1,27 @@
 .page.project {
+  .project-header {
+    background-color: $blue-900;
+    background-position: center center;
+    background-size: cover;
+    border-bottom: 4px solid $darkblue-900;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
   .header {
     align-items: flex-start;
     justify-content: flex-start;
-    margin-bottom: 2.5rem;
+    margin: 180px 0 2.5rem 0;
+    padding-top: 5.5rem;
+    position: relative;
 
     @include tablet-down {
       flex-direction: column;
+      margin-top: 150px;
+      padding-top: 0;
       position: relative;
 
       .button-group {
@@ -14,6 +30,42 @@
 
       .project-votes {
         width: 100%;
+      }
+    }
+
+    .project-avatar {
+      background: $blue-900;
+      border: 4px solid $darkblue-900;
+      border-radius: 50%;
+      height: 142px;
+      left: 0;
+      position: absolute;
+      top: -86px;
+      width: 142px;
+
+      .avatar,
+      .avatar img {
+        height: 134px;
+        width: 134px;
+      }
+
+      @include tablet-down {
+        height: 80px;
+        top: -94px;
+        width: 80px;
+
+        .avatar,
+        .avatar img {
+          height: 72px;
+          width: 72px;
+        }
+      }
+    }
+
+    .view-website {
+      i {
+        color: $blue-500 !important;
+        font-size: 1.5rem;
       }
     }
 
@@ -40,6 +92,21 @@
         p {
           align-self: flex-end;
           margin: 0 0 0.5rem 0.75rem;
+        }
+
+        .tag {
+          border-radius: .5rem;
+          color: $mauve-900;
+          font-size: 16px;
+          padding: .25rem .5rem;
+
+          @include tablet-down {
+            font-size: 14px;
+          }
+
+          span {
+            color: $blue-500;
+          }
         }
       }
 
@@ -96,113 +163,73 @@
     }
   }
 
-  .stats {
-    border-bottom: 1px solid $darkblue-900;
+  .split {
     display: flex;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-
-    .graph {
-      background: $darkblue-700;
-      border-radius: 1rem;
-      flex: 1;
-      height: 20rem;
-      padding: 2rem;
-
-      .graph-container {
-        height: calc(100% - 3.5rem);
-        margin-top: 1.5rem;
-        width: 100%;
-      }
-
-      h3 {
-        span {
-          color: $blue-500;
-        }
-      }
-    }
-
-    .project-position {
-      flex-shrink: 0;
-      margin-left: 2rem;
-      width: 18.75rem;
-
-      .positioning {
-        border-bottom: 1px solid $darkblue-900;
-        display: flex;
-        padding-bottom: 2rem;
-
-        .button {
-          margin: .75rem 0 0 2rem;
-        }
-      }
-
-      h1 {
-        span {
-          font-size: 1rem;
-          font-weight: $font-weight-normal;
-          vertical-align: baseline;
-        }
-      }
-
-      .tag {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        margin: 0;
-
-        span {
-          margin: 0;
-
-          &.total {
-            color: $blue-500;
-          }
-        }
-      }
-
-      @include tablet-down {
-        margin: 2rem 0 0 0;
-        width: 100%;
-      }
-    }
 
     @include tablet-down {
       flex-direction: column;
-
-      > * {
-        width: 100%;
-      }
-
-      .position {
-        margin: 1.5rem 0 0 0;
-      }
-    }
-  }
-
-  .team-posts {
-    border-bottom: 1px solid $darkblue-900;
-    display: flex;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-
-    .title {
-      align-items: center;
-      border-bottom: 1px solid $darkblue-900;
-      display: flex;
-      justify-content: space-between;
-      padding-bottom: 1.5rem;
-
-      .button {
-        margin-bottom: -.5rem;
-      }
     }
 
-    .team {
-      flex-shrink: 0;
-      width: 18.75rem;
+    .activity {
+      margin: 0 2rem 0 0;
 
-      ul {
-        margin: 1.5rem 0 0 0;
+      @include tablet-down {
+        margin-bottom: 2rem;
+        min-height: 0;
+        padding: 0;
+      }
+
+      .title {
+        align-items: center;
+        border-bottom: 1px solid $darkblue-900;
+        display: flex;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+
+        @include tablet-down {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      .form {
+        flex: 1;
+        margin-left: 1rem;
+
+        .checkbox-group {
+          display: flex;
+
+          @include tablet-down {
+            flex-direction: row;
+          }
+
+          li {
+            margin: 0 0 0 1rem;
+            width: auto;
+          }
+        }
+
+        @include tablet-down {
+          margin: 1rem 0 0 0;
+
+          li:first-of-type {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+
+    aside {
+      width: 300px;
+
+      .title {
+        align-items: center;
+        border-bottom: 1px solid $darkblue-900;
+        display: flex;
+        padding-bottom: 1.5rem;
+      }
+
+      .team {
         padding: 0;
 
         li {
@@ -248,91 +275,24 @@
           }
         }
       }
-    }
 
-    .posts {
-      flex: 1;
-      min-height: 4rem;
-      margin-left: 2.5rem;
+      .additional-info {
+        ul {
+          margin: 0;
+          padding: 0;
 
-      .posts {
-        margin-left: 0;
-      }
+          li {
+            align-items: center;
+            display: flex;
+            list-style: none;
+            margin-bottom: .5rem;
 
-      .load-more {
-        border-radius: 0;
-        border-top: 1px solid $darkblue-900;
-        display: block;
-        padding-top: 1rem;
-        text-align: center;
-        width: 100%;
-      }
-    }
-
-    @include tablet-down {
-      flex-direction: column;
-
-      .team,
-      .posts {
-        width: 100%;
-      }
-
-      .posts {
-        margin: 1.5rem 0 0 0;
-      }
-    }
-  }
-
-  .lists {
-    .grid {
-      display: grid;
-      grid-gap: 3rem 2rem;
-      grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-
-      ul {
-        margin: 1.5rem 0 0 0;
-        padding: 0;
-
-        li {
-          align-items: center;
-          display: flex;
-          list-style: none;
-          margin-bottom: .5rem;
-
-          i {
-            font-size: 1rem;
-            margin-right: .5rem;
+            i {
+              font-size: 1rem;
+              margin-right: .5rem;
+            }
           }
         }
-      }
-    }
-  }
-
-  .votes-received {
-    align-items: center;
-    display: flex;
-    margin-top: 1rem;
-
-    h3 {
-      span {
-        font-size: 1rem;
-        font-weight: $font-weight-normal;
-      }
-    }
-
-    .icon {
-      margin-right: 1rem;
-    }
-
-    &.up {
-      .icon {
-        color: $green-500;
-      }
-    }
-
-    &.down {
-      .icon {
-        color: $red-500;
       }
     }
   }

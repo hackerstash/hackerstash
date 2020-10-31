@@ -24,11 +24,13 @@ class Project(db.Model):
     description = db.Column(db.String)
 
     avatar = db.Column(db.String)
+    banner = db.Column(db.String)
 
     location = db.Column(db.String)
     start_month = db.Column(db.Integer)
     start_year = db.Column(db.Integer)
     time_commitment = db.Column(db.String)
+    team_size = db.Column(db.Integer)
 
     business_models = db.Column(ARRAY(db.String))
     fundings = db.Column(ARRAY(db.String))
@@ -50,14 +52,6 @@ class Project(db.Model):
 
     def __repr__(self) -> str:
         return f'<Project {self.name}>'
-
-    @hybrid_property
-    def team_size(self):
-        return sum(self.members)
-
-    @team_size.expression
-    def team_size(cls):
-        return select([func.sum(Member.id)]).where(Member.project_id == cls.id).label('team_size')
 
     def has_member(self, user):
         member = self.get_member_by_id(user.id if user else None)

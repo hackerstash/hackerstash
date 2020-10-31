@@ -52,6 +52,8 @@ def to_contest_date(date) -> str:
 
 
 def to_named_month(month) -> str:
+    if not month:
+        return ''
     index = int(month) + 1
     return calendar.month_name[index]
 

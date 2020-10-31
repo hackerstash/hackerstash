@@ -50,6 +50,12 @@
   @include tablet-down { max-width: 100%; }
 }
 
+.wrap-216 {
+  max-width: 216px;
+
+  @include tablet-down { max-width: 100%; }
+}
+
 // Truncate
 .truncate {
   overflow: hidden;
