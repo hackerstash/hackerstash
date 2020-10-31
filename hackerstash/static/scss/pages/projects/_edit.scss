@@ -44,6 +44,29 @@
     top: 0;
     width: 100%;
 
+    &.loading {
+      &:after {
+        background: rgba(0, 0, 0, 0.5);
+        content: ' ';
+        display: block;
+        height: 198px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      .upload-project-header {
+        background: none;
+        border: none;
+      }
+    }
+
+    .spinner {
+      position: relative;
+      z-index: 1;
+    }
+
     .upload-project-header {
       background: $darkblue-900;
       border: 2px dashed $mauve-500;

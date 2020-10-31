@@ -129,7 +129,7 @@ def upload_header(project_id: str) -> str:
         project.banner = key
         db.session.commit()
 
-    return redirect(url_for('projects.show', project_id=project.id, saved=1))
+    return redirect(url_for('projects.edit', project_id=project.id))
 
 
 @projects.route('/projects/<project_id>/publish')

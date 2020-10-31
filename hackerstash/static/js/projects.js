@@ -24,6 +24,13 @@ if (description) {
 
 if (headerFile) {
     headerFile.addEventListener('change', event => {
+        const header = document.querySelector('.project-header');
+        const label = header.querySelector('label');
+        header.classList.add('loading');
+        label.querySelector('i').remove();
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner', 'md');
+        label.appendChild(spinner);
         event.target.closest('form').submit();
     });
 }
