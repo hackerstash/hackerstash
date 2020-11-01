@@ -72,7 +72,6 @@
       border: 2px dashed $mauve-500;
       border-radius: 50%;
       height: 4rem;
-      margin-left: 252px;
       width: 4rem;
 
       i {
@@ -90,6 +89,29 @@
 
       @include tablet-down {
         margin: 5rem 0 0 0;
+      }
+    }
+
+    .delete-project-header {
+      align-items: center;
+      background: $darkblue-900;
+      border: 2px dashed $mauve-500;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      height: 4rem;
+      justify-content: center;
+      margin-left: 1rem;
+      text-decoration: none;
+      width: 4rem;
+
+      i {
+        color: $red-500;
+        font-size: 1.25rem;
+      }
+
+      @include tablet-down {
+        margin: 5rem 0 0 1rem;
       }
     }
   }

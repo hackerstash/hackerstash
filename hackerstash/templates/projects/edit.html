@@ -28,6 +28,9 @@
                     <i class="ri-image-add-line"></i>
                 </label>
             </form>
+            {% if project.banner %}
+                <a href="{{ url_for('projects.delete_header', project_id=project.id) }}" class="delete-project-header"><i class="ri-delete-bin-2-line"></i></a>
+            {% endif %}
         </div>
 
         <div class="tabs">

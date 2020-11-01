@@ -134,14 +134,26 @@ def update(project_id: str) -> str:
 @member_required
 def upload_header(project_id: str) -> str:
     project = Project.query.get(project_id)
-
     log.info('Updating project header', {'project_id': project.id, 'user_id': g.user.id})
 
     if 'header_file' in request.files and request.files['header_file'].filename != '':
         key = Images.upload(request.files['header_file'])
         project.banner = key
         db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project.id))
 
+
+@projects.route('/projects/<project_id>/delete_header')
+@login_required
+@member_required
+def delete_header(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    log.info('Deleting project header', {'project_id': project.id, 'user_id': g.user.id})
+
+    if project.banner:
+        Images.delete(project.banner)
+        project.banner = None
+        db.session.commit()
     return redirect(url_for('projects.edit', project_id=project.id))
 
 
