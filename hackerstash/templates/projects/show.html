@@ -83,19 +83,7 @@
                         </fieldset>
                     </form>
                 </div>
-                <ul class="feed" role="list">
-                    {% for f in feed.items %}
-                        <li role="listitem">{{ f }}</li>
-                    {% else %}
-                        {% include "partials/no_results.html" %}
-                    {% endfor %}
-
-                    {% if feed.has_next %}
-                        <li class="load-more">
-                            <a href="{{ feed.next_page | paginate_to_page }}" class="button secondary">Load more</a>
-                        </li>
-                    {% endif %}
-                </ul>
+                {% include "partials/feed.html" %}
             </main>
             <aside>
                 <div class="team">

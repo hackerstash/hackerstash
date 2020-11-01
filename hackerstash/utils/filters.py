@@ -11,6 +11,7 @@ def init_app(app):
     app.jinja_env.filters['to_plain_text'] = to_plain_text
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_nice_date'] = to_nice_date
+    app.jinja_env.filters['to_feed_date'] = to_feed_date
     app.jinja_env.filters['to_contest_date'] = to_contest_date
     app.jinja_env.filters['to_named_month'] = to_named_month
     app.jinja_env.filters['nest_comments'] = nest_comments
@@ -21,6 +22,8 @@ def init_app(app):
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
     app.jinja_env.filters['to_nice_url'] = to_nice_url
     app.jinja_env.filters['paginate_to_page'] = paginate_to_page
+    app.jinja_env.filters['paginate_in_feed'] = paginate_in_feed
+    app.jinja_env.filters['truncate'] = truncate
     app.jinja_env.globals['call_to_action_state'] = call_to_action_state
 
 
@@ -49,6 +52,11 @@ def to_nice_date(date) -> str:
 def to_contest_date(date) -> str:
     d = arrow.get(date)
     return d.format('Do MMMM, YYYY')
+
+
+def to_feed_date(date) -> str:
+    d = arrow.get(date)
+    return d.format('MMMM D')
 
 
 def to_named_month(month) -> str:
@@ -143,8 +151,22 @@ def to_nice_url(url: str) -> str:
 def paginate_to_page(page: int = 0):
     # Splatting the page into the args is messy business
     # in the template!
-    combined_args = {**request.args, **request.view_args, **{'page': page}}
+    combined_args = {**request.args, **{'page': page}}
     return url_for(request.endpoint, **combined_args)
+
+
+def paginate_in_feed(page: int = 0):
+    show = request.args.getlist('show')
+    combined_args = {**request.view_args, 'show': show, 'page': page}
+    return url_for(request.endpoint, **combined_args)
+
+
+def truncate(text: str, count: int):
+    if not text:
+        return ''
+    if len(text) > count:
+        return text[:count] + '...'
+    return text
 
 
 def call_to_action_state():
