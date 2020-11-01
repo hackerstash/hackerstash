@@ -1,5 +1,11 @@
 # Changelog
 
+### 01/11/20:
+- Added a new design for the project pages
+- Added the option to set a team size
+- Added the option to show a badge looking for cofounders
+- Added a custom CTA button for projects
+
 ### 30/10/20:
 - Move the leaderboard to a Redis ZSET
 

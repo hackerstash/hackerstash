@@ -84,11 +84,17 @@
                     </form>
                 </div>
                 <ul class="feed" role="list">
-                    {% for f in feed %}
+                    {% for f in feed.items %}
                         <li role="listitem">{{ f }}</li>
                     {% else %}
                         {% include "partials/no_results.html" %}
                     {% endfor %}
+
+                    {% if feed.has_next %}
+                        <li class="load-more">
+                            <a href="{{ feed.next_page | paginate_to_page }}" class="button secondary">Load more</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </main>
             <aside>
@@ -109,7 +115,7 @@
                         {% endfor %}
                     </ul>
                     {% if project.looking_for_cofounders %}
-                        <span class="tag success mt-1">👋 I’m looking for cofounders</span>
+                        <span class="tag success mt-1">👋 {% if project.team_size == 1 %}I’m{% else %}We're{% endif %} looking for cofounders</span>
                     {% endif %}
                 </div>
                 <div class="additional-info mt-3-5">

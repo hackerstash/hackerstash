@@ -3,6 +3,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.attributes import flag_modified
 from hackerstash.db import db
+from hackerstash.lib.feed import Feed
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
@@ -10,10 +11,8 @@ from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.challenges.factory import challenge_factory
-from hackerstash.models.comment import Comment
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
-from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
 from hackerstash.utils.auth import login_required, member_required, published_project_required
@@ -47,7 +46,7 @@ def index() -> str:
         order_by = func.array_position(Leaderboard.order(), Project.id)
 
     paginated_projects = Project.query\
-        .filter(Project.published == True)\
+        .filter(Project.published==True)\
         .options(joinedload(Project.members))\
         .order_by(order_by)\
         .paginate(page, 24, False)
@@ -65,7 +64,7 @@ def show(project_id: str) -> str:
     if not project.published:
         return redirect(url_for('projects.edit', project_id=project.id))
 
-    return render_template('projects/show.html', project=project, feed=[])
+    return render_template('projects/show.html', project=project, feed=Feed(project))
 
 
 @projects.route('/projects/<project_id>/edit')

@@ -141,9 +141,9 @@ def to_nice_url(url: str) -> str:
 
 
 def paginate_to_page(page: int = 0):
-    # Splattigng the page into the args is messy business
+    # Splatting the page into the args is messy business
     # in the template!
-    combined_args = {**request.args, **{'page': page}}
+    combined_args = {**request.args, **request.view_args, **{'page': page}}
     return url_for(request.endpoint, **combined_args)
 
 

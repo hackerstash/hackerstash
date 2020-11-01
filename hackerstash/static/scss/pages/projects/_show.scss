@@ -217,6 +217,19 @@
           }
         }
       }
+
+      .feed {
+        margin: 0;
+        padding: 0;
+
+        li {
+          list-style: none;
+        }
+
+        .load-more {
+          text-align: center;
+        }
+      }
     }
 
     aside {
