@@ -60,6 +60,23 @@
 <hr class="divider mt-1 mb-2">
 
 <section class="wrap-620">
+    <h2 class="mt-2 mb-2">Profile button</h2>
+    <p class="mb-1-5">On your project profile we display a button that links to your website. Alongside this, you can display a custom button e.g. ‘Contact Us’ or ‘Pitch Deck’ that could link of to any external resource you wish.</p>
+    <div class="input-group">
+        <div class="input-item">
+            <label class="label" for="profile_button_text">Button text</label>
+            <input class="input" type="text" id="profile_button_text" name="profile_button_text" placeholder="e.g. Contact Us" value="{{ project.profile_button.text or '' }}">
+        </div>
+        <div class="input-item">
+            <label class="label" for="profile_button_url">URL</label>
+            <input class="input" type="text" id="profile_button_url" name="profile_button_url" placeholder="e.g. https://yoursite.com/contact" value="{{ project.profile_button.url or '' }}">
+        </div>
+    </div>
+</section>
+
+<hr class="divider mt-1 mb-2">
+
+<section class="wrap-620">
     <h2 class="mt-2 mb-2">Additional Information</h2>
     <label class="label">Platforms and devices</label>
     <p>Please tick any platforms or devices that you’re building your project for:</p>

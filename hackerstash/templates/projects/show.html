@@ -41,8 +41,13 @@
             <div class="button-group">
                 {% if project.has_member(g.user) %}
                     <a aria-label="Edit project" href="{{ url_for('projects.edit', project_id=project.id) }}" class="button secondary">Edit project</a>
-                {% elif project.url %}
-                    <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
+                {% else %}
+                    {% if project.profile_button.text and project.profile_button.url %}
+                        <a href="{{ project.profile_button.url if project.profile_button.url.startswith('http') else '//' + project.profile_button.url }}" target="_blank" rel="noreferrer nofollow" class="button">{{ project.profile_button.text }}</a>
+                    {% endif %}
+                    {% if project.url %}
+                        <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </header>

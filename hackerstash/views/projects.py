@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.attributes import flag_modified
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
@@ -102,7 +103,7 @@ def update(project_id: str) -> str:
         project.avatar = None
 
     for key, value in request.form.items():
-        if key not in ['file', 'avatar']:
+        if key not in ['file', 'avatar', 'profile_button_text', 'profile_button_url']:
             # Rich text always uses body as the key
             key = 'description' if key == 'body' else key
             # This needs to be a boolean, not a string
@@ -115,6 +116,14 @@ def update(project_id: str) -> str:
         val = request.form.getlist(key)
         if val:
             setattr(project, key, val)
+
+    # Update the profile button seperately
+    if request.form.get('profile_button_text'):
+        project.profile_button = {
+            'url': request.form.get('profile_button_url'),
+            'text': request.form.get('profile_button_text')
+        }
+        flag_modified(project, 'profile_button')
 
     db.session.commit()
     return redirect(url_for('projects.show', project_id=project.id, saved=1))
