@@ -236,9 +236,16 @@
 
         .feed-body {
           background: $darkblue-700;
+          border: 2px solid $darkblue-700;
           border-radius: .5rem;
+          display: block;
           margin-bottom: 2rem;
           padding: 1rem;
+          text-decoration: none;
+
+          &:hover {
+            border-color: $blue-500;
+          }
         }
 
         .post-poll {

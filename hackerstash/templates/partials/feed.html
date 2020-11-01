@@ -8,28 +8,28 @@
         {% else %}
             <p class="small feed-title">{{ c.created_at | to_feed_date }} {{ avatar(c.user, size='xx-sm') }} {{ c.user.first_name }} <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.id }}">commented</a> on a <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}">post</a></p>
         {% endif %}
-        <div class="feed-body">
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.id }}">
             <span class="rich-text inline">{{ c.body | to_plain_text | truncate(200) }}</span>
-        </div>
+        </a>
     </li>
 {% endmacro %}
 
 {% macro posts(p) %}
     <li class="feed-item post" role="listitem">
         <p class="small feed-title">{{ p.created_at | to_feed_date }} {{ avatar(p.user, size='xx-sm') }} {{ p.user.first_name }} created a <a href="{{ url_for('posts.show', post_id=p.url_slug) }}">post</a></p>
-        <div class="feed-body">
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=p.url_slug) }}">
             <h4 class="mb-1">{{ p.title }}</h4>
             <span class="rich-text inline">{{ p.body | to_plain_text | truncate(400) }}</span>
-        </div>
+        </a>
     </li>
 {% endmacro %}
 
 {% macro polls(p) %}
     <li class="feed-item poll" role="listitem">
         <p class="small feed-title">{{ p.created_at | to_feed_date }} {{ avatar(p.user, size='xx-sm') }} {{ p.user.first_name }} created a <a href="{{ url_for('posts.show', post_id=p.url_slug) }}">poll</a></p>
-        <div class="feed-body">
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=p.url_slug) }}">
             {{ poll(p, read_only=True) }}
-        </div>
+        </a>
     </li>
 {% endmacro %}
 
