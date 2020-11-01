@@ -67,6 +67,15 @@ def show(project_id: str) -> str:
     return render_template('projects/show.html', project=project, feed=Feed(project))
 
 
+@projects.route('/projects/<project_id>/feed')
+def feed(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return render_template('partials/feed.html', project=project, feed=Feed(project))
+    else:
+        return redirect(url_for('projects.show', **request.args, **request.view_args))
+
+
 @projects.route('/projects/<project_id>/edit')
 @login_required
 @member_required

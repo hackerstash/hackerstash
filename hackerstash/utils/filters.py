@@ -158,7 +158,7 @@ def paginate_to_page(page: int = 0):
 def paginate_in_feed(page: int = 0):
     show = request.args.getlist('show')
     combined_args = {**request.view_args, 'show': show, 'page': page}
-    return url_for(request.endpoint, **combined_args)
+    return url_for('projects.feed', **combined_args)
 
 
 def truncate(text: str, count: int):

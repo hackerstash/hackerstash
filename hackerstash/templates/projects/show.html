@@ -55,7 +55,7 @@
             <main class="activity">
                 <div class="title">
                     <h3>Activity</h3>
-                    <form id="project-show" class="form" method="get" action="{{ url_for('projects.show', project_id=project.id) }}">
+                    <form id="project-show" class="form" method="get" action="{{ url_for('projects.feed', project_id=project.id) }}">
                         <fieldset>
                             <ul class="checkbox-group">
                                 <li>

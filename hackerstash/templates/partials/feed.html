@@ -50,7 +50,7 @@
 
     {% if feed.has_next %}
         <li class="load-more">
-            <a href="{{ feed.next_page | paginate_in_feed }}" class="button secondary">Load more</a>
+            <a id="load-more-feed" href="{{ feed.next_page | paginate_in_feed }}" class="button secondary">Load more</a>
         </li>
     {% endif %}
 </ul>

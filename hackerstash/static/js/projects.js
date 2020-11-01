@@ -38,8 +38,49 @@ if (headerFile) {
 if (projectShow) {
     projectShow.querySelectorAll('input').forEach(element => {
         element.addEventListener('change', event => {
-            // TODO fetch a partial
-            event.target.closest('form').submit();
+            const form = event.target.closest('form');
+            const formData = new FormData(form);
+            const query = new URLSearchParams(formData).toString();
+            const link = `${form.getAttribute('action')}?${query}`;
+            fetchProjectFeed(link);
+
+            if (document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked').length === 0) {
+                document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(c => {
+                    c.checked = true;
+                });
+            }
         });
     });
+}
+
+document.addEventListener('click', event => {
+    if (event.target.id == 'load-more-feed') {
+        event.preventDefault();
+
+        const link = event.target.getAttribute('href');
+        fetchProjectFeed(link);
+    }
+});
+
+function fetchProjectFeed(link) {
+    const options = {
+        method: 'get',
+        credentials: 'include',
+        headers: {
+            'x-requested-with': 'fetch'
+        }
+    };
+
+    fetch(link, options)
+        .then((response) => {
+            if (response.ok) {
+                return response.text();
+            }
+            throw new Error(response.statusText);
+        })
+        .then((response) => {
+            const feed = document.querySelector('.feed');
+            feed.insertAdjacentHTML('afterend', response);
+            feed.remove();
+        });
 }
