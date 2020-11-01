@@ -9,8 +9,10 @@ from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.challenges.factory import challenge_factory
+from hackerstash.models.comment import Comment
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
+from hackerstash.models.post import Post
 from hackerstash.models.project import Project
 from hackerstash.models.invite import Invite
 from hackerstash.utils.auth import login_required, member_required, published_project_required
@@ -62,7 +64,7 @@ def show(project_id: str) -> str:
     if not project.published:
         return redirect(url_for('projects.edit', project_id=project.id))
 
-    return render_template('projects/show.html', project=project)
+    return render_template('projects/show.html', project=project, feed=[])
 
 
 @projects.route('/projects/<project_id>/edit')
@@ -103,6 +105,8 @@ def update(project_id: str) -> str:
         if key not in ['file', 'avatar']:
             # Rich text always uses body as the key
             key = 'description' if key == 'body' else key
+            # This needs to be a boolean, not a string
+            value = value == 'true' if key == 'looking_for_cofounders' else value
             setattr(project, key, value)
 
     lists = ['fundings', 'business_models', 'platforms_and_devices']

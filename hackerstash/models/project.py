@@ -1,13 +1,10 @@
 import json
 from flask import url_for
-from sqlalchemy.types import ARRAY
+from sqlalchemy.types import ARRAY, JSON
 from hackerstash.db import db
-from sqlalchemy import func, select
-from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.models.challenge import Challenge
-from hackerstash.models.member import Member
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 
@@ -31,6 +28,8 @@ class Project(db.Model):
     start_year = db.Column(db.Integer)
     time_commitment = db.Column(db.String)
     team_size = db.Column(db.Integer)
+    profile_button = db.Column(JSON(none_as_null=True))
+    looking_for_cofounders = db.Column(db.Boolean)
 
     business_models = db.Column(ARRAY(db.String))
     fundings = db.Column(ARRAY(db.String))

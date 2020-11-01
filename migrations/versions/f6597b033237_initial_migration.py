@@ -52,6 +52,8 @@ def upgrade():
         sa.Column('start_month', sa.Integer(), nullable=True),
         sa.Column('start_year', sa.Integer(), nullable=True),
         sa.Column('team_size', sa.Integer(), nullable=True),
+        sa.Column('profile_button', sa.JSON(none_as_null=True), nullable=True),
+        sa.Column('looking_for_cofounders', sa.Boolean(), nullable=True),
         sa.Column('time_commitment', sa.String(), nullable=True),
         sa.Column('business_models', sa.ARRAY(sa.String()), nullable=True),
         sa.Column('fundings', sa.ARRAY(sa.String()), nullable=True),

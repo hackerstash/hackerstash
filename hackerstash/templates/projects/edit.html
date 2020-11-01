@@ -116,6 +116,25 @@
                                 </li>
                             </ul>
 
+                            <label class="label mt-2">Looking for cofounders?</label>
+                            <p class="wrap-620">If you’re looking for cofounders we can display a badge on your profile to let other community members know.</p>
+                            <ul class="radio-group mt-1">
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="cofounder-yes" name="looking_for_cofounders" value="true" {{ 'checked' if project.looking_for_cofounders }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="cofounder-yes">Yes</label>
+                                </li>
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="cofounder-no" name="looking_for_cofounders" value="false" {{ 'checked' if not project.looking_for_cofounders }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="cofounder-no">No</label>
+                                </li>
+                            </ul>
+
                             <div class="button-group mt-3">
                                 <button class="button" type="submit">Save changes</button>
                                 <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>

@@ -78,13 +78,13 @@
                         </fieldset>
                     </form>
                 </div>
-                <div class="feed">
+                <ul class="feed" role="list">
                     {% for f in feed %}
-
+                        <li role="listitem">{{ f }}</li>
                     {% else %}
                         {% include "partials/no_results.html" %}
                     {% endfor %}
-                </div>
+                </ul>
             </main>
             <aside>
                 <div class="team">
@@ -103,6 +103,9 @@
                             </li>
                         {% endfor %}
                     </ul>
+                    {% if project.looking_for_cofounders %}
+                        <span class="tag success mt-1">👋 I’m looking for cofounders</span>
+                    {% endif %}
                 </div>
                 <div class="additional-info mt-3-5">
                     <div class="title">
