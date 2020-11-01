@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request
-from hackerstash.models.contest import Contest
 from hackerstash.models.project import Project
 from hackerstash.models.user import User
 from hackerstash.utils.auth import admin_login_required
@@ -15,7 +14,6 @@ def index() -> str:
     data = {
         'users': {},
         'projects': {},
-        'contests': [],
         'user_count': User.query.count(),
         'project_count': Project.query.count()
     }
@@ -24,7 +22,5 @@ def index() -> str:
         data['users'] = User.query.order_by(User.created_at.desc()).paginate(page, 25, False)
     if tab == 'projects':
         data['projects'] = Project.query.order_by(Project.created_at.desc()).paginate(page, 25, False)
-    if tab == 'tournaments':
-        data['contests'] = Contest.query.order_by(Contest.created_at.desc()).all()
 
     return render_template('admin/index.html', **data)

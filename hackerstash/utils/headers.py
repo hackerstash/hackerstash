@@ -47,7 +47,7 @@ class Headers:
 
         if page.static:
             self.set_cache_control(self.one_year)
-        elif page.home or page.contact or page.rules or page.past_results:
+        elif page.home or page.contact or page.rules:
             self.set_cache_control(self.one_hour)
         elif page.leaderboard:
             self.set_cache_control(self.twelve_seconds)

@@ -20,7 +20,6 @@ from hackerstash.views.leaderboard import leaderboard
 from hackerstash.views.legal import legal
 from hackerstash.views.notifications import notifications
 from hackerstash.views.onboarding import onboarding
-from hackerstash.views.past_results import past_results
 from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
 from hackerstash.views.reviews import reviews
@@ -55,7 +54,6 @@ app.register_blueprint(leaderboard)
 app.register_blueprint(legal)
 app.register_blueprint(notifications)
 app.register_blueprint(onboarding)
-app.register_blueprint(past_results)
 app.register_blueprint(posts)
 app.register_blueprint(projects)
 app.register_blueprint(reviews)

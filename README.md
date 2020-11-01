@@ -32,7 +32,4 @@ $ docker-compose exec web sh
 
 # Run all the migrations
 $ flask db upgrade
-
-# Create the first tournament
-$ python -m 'scripts.create_tournament'
 ```

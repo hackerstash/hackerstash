@@ -2,7 +2,7 @@ from hackerstash.lib.logging import Logging
 from hackerstash.lib.webhooks.base import Base
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.challenge import Challenge
-from hackerstash.models.contest import Project
+from hackerstash.models.project import Project
 
 log = Logging(module='Webhook::ProjectVoteReminder')
 
