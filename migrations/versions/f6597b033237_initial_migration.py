@@ -200,6 +200,16 @@ def upgrade():
         sa.PrimaryKeyConstraint('id')
     )
     op.create_table(
+        'winners',
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('position', sa.Integer(), nullable=False),
+        sa.Column('project_id', sa.Integer(), nullable=False),
+        sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+        sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
+        sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table(
         'users_following',
         sa.Column('follower_id', sa.Integer(), nullable=True),
         sa.Column('followed_id', sa.Integer(), nullable=True),
