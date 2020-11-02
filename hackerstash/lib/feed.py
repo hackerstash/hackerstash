@@ -1,8 +1,6 @@
 from flask import request
 from hackerstash.models.comment import Comment
 
-# TODO:
-#
 # This file is wank, I'd really love to do this all at the database level
 # with unions or some shit but I'm too dumb to figure it out.
 #

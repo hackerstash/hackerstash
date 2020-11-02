@@ -4,6 +4,7 @@
 {% from "partials/pagination.html" import pagination %}
 {% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
+{% from "partials/winners.html" import winner_badge %}
 
 {% set first_page = request.args.get('page', '1') == '1' %}
 
@@ -17,10 +18,10 @@
         <div class="table {{ 'first-page' if first_page }}">
             <div class="table-header">
                 <p class="col-1">Rank</p>
-                <p class="col-3">Project name</p>
+                <p class="col-4">Project name</p>
                 <p class="col-3">Url</p>
                 <p class="col-2">Score</p>
-                <p class="col-3 prize">Prize</p>
+                <p class="col-2 prize">Prize Bundle</p>
             </div>
             <ul class="table-body" role="list">
                 {% for project in paginated_projects.items %}
@@ -28,8 +29,9 @@
                         <p class="col-1 position">
                             <span>{{ project.position }}</span>
                         </p>
-                        <p class="col-3 project">
+                        <p class="col-4 project">
                             {{ project_preview(project) }}
+                            {{ winner_badge(project) }}
                         </p>
                         <p class="col-3 small">
                             {% if project.url %}
@@ -43,8 +45,24 @@
                         <p class="col-2 small score">
                             <i>{{ project.vote_score }} points</i>
                         </p>
-                        <p class="col-3 prize">
+                        <p class="col-2 prize">
+                            {% if project.position == 1 %}
+                                <span class="prize-bundle">
+                                    🥇 <button class="button link small">View Prize</button>
+                                </span>
+                            {% endif %}
 
+                            {% if project.position == 2 %}
+                                <span class="prize-bundle">
+                                    🥈 <button class="button link small">View Prize</button>
+                                </span>
+                            {% endif %}
+
+                            {% if project.position == 3 %}
+                                <span class="prize-bundle">
+                                    🥉 <button class="button link small">View Prize</button>
+                                </span>
+                            {% endif %}
                         </p>
                     </li>
                 {% else %}

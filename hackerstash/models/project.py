@@ -41,6 +41,7 @@ class Project(db.Model):
     votes = db.relationship('Vote', backref='project', cascade='all,delete', lazy='joined')
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
+    winners = db.relationship('Winner', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)

@@ -5,6 +5,7 @@
 {% from "partials/posts.html" import posts %}
 {% from "partials/previews.html" import user_preview %}
 {% from "partials/vote.html" import project_vote %}
+{% from "partials/winners.html" import winner_badge %}
 
 {% set project_show = request.args.getlist('show') or ['posts', 'polls', 'comments'] %}
 
@@ -25,6 +26,7 @@
                     {% if project.position > 0 %}
                         <span class="tag">Rank: <span>{{ project.position }}{{ project.position | to_ordinal_ending }}</span></span>
                     {% endif %}
+                    {{ winner_badge(project) }}
                 </div>
                 <div class="mt-1-5 wrap-620">
                     <div class="rich-text">

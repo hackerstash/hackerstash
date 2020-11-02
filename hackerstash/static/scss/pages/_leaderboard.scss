@@ -54,7 +54,35 @@
     }
 
     .prize {
+      padding-right: 1.5rem;
       text-align: right;
+
+      @include tablet-down {
+        text-align: left;
+      }
+    }
+
+    .score {
+      @include tablet-down {
+        margin-bottom: .5rem !important;
+      }
+    }
+
+    .winner-badge {
+      margin-left: 1rem;
+    }
+
+    .prize-bundle {
+      padding-right: .5rem;
+
+      .link {
+        color: $blue-500;
+        text-decoration: underline;
+      }
+
+      @include tablet-down {
+        font-size: 12px;
+      }
     }
   }
 

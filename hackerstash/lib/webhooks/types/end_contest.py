@@ -1,9 +1,11 @@
 from datetime import datetime
 from sqlalchemy import func
+from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.webhooks.base import Base
 from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.models.project import Project
+from hackerstash.models.winner import Winner
 
 log = Logging(module='Webhook::EndContest')
 
@@ -23,7 +25,13 @@ class EndContest(Base):
         projects = Project.query \
             .filter(Project.id.in_(order)) \
             .filter(Project.published == True) \
-            .order_by(order_expr)
+            .order_by(order_expr)\
+            .limit(3)\
+            .all()
 
-        # TODO: Sort out contest end stuff
-        print(projects)
+        for project in projects:
+            if 0 < project.position < 4:
+                winner = Winner(position=project.position, project=project)
+                db.session.add(winner)
+        db.session.commit()
+

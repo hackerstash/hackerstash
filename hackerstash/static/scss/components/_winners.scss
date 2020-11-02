@@ -1,0 +1,15 @@
+.winner-badge {
+  background: $darkblue-900;
+  border: none;
+  border-radius: .5rem;
+  color: $mauve-900;
+  font: inherit;
+  font-size: 1rem;
+  margin-left: .5rem;
+  padding: .25rem .5rem;
+
+  i {
+    color: $yellow-400;
+    vertical-align: bottom;
+  }
+}
