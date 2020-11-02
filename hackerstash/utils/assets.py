@@ -27,7 +27,8 @@ scripts = [
     'js/recaptcha.js',
     'js/toast.js',
     'js/typeaheads.js',
-    'js/votes.js'
+    'js/votes.js',
+    'js/winners.js'
 ]
 
 js = Bundle(*scripts, output='out/main.js')

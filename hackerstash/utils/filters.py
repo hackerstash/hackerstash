@@ -1,4 +1,5 @@
 import re
+import json
 import arrow
 import bleach
 import calendar
@@ -23,6 +24,7 @@ def init_app(app):
     app.jinja_env.filters['paginate_to_page'] = paginate_to_page
     app.jinja_env.filters['paginate_in_feed'] = paginate_in_feed
     app.jinja_env.filters['truncate'] = truncate
+    app.jinja_env.filters['winner_totals'] = winner_totals
     app.jinja_env.globals['call_to_action_state'] = call_to_action_state
 
 
@@ -161,6 +163,14 @@ def truncate(text: str, count: int):
     if len(text) > count:
         return text[:count] + '...'
     return text
+
+
+def winner_totals(winners: list) -> str:
+    out = {}
+    for w in winners:
+        out[w.position] = out.get(w.position, 0)
+        out[w.position] += 1
+    return json.dumps(out)
 
 
 def call_to_action_state():

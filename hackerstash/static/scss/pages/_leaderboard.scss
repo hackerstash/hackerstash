@@ -62,6 +62,11 @@
       }
     }
 
+    .project {
+      align-items: center;
+      display: flex;
+    }
+
     .score {
       @include tablet-down {
         margin-bottom: .5rem !important;

@@ -1,6 +1,6 @@
 {% macro winner_badge(project) %}
     {% if project.winners | length %}
-        <button class="winner-badge">
+        <button class="winner-badge" data-stats="{{ project.winners | winner_totals }}">
             <i class="ri-trophy-line"></i> x {{ project.winners | length }}
         </button>
     {% endif %}
