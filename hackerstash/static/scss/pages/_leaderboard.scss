@@ -33,6 +33,11 @@
   }
 
   .table {
+    li {
+     @include tablet-down {
+       padding: 1rem 1rem 1rem 4rem;
+     }
+    }
 
     &.first-page {
       li {
@@ -50,6 +55,12 @@
           background: $darkblue-700;
           border-bottom: 1px solid $green-400;
         }
+      }
+    }
+
+    .position {
+      @include tablet-down {
+        left: 1rem;
       }
     }
 
