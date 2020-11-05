@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for, jsonify
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
-from hackerstash.models.user import User
 from hackerstash.models.notification import Notification
 from hackerstash.utils.auth import login_required
 
