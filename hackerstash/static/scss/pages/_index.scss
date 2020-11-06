@@ -397,28 +397,6 @@
         }
       }
     }
-
-    &.started {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-
-      .small {
-        margin: 0 auto 1.5rem auto;
-      }
-
-      .video {
-        background: $blue-500;
-        border-radius: 1rem;
-        height: 530px;
-        margin-top: 4rem;
-      }
-
-      @include tablet-down {
-        margin-top: 4rem;
-      }
-    }
   }
 
   .thicc {
