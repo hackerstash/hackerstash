@@ -20,6 +20,11 @@
         border-color: $blue-500;
       }
 
+      &.disabled {
+        color: $mauve-900;
+        pointer-events: none;
+      }
+
       @include tablet-down  {
         font-size: 14px;
       }

@@ -13,10 +13,10 @@
     <div class="wrapper onboarding">
         <div class="tabs">
             <div class="tab-header">
-                <a href="{{ url_for('onboarding.user_tab') }}" class="button {{ 'active' if request.path == url_for('onboarding.user_tab') }}">
+                <a href="{{ url_for('onboarding.user_tab') }}" class="button {{ 'modal-open' if request.path == url_for('onboarding.project_tab') }} {{ 'active' if request.path == url_for('onboarding.user_tab') }}" data-modal="warn-modal">
                     Users Profile
                 </a>
-                <a href="{{ url_for('onboarding.project_tab') }}" class="button {{ 'active' if request.path == url_for('onboarding.project_tab') }}">
+                <a href="{{ url_for('onboarding.project_tab') }}" class="button {{ 'active' if request.path == url_for('onboarding.project_tab') }} {{ 'disabled' if not g.user.project }}">
                     Project
                 </a>
             </div>
