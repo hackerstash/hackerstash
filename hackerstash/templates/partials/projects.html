@@ -12,7 +12,7 @@
                     </div>
                     <p class="small description">{{ project.description | to_plain_text }}</p>
                     <div class="meta">
-                        <p><span>{{ project.team_size }}</span> members</p>
+                        <p><span>{{ project.team_size or 1 }}</span> members</p>
                     </div>
                 </a>
             </li>

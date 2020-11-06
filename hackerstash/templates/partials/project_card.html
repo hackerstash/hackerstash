@@ -14,7 +14,7 @@
                     </h3>
                     <p class="rich-text">{{ user.project.description | to_safe_html | safe }}</p>
                     <div class="details">
-                        <p><span>{{ user.project.team_size }}</span> Team members</p>
+                        <p><span>{{ user.project.team_size or 1 }}</span> Team member{{ 's' if user.project.team_size > 1 }}</p>
                         <p><i class="icon ri-focus-2-line"></i>Points: {{ user.project.vote_score }}</p>
                     </div>
                 </div>
