@@ -4,6 +4,7 @@ from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.webhooks.base import Base
 from hackerstash.lib.leaderboard import Leaderboard
+from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.models.project import Project
 from hackerstash.models.winner import Winner
 
@@ -32,6 +33,7 @@ class EndContest(Base):
         for project in projects:
             if 0 < project.position < 4:
                 winner = Winner(position=project.position, project=project)
+                notification_factory('prize_awarded', {'project': project}).publish()
                 db.session.add(winner)
         db.session.commit()
 

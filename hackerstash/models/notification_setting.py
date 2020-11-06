@@ -48,6 +48,9 @@ class NotificationSetting(db.Model):
     project_vote_reminder_web = db.Column(db.Boolean, default=True)
     project_vote_reminder_email = db.Column(db.Boolean, default=True)
 
+    prize_awarded_web = db.Column(db.Boolean, default=True)
+    prize_awarded_email = db.Column(db.Boolean, default=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())

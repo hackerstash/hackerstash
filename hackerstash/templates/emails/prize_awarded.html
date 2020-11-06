@@ -1,0 +1,8 @@
+{% extends "layouts/email.html" %}
+{% from "partials/manage_notifications.html" import manage_notifications %}
+
+{% block body %}
+    <h1>Congratulations! You came {{ project.position }}{{ project.position | to_ordinal_ending }} in last week's tournament!</h1>
+    <p>We'll be in touch with you this week about how to claim your stash.</p>
+    {{ manage_notifications(host) }}
+{% endblock %}

@@ -80,4 +80,17 @@
       }
     }
   }
+
+  .prize-notification {
+    display: flex;
+
+    span {
+      display: block;
+    }
+
+    .trophy {
+      margin: .25rem .5rem 0 0;
+      width: 1.5rem;
+    }
+  }
 }

@@ -7,6 +7,7 @@ from hackerstash.lib.notifications.types.member_verified import MemberVerified
 from hackerstash.lib.notifications.types.mention_created import MentionCreated
 from hackerstash.lib.notifications.types.post_created import PostCreated
 from hackerstash.lib.notifications.types.post_voted import PostVoted
+from hackerstash.lib.notifications.types.prize_awarded import PrizeAwarded
 from hackerstash.lib.notifications.types.project_vote_reminder import ProjectVoteReminder
 
 
@@ -29,6 +30,8 @@ def notification_factory(notification_type, payload):
         return PostCreated(payload)
     if notification_type == 'post_voted':
         return PostVoted(payload)
+    if notification_type == 'prize_awarded':
+        return PrizeAwarded(payload)
     if notification_type == 'project_vote_reminder':
         return ProjectVoteReminder(payload)
 
