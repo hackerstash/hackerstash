@@ -1,12 +1,12 @@
 from datetime import datetime
-# from sqlalchemy import func
-# from hackerstash.db import db
+from sqlalchemy import func
+from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.webhooks.base import Base
-# from hackerstash.lib.leaderboard import Leaderboard
-# from hackerstash.lib.notifications.factory import notification_factory
-# from hackerstash.models.project import Project
-# from hackerstash.models.winner import Winner
+from hackerstash.lib.leaderboard import Leaderboard
+from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.models.project import Project
+from hackerstash.models.winner import Winner
 
 log = Logging(module='Webhook::EndContest')
 
