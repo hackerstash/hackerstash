@@ -203,6 +203,7 @@ function createEditor(form, options = {}) {
                 }
             }
 
+            selector('.editor').classList.remove('dragging');
             uploadImages(files);
         }
     });
