@@ -8,7 +8,6 @@
     <div class="page reviews">
         <header class="header">
             <h2 role="heading">Reviews</h2>
-            <button class="button modal-open {{ call_to_action_state() }}" data-modal="review-modal">Schedule Review</button>
         </header>
 
         <ul class="reviews" role="list">
@@ -35,23 +34,5 @@
                 {% include "partials/no_results.html" %}
             {% endfor %}
         </ul>
-    </div>
-
-    <div id="review-modal" class="modal review-modal">
-        <div class="modal-body sm" role="dialog" aria-labelledby="review-modal-header">
-            <header>
-                <h3 id="review-modal-header">Schedule Review</h3>
-                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close review modal"></i>
-            </header>
-            <main>
-                <p class="mt-1">You can schedule a design or development review of your project with the HackerStash team once every 6 months.</p>
-                <p class="mb-1-5">We schedule 15 minutes for these calls, but occasionally they can run longer.</p>
-
-                <footer class="mt-2">
-                    <a href="https://calendly.com/chris-pattison/hackerstash-meeting" target="_blank" rel="nofollow noreferrer" class="button">Schedule review</a>
-                    <button class="button secondary modal-close">Cancel</button>
-                </footer>
-            </main>
-        </div>
     </div>
 {% endblock %}
