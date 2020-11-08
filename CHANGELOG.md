@@ -1,5 +1,10 @@
 # Changelog
 
+### 08/11/20:
+- Fixed an issue where dropping an image would leave a weird border
+- Fixed an issue where a user had a huge description for their project
+- Updated color scheme to be darker
+
 ### 01/11/20:
 - Added a new design for the project pages
 - Added the option to set a team size
