@@ -1,33 +1,37 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Leaderboard' %}
 
-{% from "partials/prize.html" import prize %}
-{% from "partials/pagination.html" import crap_pagination %}
+{% from "partials/pagination.html" import pagination %}
 {% from "partials/previews.html" import project_preview %}
 {% from "partials/vote.html" import project_vote %}
+{% from "partials/winners.html" import winner_badge %}
+
+{% set first_page = request.args.get('page', '1') == '1' %}
 
 {% block body %}
     <div class="page leaderboard">
         <header class="header mb-0">
             <h2 role="heading">Leaderboard</h2>
+            <span class="tag">Time remaining: <span>{{ remaining_days or 'Unknown' }}</span></span>
         </header>
 
-        <div class="table">
+        <div class="table {{ 'first-page' if first_page }}">
             <div class="table-header">
                 <p class="col-1">Rank</p>
                 <p class="col-4">Project name</p>
                 <p class="col-3">Url</p>
                 <p class="col-2">Score</p>
-                <p class="col-2">Expected prize</p>
+                <p class="col-2 prize">Prize Bundle</p>
             </div>
             <ul class="table-body" role="list">
-                {% for project in projects %}
+                {% for project in paginated_projects.items %}
                     <li role="listitem">
                         <p class="col-1 position">
                             <span>{{ project.position }}</span>
                         </p>
                         <p class="col-4 project">
                             {{ project_preview(project) }}
+                            {{ winner_badge(project) }}
                         </p>
                         <p class="col-3 small">
                             {% if project.url %}
@@ -41,8 +45,24 @@
                         <p class="col-2 small score">
                             <i>{{ project.vote_score }} points</i>
                         </p>
-                        <p class="col-2">
-                            {{ prize(project) }}
+                        <p class="col-2 prize">
+                            {% if project.position == 1 %}
+                                <span class="prize-bundle">
+                                    🥇 <button class="button link small modal-open" data-modal="prize-modal-first">View Prize</button>
+                                </span>
+                            {% endif %}
+
+                            {% if project.position == 2 %}
+                                <span class="prize-bundle">
+                                    🥈 <button class="button link small modal-open" data-modal="prize-modal-second">View Prize</button>
+                                </span>
+                            {% endif %}
+
+                            {% if project.position == 3 %}
+                                <span class="prize-bundle">
+                                    🥉 <button class="button link small modal-open" data-modal="prize-modal-third">View Prize</button>
+                                </span>
+                            {% endif %}
                         </p>
                     </li>
                 {% else %}
@@ -52,5 +72,74 @@
         </div>
     </div>
 
-    {{ crap_pagination(pagination) }}
+    {{ pagination(paginated_projects) }}
+
+    <div id="prize-modal-first" class="modal prize-modal">
+        <div class="modal-body md" role="dialog" aria-labelledby="prize-modal-first-header">
+            <header>
+                <h3 id="prize-modal-first-header">1st Place Prize</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close voting info modal"></i>
+            </header>
+            <main>
+                <div class="content">
+                    <p>This month our 1st placed winner will receive the following prize:</p>
+                    <ul>
+                        <li>$25 cash</li>
+                        <li>1 hour UX and Design review on a topic of your choosing</li>
+                        <li>$500 in Airtable credits</li>
+                    </ul>
+                    <p>This month is our first using a new prize format, and we’re going to be continually expanding the array of reviews over time. We’ll share posts about updates to the offer as/when new partnerships or reviews are added to the prize bundle.</p>
+                    <p>If you’d like to offer your expertise as part of our winners reviews, or perhaps you have a tool or service you think could be valuable to the community, then <a href="{{ url_for('contact.index') }}">let us know</a>.</p>
+                </div>
+                <footer class="mt-2">
+                    <button class="button secondary modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <div id="prize-modal-second" class="modal prize-modal">
+        <div class="modal-body md" role="dialog" aria-labelledby="prize-modal-second-header">
+            <header>
+                <h3 id="prize-modal-second-header">2nd Place Prize</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close voting info modal"></i>
+            </header>
+            <main>
+                <div class="content">
+                    <p>This month our 2nd placed winner will receive the following prize:</p>
+                    <ul>
+                        <li>30 minutes UX and Design review on a topic of your choosing</li>
+                        <li>$15 cash</li>
+                    </ul>
+                    <p>This month is our first using a new prize format, and we’re going to be continually expanding the array of reviews over time. We’ll share posts about updates to the offer as/when new partnerships or reviews are added to the prize bundle.</p>
+                    <p>If you’d like to offer your expertise as part of our winners reviews, or perhaps you have a tool or service you think could be valuable to the community, then <a href="{{ url_for('contact.index') }}">let us know</a>.</p>
+                </div>
+                <footer class="mt-2">
+                    <button class="button secondary modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <div id="prize-modal-third" class="modal prize-modal">
+        <div class="modal-body md" role="dialog" aria-labelledby="prize-modal-third-header">
+            <header>
+                <h3 id="prize-modal-third-header">3rd Place Prize</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close voting info modal"></i>
+            </header>
+            <main>
+                <div class="content">
+                    <p>This month our 3rd placed winner will receive the following prize:</p>
+                    <ul>
+                        <li>30 minutes UX and Design review on a topic of your choosing</li>
+                    </ul>
+                    <p>This month is our first using a new prize format, and we’re going to be continually expanding the array of reviews over time. We’ll share posts about updates to the offer as/when new partnerships or reviews are added to the prize bundle.</p>
+                    <p>If you’d like to offer your expertise as part of our winners reviews, or perhaps you have a tool or service you think could be valuable to the community, then <a href="{{ url_for('contact.index') }}">let us know</a>.</p>
+                </div>
+                <footer class="mt-2">
+                    <button class="button secondary modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
+    </div>
 {% endblock %}

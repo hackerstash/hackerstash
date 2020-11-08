@@ -13,7 +13,7 @@ challenges = Blueprint('challenges', __name__)
 @challenges.route('/challenges')
 @login_required
 def index() -> str:
-    weekly_challenges = Challenge.get_weekly_challenges_for_project(g.user.member.project)
+    weekly_challenges = Challenge.get_weekly_challenges_for_project(g.user.project)
     challenge_status = {}
 
     for key in challenge_types:
@@ -32,5 +32,5 @@ def index() -> str:
 @login_required
 def dismiss():
     log.info('Dismissing challenge notification', {'user_id': g.user.id})
-    redis.delete(f'{g.user.member.project.id}:challenge_completed')
+    redis.delete(f'{g.user.project.id}:challenge_completed')
     return '', 204

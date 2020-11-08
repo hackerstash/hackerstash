@@ -1,5 +1,24 @@
 # Changelog
 
+### 01/11/20:
+- Added a new design for the project pages
+- Added the option to set a team size
+- Added the option to show a badge looking for cofounders
+- Added a custom CTA button for projects
+
+### 30/10/20:
+- Move the leaderboard to a Redis ZSET
+
+### 28/10/20:
+- Update to Python 3.9
+
+### 25/10/20:
+- Fixed an issue where a user could receive multiple mentions per post/comment
+- Added the new onboarding UI
+
+### 24/10/20:
+- Removed Stripe and Stash related code
+
 ### 23/10/20:
 - Fixed an issue where the location typeahead could not be closed
 - Fixed an issue where the comment count would not update after creating a new comment

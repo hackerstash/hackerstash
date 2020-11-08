@@ -14,11 +14,6 @@ google_client_secret=
 twitter_api_key=
 twitter_api_secret=
 redis_host=redis
-stripe_api_key=
-stripe_api_secret_key=
-stripe_price_id=
-stripe_success_uri=http://localhost:5000/stripe/checkout/success
-stripe_failure_uri=http://localhost:5000/stripe/checkout/failure
 
 FLASK_ENV=development
 PYTHONUNBUFFERED=1

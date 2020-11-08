@@ -30,7 +30,7 @@ def member_required(f):
             log.warn('Auth failure', {'reason': 'User has no session', **logging_info})
             return render_template('projects/401.html')
 
-        if not g.user.admin and g.user.member.project.id != int(kwargs['project_id']):
+        if not g.user.admin and g.user.project.id != int(kwargs['project_id']):
             log.warn('Auth failure', {'reason': 'Not member of project', 'user_id': g.user.id, **logging_info})
             return render_template('projects/401.html')
 
@@ -44,11 +44,11 @@ def published_project_required(f):
         logging_info = {'path': request.path, 'type': 'published_project_required'}
 
         if not g.user.admin:
-            if not g.user.member:
+            if not g.user.project:
                 log.warn('Auth failure', {'reason': 'Not member of project', 'user_id': g.user.id, **logging_info})
                 raise Unauthorized()
 
-            if not g.user.member.project.published:
+            if not g.user.project.published:
                 log.warn('Auth failure', {'reason': 'Project not published', 'user_id': g.user.id, **logging_info})
                 raise Unauthorized()
 

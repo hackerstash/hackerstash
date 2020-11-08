@@ -1,7 +1,6 @@
 from flask import session, request, url_for, g, redirect, render_template
 from werkzeug.exceptions import HTTPException
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.sidebar import Sidebar
 from hackerstash.models.user import User
 from hackerstash.utils.headers import Headers
 from hackerstash.utils.page import Page
@@ -29,10 +28,7 @@ def init_app(app):
                 return redirect(url_for('auth.login'))
 
             if not g.user.username and not page.onboarding:
-                return redirect(url_for('users.new'))
-
-        sidebar = Sidebar()
-        sidebar.set_global_values()
+                return redirect(url_for('onboarding.index'))
 
     @app.after_request
     def after_request_func(response):

@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash' %}
 
 {% block body %}
@@ -6,18 +6,13 @@
         <div class="header-banner">
             <div class="title">
                 <h1>Supercharge Your Startup With The Power Of Community</h1>
-                <a href="https://www.producthunt.com/posts/hackerstash?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hackerstash" target="_blank">
-                    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=270386&theme=light" alt="HackerStash - Community-led micro finance for hackers and entrepreneurs. | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
-                </a>
             </div>
         </div>
         <section class="home-section what-is">
             <div class="left">
                 <h2 class="mb-2">What is HackerStash?</h2>
-                <p>HackerStash is private community with a weekly tournament designed to help you drive your project forward whilst supporting projects and services you love.</p>
-                <p>You’ll share updates and news about your project and vote on competing projects, with the top competitors winning cash prizes each week to help drive their projects forward.</p>
-                <p>A HackerStash subscription costs $9 per month, and the prize pool gets larger as more projects take part.</p>
-                <p>Use coupon code NEWHACKER102 and get <span class="highlight">2 months access for $10</span>!</p>
+                <p>HackerStash is private community with a monthly tournament designed to help you drive your project forward whilst supporting projects and services you love.</p>
+                <p>You’ll share updates and news about your project and vote on competing projects, with the top competitors winning prizes each week that will help drive their projects forward.</p>
             </div>
             <div class="right">
                 <div class="sign-up">
@@ -60,13 +55,13 @@
                         <li class="active" data-tab="leaderboard" role="tab" id="leaderboard-tab" aria-selected="true" aria-controls="leaderboard-panel" tabindex="0">
                             <div class="title">
                                 <i class="ri-money-dollar-circle-line"></i>
-                                <p>Fund great projects, and your own!</p>
+                                <p>Support great projects, and your own!</p>
                                 <i class="ri-subtract-line toggle close"></i>
                                 <i class="ri-add-line toggle add"></i>
                             </div>
                             <div class="body">
-                                <p class="small">Not all projects or businesses need huge cash injections to help them launch or find product market fit. That said, small amounts can make a huge difference and help you get there faster!</p>
-                                <p class="small">Every week the top HackerStash projects win small cash prizes to help fund their projects, no strings attached.</p>
+                                <p class="small">Not all projects or businesses need huge cash injections to help them launch or find product market fit. A network of peers and the opportunity to access expert advice can often be all you need to make your project succeed.</p>
+                                <p class="small">Every month the HackerStash community votes on their favourite projects. The winners receive prizes, like expert reviews of their project, or discounts for great third party tools and services.</p>
                             </div>
                         </li>
                         <li data-tab="notifications" role="tab" id="notifications-tab" aria-selected="false" aria-controls="notifications-panel" tabindex="0">
@@ -89,8 +84,8 @@
                                 <i class="ri-add-line toggle add"></i>
                             </div>
                             <div class="body">
-                                <p class="small">Your votes, and those of other community members, determine the winners each week - there’s no invisible hand tipping the scales and the rules are 100% transparent.</p>
-                                <p class="small">Not only that, but each week the tournament restarts and scores are wiped, so nobody gains an advantage from being a member for longer.</p>
+                                <p class="small">Your votes, and those of other community members, determine the winners each month - there’s no invisible hand tipping the scales and the rules are 100% transparent.</p>
+                                <p class="small">Not only that, but each month the tournament restarts and scores are wiped, so nobody gains an advantage from being a member for longer.</p>
                             </div>
                         </li>
                     </ul>
@@ -104,7 +99,7 @@
                         <i class="ri-flashlight-line"></i>
                     </span>
                     <p><b>Publish your project</b></p>
-                    <p class="small">To join the tournmanet simply complete your project description, invite your team members and publish your project ($9 per month)</p>
+                    <p class="small">To join the tournmanet simply complete your project description, optionally invite any your team members, and publish your project.</p>
                 </div>
                 <div class="row">
                     <span class="icon">
@@ -125,19 +120,9 @@
                         <i class="ri-trophy-line"></i>
                     </span>
                     <p><b>Win prizes</b></p>
-                    <p class="small">The more points your project earns, the higher you are ranked on the leaderboard. Each week the tournament closes at midnight GMT on a Sunday, after which point the winners are announced.</p>
+                    <p class="small">The more points your project earns, the higher you are ranked on the leaderboard. Each month the tournament closes at midnight on the last day of the month, after which point the winners are announced.</p>
                 </div>
             </div>
-        </section>
-
-        <hr class="divider thicc d-none d-none-small">{# TODO #}
-
-        <section class="home-section started d-none">
-            <h3 class="mb-2">Why We Started HackerStash</h3>
-            <p class="wrap-620 small">Too many great business ideas fail before they’ve even managed to find their feet and we think HackerStash can leverage the transformational value of community particpation to change that.</p>
-            <p class="wrap-620 small">Harry King explains why in this video, or you can read our blog article on the topic here.</p>
-
-            <div class="video"></div>
         </section>
     </div>
 {% endblock %}

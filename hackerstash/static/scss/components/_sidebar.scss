@@ -82,27 +82,6 @@
     }
   }
 
-  .prize-pool {
-    background: $darkblue-800;
-    border: 2px solid $darkblue-700;
-    border-radius: .5rem;
-    margin-top: 1rem;
-    padding: 1rem;
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-
-      p {
-        margin-bottom: .5rem;
-
-        &:last-of-type {
-          color: $blue-500;
-        }
-      }
-    }
-  }
-
   .routes {
     flex-direction: column;
     margin-top: 1rem;
@@ -200,7 +179,7 @@
   @include tablet-down  {
     padding: 1.125rem 1rem;
 
-    .prize-pool {
+    .meta {
       display: none;
     }
 
@@ -233,7 +212,7 @@
         margin-top: 1rem;
       }
 
-      .prize-pool {
+      .meta {
         display: block;
       }
 

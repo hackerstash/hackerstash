@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block layout %}
+    <div class="hackerstash">
+      {% include "partials/sidebar.html" %}
+      <main>
+          {% block body %}
+          {% endblock %}
+      </main>
+    </div>
+    {% include "partials/footer.html" %}
+    {% include "partials/confetti.html" %}
+    {% include "partials/signup_modal.html" %}
+    {% include "partials/publish_modal.html" %}
+{% endblock %}

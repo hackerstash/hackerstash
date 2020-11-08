@@ -29,59 +29,12 @@
         border-color: $blue-500;
       }
 
-      &.prize-awarded {
-        align-items: center;
-
-        .details {
-          .notification-message,
-          .prize-notification + p,
-          .prize-notification + p + p {
-            display: none;
-          }
-        }
-      }
-
       a {
         color: $mauve-500;
       }
       
       .details {
         flex: 1;
-
-        .prize-notification {
-          align-items: center;
-          background: none;
-          display: flex;
-          pointer-events: all;
-
-          p {
-            color: white;
-            flex: 1;
-            margin: 0;
-
-            a {
-              color: white;
-            }
-          }
-
-          .button {
-            margin-right: 1rem;
-          }
-
-          @include tablet-down {
-            flex-direction: column;
-
-            .prize {
-              margin: 0 0 1rem 0;
-              width: 100%;
-            }
-
-            p + .button {
-              margin: 1rem 0 0 0;
-              width: 100%;
-            }
-          }
-        }
       }
 
       .notification-message {
@@ -125,6 +78,19 @@
           background: $darkblue-800;
         }
       }
+    }
+  }
+
+  .prize-notification {
+    display: flex;
+
+    span {
+      display: block;
+    }
+
+    .trophy {
+      margin: .25rem .5rem 0 0;
+      width: 1.5rem;
     }
   }
 }

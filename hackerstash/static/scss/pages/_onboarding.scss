@@ -1,0 +1,65 @@
+.onboarding-header {
+  background: $darkblue-900;
+  height: 306px;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .wrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+  }
+}
+
+.onboarding {
+  .tab-body {
+    padding-top: 3rem;
+  }
+
+  .user-tab {
+    .row {
+      > div {
+        flex: 1;
+
+        &:first-of-type {
+          margin-right: 2rem;
+        }
+      }
+
+      @include tablet-down  {
+        flex-direction: column;
+
+        > div:first-of-type {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .username {
+      position: relative;
+
+      &:before {
+        color:  $blue-500;
+        content: '@';
+        left: 1rem;
+        position: absolute;
+        top: .6rem;
+      }
+
+      input {
+      padding-left: 2.5rem;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
 
@@ -41,12 +42,14 @@ class Comment(db.Model):
         # vote is actually made on behalf of the project
         # to stop people from creating 30 fake users and
         # downvote bombing other users
-        return find_in_list(self.votes, lambda x: x.user.member.project.id == user.member.project.id)
+        return find_in_list(self.votes, lambda x: x.user.project.id == user.project.id)
 
     def vote(self, user, direction: str) -> None:
         # Comments have a score of 1 point
         score = 1 if direction == 'up' else -1
         existing_vote = self.get_existing_vote_for_user(user)
+        # Update the leaderboard
+        Leaderboard(self.user.project).update(score)
 
         if existing_vote:
             db.session.delete(existing_vote)
@@ -58,9 +61,9 @@ class Comment(db.Model):
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
-        if not user.member or not user.member.project.published:
+        if not user.member or not user.project.published:
             return 'disabled not-published'
-        if self.user.member.project.id == user.member.project.id:
+        if self.user.project.id == user.project.id:
             return 'disabled own-project'
 
         existing_vote = self.get_existing_vote_for_user(user)

@@ -45,11 +45,11 @@ class NotificationSetting(db.Model):
     you_were_removed_from_a_project_web = db.Column(db.Boolean, default=True)
     you_were_removed_from_a_project_email = db.Column(db.Boolean, default=True)
 
-    prize_awarded_web = db.Column(db.Boolean, default=True)
-    prize_awarded_email = db.Column(db.Boolean, default=True)
-
     project_vote_reminder_web = db.Column(db.Boolean, default=True)
     project_vote_reminder_email = db.Column(db.Boolean, default=True)
+
+    prize_awarded_web = db.Column(db.Boolean, default=True)
+    prize_awarded_email = db.Column(db.Boolean, default=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

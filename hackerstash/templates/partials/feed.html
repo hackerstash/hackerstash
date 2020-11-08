@@ -1,0 +1,56 @@
+{% from "partials/avatar.html" import avatar %}
+{% from "partials/polls.html" import poll %}
+
+{% macro comments(c) %}
+    <li class="feed-item comment" role="listitem">
+        {% if c.parent_comment_id %}
+            <p class="small feed-title">{{ c.created_at | to_feed_date }} {{ avatar(c.user, size='xx-sm') }} {{ c.user.first_name }} <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.parent_comment_id }}">replied</a> to a <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.id }}">comment</a> on a <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}">post</a></p>
+        {% else %}
+            <p class="small feed-title">{{ c.created_at | to_feed_date }} {{ avatar(c.user, size='xx-sm') }} {{ c.user.first_name }} <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.id }}">commented</a> on a <a href="{{ url_for('posts.show', post_id=c.post.url_slug) }}">post</a></p>
+        {% endif %}
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=c.post.url_slug) }}#{{ c.id }}">
+            <span class="rich-text inline">{{ c.body | to_plain_text | truncate(200) }}</span>
+        </a>
+    </li>
+{% endmacro %}
+
+{% macro posts(p) %}
+    <li class="feed-item post" role="listitem">
+        <p class="small feed-title">{{ p.created_at | to_feed_date }} {{ avatar(p.user, size='xx-sm') }} {{ p.user.first_name }} created a <a href="{{ url_for('posts.show', post_id=p.url_slug) }}">post</a></p>
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=p.url_slug) }}">
+            <h4 class="mb-1">{{ p.title }}</h4>
+            <span class="rich-text inline">{{ p.body | to_plain_text | truncate(400) }}</span>
+        </a>
+    </li>
+{% endmacro %}
+
+{% macro polls(p) %}
+    <li class="feed-item poll" role="listitem">
+        <p class="small feed-title">{{ p.created_at | to_feed_date }} {{ avatar(p.user, size='xx-sm') }} {{ p.user.first_name }} created a <a href="{{ url_for('posts.show', post_id=p.url_slug) }}">poll</a></p>
+        <a class="feed-body" href="{{ url_for('posts.show', post_id=p.url_slug) }}">
+            {{ poll(p, read_only=True) }}
+        </a>
+    </li>
+{% endmacro %}
+
+<ul class="feed" role="list">
+    {% for f in feed.items %}
+        {% if f.__tablename__ == 'comments' %}
+            {{ comments(f) }}
+        {% elif f.__tablename__ == 'posts' %}
+            {% if f.poll %}
+                {{ polls(f) }}
+            {% else %}
+                {{ posts(f) }}
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {% include "partials/no_results.html" %}
+    {% endfor %}
+
+    {% if feed.has_next %}
+        <li class="load-more">
+            <a id="load-more-feed" href="{{ feed.next_page | paginate_in_feed }}" class="button secondary">Load more</a>
+        </li>
+    {% endif %}
+</ul>

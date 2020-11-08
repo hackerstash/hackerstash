@@ -127,7 +127,7 @@ def google_callback() -> str:
     db.session.commit()
     set_session(user)
 
-    return redirect(url_for('users.new'))
+    return redirect(url_for('onboarding.index'))
 
 
 @auth.route('/login/twitter/callback')
@@ -169,4 +169,4 @@ def twitter_callback() -> str:
     db.session.commit()
     set_session(user)
 
-    return redirect(url_for('users.new'))
+    return redirect(url_for('onboarding.index'))

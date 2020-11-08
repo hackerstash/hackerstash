@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Profile' %}
 
 {% from "partials/avatar.html" import avatar_upload %}
@@ -32,7 +32,7 @@
                 </div>
 
                 <label class="label" for="username">Username</label>
-                <p>Please use characters A-Z, numbers, hyphens, underscores and periods.</p>
+                <p>Please use characters a-z, numbers, hyphens, underscores and periods.</p>
                 <input class="input" name="username" id="username" value="{{ g.user.username }}" required pattern="[a-z0-9_\-\.]+">
 
                 <label class="label" for="location">Location <span>(city/town/village)</span></label>

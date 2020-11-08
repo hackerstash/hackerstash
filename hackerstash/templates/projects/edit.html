@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Projects / ' + project.name + ' / Edit' %}
 
 {% from "partials/avatar.html" import avatar, avatar_upload %}
@@ -10,22 +10,28 @@
 {% block body %}
     <div class="page edit-project">
         <header class="header">
-            <div>
-                <h2 role="heading">Edit Project</h2>
+            <h2 role="heading">Edit Project</h2>
+
+            {% if g.user.member.owner %}
                 {% if project.published %}
-                    <span class="tag publish-status success">Published</span>
+                    <a class="button tertiary" href="{{ url_for('projects.unpublish', project_id=project.id) }}">Unpublish Project</a>
                 {% else %}
-                    <span class="tag publish-status tertiary">Unpublished</span>
+                    <a class="button success" href="{{ url_for('projects.publish', project_id=project.id) }}">Publish Project</a>
                 {% endif %}
-
-            </div>
-
-            {% if project.published and g.user.member.owner %}
-                <a class="button secondary" href="{{ url_for('projects.subscription', project_id=project.id) }}">Manage Subscription</a>
-            {% else %}
-                <button class="button success modal-open" data-modal="checkout-modal">Publish Project</button>
             {% endif %}
         </header>
+
+        <div class="project-header" style="{{ ('background-image: url(https://images.hackerstash.com/' + project.banner + ');') if project.banner }}">
+            <form class="form upload-project-header" method="post" action="{{ url_for('projects.upload_header', project_id=project.id) }}" enctype="multipart/form-data">
+                <input class="input" id="header_file" type="file" name="header_file" accept="image/jpg, image/jpeg, image/png">
+                <label for="header_file">
+                    <i class="ri-image-add-line"></i>
+                </label>
+            </form>
+            {% if project.banner %}
+                <a href="{{ url_for('projects.delete_header', project_id=project.id) }}" class="delete-project-header"><i class="ri-delete-bin-2-line"></i></a>
+            {% endif %}
+        </div>
 
         <div class="tabs">
             <div class="tab-header">
@@ -35,344 +41,34 @@
 
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'details' }}">
-                    <form class="form editor-form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
+                    <form class="form editor-form pt-2" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
                         {% include "partials/messages.html" %}
 
                         <fieldset>
-                            <section class="wrap-620 mt-2">
-                                <h3>Summary</h3>
-                                {{ avatar_upload(project) }}
+                            <h3>Summary</h3>
 
-                                <label class="label" for="name">Project name</label>
-                                <input class="input" name="name" id="name" placeholder="e.g. Catbook" required value="{{ '' if project.name == 'Untitled' else project.name }}">
+                            {% include "partials/project_edit.html" %}
 
-                                <label class="label" for="start_month">Project start date</label>
-                                <div class="select-group mb-1">
-                                    <div class="select">
-                                        <select id="start_month" name="start_month">
-                                            <option value="0" {{ 'selected' if project.start_month == 0 }}>January</option>
-                                            <option value="1" {{ 'selected' if project.start_month == 1 }}>February</option>
-                                            <option value="2" {{ 'selected' if project.start_month == 2 }}>March</option>
-                                            <option value="3" {{ 'selected' if project.start_month == 3 }}>April</option>
-                                            <option value="4" {{ 'selected' if project.start_month == 4 }}>May</option>
-                                            <option value="5" {{ 'selected' if project.start_month == 5 }}>June</option>
-                                            <option value="6" {{ 'selected' if project.start_month == 6 }}>July</option>
-                                            <option value="7" {{ 'selected' if project.start_month == 7 }}>August</option>
-                                            <option value="8" {{ 'selected' if project.start_month == 8 }}>September</option>
-                                            <option value="9" {{ 'selected' if project.start_month == 9 }}>October</option>
-                                            <option value="10" {{ 'selected' if project.start_month == 10 }}>November</option>
-                                            <option value="11" {{ 'selected' if project.start_month == 11 }}>December</option>
-                                        </select>
-                                        <i class="icon ri-arrow-drop-down-line"></i>
-                                    </div>
-
-                                    <div class="select">
-                                        <select id="start_year" name="start_year">
-                                            <option value="2020" {{ 'selected' if project.start_year == 2020 }}>2020</option>
-                                            <option value="2019" {{ 'selected' if project.start_year == 2019 }}>2019</option>
-                                            <option value="2018" {{ 'selected' if project.start_year == 2018 }}>2018</option>
-                                            <option value="2017" {{ 'selected' if project.start_year == 2017 }}>2017</option>
-                                            <option value="2016" {{ 'selected' if project.start_year == 2016 }}>2016</option>
-                                            <option value="2015" {{ 'selected' if project.start_year == 2015 }}>2015</option>
-                                            <option value="2014" {{ 'selected' if project.start_year == 2014 }}>2014</option>
-                                            <option value="2013" {{ 'selected' if project.start_year == 2013 }}>2013</option>
-                                            <option value="2012" {{ 'selected' if project.start_year == 2012 }}>2012</option>
-                                            <option value="2011" {{ 'selected' if project.start_year == 2011 }}>2011</option>
-                                            <option value="2010" {{ 'selected' if project.start_year == 2010 }}>2010</option>
-                                        </select>
-                                        <i class="icon ri-arrow-drop-down-line"></i>
-                                    </div>
-                                </div>
-
-                                <label class="label" for="description">Short description</label>
-                                {{ editor_light(project.description or '', limit=240) }}
-
-                                <label class="label mt-1-5" for="url">Web address <span>(URL)</span></label>
-                                <input class="input" name="url" id="url" placeholder="e.g. catbook.com" value="{{ project.url or '' }}">
-
-                                <label class="label" for="location">Location <span>(city/town/village)</span></label>
-                                <p>Where is the primary location of this project? If the team is remote/distributed then please choose where this project is/would be based if registered as a business.</p>
-                                <input class="input search location-typeahead" id="location" name="location" type="search" autocomplete="disabled" placeholder="Search..." value="{{ project.location or '' }}">
-                                <div class="search-results"></div>
+                            <section class="button-group">
+                                <button class="button" type="submit">Save changes</button>
+                                <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
                             </section>
 
-                            <hr class="divider mt-1 mb-2">
+                            <hr class="divider mb-2 mt-2">
 
-                            <section class="wrap-620">
-                                <h2 class="mt-2 mb-2">Additional Information</h2>
-                                <label class="label">Platforms and devices</label>
-                                <p>Please tick any platforms or devices that you’re building your project for:</p>
-
-                                <ul class="checkbox-group mb-2">
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="android" name="platforms_and_devices" value="android" {{ 'checked' if 'android' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="android">Android</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="browser_plugin" name="platforms_and_devices" value="browser_plugin" {{ 'checked' if 'browser_plugin' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="browser_plugin">Browser plugin</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="desktop" name="platforms_and_devices" value="desktop" {{ 'checked' if 'desktop' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="desktop">Desktop</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="ios" name="platforms_and_devices" value="ios" {{ 'checked' if 'ios' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="ios">iOS</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="mac" name="platforms_and_devices" value="mac" {{ 'checked' if 'mac' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="mac">Mac</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="mobile" name="platforms_and_devices" value="mobile" {{ 'checked' if 'mobile' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="mobile">Mobile</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="pc" name="platforms_and_devices" value="pc" {{ 'checked' if 'pc' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="pc">PC</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="web" name="platforms_and_devices" value="web" {{ 'checked' if 'web' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="web">Web</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="podcast" name="platforms_and_devices" value="podcast" {{ 'checked' if 'podcast' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="podcast">Podcast</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="youtube" name="platforms_and_devices" value="youtube" {{ 'checked' if 'youtube' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="youtube">YouTube / Video</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="newsletter" name="platforms_and_devices" value="newsletter" {{ 'checked' if 'newsletter' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="newsletter">Newsletter</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="hardware" name="platforms_and_devices" value="hardware" {{ 'checked' if 'hardware' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="hardware">Hardware</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="other" name="platforms_and_devices" value="other" {{ 'checked' if 'other' in (project.platforms_and_devices or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="other">Other</label>
-                                    </li>
-                                </ul>
-
-                                <label class="label">Business model</label>
-                                <p>How does your project make money (or intend to)?</p>
-                                <ul class="checkbox-group mb-2">
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="advertising" name="business_models" value="advertising" {{ 'checked' if 'advertising' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="advertising">Advertising</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="commission" name="business_models" value="commission" {{ 'checked' if 'commission' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="commission">Commission</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="consulting" name="business_models" value="consulting" {{ 'checked' if 'consulting' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="consulting">Consulting</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="donations" name="business_models" value="donations" {{ 'checked' if 'donations' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="donations">Donations</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="free" name="business_models" value="free" {{ 'checked' if 'free' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="free">Free</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="partnership" name="business_models" value="partnership" {{ 'checked' if 'partnership' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="partnership">Partnership</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="sales_and_transactions" name="business_models" value="sales_and_transactions" {{ 'checked' if 'sales_and_transactions' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="sales_and_transactions">Sales &amp; Transactions</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="subscriptions" name="business_models" value="subscriptions" {{ 'checked' if 'subscriptions' in (project.business_models or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="subscriptions">Subscriptions</label>
-                                    </li>
-                                </ul>
-
-                                <label class="label">Funding</label>
-                                <p>How has your project been funded up until now?</p>
-                                <ul class="checkbox-group mb-2">
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="accelerator" name="fundings" value="accelerator" {{ 'checked' if 'accelerator' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="accelerator">Accelerator</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="bootstrapped" name="fundings" value="bootstrapped" {{ 'checked' if 'bootstrapped' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="bootstrapped">Bootstrapped</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="crowd_funded" name="fundings" value="crowd_funded" {{ 'checked' if 'crowd_funded' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="crowd_funded">Crowd-funded</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="donation_supported" name="fundings" value="donation_supported" {{ 'checked' if 'donation_supported' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="donation_supported">Donation-supported</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="hackerstash" name="fundings" value="hackerstash" {{ 'checked' if 'hackerstash' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="hackerstash">HackerStash prizes</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="self_funded" name="fundings" value="self_funded" {{ 'checked' if 'self_funded' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="self_funded">Self funded</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="vc_funded" name="fundings" value="vc_funded" {{ 'checked' if 'vc_funded' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="vc_funded">VC funded</label>
-                                    </li>
-                                    <li>
-                                        <span class="checkbox">
-                                            <input type="checkbox" id="seed_funded" name="fundings" value="seed_funded" {{ 'checked' if 'seed_funded' in (project.fundings or []) }}>
-                                            <span class="indicator"><i class="icon ri-check-line"></i></span>
-                                        </span>
-                                        <label class="label" for="seed_funded">Seed funded</label>
-                                    </li>
-                                </ul>
-                            </section>
-
-                            <hr class="divider mb-2">
-
-                            <div class="project-actions">
-                                <section class="button-group">
-                                    <button class="button" type="submit">Save changes</button>
-                                    <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
-                                </section>
-
-                                <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete</a>
-                            </div>
+                            <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete project</a>
                         </fieldset>
                     </form>
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == 'team' }}">
-                    <label class="label mt-1 mb-1">Team members</label>
-                    <p class="wrap-620 mb-2">If you’re working on your project with other people, invite them to HackerStash as team members. They will each being able to participate in the community as members of your team.</p>
-                    <ul class="team">
-                        {% for m in project.members %}
-                            <li>
-                                {{ avatar(m.user, 'sm') }}
-                                <p>{{ user_preview(m.user) }}</p>
-                                {% if m.user.id == g.user.id %}
-                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
-                                {% else %}
-                                    <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Manage</a></p>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-
-                        {% for i in project.invites %}
-                            <li>
-                                {{ avatar({}, 'sm') }}
-                                <p>{{ i.first_name }}</p>
-                                <p><i>Invite sent</i></p>
-                                <p class="edit">
-                                    <a href="{{ url_for('projects.remove_invite', project_id=i.project.id, invite_id=i.id) }}">Remove</a>
-                                </p>
-                            </li>
-                        {% endfor %}
-
-                        <li class="invite">
-                            <a href="{{ url_for('projects.add_members', project_id=project.id) }}" class="button link">
-                                <span class="invite-icon"><i class="icon ri-add-line"></i></span>
-                                <span class="text">Add team member</span>
-                            </a>
-                        </li>
-                    </ul>
-
                     <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post">
                         <fieldset>
-                            <label class="label mt-3">Time commitment</label>
-                            <ul class="radio-group mt-1 mb-3">
+                            <label class="label mt-1" for="team_size">Team size</label>
+                            <input class="input wrap-216 mb-2" type="text" id="team_size" name="team_size" placeholder="e.g. 13" value="{{ project.team_size }}">
+
+                            <label class="label">Time commitment</label>
+                            <ul class="radio-group mt-1 mb-2">
                                 <li>
                                     <span class="radio">
                                         <input class="input" type="radio" id="full-time" name="time_commitment" value="FULL_TIME" {{ 'checked' if project.time_commitment == 'FULL_TIME' }}>
@@ -389,7 +85,60 @@
                                 </li>
                             </ul>
 
-                            <div class="button-group">
+                            <label class="label mb-1">Community members</label>
+                            <p class="wrap-620 mb-2">If other people are working on your project with you, invite them to HackerStash as team members. They will each get a share of the votes your project can allocate to other peoples projects</p>
+                            <ul class="team">
+                                {% for m in project.members %}
+                                    <li>
+                                        {{ avatar(m.user, 'sm') }}
+                                        <p>{{ user_preview(m.user) }}</p>
+                                        {% if m.user.id == g.user.id %}
+                                            <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Edit role</a></p>
+                                        {% else %}
+                                            <p class="edit"><a href="{{ url_for('projects.edit_member', project_id=project.id, member_id=m.id) }}">Manage</a></p>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+
+                                {% for i in project.invites %}
+                                    <li>
+                                        {{ avatar({}, 'sm') }}
+                                        <p>{{ i.first_name }}</p>
+                                        <p><i>Invite sent</i></p>
+                                        <p class="edit">
+                                            <a href="{{ url_for('projects.remove_invite', project_id=i.project.id, invite_id=i.id) }}">Remove</a>
+                                        </p>
+                                    </li>
+                                {% endfor %}
+
+                                <li class="invite">
+                                    <a href="{{ url_for('projects.add_members', project_id=project.id) }}" class="button link">
+                                        <span class="invite-icon"><i class="icon ri-add-line"></i></span>
+                                        <span class="text">Add team member</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <label class="label mt-2">Looking for cofounders?</label>
+                            <p class="wrap-620">If you’re looking for cofounders we can display a badge on your profile to let other community members know.</p>
+                            <ul class="radio-group mt-1">
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="cofounder-yes" name="looking_for_cofounders" value="true" {{ 'checked' if project.looking_for_cofounders }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="cofounder-yes">Yes</label>
+                                </li>
+                                <li>
+                                    <span class="radio">
+                                        <input class="input" type="radio" id="cofounder-no" name="looking_for_cofounders" value="false" {{ 'checked' if not project.looking_for_cofounders }}>
+                                        <span class="indicator"><span></span></span>
+                                    </span>
+                                    <label class="label" for="cofounder-no">No</label>
+                                </li>
+                            </ul>
+
+                            <div class="button-group mt-3">
                                 <button class="button" type="submit">Save changes</button>
                                 <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
                             </div>
@@ -399,12 +148,10 @@
             </div>
         </div>
     </div>
-
-    {% include "partials/checkout_modal.html" %}
 {% endblock %}
 
 {% block scripts %}
     <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form', { limit: true });
+        window.onload = () => createEditor('.editor-form');
     </script>
 {% endblock %}

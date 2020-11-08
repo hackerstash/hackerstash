@@ -103,3 +103,26 @@
     display: none;
   }
 }
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+
+  .input-item {
+    flex: 1;
+
+    &:first-of-type {
+      margin-right: 1.5rem;
+    }
+  }
+
+  @include tablet-down {
+    flex-direction: column;
+
+    .input-item {
+      &:first-of-type {
+        margin: 0;
+      }
+    }
+  }
+}

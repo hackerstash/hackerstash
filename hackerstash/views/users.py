@@ -3,13 +3,10 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 from sqlalchemy import or_
 from hackerstash.db import db
 from hackerstash.lib.images import Images
-from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.stripe import handle_project_deleted
 from hackerstash.models.user import User
-from hackerstash.models.notification_setting import NotificationSetting
 from hackerstash.utils.auth import login_required
 from hackerstash.utils.helpers import get_html_text_length
 
@@ -40,12 +37,6 @@ def following(user_id: str) -> str:
     return render_template('users/following/index.html', user=user)
 
 
-@users.route('/users/new')
-@login_required
-def new() -> str:
-    return render_template('users/new.html')
-
-
 @users.route('/users/<user_id>/follow')
 @login_required
 def follow(user_id: str) -> str:
@@ -61,44 +52,14 @@ def follow(user_id: str) -> str:
     return redirect(url_for('users.show', user_id=user.id))
 
 
-@users.route('/users/create', methods=['POST'])
-@login_required
-def create() -> str:
-    log.info('Creating user', {'user_data': request.form})
-    if User.query.filter_by(username=request.form['username']).first():
-        log.warn('Username is already taken', {'username': request.form['username']})
-        flash('This username is already taken', 'failure')
-        return render_template('users/new.html')
-
-    user = User.query.get(session['id'])
-    user.first_name = request.form['first_name']
-    user.last_name = request.form['last_name']
-    user.username = re.sub(r'[^a-z0-9\_\-\.]+', '', request.form['username'], flags=re.IGNORECASE)
-    user.notifications_settings = NotificationSetting()
-
-    # Flask adds the empty file for some reason
-    if 'file' in request.files and request.files['file'].filename != '':
-        key = Images.upload(request.files['file'])
-        user.avatar = key
-
-    db.session.commit()
-
-    # If the user was invited but didn't have an
-    # account, we can add them to the project now
-    Invites.verify(user)
-
-    return redirect(url_for('users.show', user_id=user.id))
-
-
 @users.route('/users/destroy')
 @login_required
 def destroy() -> str:
     log.info('Deleteing user', {'user_id': g.user.id})
 
     # Can't think of a way to cascade this at the db level
-    if g.user.member and len(g.user.member.project.members) == 1:
-        handle_project_deleted(g.user.member)
-        db.session.delete(g.user.member.project)
+    if g.user.project and len(g.user.project.members) == 1:
+        db.session.delete(g.user.project)
 
     email_factory('close_account', g.user.email, {}).send()
 

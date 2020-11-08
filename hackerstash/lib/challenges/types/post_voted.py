@@ -7,7 +7,7 @@ log = Logging(module='Challenges::PostVoted')
 
 
 def is_not_members_post(user, post):
-    return user.member.project.id != post.project.id
+    return user.project.id != post.project.id
 
 
 class PostVoted(Base):
@@ -18,9 +18,9 @@ class PostVoted(Base):
         post = payload['post']
 
         if is_not_members_post(user, post):
-            if not self.has_completed(user.member.project, 'award_points_to_three_posts'):
-                log.info('Incrementing challenge', {'type': 'award_points_to_three_posts', 'project_id': user.member.project.id})
-                user.member.project.create_or_inc_challenge('award_points_to_three_posts')
+            if not self.has_completed(user.project, 'award_points_to_three_posts'):
+                log.info('Incrementing challenge', {'type': 'award_points_to_three_posts', 'project_id': user.project.id})
+                user.project.create_or_inc_challenge('award_points_to_three_posts')
 
             if not self.has_completed(post.project, 'earn_twenty_five_points_for_one_post'):
                 all_posts = post.project.posts

@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Weekly Challenges' %}
 
 {% block body %}
@@ -97,7 +97,7 @@
                             {% else %}
                                 <span class="icon">{{ challenge_status.earn_twenty_five_points_for_three_seperate_posts.count }}/{{ challenge_status.earn_twenty_five_points_for_three_seperate_posts.max }}</span>
                             {% endif %}
-                            <span class="text">Earn at least 25 points for 3 seperate {{ g.user.member.project.name }} posts</span>
+                            <span class="text">Earn at least 25 points for 3 seperate {{ g.user.project.name }} posts</span>
                         </p>
                         <p class="points">
                             {{ challenge_status.earn_twenty_five_points_for_three_seperate_posts.points }} points

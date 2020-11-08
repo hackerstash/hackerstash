@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Notification Settings' %}
 
 {% set active_tab = request.args.tab or 'web' %}
@@ -319,7 +319,7 @@
                                     </li>
                                 </ul>
 
-                               <hr class="divider mt-2 mb-2">
+                                <hr class="divider mt-2 mb-2">
 
                                 <label class="label">Prizes</label>
                                 <p class="mb-1-5">Send a notification when:</p>

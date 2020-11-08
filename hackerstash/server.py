@@ -19,13 +19,11 @@ from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
 from hackerstash.views.legal import legal
 from hackerstash.views.notifications import notifications
-from hackerstash.views.past_results import past_results
+from hackerstash.views.onboarding import onboarding
 from hackerstash.views.posts import posts
 from hackerstash.views.projects import projects
 from hackerstash.views.reviews import reviews
 from hackerstash.views.rules import rules
-from hackerstash.views.stash import stash
-from hackerstash.views.subscriptions import subscriptions
 from hackerstash.views.users import users
 
 from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
@@ -33,8 +31,8 @@ from hackerstash.lib.oauth import google_blueprint, twitter_blueprint
 app = Flask(__name__)
 migrate = Migrate()
 
-app.debug = config['debug']
-app.secret_key = config['secret']
+app.config['DEBUG'] = config['debug']
+app.config['SECRET_KEY'] = config['secret']
 app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy_database_uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy_track_notifications']
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
@@ -55,13 +53,11 @@ app.register_blueprint(home)
 app.register_blueprint(leaderboard)
 app.register_blueprint(legal)
 app.register_blueprint(notifications)
-app.register_blueprint(past_results)
+app.register_blueprint(onboarding)
 app.register_blueprint(posts)
 app.register_blueprint(projects)
 app.register_blueprint(reviews)
 app.register_blueprint(rules)
-app.register_blueprint(stash)
-app.register_blueprint(subscriptions)
 app.register_blueprint(users)
 
 # Add blueprints for flask_dance

@@ -1,11 +1,8 @@
-{% extends "base_email.html" %}
-{% from "partials/button.html" import button %}
+{% extends "layouts/email.html" %}
 {% from "partials/manage_notifications.html" import manage_notifications %}
 
-{% set stash_url = host + url_for('stash.index') %}
-
 {% block body %}
-    <h1>Congratulations! You won ${{ past_result.prize.value }} by coming {{ past_result.position }}{{ past_result.position | to_ordinal_ending }} in <a href="{{ host }}{{ url_for('past_results.show', contest_id=past_result.contest.id) }}">last week's tournament</a>!</h1>
-    {{ button(stash_url, 'Manage Stash') }}
+    <h1>Congratulations! You came {{ project.position }}{{ project.position | to_ordinal_ending }} in last week's tournament!</h1>
+    <p>We'll be in touch with you this week about how to claim your stash.</p>
     {{ manage_notifications(host) }}
 {% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'layouts/onboarding.html' %}
+{% set title = 'HackerStash / Onboarding' %}
+
+{% block body %}
+    <div class="tab active project-tab">
+        <form class="form editor-form" action="{{ url_for('onboarding.project_tab') }}" method="post" enctype="multipart/form-data">
+            {% include "partials/messages.html" %}
+
+            <fieldset>
+                {% include "partials/project_edit.html" %}
+
+                <hr class="divider mb-2">
+
+                <section class="actions">
+                    <div class="button-group">
+                        <a class="button secondary" href="{{ url_for('onboarding.user_tab') }}">Back</a>
+                        <button class="button" type="submit">Save and publish</button>
+                    </div>
+                    <a class="button tertiary" href="{{ url_for('projects.show', project_id=project.id) }}">Skip</a>
+                </section>
+            </fieldset>
+        </form>
+    </div>
+
+    <div id="warn-modal" class="modal">
+        <div class="modal-body sm" role="dialog" aria-labelledby="warn-modal-header">
+            <header>
+                <h3 id="warn-modal-header">Warning</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close warn modal"></i>
+            </header>
+            <main>
+                <p class="mt-1">If you return to the previous tab your progress will not be saved.</p>
+                <footer class="mt-3">
+                    <a aria-label="Go back" href="{{ url_for('onboarding.user_tab') }}" class="button tertiary" role="button" tabindex="0">Continue</a>
+                    <button class="button secondary modal-close" type="button">Cancel</button>
+                </footer>
+            </main>
+        </div>
+     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        window.onload = () => createEditor('.editor-form');
+    </script>
+{% endblock %}

@@ -4,7 +4,7 @@
 - Docker
 - docker-compose
 - AWS credentials at ~/.aws
-- Python 3.8
+- Python 3.9
 
 ### Installation:
 Clone the repo:
@@ -27,9 +27,9 @@ $ docker-compose up
 
 ### Setup Database
 ```shell script
+# Enter the container
+$ docker-compose exec web sh
+
 # Run all the migrations
 $ flask db upgrade
-
-# Create the first tournament
-$ python -m 'scripts.create_current_tournament'
 ```

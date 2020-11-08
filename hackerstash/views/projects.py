@@ -1,14 +1,15 @@
-import datetime
 from flask import Blueprint, render_template, redirect, url_for, g, request, flash, get_template_attribute
+from sqlalchemy import func
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.attributes import flag_modified
 from hackerstash.db import db
+from hackerstash.lib.feed import Feed
 from hackerstash.lib.images import Images
 from hackerstash.lib.invites import Invites
 from hackerstash.lib.emails.factory import email_factory
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.notifications.factory import notification_factory
-from hackerstash.lib.pagination import paginate
-from hackerstash.lib.project_filtering import project_filtering
-from hackerstash.lib.stripe import get_payment_details
 from hackerstash.lib.challenges.factory import challenge_factory
 from hackerstash.models.user import User
 from hackerstash.models.member import Member
@@ -23,16 +24,33 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index() -> str:
-    filtered_projects = project_filtering(request.args)
-    filters_count = len([x for x in list(request.args.keys()) if x != 'sorting'])
-    results, pagination = paginate(filtered_projects, limit=24)  # The grid is 3 across, so 25 looks weird
+    order_by = None
+    sort = request.args.get('sorting', 'project_score_desc')
+    page = request.args.get('page', 1, type=int)
 
-    return render_template(
-        'projects/index.html',
-        filtered_projects=results,
-        filters_count=filters_count,
-        pagination=pagination
-    )
+    if sort == 'alphabetical_asc':
+        order_by = Project.name.asc()
+    if sort == 'alphabetical_desc':
+        order_by = Project.name.desc()
+    if sort == 'created_at_desc':
+        order_by = Project.created_at.desc()
+    if sort == 'updated_at_asc':
+        order_by = Project.updated_at.asc()
+    if sort == 'team_size_asc':
+        order_by = Project.team_size.asc()
+    if sort == 'team_size_desc':
+        order_by = Project.team_size.desc()
+    if sort == 'project_score_asc':
+        order_by = func.array_position(Leaderboard.order(reverse=True), Project.id)
+    if sort == 'project_score_desc':
+        order_by = func.array_position(Leaderboard.order(), Project.id)
+
+    paginated_projects = Project.query\
+        .filter(Project.published==True)\
+        .options(joinedload(Project.members))\
+        .order_by(order_by)\
+        .paginate(page, 24, False)
+    return render_template('projects/index.html', paginated_projects=paginated_projects)
 
 
 @projects.route('/projects/<project_id>')
@@ -46,27 +64,16 @@ def show(project_id: str) -> str:
     if not project.published:
         return redirect(url_for('projects.edit', project_id=project.id))
 
-    return render_template('projects/show.html', project=project)
+    return render_template('projects/show.html', project=project, feed=Feed(project))
 
 
-@projects.route('/projects/create')
-@login_required
-def create() -> str:
-    now = datetime.datetime.now()
-
-    log.info('Creating project', {'user_id': g.user.id})
-
-    if g.user.member:
-        return redirect(url_for('projects.show', project_id=g.user.member.project.id))
-
-    project = Project(name='Untitled', time_commitment='FULL_TIME', start_month=now.month - 1, start_year=now.year)
-    member = Member(owner=True, user=g.user, project=project)
-
-    db.session.add(project)
-    db.session.add(member)
-    db.session.commit()
-
-    return redirect(url_for('projects.edit', project_id=project.id))
+@projects.route('/projects/<project_id>/feed')
+def feed(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return render_template('partials/feed.html', project=project, feed=Feed(project))
+    else:
+        return redirect(url_for('projects.show', **request.args, **request.view_args))
 
 
 @projects.route('/projects/<project_id>/edit')
@@ -75,20 +82,6 @@ def create() -> str:
 def edit(project_id: str) -> str:
     project = Project.query.get(project_id)
     return render_template('projects/edit.html', project=project)
-
-
-@projects.route('/projects/<project_id>/subscription')
-@login_required
-@member_required
-def subscription(project_id: str) -> str:
-    project = Project.query.get(project_id)
-    # This is for the owner only!
-    if not g.user.member.owner:
-        return render_template('projects/401.html')
-    if not project.published:
-        return redirect(url_for('projects.show', project_id=project_id))
-    payment_details = get_payment_details(g.user)
-    return render_template('projects/subscription/index.html', project=project, payment_details=payment_details)
 
 
 @projects.route('/projects/<project_id>/posts')
@@ -118,9 +111,11 @@ def update(project_id: str) -> str:
         project.avatar = None
 
     for key, value in request.form.items():
-        if key not in ['file', 'avatar']:
+        if key not in ['file', 'avatar', 'profile_button_text', 'profile_button_url']:
             # Rich text always uses body as the key
             key = 'description' if key == 'body' else key
+            # This needs to be a boolean, not a string
+            value = value == 'true' if key == 'looking_for_cofounders' else value
             setattr(project, key, value)
 
     lists = ['fundings', 'business_models', 'platforms_and_devices']
@@ -130,8 +125,64 @@ def update(project_id: str) -> str:
         if val:
             setattr(project, key, val)
 
+    # Update the profile button seperately
+    if request.form.get('profile_button_text'):
+        project.profile_button = {
+            'url': request.form.get('profile_button_url'),
+            'text': request.form.get('profile_button_text')
+        }
+        flag_modified(project, 'profile_button')
+
     db.session.commit()
     return redirect(url_for('projects.show', project_id=project.id, saved=1))
+
+
+@projects.route('/projects/<project_id>/upload_header', methods=['POST'])
+@login_required
+@member_required
+def upload_header(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    log.info('Updating project header', {'project_id': project.id, 'user_id': g.user.id})
+
+    if 'header_file' in request.files and request.files['header_file'].filename != '':
+        key = Images.upload(request.files['header_file'])
+        project.banner = key
+        db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/delete_header')
+@login_required
+@member_required
+def delete_header(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    log.info('Deleting project header', {'project_id': project.id, 'user_id': g.user.id})
+
+    if project.banner:
+        Images.delete(project.banner)
+        project.banner = None
+        db.session.commit()
+    return redirect(url_for('projects.edit', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/publish')
+@login_required
+@member_required
+def publish(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    project.published = True
+    db.session.commit()
+    return redirect(url_for('projects.show', project_id=project.id))
+
+
+@projects.route('/projects/<project_id>/unpublish')
+@login_required
+@member_required
+def unpublish(project_id: str) -> str:
+    project = Project.query.get(project_id)
+    project.published = False
+    db.session.commit()
+    return redirect(url_for('projects.show', project_id=project.id))
 
 
 @projects.route('/projects/<project_id>/delete')
@@ -204,7 +255,7 @@ def invite_member(project_id: str) -> str:
     link = Invites.generate(email)
     user = User.query.filter_by(email=email).first()
     project = Project.query.get(project_id)
-    is_already_member = user and user.member
+    is_already_member = user and user.project
 
     log.info('Inviting team member', {'email': email, 'is_already_member': is_already_member})
 
@@ -248,7 +299,7 @@ def vote_project(project_id: str) -> str:
 
     log.info('Voting project', {'user_id': g.user.id, 'project_id': project.id, 'direction': direction})
 
-    if project.id != g.user.member.project.id:
+    if project.id != g.user.project.id:
         project.vote(g.user, direction)
         challenge_factory('project_voted', {})
 

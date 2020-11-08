@@ -22,10 +22,6 @@ class Page:
         return self.path == url_for('rules.index')
 
     @property
-    def past_results(self):
-        return self.path.startswith('/past_results')
-
-    @property
     def leaderboard(self):
         return self.path == url_for('leaderboard.index')
 
@@ -55,4 +51,4 @@ class Page:
 
     @property
     def onboarding(self):
-        return self.path == url_for('users.new') or self.path == url_for('users.create')
+        return self.path.startswith('/onboarding')

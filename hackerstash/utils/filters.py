@@ -1,4 +1,5 @@
 import re
+import json
 import arrow
 import bleach
 import calendar
@@ -11,7 +12,7 @@ def init_app(app):
     app.jinja_env.filters['to_plain_text'] = to_plain_text
     app.jinja_env.filters['to_human_date'] = to_human_date
     app.jinja_env.filters['to_nice_date'] = to_nice_date
-    app.jinja_env.filters['to_contest_date'] = to_contest_date
+    app.jinja_env.filters['to_feed_date'] = to_feed_date
     app.jinja_env.filters['to_named_month'] = to_named_month
     app.jinja_env.filters['nest_comments'] = nest_comments
     app.jinja_env.filters['flatten_comments'] = flatten_comments
@@ -21,6 +22,9 @@ def init_app(app):
     app.jinja_env.filters['to_ordinal_ending'] = to_ordinal_ending
     app.jinja_env.filters['to_nice_url'] = to_nice_url
     app.jinja_env.filters['paginate_to_page'] = paginate_to_page
+    app.jinja_env.filters['paginate_in_feed'] = paginate_in_feed
+    app.jinja_env.filters['truncate'] = truncate
+    app.jinja_env.filters['winner_totals'] = winner_totals
     app.jinja_env.globals['call_to_action_state'] = call_to_action_state
 
 
@@ -46,12 +50,14 @@ def to_nice_date(date) -> str:
     return d.format('MMMM D [at] h:mmA')
 
 
-def to_contest_date(date) -> str:
+def to_feed_date(date) -> str:
     d = arrow.get(date)
-    return d.format('Do MMMM, YYYY')
+    return d.format('MMMM D')
 
 
 def to_named_month(month) -> str:
+    if not month:
+        return ''
     index = int(month) + 1
     return calendar.month_name[index]
 
@@ -122,7 +128,6 @@ def fundings(value: str) -> str:
         'bootstrapped': 'Bootstrapped',
         'crowd_funded': 'Crowd Funded',
         'donation_supported': 'Donation Supported',
-        'hackerstash': 'HackerStash',
         'self_funded': 'Self Funded',
         'vc_funded': 'VC Funded',
         'seed_funded': 'Seed Funded'
@@ -140,10 +145,32 @@ def to_nice_url(url: str) -> str:
 
 
 def paginate_to_page(page: int = 0):
-    # Splattigng the page into the args is messy business
+    # Splatting the page into the args is messy business
     # in the template!
     combined_args = {**request.args, **{'page': page}}
     return url_for(request.endpoint, **combined_args)
+
+
+def paginate_in_feed(page: int = 0):
+    show = request.args.getlist('show')
+    combined_args = {**request.view_args, 'show': show, 'page': page}
+    return url_for('projects.feed', **combined_args)
+
+
+def truncate(text: str, count: int):
+    if not text:
+        return ''
+    if len(text) > count:
+        return text[:count] + '...'
+    return text
+
+
+def winner_totals(winners: list) -> str:
+    out = {}
+    for w in winners:
+        out[w.position] = out.get(w.position, 0)
+        out[w.position] += 1
+    return json.dumps(out)
 
 
 def call_to_action_state():

@@ -1,4 +1,4 @@
-{% extends 'base_app.html' %}
+{% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Terms' %}
 
 {% block body %}
@@ -13,7 +13,7 @@
             <ol>
                 <li>
                     <h3>Introduction</h3>
-                    <p>Welcome to <b>HackerStash, Inc</b> (“<b>Company</b>”, “<b>>we</b>”, “<b>our</b>”, “<b>us</b>”)! As you have just clicked our Terms of Service, please pause, grab a cup of coffee and carefully read the following pages. It will take you approximately 20 minutes.</p>
+                    <p>Welcome to <b>HackerStash, Inc</b> (“<b>Company</b>”, “<b>we</b>”, “<b>our</b>”, “<b>us</b>”)! As you have just clicked our Terms of Service, please pause, grab a cup of coffee and carefully read the following pages. It will take you approximately 20 minutes.</p>
                     <p>These Terms of Service (“<b>Terms</b>”, “<b>Terms of Service</b>”) govern your use of our web pages located at <a href="https://hackerstash.com">https://hackerstash.com</a> operated by HackerStash, Inc</p>
                     <p>Our Privacy Policy also governs your use of our Service and explains how we collect, safeguard and disclose information that results from your use of our web pages. Please read it here <a href="{{ url_for('legal.privacy') }}">https://hackerstash.com/privacy</a>.</p>
                     <p>Your agreement with us includes these Terms and our Privacy Policy (“<b>Agreements</b>”). You acknowledge that you have read and understood Agreements, and agree to be bound of them.</p>
@@ -25,45 +25,19 @@
                     <p>By creating an Account on our Service, you agree to subscribe to newsletters, marketing or promotional materials and other information we may send. However, you may opt out of receiving any, or all, of these communications from us by following the unsubscribe link or by emailing at.</p>
                 </li>
                 <li>
-                    <h3>Purchases</h3>
-                    <p>If you wish to purchase any product or service made available through Service (“<b>Purchase</b>”), you may be asked to supply certain information relevant to your Purchase including, without limitation, your credit card number, the expiration date of your credit card, your billing address, and your shipping information.</p>
-                    <p>You represent and warrant that: (i) you have the legal right to use any credit card(s) or other payment method(s) in connection with any Purchase; and that (ii) the information you supply to us is true, correct and complete.</p>
-                    <p>We may employ the use of third party services for the purpose of facilitating payment and the completion of Purchases. By submitting your information, you grant us the right to provide the information to these third parties subject to our Privacy Policy.</p>
-                    <p>We reserve the right to refuse or cancel your order at any time for reasons including but not limited to: product or service availability, errors in the description or price of the product or service, error in your order or other reasons.</p>
-                    <p>We reserve the right to refuse or cancel your order if fraud or an unauthorized or illegal transaction is suspected.</p>
-                </li>
-                <li>
-                    <h3>Subscriptions</h3>
-                    <p>Some parts of Service are billed on a subscription basis (“<b>Subscription(s)</b>”). You will be billed in advance on a recurring and periodic basis (“<b>Billing Cycle</b>”). Billing cycles are set on a monthly basis.</p>
-                    <p>At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions, promotions dependent, unless you cancel it or HackerStash, Inc cancels it. You may cancel your Subscription renewal either through your online account management page or by contacting HackerStash, Inc customer support team.</p>
-                    <p>A valid payment method, including credit card, is required to process the payment for your subscription. You shall provide HackerStash, Inc with accurate and complete billing information including full name, address, state, zip code, telephone number, and a valid payment method information. By submitting such payment information, you automatically authorize HackerStash, Inc to charge all Subscription fees incurred through your account to any such payment instruments.</p>
-                    <p>Should automatic billing fail to occur for any reason, HackerStash, Inc will issue an electronic invoice indicating that you must proceed manually, within a certain deadline date, with the full payment corresponding to the billing period as indicated on the invoice.</p>
-                </li>
-                <li>
                     <h3>Tournaments, Sweepstakes and Promotions</h3>
                     <p>Any tournaments, sweepstakes or other promotions (collectively, “<b>Promotions</b>”) made available through Service may be governed by rules that are separate from these Terms of Service. If you participate in any Promotions, please review the applicable <a href="{{ url_for('rules.index') }}">rules</a> as well as our Privacy Policy. If the rules for a Promotion conflict with these Terms of Service, Promotion rules will apply.</p>
                 </li>
                 <li>
                     <h3>Prizes</h3>
-                    <p>HackerStash Tournaments reward the most successful participants with cash prizes, and/or credits towards third party tools and services. The prizes for each given tournament are outlined on the Leaderboard during that tournament.</p>
-                    <p>If by the conclusion of a HackerStash tournament your project has won a prize this will be made available to you via your Stash (accessible from your project profile).</p>
-                    <p>You can send a request to cash out you prize winnings once you have held an active Subscription for at least the entirety of one full Billing Cycle.</p>
-                    <p>Subject to internal review, and compliance with the HackerStash Terms of Service and Privacy Policy, your prize will typically be paid out with 3 working days, but may take longer. We will endeavour to inform you of any significant delays in advance.
+                    <p>HackerStash Tournaments reward the most successful participants with prizes. These will typically include a combination of expert reviews (topics vary, including UX, Sales, Strategy, Engineering, DevOps, QA and more) and/or credits towards third party tools and services. The prizes for each given tournament are outlined on the Leaderboard during that tournament.</p>
+                    <p>If by the conclusion of a HackerStash tournament your project has won a prize you will receive an in-app notification as well as email instructions on how to claim your prize.</p>
+                    <p>Subject to internal review, and compliance with the HackerStash Terms of Service and Privacy Policy, your prize will typically be available within 1-3 working days, but may take longer. We will endeavour to inform you of any significant delays in advance.</p>
                     <p>Further to the above mentioned, HackerStash prizes:</p>
                     <ol type="a">
-                        <li>Shall remain available in a user’s account for a period of one year from the date of the last user activity that changes the number of Points in a player’s account. After which time prizes claims will have expired and funds will be reclaimed by HackerStash</li>
-                        <li>Until a successful request to cash out your prize winnings has been processed, all prizes remain the property of HackerStash and not of the participating users or projects. They cannot be sold or transferred to any other person or entity, including to other users, and cannot be transferred by operation of law, such as by bankruptcy, inheritance, or divorce. Any such purported transfers shall be null and void. Users shall have no vested rights in HackerStash stashes. They shall have no value except as provided in these rules, and shall under no circumstances have any value after their expiration. HackerStash may, in its discretion, change the HackerStash rules, awards and special offers, or terminate the program at any time with or without notice to users with credits in their stash.</li>
+                        <li>Shall remain available for a period of one year from the date of the last user activity that changes the number of Points in a player’s account. After which time, any unused prize claims will have expired.</li>
+                        <li>Until you have claimed your prize winnings, all prizes remain the property of HackerStash and not of the participating users or projects. They cannot be sold or transferred to any other person or entity, including to other users, and cannot be transferred by operation of law, such as by bankruptcy, inheritance, or divorce. Any such purported transfers shall be null and void. Users shall have no vested rights in HackerStash prizes. They shall have no value except as provided in these rules, and shall under no circumstances have any value after their expiration. HackerStash may, in its discretion, change the HackerStash rules, awards and special offers, or terminate the program at any time with or without notice to users.</li>
                     </ol>
-                </li>
-                <li>
-                    <h3>Fee Changes</h3>
-                    <p>HackerStash, Inc, in its sole discretion and at any time, may modify Subscription fees for the Subscriptions. Any Subscription fee change will become effective at the end of the then-current Billing Cycle.</p>
-                    <p>HackerStash, Inc will provide you with a reasonable prior notice of any change in Subscription fees to give you an opportunity to terminate your Subscription before such change becomes effective.</p>
-                    <p>Your continued use of Service after Subscription fee change comes into effect constitutes your agreement to pay the modified Subscription fee amount.</p>
-                </li>
-                <li>
-                    <h3>Refunds</h3>
-                    <p>Except when required by law, paid Subscription fees are non-refundable.</p>
                 </li>
                 <li>
                     <h3>Anti-Cheating Provisions</h3>

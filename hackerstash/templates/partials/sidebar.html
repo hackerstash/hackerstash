@@ -1,6 +1,6 @@
 {% from "partials/avatar.html" import avatar %}
 
-{% set user_project_path = url_for('projects.show', project_id=g.user.member.project.id) if g.user and g.user.member else '__none__' %}
+{% set user_project_path = url_for('projects.show', project_id=g.user.project.id) if g.user and g.user.member else '__none__' %}
 
 <aside id="sidebar" class="sidebar">
     <div class="logo">
@@ -14,16 +14,6 @@
                 </a>
             {% endif %}
             <i aria-label="Toggle menu" class="icon ri-menu-line hamburger"></i>
-        </div>
-    </div>
-    <div class="prize-pool">
-        <div class="row">
-            <p class="small">Prize pool</p>
-            <p class="small">{{ g.prize_pool }}</p>
-        </div>
-        <div class="row">
-            <p class="small mb-0">Time remaining</p>
-            <p class="small mb-0">{{ g.time_remaining }}</p>
         </div>
     </div>
     <nav class="routes" role="navigation" aria-label="Main site links">
@@ -47,10 +37,6 @@
             <i class="icon ri-lightbulb-line"></i>
             Rules
         </a>
-        <a aria-label="View past results" class="{{ 'active' if request.path.startswith('/past_results') }}" href="{{ url_for('past_results.index') }}">
-            <i class="icon ri-history-line"></i>
-            Past Results
-        </a>
     </nav>
     <hr class="divider">
     <div class="user-actions">
@@ -60,12 +46,12 @@
                 <p>{{ g.user.first_name }} {{ g.user.last_name }}</p>
             </a>
 
-            {% if g.user.member %}
-                <a aria-label="View the {{ g.user.member.project.name }} project" class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
-                    {{ avatar(g.user.member.project, 'x-sm') }}
+            {% if g.user.project %}
+                <a aria-label="View the {{ g.user.project.name }} project" class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
+                    {{ avatar(g.user.project, 'x-sm') }}
                     <p class="split">
-                        <span class="truncate">{{ g.user.member.project.name }}</span>
-                        <span>{{ g.user.member.project.vote_score }}</span>
+                        <span class="truncate">{{ g.user.project.name }}</span>
+                        <span>{{ g.user.project.vote_score }}</span>
                     </p>
                 </a>
 
@@ -73,7 +59,7 @@
                     <i class="icon ri-medal-2-line"></i>
                     <p class="split">
                         <span>Challenges</span>
-                        <span>{{ g.user.member.project.number_of_completed_challenges }}/8</span>
+                        <span>{{ g.user.project.number_of_completed_challenges }}/8</span>
                     </p>
                 </a>
             {% endif %}

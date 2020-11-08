@@ -1,4 +1,25 @@
 .page.leaderboard {
+  .header {
+    .tag {
+      background: $darkblue-900;
+      border: 2px solid $darkblue-700;
+      border-radius: .5rem;
+
+      span {
+        color: $blue-500;
+      }
+    }
+
+    @include tablet-down {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .tag {
+        margin: 1rem 0 0 0;
+      }
+    }
+  }
+
   .project {
     a {
       color: $mauve-500;
@@ -11,13 +32,73 @@
     }
   }
 
-  .table .table-body li p:last-of-type {
-    overflow: visible;
-    text-align: end;
-    text-overflow: clip;
+  .table {
+    li {
+     @include tablet-down {
+       padding: 1rem 1rem 1rem 4rem;
+     }
+    }
 
-    @include tablet-down {
-      text-align: left;
+    &.first-page {
+      li {
+        margin-bottom: 0;
+
+        &:nth-of-type(1) {
+          background: $darkblue-700;
+        }
+
+        &:nth-of-type(2) {
+          background: $darkblue-700;
+        }
+
+        &:nth-of-type(3) {
+          background: $darkblue-700;
+          border-bottom: 1px solid $green-400;
+        }
+      }
+    }
+
+    .position {
+      @include tablet-down {
+        left: 1rem;
+      }
+    }
+
+    .prize {
+      padding-right: 1.5rem;
+      text-align: right;
+
+      @include tablet-down {
+        text-align: left;
+      }
+    }
+
+    .project {
+      align-items: center;
+      display: flex;
+    }
+
+    .score {
+      @include tablet-down {
+        margin-bottom: .5rem !important;
+      }
+    }
+
+    .winner-badge {
+      margin-left: 1rem;
+    }
+
+    .prize-bundle {
+      padding-right: .5rem;
+
+      .link {
+        color: $blue-500;
+        text-decoration: underline;
+      }
+
+      @include tablet-down {
+        font-size: 12px;
+      }
     }
   }
 
@@ -41,11 +122,17 @@
         &:empty {
           display: none;
         }
-
-        .prize {
-          margin-top: 1rem;
-        }
       }
+    }
+  }
+}
+
+.prize-modal {
+  .content {
+    padding: 1rem;
+
+    p {
+      color: $mauve-500;
     }
   }
 }

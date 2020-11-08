@@ -1,20 +1,14 @@
 import json
 from flask import url_for
-from sqlalchemy.types import ARRAY
+from sqlalchemy.types import ARRAY, JSON
 from hackerstash.db import db
+from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.redis import redis
-from hackerstash.lib.project_score_data import build_weekly_vote_data
-from hackerstash.lib.prizes import Prizes
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
-from hackerstash.utils.votes import sum_of_project_votes
 
 log = Logging(module='Models::Project')
-# There are a lof of horrifically unperformant
-# things in here, they are all done in the name
-# of speed
 
 
 class Project(db.Model):
@@ -27,27 +21,27 @@ class Project(db.Model):
     description = db.Column(db.String)
 
     avatar = db.Column(db.String)
+    banner = db.Column(db.String)
 
     location = db.Column(db.String)
     start_month = db.Column(db.Integer)
     start_year = db.Column(db.Integer)
     time_commitment = db.Column(db.String)
+    team_size = db.Column(db.Integer)
+    profile_button = db.Column(JSON(none_as_null=True))
+    looking_for_cofounders = db.Column(db.Boolean)
 
     business_models = db.Column(ARRAY(db.String))
     fundings = db.Column(ARRAY(db.String))
     platforms_and_devices = db.Column(ARRAY(db.String))
 
-    stash = db.Column(db.Integer)
-
     members = db.relationship('Member', backref='project', cascade='all,delete')
     invites = db.relationship('Invite', backref='project', cascade='all,delete')
     posts = db.relationship('Post', backref='project', cascade='all,delete')
     votes = db.relationship('Vote', backref='project', cascade='all,delete', lazy='joined')
-    past_results = db.relationship('PastResult', backref='project')
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
-    transactions = db.relationship('Transaction', backref='project', cascade='all,delete')
-    subscriptions = db.relationship('Subscription', backref='project', cascade='all,delete')
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
+    winners = db.relationship('Winner', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
@@ -75,13 +69,15 @@ class Project(db.Model):
         # downvote bombing other users
         return find_in_list(
             self.votes,
-            # Projects are different as you can revote on them every week
-            lambda x: x.user.member.project.id == user.member.project.id and x.is_current_contest
+            # Projects are different as you can revote on them every month
+            lambda x: x.user.project.id == user.project.id and x.is_current_contest
         )
 
     def vote(self, user, direction):
         score = 10 if direction == 'up' else -10
         existing_vote = self.get_existing_vote_for_user(user)
+        # Update the leaderboard
+        Leaderboard(self).update(score)
 
         if existing_vote:
             db.session.delete(existing_vote)
@@ -93,9 +89,9 @@ class Project(db.Model):
     def vote_status(self, user):
         if not user:
             return 'disabled logged-out'
-        if not user.member or not user.member.project.published:
+        if not user.member or not user.project.published:
             return 'disabled not-published'
-        if self.id == user.member.project.id:
+        if self.id == user.project.id:
             return 'disabled own-project'
 
         existing_vote = self.get_existing_vote_for_user(user)
@@ -109,26 +105,11 @@ class Project(db.Model):
     def position(self) -> int:
         if not self.published:
             return -1
-        # This is an awful design and is very expensive, so
-        # shove it in redis for a minute. At some point we
-        # should probably think about having projects own all
-        # the votes and not the posts/comments
-        if leaderboard := redis.get('leaderboard'):
-            leaderboard = json.loads(leaderboard)
-        else:
-            projects = self.query.filter_by(published=True).all()
-            projects = sorted(projects, key=lambda x: x.vote_score, reverse=True)
-            leaderboard = {}
-            for index, project in enumerate(projects):
-                leaderboard[str(project.id)] = index + 1
-            redis.set('leaderboard', json.dumps(leaderboard), ex=60)
-        return leaderboard.get(str(self.id), -1)
+        return Leaderboard(self).position
 
     @property
     def vote_score(self) -> int:
-        # The project vote score behaves a bit differently to posts
-        # and comments as it only totals the scores for this week
-        return sum_of_project_votes(self)
+        return Leaderboard(self).score
 
     @property
     def all_votes(self):
@@ -187,10 +168,6 @@ class Project(db.Model):
         }
         return json.dumps(data)
 
-    @property
-    def project_score_data(self):
-        return json.dumps(build_weekly_vote_data(self))
-
     def create_or_inc_challenge(self, key: str):
         challenge = Challenge.find_or_create(self, key)
         challenge.inc()
@@ -205,21 +182,3 @@ class Project(db.Model):
     def number_of_completed_challenges(self):
         completed = Challenge.get_completed_challenges_for_project(self)
         return len(completed)
-
-    @property
-    def prize(self):
-        # Not 0 indexed
-        return Prizes.get_for_position(self.position - 1)
-
-    def add_funds(self, value):
-        if not self.stash:
-            self.stash = 0
-        self.stash += value
-        log.info('Adding funds to stash', {'project_id': self.id, 'new_total': self.stash})
-
-    def remove_funds(self, value):
-        if (self.stash - value) < 0:
-            log.warn('Unable to remove funds from stash', {'project_id': self.id, 'value': value, 'stash': self.stash})
-        else:
-            self.stash -= value
-            log.info('Removing funds from stash', {'project_id': self.id, 'new_total': self.stash})

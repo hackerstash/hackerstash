@@ -1,7 +1,3 @@
-// Third party stuff
-@import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css');
-
 // Important stuff
 @import './variables';
 @import './breakpoints';
@@ -14,7 +10,6 @@
 @import './components/button';
 @import './components/challenge';
 @import './components/checkbox';
-@import './components/checkout-modal';
 @import './components/code';
 @import './components/comments';
 @import './components/divider';
@@ -34,7 +29,6 @@
 @import './components/position';
 @import './components/posts';
 @import './components/previews';
-@import './components/prize';
 @import './components/radio';
 @import './components/rich-text';
 @import './components/select';
@@ -49,6 +43,7 @@
 @import './components/toast';
 @import './components/upload';
 @import './components/vote';
+@import './components/winners';
 
 // Pages
 @import './pages/posts/index';
@@ -57,9 +52,7 @@
 @import './pages/projects/edit';
 @import './pages/projects/index';
 @import './pages/projects/show';
-@import './pages/projects/subscription';
 @import './pages/users/follows';
-@import './pages/users/new';
 @import './pages/users/profile';
 @import './pages/users/settings';
 @import './pages/users/show';
@@ -72,9 +65,7 @@
 @import './pages/legal';
 @import './pages/login';
 @import './pages/notifications';
-@import './pages/past-results';
+@import './pages/onboarding';
 @import './pages/reviews';
 @import './pages/rules';
 @import './pages/signup';
-@import './pages/stash';
-

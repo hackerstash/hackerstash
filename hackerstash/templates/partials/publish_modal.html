@@ -1,4 +1,4 @@
-{% if g.user and g.user.member and not g.user.member.project.published %}
+{% if g.user and g.user.member and not g.user.project.published %}
     <div id="publish-modal" class="modal">
         <div class="modal-body sm" role="dialog" aria-labelledby="project-publish-modal-header">
             <header>
@@ -9,7 +9,7 @@
                 <p class="mt-1 mb-2">To join the conversation you’ll need to publish your project 😊</p>
 
                <footer>
-                   <a aria-label="View project edit page" class="button success" href="{{ url_for('projects.edit', project_id=g.user.member.project.id) }}">Publish Project</a>
+                   <a aria-label="View project edit page" class="button success" href="{{ url_for('projects.edit', project_id=g.user.project.id) }}">Publish Project</a>
                    <button aria-label="Cancel" class="button secondary modal-close" type="button">Cancel</button>
                </footer>
             </main>

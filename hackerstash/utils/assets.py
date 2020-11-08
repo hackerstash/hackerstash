@@ -10,7 +10,6 @@ styles = [
 ]
 
 scripts = [
-    'js/admin.js',
     'js/avatar.js',
     'js/buttons.js',
     'js/comments.js',
@@ -28,7 +27,8 @@ scripts = [
     'js/recaptcha.js',
     'js/toast.js',
     'js/typeaheads.js',
-    'js/votes.js'
+    'js/votes.js',
+    'js/winners.js'
 ]
 
 js = Bundle(*scripts, output='out/main.js')
