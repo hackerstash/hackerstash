@@ -1,8 +1,8 @@
 .page.leaderboard {
   .header {
     .tag {
-      background: $darkblue-900;
-      border: 2px solid $darkblue-700;
+      background: $gray-900;
+      border: 2px solid $gray-700;
       border-radius: .5rem;
 
       span {
@@ -44,15 +44,15 @@
         margin-bottom: 0;
 
         &:nth-of-type(1) {
-          background: $darkblue-700;
+          background: $gray-700;
         }
 
         &:nth-of-type(2) {
-          background: $darkblue-700;
+          background: $gray-700;
         }
 
         &:nth-of-type(3) {
-          background: $darkblue-700;
+          background: $gray-700;
           border-bottom: 1px solid $green-400;
         }
       }

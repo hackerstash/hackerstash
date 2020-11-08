@@ -17,13 +17,13 @@
 
     li {
       align-items: center;
-      border-bottom: 1px solid $darkblue-900;
+      border-bottom: 1px solid $gray-900;
       display: flex;
       list-style: none;
       padding: 1rem;
 
       .thumbnail {
-        background: $darkblue-900;
+        background: $gray-900;
         border-radius: .5rem;
         height: 70px;
         margin-right: 1.5rem;

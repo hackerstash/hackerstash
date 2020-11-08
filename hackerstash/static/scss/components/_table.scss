@@ -57,7 +57,7 @@ $table-column-width-lg: calc(916px / 12);
   }
 
   .table-header {
-    border-bottom: 1px solid $darkblue-900;
+    border-bottom: 1px solid $gray-900;
     display: flex;
 
     > * {
@@ -76,7 +76,7 @@ $table-column-width-lg: calc(916px / 12);
 
     li {
       align-items: center;
-      border-bottom: 1px solid $darkblue-900;
+      border-bottom: 1px solid $gray-900;
       display: flex;
       list-style: none;
       padding: 0.5rem 0;

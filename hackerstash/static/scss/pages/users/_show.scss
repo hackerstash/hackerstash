@@ -136,7 +136,7 @@
   }
 
   .project-card {
-    background: $darkblue-700;
+    background: $gray-700;
     border-radius: 1rem;
     max-width: 620px;
     padding: 2rem;
@@ -229,7 +229,7 @@
   }
 
   .profile-tabs {
-    border-top: 1px solid $darkblue-900;
+    border-top: 1px solid $gray-900;
     margin-top: 2rem;
     padding-top: 1rem;
 
@@ -239,11 +239,11 @@
 
     .comments {
       li {
-        border-bottom: 1px solid $darkblue-900;
+        border-bottom: 1px solid $gray-900;
         padding: .5rem 1rem;
 
         &:hover {
-          background: $darkblue-700;
+          background: $gray-700;
         }
 
         .comment {

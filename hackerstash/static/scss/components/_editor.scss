@@ -8,7 +8,7 @@
 
   button {
     align-items: center;
-    background: $darkblue-700;
+    background: $gray-700;
     border: none;
     border-radius: .5rem;
     cursor: pointer;
@@ -26,7 +26,7 @@
 
     &:hover,
     &.ql-active {
-      background: $darkblue-600;
+      background: $gray-600;
 
       i {
         color: $mauve-500;
@@ -52,7 +52,7 @@
 
       button {
         background: none;
-        color: $darkblue-800;
+        color: $gray-800;
         font: inherit;
         margin: 0 0 .5rem 0;
         width: 200px;
@@ -131,7 +131,7 @@
   }
 
   pre {
-    background: $darkblue-900;
+    background: $gray-900;
     font-size: 1rem;
     padding: 1rem;
   }
@@ -152,8 +152,8 @@
 
 .ql-editor,
 .editor:not(.ql-container) {
-  background: $darkblue-700;
-  border: solid 2px $darkblue-600;
+  background: $gray-700;
+  border: solid 2px $gray-600;
   border-radius: .5rem;
   height: 100%;
   margin-bottom: 1.5rem;
@@ -163,11 +163,11 @@
   width: 100%;
 
   &:focus {
-    background: $darkblue-900;
+    background: $gray-900;
     border-color: $mauve-500;
 
     pre {
-      background: $darkblue-700;
+      background: $gray-700;
       margin: 0 0 1rem 0;
     }
   }
@@ -203,7 +203,7 @@
   top: 0;
 
   .not-found {
-    color: $darkblue-900;
+    color: $gray-900;
     text-align: center;
     width: 100%;
   }
@@ -212,7 +212,7 @@
     align-items: center;
     background: transparent;
     border: none;
-    color: $darkblue-900;
+    color: $gray-900;
     display: flex;
     font-size: 1rem;
     font-weight: $font-weight-normal;

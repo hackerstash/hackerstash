@@ -29,7 +29,7 @@
 
   .button {
     align-items: center;
-    background: $darkblue-900;
+    background: $gray-900;
     color: $mauve-1000;
     border: 0;
     border-radius: .25rem;
@@ -52,7 +52,7 @@
   }
 
   &:not(.disabled) .button:hover {
-    background: $darkblue-900 !important;
+    background: $gray-900 !important;
 
     &.upvote,
     &.upvote i {
@@ -67,13 +67,13 @@
 
   &.disabled {
     .button {
-      background: $darkblue-700;
-      color: $darkblue-900;
+      background: $gray-700;
+      color: $gray-900;
       cursor: default;
       user-select: none;
 
       i {
-        color: $darkblue-700 !important;
+        color: $gray-700 !important;
       }
     }
   }
@@ -90,8 +90,8 @@
       }
 
       &.downvote {
-        background: $darkblue-700;
-        color: $darkblue-900;
+        background: $gray-700;
+        color: $gray-900;
       }
     }
   }
@@ -99,8 +99,8 @@
   &.downvoted {
     .button {
       &.upvote {
-        background: $darkblue-700;
-        color: $darkblue-900;
+        background: $gray-700;
+        color: $gray-900;
       }
 
       &.downvote {
@@ -125,7 +125,7 @@
     }
 
     .button {
-      background: $darkblue-900;
+      background: $gray-900;
       color: $mauve-1000;
       height: 1.25rem;
       width: 2rem;
@@ -137,7 +137,7 @@
       }
 
       .button {
-        background: $darkblue-900;
+        background: $gray-900;
         color: $mauve-1000;
       }
     }

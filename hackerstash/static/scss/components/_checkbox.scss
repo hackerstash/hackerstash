@@ -1,6 +1,6 @@
 .checkbox {
-  background: $darkblue-700;
-  border: 2px solid $darkblue-600;
+  background: $gray-700;
+  border: 2px solid $gray-600;
   border-radius: .25rem;
   cursor: pointer;
   display: inline-block;
@@ -32,7 +32,7 @@
 
     &:checked + .indicator {
       align-items: center;
-      background: $darkblue-900;
+      background: $gray-900;
       border: 2px solid $mauve-500;
       border-radius: .25rem;
       display: flex;
@@ -58,8 +58,8 @@
   }
 
   &:disabled {
-    background: $darkblue-700;
-    border-color: $darkblue-700;
+    background: $gray-700;
+    border-color: $gray-700;
     cursor: default;
   }
 

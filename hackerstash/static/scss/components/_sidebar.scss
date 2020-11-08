@@ -1,6 +1,6 @@
 .sidebar {
   align-self: flex-start;
-  background: $darkblue-900;
+  background: $gray-900;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -58,7 +58,7 @@
 
       &:hover,
       &.active {
-        background: $darkblue-600;
+        background: $gray-600;
       }
 
       &.unread:after {
@@ -98,7 +98,7 @@
 
       &:hover,
       &.active {
-        background: $darkblue-600;
+        background: $gray-600;
         color: $mauve-500;
       }
 
@@ -113,7 +113,7 @@
   }
 
   .divider {
-    background: $darkblue-700;
+    background: $gray-700;
     margin: .75rem 0;
   }
 

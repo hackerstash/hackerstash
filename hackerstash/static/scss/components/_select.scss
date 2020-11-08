@@ -1,6 +1,6 @@
 .select {
-  background: $darkblue-700;
-  border: solid 2px $darkblue-600;
+  background: $gray-700;
+  border: solid 2px $gray-600;
   border-radius: .5rem;
   display: inline-block;
   height: 2.5rem;
@@ -12,13 +12,13 @@
   }
 
   &:focus {
-    background: $darkblue-900;
+    background: $gray-900;
     border-color: $mauve-500;
   }
 
   &:disabled {
-    background: $darkblue-700;
-    border-color: $darkblue-700;
+    background: $gray-700;
+    border-color: $gray-700;
   }
 
   select {
@@ -29,7 +29,7 @@
     width: 100%;
 
     option {
-      color: $darkblue-900;
+      color: $gray-900;
     }
   }
 

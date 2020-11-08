@@ -5,7 +5,7 @@
 
 .post-row {
   align-items: center;
-  border-bottom: 1px solid $darkblue-900;
+  border-bottom: 1px solid $gray-900;
   display: flex;
   min-height: 80px;
   padding: .5rem 1rem;
@@ -15,7 +15,7 @@
   }
 
   &:hover {
-    background: $darkblue-700;
+    background: $gray-700;
   }
 
   &:last-of-type {

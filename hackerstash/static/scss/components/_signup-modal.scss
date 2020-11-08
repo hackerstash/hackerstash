@@ -17,7 +17,7 @@
 
     .modal-close {
       align-items: center;
-      background: $darkblue-900;
+      background: $gray-900;
       border-radius: 50%;
       color: white;
       display: flex;
@@ -86,7 +86,7 @@
   }
 
   .modal-body {
-    border: 2px solid $darkblue-900;
+    border: 2px solid $gray-900;
 
     @include tablet-down {
       border: none;

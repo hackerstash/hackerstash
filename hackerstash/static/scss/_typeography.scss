@@ -120,7 +120,7 @@ b {
   line-height: 20px;
 
   &:disabled {
-    color: $darkblue-900;
+    color: $gray-900;
   }
 
   @include tablet-down  {
@@ -143,7 +143,7 @@ b {
 }
 
 blockquote {
-  border-left: 2px solid $darkblue-600;
+  border-left: 2px solid $gray-600;
   color: $mauve-900;
   font-size: 16px;
   font-weight: $font-weight-normal;
@@ -170,10 +170,10 @@ blockquote {
     line-height: 20px;
 
     &:disabled {
-      color: $darkblue-900;
+      color: $gray-900;
 
       + i {
-        color: $darkblue-900; 
+        color: $gray-900; 
       }
     }
 

@@ -92,7 +92,7 @@
       }
 
       .sign-up {
-        background: $darkblue-700;
+        background: $gray-700;
         border-radius: 1rem;
         padding: 2rem;
 
@@ -162,7 +162,7 @@
               font-size: 1.75rem;
 
               &.disabled {
-                color: $darkblue-600;
+                color: $gray-600;
                 pointer-events: none;
               }
             }
@@ -175,7 +175,7 @@
             margin-top: 2rem;
 
             span {
-              background: $darkblue-600;
+              background: $gray-600;
               border-radius: 50%;
               cursor: pointer;
               height: .5rem;
@@ -215,7 +215,7 @@
             padding: 0;
 
             li {
-              border-top: 2px solid $darkblue-700;
+              border-top: 2px solid $gray-700;
               cursor: pointer;
               list-style: none;
               margin: 0;
@@ -264,7 +264,7 @@
               }
 
               &.active {
-                background: $darkblue-900;
+                background: $gray-900;
                 border-top: none;
                 border-radius: 1rem;
                 height: auto;
@@ -329,8 +329,8 @@
       }
 
       .tournament {
-        background: $darkblue-900;
-        border: 2px solid $darkblue-600;
+        background: $gray-900;
+        border: 2px solid $gray-600;
         border-radius: 1rem;
         margin: 0 auto;
         max-width: 630px;

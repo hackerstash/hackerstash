@@ -1,5 +1,5 @@
 .message {
-  background: $darkblue-600;
+  background: $gray-600;
   border-radius: .5rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
@@ -20,12 +20,12 @@
   }
 
   &.success {
-    background: $darkblue-700;
+    background: $gray-700;
   }
 
   &.warning {
     align-items: center;
-    background: $darkblue-700;
+    background: $gray-700;
     border: 2px solid $red-500;
     display: flex;
     padding: .75rem 1rem;

@@ -1,5 +1,5 @@
 .post-poll {
-  background: $darkblue-700;
+  background: $gray-700;
   border-radius: .5rem;
   margin-top: 3rem;
   padding: 1.5rem;
@@ -35,8 +35,8 @@
   }
 
   .button.disabled {
-    background: $darkblue-800;
-    border-color: $darkblue-800;
+    background: $gray-800;
+    border-color: $gray-800;
     cursor: default;
   }
 
@@ -61,7 +61,7 @@
         }
 
         .background {
-          background: $darkblue-900;
+          background: $gray-900;
           border-radius: 0 .5rem .5rem 0;
           display: block;
           height: 100%;

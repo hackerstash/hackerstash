@@ -31,11 +31,11 @@
   }
 
   &.secondary {
-    background: $darkblue-800;
+    background: $gray-800;
   }
 
   &.tertiary {
-    background: $darkblue-800;
+    background: $gray-800;
     border-color: $red-700;
 
     i {
@@ -44,7 +44,7 @@
   }
 
   &.success {
-    background: $darkblue-800;
+    background: $gray-800;
     border-color: $green-400;
   }
 
@@ -90,11 +90,11 @@
       color: white;
 
       &.secondary {
-        background: $darkblue-700;
+        background: $gray-700;
       }
 
       &.tertiary {
-        background: $darkblue-700;
+        background: $gray-700;
       }
 
       &.tertiary {
@@ -109,15 +109,15 @@
 
   &:active {
     @include tablet-up {
-      background: $darkblue-900;
+      background: $gray-900;
       border-color: $blue-400;
 
       &.secondary {
-        background: $darkblue-900;
+        background: $gray-900;
       }
 
       &.tertiary {
-        background: $darkblue-900;
+        background: $gray-900;
         border-color: $red-700;
       }
     }
@@ -125,18 +125,18 @@
 
   &:disabled,
   &.disabled {
-    background: $darkblue-700;
-    border-color: $darkblue-700;
+    background: $gray-700;
+    border-color: $gray-700;
     color: $mauve-900;
     cursor: default;
 
     &.secondary {
-      background: $darkblue-800;
+      background: $gray-800;
     }
 
     &.tertiary {
-      border-color: $darkblue-700;
-      background: $darkblue-800;
+      border-color: $gray-700;
+      background: $gray-800;
     }
   }
 

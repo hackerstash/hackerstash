@@ -78,7 +78,7 @@
   }
 
   pre {
-    background: $darkblue-900;
+    background: $gray-900;
     border-radius: .5rem;
     color: $mauve-500;
     display: block;
@@ -95,13 +95,13 @@
   }
 
   table {
-    border: 1px solid $darkblue-900;
+    border: 1px solid $gray-900;
     margin-bottom: 1rem;
     -webkit-border-horizontal-spacing: 0;
     -webkit-border-vertical-spacing: 0;
 
     th {
-      border-color: $darkblue-900;
+      border-color: $gray-900;
       border-style: solid;
       border-width: 0 1px 1px 0;
       padding: .75rem;
@@ -112,7 +112,7 @@
     }
 
     td {
-      border-color: $darkblue-900;
+      border-color: $gray-900;
       border-style: solid;
       border-width: 0 1px 1px 0;
       padding: .75rem;

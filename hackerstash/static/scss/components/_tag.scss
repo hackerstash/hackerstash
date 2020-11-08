@@ -1,6 +1,6 @@
 .tag {
   align-items: center;
-  background: $darkblue-900;
+  background: $gray-900;
   border-radius: .25rem;
   display: inline-flex;
   font-size: 14px;
@@ -24,7 +24,7 @@
   }
 
   &.primary {
-    background: $darkblue-700;
+    background: $gray-700;
     border: 2px solid $blue-500;
     border-radius: .5rem;
     color: $mauve-500;
@@ -39,7 +39,7 @@
   }
 
   &.success {
-    background: $darkblue-900;
+    background: $gray-900;
     border: 2px solid $green-400;
     border-radius: .5rem;
     font-size: 16px;

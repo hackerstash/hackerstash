@@ -9,7 +9,7 @@
 }
 
 .preview-card {
-  background: $darkblue-700;
+  background: $gray-700;
   border: 2px solid $blue-500;
   border-radius: .5rem;
   padding: 2rem 1.5rem;
@@ -65,7 +65,7 @@
     padding: 0;
 
     li {
-      border-bottom: 1px solid $darkblue-900;
+      border-bottom: 1px solid $gray-900;
       display: flex;
       list-style: none;
       justify-content: space-between;

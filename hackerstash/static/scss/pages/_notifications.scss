@@ -16,7 +16,7 @@
 
     li {
       align-items: flex-start;
-      background: $darkblue-700;
+      background: $gray-700;
       border: 2px solid transparent;
       border-radius: .5rem;
       display: flex;
@@ -75,7 +75,7 @@
         }
 
         &:hover {
-          background: $darkblue-800;
+          background: $gray-800;
         }
       }
     }

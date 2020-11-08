@@ -4,15 +4,15 @@ $blue-500: #70B0FF;
 $blue-400: #ADD2FF;
 
 // Dark blues
-$darkblue-900: #000920;
-$darkblue-800: #101F3E;
-$darkblue-700: #21335A;
-$darkblue-600: #344F88;
+$gray-900: #0E0E0E;
+$gray-800: #1F1F1F;
+$gray-700: #343434;
+$gray-600: #494949;
 
 // Weird whites
-$mauve-1000: #7D8CB6;
-$mauve-900: #B0BCDC;
-$mauve-500: #DEE7FF;
+$mauve-1000: #808080;
+$mauve-900: #CBCBCB;
+$mauve-500: #F0F0F0;
 
 // Reds
 $red-500: #FF3C5F;
@@ -27,12 +27,12 @@ $yellow-400: #F5E33E;
 
 // Social
 $google-background: white;
-$google-foreground: $darkblue-900;
+$google-foreground: $gray-900;
 $twitter-background: #1DA1F2;
 $twitter-foreground: white;
 
 // Misc
-$modal-overlay: rgba(33, 51, 90, 0.7);
+$modal-overlay: rgba(14, 14, 14, 0.8);
 
 // Breakpoints
 $tablet: 1024px;
