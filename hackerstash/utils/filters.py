@@ -91,18 +91,18 @@ def flatten_comments(comments):
 
 def platforms_and_devices(value: str) -> str:
     items = {
-        'android': 'Android',
+        'android': 'Android App',
         'browser_plugin': 'Browser Plugin',
-        'desktop': 'Desktop',
-        'ios': 'iOS',
-        'mac': 'Mac',
-        'mobile': 'Mobile',
-        'pc': 'PC',
-        'web': 'Web',
+        'ios': 'iOS App',
+        'mac': 'Mac App',
+        'pc': 'PC App',
+        'linux': 'Linux App',
+        'web': 'Web App',
         'podcast': 'Podcast',
         'youtube': 'Youtube / Video',
         'newsletter': 'Newsletter',
         'hardware': 'Hardware',
+        'website': 'Website',
         'other': 'Other'
     }
     return items.get(value, value)

@@ -1,5 +1,9 @@
 # Changelog
 
+### 09/11/20:
+- Updated the list of 'Platforms and Devices' as they were unclear
+- Updated the help text for usernames as it was unclear
+
 ### 08/11/20:
 - Fixed an issue where dropping an image would leave a weird border
 - Fixed an issue where a user had a huge description for their project
