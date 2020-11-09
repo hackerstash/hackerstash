@@ -2,6 +2,7 @@ const projectSorting = document.querySelector('#sorting');
 const description = document.querySelector('#description');
 const headerFile = document.querySelector('#header_file');
 const projectShow = document.querySelector('#project-show');
+const editProject = document.querySelector('.edit-project');
 
 if (projectSorting) {
     projectSorting.addEventListener('change', event => {
@@ -50,6 +51,26 @@ if (projectShow) {
                 });
             }
         });
+    });
+}
+
+if (editProject) {
+    let projectPageChanged = false;
+
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('change', event => {
+            projectPageChanged = true;
+        });
+    });
+
+    document.addEventListener('click', event => {
+        if (event.target.closest('.tab-header') && projectPageChanged) {
+            event.preventDefault();
+            const link = event.target.getAttribute('href');
+            const modal = document.querySelector('#warn-modal');
+            modal.querySelector('.continue-button').setAttribute('href', link);
+            modal.classList.add('open');
+        }
     });
 }
 
