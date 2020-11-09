@@ -3,6 +3,7 @@
 ### 09/11/20:
 - Updated the list of 'Platforms and Devices' as they were unclear
 - Updated the help text for usernames as it was unclear
+- Added a prompt on the project edit page when a user changes tabs without saving their changes
 
 ### 08/11/20:
 - Fixed an issue where dropping an image would leave a weird border
