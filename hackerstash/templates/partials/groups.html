@@ -1,0 +1,39 @@
+{% macro groups(list) %}
+    <ul class="groups groups-list" role="list">
+        {% for tag, count in list %}
+            <li role="listitem">
+                <a href="{{ url_for('posts.tags', tag=tag.id) }}">
+                    {{ badge(tag.id) }}
+                    <div class="details">
+                        <p><b>{{ tag.name }}</b> <span>{{ count }} post{{ 's' if count > 1 }}</span></p>
+                        <p class="wrap-745">{{ tag.description }}</p>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro badge(id) %}
+    {% set color, light, icon = 'white', false, 'ri-question-line' %}
+
+    {% if id == 1 %}
+        {% set color, light, icon = '#FF3C5F', true, 'ri-article-line' %}
+    {% elif id == 2 %}
+        {% set color, light, icon = '#3EF57D', false, 'ri-article-line' %}
+    {% elif id == 3 %}
+        {% set color, light, icon = '#F5E33E', false, 'ri-star-smile-line' %}
+    {% elif id == 4 %}
+        {% set color, light, icon = '#2472D3', true, 'ri-user-smile-line' %}
+    {% elif id == 5 %}
+        {% set color, light, icon = '#FF3C5F', true, 'ri-terminal-box-line' %}
+    {% elif id == 6 %}
+        {% set color, light, icon = '#C3F5F6', false, 'ri-paint-brush-line' %}
+    {% elif id == 7 %}
+        {% set color, light, icon = '#3EF57D', false, 'ri-line-chart-line' %}
+    {% endif %}
+
+    <div class="group-badge {{ 'light' if light else 'dark' }}" style="background: {{ color }}">
+        <i class="{{ icon }}"></i>
+    </div>
+{% endmacro %}

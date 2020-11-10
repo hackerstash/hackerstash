@@ -1,0 +1,34 @@
+.page.posts.tags {
+  .header {
+    justify-content: flex-start;
+    position: relative;
+
+    .group-badge {
+      margin-right: 1.5rem;
+    }
+
+    .details {
+      flex: 1;
+    }
+
+    @include tablet-down {
+      align-items: flex-start;
+      flex-direction: column;
+
+      .group-badge {
+        left: 0;
+        top: 1.75rem;
+        position: absolute;
+      }
+
+      .details {
+        margin-bottom: 1.5rem;
+        padding-left: 4.5rem;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  }
+}

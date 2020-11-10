@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
+from sqlalchemy import func
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
@@ -19,16 +20,18 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts')
 def index() -> str:
     tab = request.args.get('tab', 'new')
-    paginated_posts = []
+    data = {'groups_list': None, 'paginated_posts': []}
 
     if tab == 'following' and 'user' in g:
-        paginated_posts = Post.following()
+        data['paginated_posts'] = Post.following()
     if tab == 'new':
-        paginated_posts = Post.newest()
+        data['paginated_posts'] = Post.newest()
     if tab == 'top':
-        paginated_posts = Post.top()
+        data['paginated_posts'] = Post.top()
+    if tab == 'groups':
+        data['groups_list'] = Post.groups()
 
-    return render_template('posts/index.html', paginated_posts=paginated_posts)
+    return render_template('posts/index.html', **data)
 
 
 @posts.route('/posts/tags')

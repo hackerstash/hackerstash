@@ -1,20 +1,44 @@
 {% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Posts / ' + tag.name %}
 
+{% from "partials/groups.html" import badge %}
+{% from "partials/follows.html" import follows %}
 {% from "partials/posts.html" import posts %}
 
+{% set active_tab = request.args.get('tab') or 'posts' %}
+
 {% block body %}
-    <div class="page posts">
+    <div class="page posts tags">
         <header class="header">
-            <h2 role="heading">Posts in {{ tag.name }}</h2>
-            <a href="{{ url_for('posts.index') }}" class="button secondary has-icon">
-                <i class="ri-arrow-left-line"></i>
-                All Posts
+            {{ badge(tag.id) }}
+            <div class="details">
+                <h2 role="heading">{{ tag.name }}</h2>
+                <p class="mb-0">{{ tag.description }}</p>
+            </div>
+            <a href="#TODO" class="button">
+                Join Group
             </a>
         </header>
 
+         <div class="tabs">
+            <div class="tab-header">
+                <a id="posts-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'posts' else 'false' }}" href="?tag={{ tag.id }}&tab=posts" class="button {{ 'active' if active_tab == 'posts' }}">Posts</a>
+                <a id="members-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'members' else 'false' }}" href="?tag={{ tag.id }}&tab=members" class="button {{ 'active' if active_tab == 'members' }}">Members</a>
+            </div>
+             <div class="tab-body">
+                <div role="tabpanel" aria-labelledby="posts-posts-tab" id="posts-posts" class="tab {{ 'active' if active_tab == 'posts' }}" {{ 'hidden' if active_tab != 'posts' }}>
+                    {% if active_tab == 'posts' %}
+                        {{ posts(tagged_posts) }}
+                    {% endif %}
+                </div>
+                <div role="tabpanel" aria-labelledby="members-posts-tab" id="members-posts" class="tab {{ 'active' if active_tab == 'members' }}" {{ 'hidden' if active_tab != 'members' }}>
+                    {% if active_tab == 'members' %}
+                        {{ follows(tag.members) }}
+                    {% endif %}
+                </div>
+             </div>
+         </div>
         <div class="list">
-            {{ posts(tagged_posts) }}
         </div>
     </div>
 {% endblock %}

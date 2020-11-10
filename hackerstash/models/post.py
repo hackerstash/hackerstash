@@ -6,6 +6,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
 from hackerstash.lib.leaderboard import Leaderboard
+from hackerstash.models.tag import Tag
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list
 
@@ -79,6 +80,11 @@ class Post(db.Model):
         # the posts vote score
         page = request.args.get('page', 1, type=int)
         return cls.query.options(joinedload(Post.user)).order_by(Post.vote_score == 0, Post.vote_score.desc()).paginate(page, 25, False)
+
+    @classmethod
+    def groups(cls) -> [(Tag, list)]:
+        # Return the list of groups in a tuple
+        return db.session.query(Tag, func.count(Post.id)).join(Tag).group_by(Tag).order_by(Tag.name.asc()).all()
 
     def has_author(self, user):
         return self.user.id == user.id if user else False

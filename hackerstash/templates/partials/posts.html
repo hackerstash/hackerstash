@@ -1,5 +1,5 @@
 {% from "partials/avatar.html" import avatar %}
-{% from "partials/previews.html" import user_preview %}
+{% from "partials/previews.html" import user_preview, project_preview %}
 {% from "partials/vote.html" import post_vote %}
 
 {% macro posts(list, limit=999) %}
@@ -21,6 +21,7 @@
                         </p>
                         <p class="small meta">
                             <span>
+                                {{ project_preview(post.project) }}
                                 <span> update by </span>
                                 {{ avatar(post.user, 'xx-sm') }}
                                 {{ user_preview(post.user) }}

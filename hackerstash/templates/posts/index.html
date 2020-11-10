@@ -1,6 +1,7 @@
 {% extends 'layouts/app.html' %}
 {% set title = 'HackerStash / Posts' %}
 
+{% from "partials/groups.html" import groups %}
 {% from "partials/posts.html" import posts %}
 {% from "partials/pagination.html" import pagination %}
 
@@ -20,6 +21,7 @@
                 {% if g.user %}
                 <a id="following-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'following' else 'false' }}" href="?tab=following" class="button {{ 'active' if active_tab == 'following' }}">Following</a>
                 {% endif %}
+                <a id="groups-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'groups' else 'false' }}" href="?tab=groups" class="button {{ 'active' if active_tab == 'groups' }}">Groups</a>
             </div>
             <div class="tab-body">
                 <div role="tabpanel" aria-labelledby="new-posts-tab" id="new-posts" class="tab {{ 'active' if active_tab == 'new' }}" {{ 'hidden' if active_tab != 'new' }}>
@@ -39,6 +41,11 @@
                     {% endif %}
                 </div>
                 {% endif %}
+                <div role="tabpanel" aria-labelledby="groups-posts-tab" id="groups-posts" class="tab {{ 'active' if active_tab == 'groups' }}" {{ 'hidden' if active_tab != 'groups' }}>
+                    {% if active_tab == 'groups' %}
+                        {{ groups(groups_list) }}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
