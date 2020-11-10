@@ -2,13 +2,17 @@
     <ul class="groups groups-list" role="list">
         {% for tag, count in list %}
             <li role="listitem">
-                <a href="{{ url_for('posts.tags', tag_id=tag.id) }}">
-                    {{ badge(tag.id) }}
-                    <div class="details">
-                        <p><b>{{ tag.name }}</b> <span>{{ count }} post{{ 's' if count > 1 }}</span></p>
-                        <p class="wrap-745">{{ tag.description }}</p>
-                    </div>
-                </a>
+                {% if tag %}
+                    <a href="{{ url_for('posts.tags', tag_id=tag.id) }}">
+                        {{ badge(tag.id) }}
+                        <div class="details">
+                            <p><b>{{ tag.name }}</b> <span>{{ count }} post{{ 's' if count > 1 }}</span></p>
+                            <p class="wrap-745">{{ tag.description }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <p>Hmm</p>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
