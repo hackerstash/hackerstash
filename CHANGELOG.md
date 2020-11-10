@@ -1,7 +1,7 @@
 # Changelog
 
 ### 10/10/20:
-- Added the new groups page
+- Added the new groups page 
 - Added the ability to become a member of groups
 
 ### 09/11/20:
