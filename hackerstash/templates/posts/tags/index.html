@@ -16,9 +16,15 @@
                 <h2 role="heading">{{ tag.name }}</h2>
                 <p class="mb-0">{{ tag.description }}</p>
             </div>
-            <a href="#TODO" class="button disabled">
-                Join Group
-            </a>
+            {% if g.user %}
+                <a href="{{ url_for('posts.follow_tag', tag_id=tag.id) }}" class="button {{ 'tertiary' if tag.has_user(g.user) }}">
+                    {{ 'Leave Group' if tag.has_user(g.user) else 'Join Group' }}
+                </a>
+            {% else %}
+                <button class="button modal-open" data-modal="sign-up-modal">
+                    Join Group
+                </button>
+            {% endif %}
         </header>
 
          <div class="tabs">

@@ -34,14 +34,29 @@ def index() -> str:
     return render_template('posts/index.html', **data)
 
 
-@posts.route('/posts/tags')
-def tags() -> str:
-    tag = Tag.query.get(request.args.get('tag'))
+@posts.route('/posts/tags/<tag_id>')
+def tags(tag_id: str) -> str:
+    tag = Tag.query.get(tag_id)
     if not tag:
         return redirect(url_for('posts.index'))
     page = request.args.get('page', 1, type=int)
     paginated_posts = Post.query.filter_by(tag_id=tag.id).paginate(page, 25, False)
     return render_template('posts/tags/index.html', paginated_posts=paginated_posts, tag=tag)
+
+
+@posts.route('/posts/tags/<tag_id>/follow')
+@login_required
+def follow_tag(tag_id: str) -> str:
+    user = g.user
+    tag = Tag.query.get(tag_id)
+    if tag.has_user(user):
+        log.info('Leaving group', {'user_id': user.id, 'tag_id': tag.id})
+        tag.unfollow(user)
+    else:
+        log.info('Joining group', {'user_id': user.id, 'tag_id': tag.id})
+        tag.follow(user)
+    db.session.commit()
+    return redirect(url_for('posts.tags', tag_id=tag.id))
 
 
 @posts.route('/posts/<post_id>')

@@ -70,9 +70,18 @@ def upgrade():
         'tags',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(), nullable=True),
+        sa.Column('description', sa.String(), nullable=True),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
         sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
         sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table(
+        'users_groups',
+        sa.Column('tag_id', sa.Integer(), nullable=False),
+        sa.Column('user_id', sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(['tag_id'], ['tags.id'], ),
+        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+        sa.PrimaryKeyConstraint('tag_id', 'user_id')
     )
     op.create_table(
         'users',
@@ -264,5 +273,6 @@ def downgrade():
     op.drop_table('challenges')
     op.drop_table('users')
     op.drop_table('tags')
+    op.drop_table('users_groups')
     op.drop_table('projects')
     # ### end Alembic commands ###

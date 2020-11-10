@@ -25,7 +25,7 @@
                                 <span> update by </span>
                                 {{ avatar(post.user, 'xx-sm') }}
                                 {{ user_preview(post.user) }}
-                                {% if post.tag %} in <a aria-label="View all posts with the {{ post.tag.name }} tag" href="{{ url_for('posts.tags', tag=post.tag.id) }}">{{ post.tag.name }}</a>{% endif %}
+                                {% if post.tag %} in <a aria-label="View all posts with the {{ post.tag.name }} tag" href="{{ url_for('posts.tags', tag_id=post.tag.id) }}">{{ post.tag.name }}</a>{% endif %}
                                 <span class="seperator d-none-small">•</span>
                             </span>
                             <span>
