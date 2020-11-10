@@ -1,5 +1,8 @@
 # Changelog
 
+### 10/10/20:
+- Added the new groups page
+
 ### 09/11/20:
 - Updated the list of 'Platforms and Devices' as they were unclear
 - Updated the help text for usernames as it was unclear
