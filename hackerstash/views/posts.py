@@ -39,8 +39,9 @@ def tags() -> str:
     tag = Tag.query.get(request.args.get('tag'))
     if not tag:
         return redirect(url_for('posts.index'))
-    tagged_posts = Post.query.filter_by(tag_id=tag.id)
-    return render_template('posts/tags/index.html', tagged_posts=tagged_posts, tag=tag)
+    page = request.args.get('page', 1, type=int)
+    paginated_posts = Post.query.filter_by(tag_id=tag.id).paginate(page, 25, False)
+    return render_template('posts/tags/index.html', paginated_posts=paginated_posts, tag=tag)
 
 
 @posts.route('/posts/<post_id>')

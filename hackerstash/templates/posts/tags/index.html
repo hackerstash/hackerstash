@@ -3,6 +3,7 @@
 
 {% from "partials/groups.html" import badge %}
 {% from "partials/follows.html" import follows %}
+{% from "partials/pagination.html" import pagination %}
 {% from "partials/posts.html" import posts %}
 
 {% set active_tab = request.args.get('tab') or 'posts' %}
@@ -28,7 +29,8 @@
              <div class="tab-body">
                 <div role="tabpanel" aria-labelledby="posts-posts-tab" id="posts-posts" class="tab {{ 'active' if active_tab == 'posts' }}" {{ 'hidden' if active_tab != 'posts' }}>
                     {% if active_tab == 'posts' %}
-                        {{ posts(tagged_posts) }}
+                        {{ posts(paginated_posts.items) }}
+                        {{ pagination(paginated_posts) }}
                     {% endif %}
                 </div>
                 <div role="tabpanel" aria-labelledby="members-posts-tab" id="members-posts" class="tab {{ 'active' if active_tab == 'members' }}" {{ 'hidden' if active_tab != 'members' }}>
