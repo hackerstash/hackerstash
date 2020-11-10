@@ -30,7 +30,6 @@ def index() -> str:
         data['paginated_posts'] = Post.top()
     if tab == 'groups':
         data['groups_list'] = Post.groups()
-        print(data['groups_list'])
 
     return render_template('posts/index.html', **data)
 
