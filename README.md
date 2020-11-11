@@ -28,8 +28,14 @@ $ docker-compose up
 ### Setup Database
 ```shell script
 # Enter the container
-$ docker-compose exec web sh
+$ docker-compose exec web bash
 
 # Run all the migrations
 $ flask db upgrade
+```
+
+### Running the tests
+```shell script
+$ docker-compose exec web bash
+$ python -m pytest tests -s
 ```

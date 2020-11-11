@@ -1,5 +1,8 @@
 # Changelog
 
+### 11/10/20:
+- Added code highlighting for posts
+
 ### 10/10/20:
 - Added the new groups page 
 - Added the ability to become a member of groups
