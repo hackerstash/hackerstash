@@ -71,6 +71,9 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(), nullable=True),
         sa.Column('description', sa.String(), nullable=True),
+        sa.Column('icon', sa.String(), nullable=True),
+        sa.Column('icon_color', sa.String(), nullable=True),
+        sa.Column('background_color', sa.String(), nullable=True),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
         sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
         sa.PrimaryKeyConstraint('id')

@@ -15,6 +15,11 @@ class Tag(db.Model):
 
     name = db.Column(db.String)
     description = db.Column(db.String)
+
+    icon = db.Column(db.String)
+    icon_color = db.Column(db.String)
+    background_color = db.Column(db.String)
+
     post = db.relationship('Post', backref='tag')
     members = db.relationship('User', secondary=groups, backref='tag')
 
