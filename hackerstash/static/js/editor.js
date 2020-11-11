@@ -27,11 +27,11 @@ function createEditor(form, options = {}) {
             'link',
             'underline',
             'strike',
-            'code',
+            'code-block',
             'list',
             'blockquote',
             'image',
-            'indent'
+            'indent',
         ],
         modules: {
             toolbar: {
