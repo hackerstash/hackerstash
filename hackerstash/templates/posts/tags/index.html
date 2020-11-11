@@ -30,7 +30,10 @@
          <div class="tabs">
             <div class="tab-header">
                 <a id="posts-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'posts' else 'false' }}" href="?tag={{ tag.id }}&tab=posts" class="button {{ 'active' if active_tab == 'posts' }}">Posts</a>
-                <a id="members-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'members' else 'false' }}" href="?tag={{ tag.id }}&tab=members" class="button {{ 'active' if active_tab == 'members' }}">Members</a>
+                <a id="members-posts-tab" role="tab" aria-selected="{{ 'true' if active_tab == 'members' else 'false' }}" href="?tag={{ tag.id }}&tab=members" class="button {{ 'active' if active_tab == 'members' }}">
+                    Members
+                    <span class="tag member-count">{{ tag.members | length }}</span>
+                </a>
             </div>
              <div class="tab-body">
                 <div role="tabpanel" aria-labelledby="posts-posts-tab" id="posts-posts" class="tab {{ 'active' if active_tab == 'posts' }}" {{ 'hidden' if active_tab != 'posts' }}>
