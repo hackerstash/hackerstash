@@ -136,3 +136,7 @@ class Post(db.Model):
         title = re.sub(r'-$', '', title)
         title = re.sub(r'^-', '', title)
         return title.lower()
+
+    @property
+    def contains_code(self):
+        return '</pre>' in self.body

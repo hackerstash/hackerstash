@@ -81,4 +81,14 @@
     <script type="text/javascript">
         window.onload = () => createEditor('.comment-form', { light: true });
     </script>
+
+    {% if post.contains_code %}
+    <script type="text/javascript">
+        window.onload = () => {
+          document.querySelectorAll('.rich-text pre').forEach(block => {
+            hljs.highlightBlock(block);
+          });
+        };
+    </script>
+    {% endif %}
 {% endblock %}

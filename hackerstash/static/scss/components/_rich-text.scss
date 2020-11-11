@@ -1,7 +1,7 @@
 .rich-text {
   color: $mauve-900;
 
-  * {
+  *:not([class^=hljs]) {
     color: $mauve-900 !important;
   }
 
