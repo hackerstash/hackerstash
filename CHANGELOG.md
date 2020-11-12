@@ -1,5 +1,8 @@
 # Changelog
 
+### 12/10/20:
+- Fixed an issue where users couldn't comment on post containing code
+
 ### 11/10/20:
 - Added code highlighting for posts
 

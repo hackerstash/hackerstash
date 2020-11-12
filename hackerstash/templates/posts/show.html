@@ -79,16 +79,13 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        window.onload = () => createEditor('.comment-form', { light: true });
-    </script>
-
-    {% if post.contains_code %}
-    <script type="text/javascript">
         window.onload = () => {
-          document.querySelectorAll('.rich-text pre').forEach(block => {
-            hljs.highlightBlock(block);
-          });
+            createEditor('.comment-form', { light: true });
+            {% if post.contains_code %}
+            document.querySelectorAll('.rich-text pre').forEach(block => {
+                hljs.highlightBlock(block);
+            });
+            {% endif %}
         };
     </script>
-    {% endif %}
 {% endblock %}
