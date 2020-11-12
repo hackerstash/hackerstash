@@ -21,7 +21,7 @@
                      {% if active_tab == 'post' %}
                         {% include "partials/messages.html" %}
 
-                         <form role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+                         <form data-editor="true" data-editor-name="editor-form" role="form" aria-label="Create a new post" class="form editor-form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <input type="hidden" name="post_type" value="post">
                                 <div class="split">
@@ -166,10 +166,4 @@
             </main>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form');
-    </script>
 {% endblock %}

@@ -342,3 +342,20 @@ function destroyEditor(form) {
   editor.innerHTML = '';
   editor.innerHTML = editorContents;
 }
+
+window.addEventListener('load', event => {
+    document.querySelectorAll('*[data-editor]').forEach(form => {
+        const name = form.getAttribute('data-editor-name');
+        const options = form.getAttribute('data-editor-options') || '';
+
+        const selector = `.${name}`;
+        const params = options.split(',').reduce((acc, key) => ({ ...acc, [key]: true }), {});
+
+        createEditor(selector, params);
+    });
+
+    document.querySelectorAll('*[data-contains-code] pre').forEach(block => {
+        hljs.highlightBlock(block);
+    });
+});
+

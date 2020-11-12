@@ -3,7 +3,7 @@
 
 {% block body %}
     <div class="tab active project-tab">
-        <form class="form editor-form" action="{{ url_for('onboarding.project_tab') }}" method="post" enctype="multipart/form-data">
+        <form data-editor="true" data-editor-name="editor-form" class="form editor-form" action="{{ url_for('onboarding.project_tab') }}" method="post" enctype="multipart/form-data">
             {% include "partials/messages.html" %}
 
             <fieldset>
@@ -37,10 +37,4 @@
             </main>
         </div>
      </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form');
-    </script>
 {% endblock %}

@@ -13,7 +13,6 @@ scripts = [
     'js/avatar.js',
     'js/buttons.js',
     'js/comments.js',
-    'js/confetti.js',
     'js/editor.js',
     'js/home.js',
     'js/menu.js',

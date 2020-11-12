@@ -13,7 +13,7 @@ contact = Blueprint('contact', __name__)
 def index() -> str:
     if request.method == 'GET':
         recaptcha_site_key = config['recaptcha_site_key']
-        return render_template('contact/index.html', recaptcha_site_key=recaptcha_site_key)
+        return render_template('contact/index.html', recaptcha_site_key=recaptcha_site_key, recaptcha=True)
 
     payload = {
         'name': request.form['name'],

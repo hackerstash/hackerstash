@@ -1,7 +1,9 @@
 # Changelog
 
 ### 12/10/20:
+- Removed confetti in favour of toast notifications
 - Fixed an issue where users couldn't comment on post containing code
+- Updated the editor to initialise with eventListeners instead of onload
 
 ### 11/10/20:
 - Added code highlighting for posts

@@ -1,0 +1,21 @@
+{% set completed_challenge = g.user and g.user.recent_completed_challenge %}
+
+{% if completed_challenge %}
+    <script type="text/javascript">
+        window.addEventListener('load', event => {
+            const challenge = '{{ completed_challenge | safe }}';
+
+            createToast(challenge, 'success', 5000, () => {
+                const options = {
+                    credentials: 'include',
+                    headers: {
+                        'x-requested-with': 'fetch'
+                    }
+                };
+
+                fetch('/challenges/dismiss', options);
+            });
+        });
+    </script>
+{% endif %}
+

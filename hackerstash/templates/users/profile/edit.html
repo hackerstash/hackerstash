@@ -16,7 +16,7 @@
 
         {% include "partials/messages.html" %}
 
-        <form class="form d-flex editor-form flex-column wrap-620" action="{{ url_for('users.update_profile') }}" method="post" enctype="multipart/form-data">
+        <form data-editor="true" data-editor-options="limit" data-editor-name="editor-form" class="form d-flex editor-form flex-column wrap-620" action="{{ url_for('users.update_profile') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 {{ avatar_upload(g.user) }}
 
@@ -52,10 +52,4 @@
             </fieldset>
         </form>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        window.onload = () => createEditor('.editor-form', { limit: true });
-    </script>
 {% endblock %}
