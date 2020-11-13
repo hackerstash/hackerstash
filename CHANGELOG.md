@@ -1,6 +1,7 @@
 # Changelog
 
 ### 13/10/20:
+- Fixed an issue that caused 'None' to appear in long pagination
 - Updated the post row styles to remove some weird spacing
 - Updated the editor syles to fit with the dark theme
 

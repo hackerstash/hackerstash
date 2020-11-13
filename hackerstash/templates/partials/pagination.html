@@ -9,16 +9,22 @@
 
             {% for page in data.iter_pages() %}
                 <li class="page d-none-small {{ 'active' if page == data.page }}">
-                    <a aria-label="View page {{ page }}" href="{{ page | paginate_to_page }}" class="button">
-                        {{ page }}
-                    </a>
+                    {% if page %}
+                        <a aria-label="View page {{ page }}" href="{{ page | paginate_to_page }}" class="button">
+                            {{ page }}
+                        </a>
+                    {% else %}
+                        <span>...</span>
+                    {% endif %}
                 </li>
             {% endfor %}
 
             <div class="select d-none-large mb-0">
                 <select aria-label="Select page" onchange="paginate(event)">
                     {% for page in data.iter_pages() %}
-                        <option {{ 'selected' if page == data.page }} value="{{ page }}">Page {{ page }}</option>
+                        {% if page %}
+                            <option {{ 'selected' if page == data.page }} value="{{ page }}">Page {{ page }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
                 <i class="ri-arrow-drop-down-line"></i>
