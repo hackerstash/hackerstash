@@ -33,5 +33,5 @@ $ flask db migrate -m "Add Foo model"
 
 Run the migration:
 ```shell script
-$ flask db upgrade
+$ flask db upgrade 
 ```
