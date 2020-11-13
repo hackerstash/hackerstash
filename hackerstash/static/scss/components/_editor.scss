@@ -20,16 +20,27 @@
     width: 2rem;
 
     i {
-      color: $blue-500;
+      color: $mauve-500;
       font-size: 1.5rem;
     }
 
-    &:hover,
-    &.ql-active {
-      background: $gray-600;
+    &:hover {
+      background: $mauve-1000;
 
       i {
-        color: $mauve-500;
+        color: white;
+      }
+    }
+
+    &.ql-active {
+      background: $blue-900;
+
+      i {
+        color: white;
+      }
+
+      &:hover {
+        background: $blue-500;
       }
     }
   }
