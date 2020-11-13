@@ -1,5 +1,9 @@
 # Changelog
 
+### 13/10/20:
+- Updated the post row styles to remove some weird spacing
+- Updated the editor syles to fit with the dark theme
+
 ### 12/10/20:
 - Removed confetti in favour of toast notifications
 - Fixed an issue where users couldn't comment on post containing code
