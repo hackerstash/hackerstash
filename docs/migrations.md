@@ -4,7 +4,7 @@ We use Flask-Migrate to handle migrations, some background reading can be found 
 
 https://flask-migrate.readthedocs.io/en/latest/
 
-Unlike Rails where you create the modal and the migration at the same time via the CLI, you first must create the model inside of hackerstash/models/, and then run the migration commands. Because we define all the columns, type and relations with SQL Alchemy, Flask-Migrate is able to infer all of these to automatically create the migration scripts.
+Unlike Rails where you create the model and the migration at the same time via the CLI, you first must create the model inside of hackerstash/models/, and then run the migration commands. Because we define all the columns, type and relations with SQL Alchemy, Flask-Migrate is able to infer all of these to automatically create the migration scripts.
 
 ### Example
 Create a model:

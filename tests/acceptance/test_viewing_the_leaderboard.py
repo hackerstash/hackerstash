@@ -1,9 +1,7 @@
-from hackerstash.db import db
-from hackerstash.lib.leaderboard import Leaderboard
-from hackerstash.models.project import Project
+from steps.given import Given
 
 
-class TestTokens:
+class TestLeaderboard:
     def test_when_the_leaderboard_is_empty(self, client):
         #
         # Given there are no projects
@@ -20,12 +18,7 @@ class TestTokens:
         # When the leaderboard is requested
         # It returns a 200 response with the list of projects
         #
-        for i in range(5):
-            p = Project(name=f'project_{i}', published=True)
-            db.session.add(p)
-            db.session.commit()
-            Leaderboard(p).update(i * 10)
-
+        Given.a_bunch_of_projects_exist_on_the_leaderboard(5)
         response = client.get('/leaderboard')
         assert response.status_code == 200
         assert b'leaderboard-row' in response.data
@@ -36,12 +29,7 @@ class TestTokens:
         # When the leaderboard is requested
         # It renders the pagination
         #
-        for i in range(26):
-            p = Project(name=f'project_{i}', published=True)
-            db.session.add(p)
-            db.session.commit()
-            Leaderboard(p).update(i * 10)
-
+        Given.a_bunch_of_projects_exist_on_the_leaderboard(26)
         response = client.get('/leaderboard')
         assert response.status_code == 200
         assert b'pagination' in response.data

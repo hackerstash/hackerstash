@@ -5,10 +5,10 @@ Running scripts is best done inside the Docker container where you have access t
 ### Running a script
 ```shell script
 # Locally
-$ docker-compose exec web sh
+$ docker-compose exec web bash
 $ python -m 'scripts.<name_of_script>'
 
 # Production
-$ docker exec -ti <container_id> sh
+$ docker exec -ti <container_id> bash
 $ python -m 'scripts.<name_of_script>'
 ```
