@@ -15,6 +15,7 @@ from hackerstash.views.admin import admin
 from hackerstash.views.auth import auth
 from hackerstash.views.challenges import challenges
 from hackerstash.views.contact import contact
+from hackerstash.views.goals import goals
 from hackerstash.views.home import home
 from hackerstash.views.leaderboard import leaderboard
 from hackerstash.views.legal import legal
@@ -49,6 +50,7 @@ app.register_blueprint(admin)
 app.register_blueprint(auth)
 app.register_blueprint(challenges)
 app.register_blueprint(contact)
+app.register_blueprint(goals)
 app.register_blueprint(home)
 app.register_blueprint(leaderboard)
 app.register_blueprint(legal)

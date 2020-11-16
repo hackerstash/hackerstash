@@ -1,0 +1,83 @@
+.page.goals {
+  .header {
+    justify-content: flex-start;
+
+    .goal-badge {
+      align-items: center;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      flex-shrink: 0;
+      height: 3rem;
+      justify-content: center;
+      margin-right: 1.5rem;
+      width: 3rem;
+
+      i {
+        color: $gray-900;
+        font-size: 1.5rem;
+      }
+
+      &.tracking {
+        background: $green-400;
+      }
+
+      &.review {
+        background: $red-500;
+      }
+    }
+  }
+
+  .split {
+    display: flex;
+
+    .left {
+      flex: 1;
+    }
+
+    .right {
+      margin-left: 2rem;
+      width: 300px;
+
+      .label {
+        border-bottom: 1px solid $gray-900;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+      }
+
+      span {
+        color: $blue-500;
+      }
+    }
+
+    @include tablet-down {
+      flex-direction: column;
+
+      .left {
+        order: 2;
+      }
+
+      .right {
+        order: 1;
+        margin: 0 0 1.5rem 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .create-post {
+    .label {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-style: italic;
+        font-weight: $font-weight-normal;
+      }
+    }
+
+    @include tablet-down {
+      max-width: 100%;
+    }
+  }
+}

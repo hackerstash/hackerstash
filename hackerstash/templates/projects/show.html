@@ -112,7 +112,7 @@
                     <div class="title">
                         <h3>Additional info</h3>
                     </div>
-                    <h4 class="mb-1 mt-2">Platforms &amp; devices</h4>
+                    <h4 class="mb-1 mt-1">Platforms &amp; devices</h4>
                     <ul>
                         {% for p in project.platforms_and_devices or [] %}
                             <li>
@@ -146,6 +146,20 @@
                         {% endfor %}
                     </ul>
                 </div>
+                 <div class="priorities mt-3-5">
+                     <div class="title">
+                         <h3>Priorities</h3>
+                     </div>
+                     <p class="mt-1">This weeks' priorities for {{ project.name }} are as follows:</p>
+                     <ul>
+                         {% for goal in project.active_goals %}
+                            <li>
+                                <i class="ri-focus-3-line"></i>
+                                <span>{{ goal.name }}</span>
+                            </li>
+                         {% endfor %}
+                     </ul>
+                 </div>
             </aside>
         </div>
     </div>

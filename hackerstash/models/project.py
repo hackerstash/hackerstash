@@ -42,6 +42,7 @@ class Project(db.Model):
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
     winners = db.relationship('Winner', backref='project', cascade='all,delete')
+    goals = db.relationship('Goal', backref='project', cascade='all,delete', order_by='Goal.id.asc()')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
@@ -182,3 +183,7 @@ class Project(db.Model):
     def number_of_completed_challenges(self):
         completed = Challenge.get_completed_challenges_for_project(self)
         return len(completed)
+
+    @property
+    def active_goals(self):
+        return [goal for goal in self.goals if goal.current]

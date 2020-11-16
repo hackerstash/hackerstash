@@ -1,0 +1,45 @@
+{% extends 'layouts/app.html' %}
+{% set title = 'HackerStash / Edit Goals' %}
+
+{% block body %}
+    <div class="page goals">
+        <header class="header mb-3">
+            <div class="goal-badge tracking">
+                <i class="ri-focus-3-line"></i>
+            </div>
+            <h2 role="heading">Weekly Goal Tracking</h2>
+        </header>
+
+        <form class="form" method="post" action="{{ url_for('goals.edit') }}">
+            <fieldset>
+                <div class="split">
+                    <div class="left">
+                        <h3 class="mb-2">Edit goals</h3>
+
+                        <label class="label" for="goal_1">Goal 1</label>
+                        <input type="text" class="input mb-1-5" id="goal_1" name="{{ project.active_goals[0].id }}" value="{{ project.active_goals[0].name }}" required>
+
+                        <label class="label" for="goal_2">Goal 2</label>
+                        <input type="text" class="input mb-1-5" id="goal_2" name="{{ project.active_goals[1].id }}" value="{{ project.active_goals[1].name }}" required>
+
+                        <label class="label" for="goal_3">Goal 3</label>
+                        <input type="text" class="input mb-1-5" id="goal_3" name="{{ project.active_goals[2].id }}" value="{{ project.active_goals[2].name }}" required>
+                    </div>
+                    <div class="right">
+                        <label class="label">💡 How Goals Work</label>
+                        <p class="small">Goal tracking helps you monitor your progress and helps community members effectively review each other’s progress each week.</p>
+                        <p class="small">You’ll earn <span>50 points</span> by submitting your goals and a further <span>50 points</span> when you update your progress at the end of the week.</p>
+                        <p class="small">On Sunday each week HackerStash community members review a random selection of updates and award points to those they feel have made the most impressive progress.</p>
+                    </div>
+                </div>
+
+                <hr class="divider mt-3 mb-1-5">
+
+                <div class="button-group">
+                    <button type="submit" class="button">Save Changes</button>
+                    <a href="{{ url_for('goals.index') }}" class="button secondary">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

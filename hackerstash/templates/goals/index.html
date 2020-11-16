@@ -1,0 +1,76 @@
+{% extends 'layouts/app.html' %}
+{% set title = 'HackerStash / Goals' %}
+
+{% from "partials/editor.html" import editor_light %}
+
+{% block body %}
+    <div class="page goals">
+        <header class="header mb-3">
+            <div class="goal-badge tracking">
+                <i class="ri-focus-3-line"></i>
+            </div>
+            <h2 role="heading">Weekly Goal Tracking</h2>
+        </header>
+
+        {% if project.active_goals %}
+            <h3 class="mb-1">Your goals this week</h3>
+            <p class="mb-1-5">You can edit your goals any time before 23:59 GMT this Tuesday</p>
+            <ul>
+                <li class="mb-1">{{ project.active_goals[0].name }}</li>
+                <li class="mb-1">{{ project.active_goals[1].name }}</li>
+                <li class="mb-1">{{ project.active_goals[2].name }}</li>
+            </ul>
+
+            <hr class="divider mt-2 mb-1-5">
+
+            <div class="button-group">
+                <a href="{{ url_for('goals.edit') }}" class="button secondary">Edit</a>
+            </div>
+        {% else %}
+            <form class="form" method="post" action="{{ url_for('goals.index') }}">
+                <fieldset>
+                    <div class="split">
+                        <div class="left">
+                            <h3 class="mb-1">Set your goals</h3>
+                            <p>You can set your goals for the week between Monday morning at 00:00 GMT and Tuesday evening at 23:59 GMT.</p>
+                            <p class="mb-2">Use the fields below to share your 3 most important goals for the week ahead.</p>
+
+                            <label class="label" for="goal_1">Goal 1</label>
+                            <input type="text" class="input mb-1-5" id="goal_1" name="goal_1" required>
+
+                            <label class="label" for="goal_2">Goal 2</label>
+                            <input type="text" class="input mb-1-5" id="goal_2" name="goal_2" required>
+
+                            <label class="label" for="goal_3">Goal 3</label>
+                            <input type="text" class="input mb-1-5" id="goal_3" name="goal_3" required>
+                        </div>
+                        <div class="right">
+                            <label class="label">💡 How Goals Work</label>
+                            <p class="small">Goal tracking helps you monitor your progress and helps community members effectively review each other’s progress each week.</p>
+                            <p class="small">You’ll earn <span>50 points</span> by submitting your goals and a further <span>50 points</span> when you update your progress at the end of the week.</p>
+                            <p class="small">On Sunday each week HackerStash community members review a random selection of updates and award points to those they feel have made the most impressive progress.</p>
+                        </div>
+                    </div>
+
+                    <hr class="divider mt-3 mb-3">
+
+                    <div class="wrap-620 create-post">
+                        <h3 class="mb-1-5">Ask HackerStash</h3>
+                        <p class="mb-2">The HackerStash community is full of people with a wide range of expertise, let them know what you need help with and we’ll turn it into a post for you.</p>
+
+                        <label class="label" for="title">What question do you need answering? <span>(Post title)</span></label>
+                        <input type="text" class="input mb-1-5" id="title" name="title">
+
+                        <label class="label">Details <span>(Post body)</span></label>
+                        {{ editor_light() }}
+
+                        <div class="button-group mt-3">
+                            <button type="submit" class="button">Set Goals</button>
+                            <a href="{{ url_for('projects.show', project_id=g.user.project.id) }}" class="button secondary">Cancel</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
