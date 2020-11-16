@@ -6,6 +6,7 @@ from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
+from hackerstash.utils.goals import Goals
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 
 log = Logging(module='Models::Project')
@@ -187,3 +188,7 @@ class Project(db.Model):
     @property
     def active_goals(self):
         return [goal for goal in self.goals if goal.current]
+
+    @property
+    def goal_status(self):
+        return Goals(self).status()

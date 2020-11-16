@@ -4,6 +4,7 @@ from hackerstash.lib.logging import Logging
 from hackerstash.models.goal import Goal
 from hackerstash.models.post import Post
 from hackerstash.utils.auth import login_required, published_project_required
+from hackerstash.utils.goals import Goals, GoalStates
 from hackerstash.utils.helpers import find_in_list
 
 log = Logging(module='Views::Goals')
@@ -15,7 +16,12 @@ goals = Blueprint('goals', __name__)
 @published_project_required
 def index() -> str:
     project = g.user.project
+    status = Goals(project).status()
 
+    if status == GoalStates.REFLECT:
+        return redirect(url_for('goals.reflect'))
+    if status == GoalStates.REVIEW:
+        return redirect(url_for('goals.review'))
     if request.method == 'GET':
         return render_template('goals/index.html', project=project)
 
@@ -54,3 +60,30 @@ def edit() -> str:
     db.session.commit()
 
     return redirect(url_for('goals.index'))
+
+
+@goals.route('/goals/reflect', methods=['GET', 'POST'])
+@login_required
+def reflect() -> str:
+    project = g.user.project
+    complete = not request.args.get('edit') and any([goal.completed for goal in project.active_goals])
+
+    if request.method == 'GET':
+        return render_template('goals/reflect/index.html', project=project, complete=complete)
+
+    log.info('Reflecting on goals', {'project_id': project.id, 'payload': request.form})
+
+    for goal_id in request.form.getlist('goals'):
+        goal = find_in_list(project.active_goals, lambda x: x.id == int(goal_id))
+        goal.completed = True
+
+    db.session.commit()
+
+    return redirect(url_for('goals.reflect'))
+
+
+@goals.route('/goals/review', methods=['GET', 'POST'])
+@login_required
+def review() -> str:
+    # TODO
+    return redirect(url_for('home.index'))

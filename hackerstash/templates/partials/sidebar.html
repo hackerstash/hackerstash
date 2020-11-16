@@ -41,22 +41,40 @@
     <hr class="divider">
     <div class="user-actions">
         {% if g.user %}
-            <a aria-label="View your profile" class="user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
+            <a aria-label="View your profile" class="user-action-item user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
                 {{ avatar(g.user, 'x-sm') }}
                 <p>{{ g.user.first_name }} {{ g.user.last_name }}</p>
             </a>
 
             {% if g.user.project %}
-                <a aria-label="View the {{ g.user.project.name }} project" class="project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
+                <a aria-label="View the {{ g.user.project.name }} project" class="user-action-item project {{ 'active' if request.path.startswith(user_project_path) }}" href="{{ user_project_path }}">
                     {{ avatar(g.user.project, 'x-sm') }}
-                    <p class="split">
-                        <span class="truncate">{{ g.user.project.name }}</span>
-                        <span>{{ g.user.project.vote_score }}</span>
-                    </p>
+                    <p class="truncate">{{ g.user.project.name }}</p>
                 </a>
 
-                <a aria-label="View your challenges" class="challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
-                    <i class="icon ri-medal-2-line"></i>
+
+                {% if g.user.project.published and g.user.project.goal_status.value != 'NONE' %}
+                    {% if g.user.project.goal_status.value == 'REVIEW' %}
+                        <a aria-label="View the review page" class="user-action-item goals {{ 'active' if request.path.startswith('/goals') }}" href="{{ url_for('goals.index') }}">
+                            <span class="menu-icon">
+                                 <i class="ri-sort-asc"></i>
+                            </span>
+                            <p>Review</p>
+                        </a>
+                    {% else %}
+                        <a aria-label="View the review page" class="user-action-item goals review {{ 'active' if request.path.startswith('/goals') }}" href="{{ url_for('goals.index') }}">
+                            <span class="menu-icon">
+                                 <i class="ri-focus-3-line"></i>
+                            </span>
+                            <p>Goals</p>
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+                <a aria-label="View your challenges" class="user-action-item challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
+                    <span class="menu-icon">
+                        <i class="ri-medal-2-line"></i>
+                    </span>
                     <p class="split">
                         <span>Challenges</span>
                         <span>{{ g.user.project.number_of_completed_challenges }}/8</span>

@@ -1,0 +1,94 @@
+{% extends 'layouts/app.html' %}
+{% set title = 'HackerStash / Goals / Review' %}
+
+{% from "partials/editor.html" import editor_light %}
+
+{% block body %}
+    <div class="page goals reflect">
+        <header class="header mb-3">
+            <div class="goal-badge tracking">
+                <i class="ri-focus-3-line"></i>
+            </div>
+            <h2 role="heading">Weekly Goal Tracking</h2>
+        </header>
+
+        {% if complete %}
+            <h3 class="mb-1">Progress update</h3>
+            <p class="wrap-620 mb-2">Your progress update has been submitted, however you can continue to make edits any time before Saturday at 00:00 GMT.</p>
+            <ul class="goal-results">
+                {% for goal in project.active_goals %}
+                    <li>
+                        {% if goal.completed %}
+                            <i class="completed ri-check-line"></i>
+                        {% else %}
+                            <i class="failed ri-close-line"></i>
+                        {% endif %}
+
+                        {{ goal.name }}
+
+                        {% if goal.evidence %}
+                            <span>(Evidence provided)</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <hr class="divider mt-3 mb-1-5">
+
+            <div class="button-group">
+                <a href="?edit=1" class="button secondary">Edit</a>
+            </div>
+        {% else %}
+            <form class="form" method="post" action="{{ url_for('goals.reflect') }}">
+                <fieldset>
+                    <h3 class="mb-1">Progress update</h3>
+                    <p class="wrap-620 mb-2">Use the form below to record the goals you achieved this week and provide supporting evidence. You have until Saturday at 23:59 GMT.</p>
+
+                    <div class="wrap-620 reflect">
+                        {% for goal in project.active_goals %}
+                            <div class="goal">
+                                <div class="title">
+                                    <span class="checkbox">
+                                        <input type="checkbox" name="goals" id="goal-{{ goal.id }}" value="{{ goal.id }}" {{ 'checked' if goal.completed }}>
+                                        <span class="indicator"><i class="icon ri-check-line"></i></span>
+                                    </span>
+                                    <label class="label" for="goal-{{ goal.id }}">{{ goal.name }}</label>
+                                </div>
+                                <div class="body {{ 'd-none' if not goal.completed }}">
+                                    <label class="label evidence-label mt-1-5">
+                                        Supporting evidence
+                                        <i class="info-icon ri-information-line modal-open" data-modal="evidence-modal"></i>
+                                    </label>
+                                    {{ editor_light(goal.evidence or '', name='evidence_' ~ goal.id ) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <hr class="divider mt-3 mb-1-5">
+
+                    <div class="button-group">
+                        <button type="submit" class="button">Submit updates</button>
+                        <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Cancel</a>
+                    </div>
+                </fieldset>
+            </form>
+        {% endif %}
+    </div>
+
+    <div id="evidence-modal" class="modal">
+        <div class="modal-body sm" role="dialog" aria-labelledby="evidence-modal-header">
+            <header>
+                <h3 id="evidence-header">Supporting evidence</h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close evidence modal"></i>
+            </header>
+            <main>
+                <p class="mt-1">When HackerStash community members review your progress this week it’s helpful for them to see some evidence of your having completed your task.</p>
+                <p class="mb-2">This could be things like screenshots of your revenue dashboard or new designs, links to a new page in your app, or anything else that you think helps evidence what you’ve done.</p>
+                <footer class="mt-2">
+                    <button class="button secondary modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
+    </div>
+{% endblock %}

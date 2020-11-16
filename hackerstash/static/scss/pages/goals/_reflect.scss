@@ -1,0 +1,63 @@
+.page.goals.reflect {
+  .reflect {
+    .goal {
+      background: $gray-900;
+      border-radius: .5rem;
+      margin-bottom: .5rem;
+      padding: 1.5rem;
+
+      .title {
+        align-items: center;
+        display: flex;
+
+        .label {
+          margin: 0 0 0 .5rem;
+        }
+      }
+
+      .body {
+        .evidence-label {
+          align-items: center;
+          display: flex;
+
+          .info-icon {
+            color: $blue-500;
+            cursor: pointer;
+            font-size: 1.25rem;
+            margin-left: .5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .goal-results {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      margin-bottom: 1rem;
+
+      i {
+        font-size: 1.25rem;
+        margin-right: .5rem;
+        vertical-align: middle;
+
+        &.completed {
+          color: $blue-500;
+        }
+
+        &.failed {
+          color: $red-500;
+        }
+      }
+
+      span {
+        color: $mauve-1000;
+        font-style: italic;
+        margin-left: .75rem;
+      }
+    }
+  }
+}
