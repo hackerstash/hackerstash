@@ -18,6 +18,8 @@ def index() -> str:
     project = g.user.project
     status = Goals(project).status()
 
+    if status == GoalStates.NONE:
+        return redirect(url_for('projects.show', project_id=project.id))
     if status == GoalStates.REFLECT:
         return redirect(url_for('goals.reflect'))
     if status == GoalStates.REVIEW:
@@ -73,8 +75,6 @@ def reflect() -> str:
 
     log.info('Reflecting on goals', {'project_id': project.id, 'payload': request.form})
 
-    print(request.form)
-
     for goal_id in request.form.getlist('goals'):
         goal = find_in_list(project.active_goals, lambda x: x.id == int(goal_id))
         goal.completed = True
@@ -88,5 +88,5 @@ def reflect() -> str:
 @goals.route('/goals/review', methods=['GET', 'POST'])
 @login_required
 def review() -> str:
-    # TODO
-    return redirect(url_for('home.index'))
+    project = g.user.project
+    return render_template('goals/review/index.html', project=project)

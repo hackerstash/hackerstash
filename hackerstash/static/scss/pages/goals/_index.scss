@@ -24,6 +24,10 @@
 
       &.review {
         background: $red-500;
+
+        i {
+          color: white;
+        }
       }
     }
   }

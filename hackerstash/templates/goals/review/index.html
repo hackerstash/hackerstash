@@ -1,0 +1,17 @@
+{% extends 'layouts/app.html' %}
+{% set title = 'HackerStash / Goals / Review' %}
+
+{% from "partials/editor.html" import editor_light %}
+
+{% block body %}
+    <div class="page goals reflect">
+        <header class="header mb-3">
+            <div class="goal-badge tracking review">
+                <i class="ri-sort-asc"></i>
+            </div>
+            <h2 role="heading">Review Community Progress</h2>
+        </header>
+
+        <p class="wrap-620">Use the form below to record the goals you achieved this week and provide supporting evidence. You have until Saturday at 23:59 GMT.</p>
+    </div>
+{% endblock %}

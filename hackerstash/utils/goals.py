@@ -28,6 +28,8 @@ class Goals:
         if self.is_review:
             return GoalStates.REVIEW
 
+        return GoalStates.NONE
+
     @property
     def is_set(self):
         # From Monday morning and Tuesday night, only if they have not
