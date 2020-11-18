@@ -41,7 +41,7 @@
 
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'details' }}">
-                    <form data-editor="true" data-editor-name="editor-form" class="form editor-form pt-2" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
+                    <form class="form pt-2" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
                         {% include "partials/messages.html" %}
 
                         <fieldset>

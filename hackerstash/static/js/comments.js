@@ -21,6 +21,7 @@ document.addEventListener('click', (event) => {
         form.classList.add('reply-form');
         form.querySelector('fieldset').appendChild(input);
         form.querySelector('label').innerText = 'Reply';
+        form.removeAttribute('id');
 
         // Create a wrapper to insert the form into
         wrapper.classList.add('comment-reply');
@@ -32,7 +33,8 @@ document.addEventListener('click', (event) => {
         });
 
         parent.parentNode.insertBefore(wrapper, parent.nextSibling);
-        createEditor('.reply-form', { focus: true, light: true });
+        const container = form.querySelector('.editor-container');
+        createEditor(container, { focus: true, light: true });
     }
 
     if (event.target.closest('.collapse') || event.target.closest('.collapse-comments')) {
@@ -84,6 +86,7 @@ document.addEventListener('click', (event) => {
         form.querySelector('.ql-editor').innerHTML = parent.querySelector('.rich-text').innerHTML;
         form.querySelector('.button-group .button:first-of-type').innerText = 'Save Changes';
         form.action = event.target.getAttribute('data-url');
+        form.removeAttribute('id');
 
         // Create a wrapper to insert the form into
         wrapper.classList.add('comment-reply');
@@ -97,7 +100,8 @@ document.addEventListener('click', (event) => {
 
         parent.parentNode.insertBefore(wrapper, parent);
         parent.classList.add('editing');
-        createEditor('.reply-form', { focus: true, light: true });
+        const container = form.querySelector('.editor-container');
+        createEditor(container, { focus: true, light: true });
     }
 });
 

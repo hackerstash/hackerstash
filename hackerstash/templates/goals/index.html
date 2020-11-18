@@ -27,7 +27,7 @@
                 <a href="{{ url_for('goals.edit') }}" class="button secondary">Edit</a>
             </div>
         {% else %}
-            <form data-editor="true" data-editor-name="editor-form" class="form editor-form" method="post" action="{{ url_for('goals.index') }}">
+            <form class="form" method="post" action="{{ url_for('goals.index') }}">
                 <fieldset>
                     <div class="split">
                         <div class="left">

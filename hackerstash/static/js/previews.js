@@ -9,7 +9,7 @@ function removePreviewCard() {
 
 previews.forEach((preview) => {
     preview.addEventListener('mouseenter', (event) => {
-        removePreviewCard()
+        removePreviewCard();
 
         const element = event.target.closest('.preview');
         const data = JSON.parse(element.getAttribute('data-preview'));

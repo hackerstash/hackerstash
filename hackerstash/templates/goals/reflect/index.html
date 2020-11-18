@@ -70,7 +70,11 @@
 
                     <div class="button-group">
                         <button type="submit" class="button">Submit updates</button>
-                        <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Cancel</a>
+                        {% if request.args.get('edit') %}
+                            <a href="{{ url_for(request.endpoint) }}" class="button secondary">Cancel</a>
+                        {% else %}
+                            <a href="{{ url_for('projects.show', project_id=project.id) }}" class="button secondary">Cancel</a>
+                        {% endif %}
                     </div>
                 </fieldset>
             </form>

@@ -34,7 +34,7 @@ class Goals:
         # set their goals
         start = arrow.utcnow().floor('week')
         end = start.shift(days=1).ceil('day')
-        return not self.goals and start > self.now < end
+        return not self.goals and start < self.now < end
 
     @property
     def is_edit(self):
@@ -42,7 +42,7 @@ class Goals:
         # their goals
         start = arrow.utcnow().floor('week')
         end = start.shift(days=1).ceil('day')
-        return self.goals and start > self.now < end
+        return self.goals and start < self.now < end
 
     @property
     def is_reflect(self):
@@ -50,7 +50,7 @@ class Goals:
         # their goals
         start = arrow.utcnow().floor('week').shift(days=2)
         end = start.shift(days=3).ceil('day')
-        return self.goals and start > self.now < end
+        return self.goals and start < self.now < end
 
     @property
     def is_review(self):
@@ -59,4 +59,4 @@ class Goals:
         start = arrow.utcnow().floor('week').shift(days=6)
         end = start.ceil('day')
         reflected = self.goals and all([goal.completed for goal in self.goals])
-        return reflected and start > self.now < end
+        return reflected and start < self.now < end

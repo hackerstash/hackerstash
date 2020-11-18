@@ -73,9 +73,12 @@ def reflect() -> str:
 
     log.info('Reflecting on goals', {'project_id': project.id, 'payload': request.form})
 
+    print(request.form)
+
     for goal_id in request.form.getlist('goals'):
         goal = find_in_list(project.active_goals, lambda x: x.id == int(goal_id))
         goal.completed = True
+        goal.evidence = request.form.get(f'evidence_{goal_id}')
 
     db.session.commit()
 
