@@ -22,13 +22,13 @@
         <form class="form" method="post" action="{{ url_for(request.endpoint) }}">
             <fieldset>
                 <div class="review-container">
-                    <ul class="left">
+                    <ul class="left sortable-list">
                         {% for project in projects_to_review %}
-                            <li class="{{ 'active' if loop.index == 1 }}">
+                            <li class="{{ 'active' if loop.index == 1 }}" data-project-id="{{ project.id }}">
                                 <div class="position">
                                     <span>{{ loop.index }}</span>
                                 </div>
-                                <div class="card truncate" data-project-id="{{ project.id }}">
+                                <div class="card" data-project-id="{{ project.id }}">
                                     <div class="grab">
                                         <span></span>
                                         <span></span>
@@ -39,6 +39,7 @@
                                     </div>
                                     {{ avatar(project, size='md') }}
                                     <p class="mb-0 truncate">{{ project.name }}</p>
+                                    <div class="indicator"></div>
                                 </div>
                             </li>
                         {% endfor %}
@@ -83,6 +84,12 @@
                                         </p>
                                     </div>
                                 {% endfor %}
+
+                                <hr class="divider mt-2 mb-2">
+
+                                <label class="label" for="project-{{ project.id }}-feedback">Your feedback for Codefree</label>
+                                <textarea class="input textarea mb-0" rows="3" id="project-{{ project.id }}-feedback" name="project-{{ project.id }}-feedback"></textarea>
+                                <input type="hidden" class="position-number" name="project-{{ project.id }}-position" value="{{ loop.index - 1 }}">
                             </div>
                         {% endfor %}
                     </div>

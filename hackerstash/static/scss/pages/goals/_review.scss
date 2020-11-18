@@ -19,8 +19,13 @@
 
       li {
         display: flex;
+        height: 76px;
         list-style: none;
         margin-bottom: .5rem;
+
+        &:focus {
+          outline: none;
+        }
 
         .position {
           align-items: center;
@@ -43,8 +48,8 @@
           border-radius: .5rem;
           cursor: pointer;
           display: flex;
-          flex: 1;
           padding: 1rem;
+          width: 252px;
 
           .grab {
             cursor: grab;
@@ -63,6 +68,22 @@
             }
           }
 
+          .indicator {
+            border: 2px solid $blue-500;
+            border-bottom-width: 0;
+            border-left-width: 0;
+            border-radius: .5rem;
+            content: ' ';
+            display: none;
+            height: 58px;
+            position: absolute;
+            right: -22px;
+            top: 7px;
+            transform: rotate(45deg);
+            width: 58px;
+            z-index: 0;
+          }
+
           &:hover {
             background: $gray-800;
             border-color: $mauve-900;
@@ -71,7 +92,26 @@
 
         &.active {
           .card {
+            background: $gray-800;
             border-color: $blue-500;
+            border-right-width: 0;
+            position: relative;
+          }
+
+          .indicator {
+            display: block;
+          }
+        }
+
+        &.draggable-mirror {
+          .card {
+            background: $gray-800;
+            border-color: $blue-500;
+            transform: rotate(-5deg);
+          }
+
+          .position {
+            opacity: 0;
           }
         }
 
@@ -123,7 +163,7 @@
           &:last-of-type {
             margin-bottom: 0;
           }
-          
+
           .goal-title {
             i {
               font-size: 1.25rem;

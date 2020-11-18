@@ -1,3 +1,5 @@
+const reviews = document.querySelector('.review-container');
+
 document.querySelectorAll('input[type="checkbox"]').forEach(element => {
     element.addEventListener('change', event => {
         const checkbox = event.target;
@@ -42,3 +44,34 @@ document.querySelectorAll('.review-container .card').forEach(element => {
        });
    });
 });
+
+if (reviews) {
+    const selector = '.sortable-list';
+    const containers = reviews.querySelectorAll(selector);
+
+    window.addEventListener('load', () => {
+        const sortable = new Sortable.default(containers, {
+            draggable: '.sortable-list li',
+            mirror: {
+                // appendTo: selector,
+                constrainDimensions: true
+            }
+        });
+
+        sortable.on('drag:stop', () => {
+            setTimeout(() => {
+                reviews.querySelectorAll('.position').forEach((element, index) => {
+                    element.innerHTML = `<span>${index + 1}</span>`;
+                });
+
+                const order = Array.from(reviews.querySelectorAll('li')).map(element => element.getAttribute('data-project-id'));
+
+                document.querySelectorAll('.review-body').forEach(element => {
+                   const id = element.getAttribute('id');
+                   const input = element.querySelector('input[type="hidden"]');
+                   input.value = order.findIndex(o => o === id);
+                });
+            }, 0);
+        });
+    });
+}

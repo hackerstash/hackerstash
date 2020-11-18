@@ -90,4 +90,14 @@ def reflect() -> str:
 def review() -> str:
     project = g.user.project
     projects_to_review = Project.query.limit(10).all()
-    return render_template('goals/review/index.html', project=project, projects_to_review=projects_to_review)
+
+    if request.method == 'GET':
+        return render_template('goals/review/index.html', project=project, projects_to_review=projects_to_review)
+
+    for project in projects_to_review:
+        position = request.form.get(f'project-{project.id}-position')
+        feedback = request.form.get(f'project-{project.id}-feedback')
+
+        print(project.id, position, feedback)
+
+    return redirect(url_for(request.endpoint))
