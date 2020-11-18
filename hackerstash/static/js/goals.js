@@ -20,3 +20,25 @@ document.querySelectorAll('.goal .arrow').forEach(element => {
         event.target.closest('.goal').querySelector('input[type="checkbox"]').click();
     });
 });
+
+document.querySelectorAll('.review-container .card').forEach(element => {
+   element.addEventListener('click', event => {
+       const id = event.target.closest('.card').getAttribute('data-project-id');
+
+       document.querySelectorAll('.review-container li').forEach(li => {
+           li.classList.remove('active');
+
+           if (li.querySelector('.card').getAttribute('data-project-id') === id) {
+               li.classList.add('active');
+           }
+       });
+
+       document.querySelectorAll('.review-body').forEach(body => {
+           body.classList.add('d-none');
+
+           if (body.getAttribute('id') === id) {
+               body.classList.remove('d-none');
+           }
+       });
+   });
+});

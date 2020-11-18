@@ -3,6 +3,7 @@ from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.posts import Posts
 from hackerstash.models.goal import Goal
+from hackerstash.models.project import Project
 from hackerstash.utils.auth import login_required, published_project_required
 from hackerstash.utils.goals import Goals, GoalStates
 from hackerstash.utils.helpers import find_in_list
@@ -75,10 +76,9 @@ def reflect() -> str:
 
     log.info('Reflecting on goals', {'project_id': project.id, 'payload': request.form})
 
-    for goal_id in request.form.getlist('goals'):
-        goal = find_in_list(project.active_goals, lambda x: x.id == int(goal_id))
-        goal.completed = True
-        goal.evidence = request.form.get(f'evidence_{goal_id}')
+    for goal in project.active_goals:
+        goal.completed = str(goal.id) in request.form.getlist('goals')
+        goal.evidence = request.form.get(f'evidence_{goal.id}')
 
     db.session.commit()
 
@@ -89,4 +89,5 @@ def reflect() -> str:
 @login_required
 def review() -> str:
     project = g.user.project
-    return render_template('goals/review/index.html', project=project)
+    projects_to_review = Project.query.limit(10).all()
+    return render_template('goals/review/index.html', project=project, projects_to_review=projects_to_review)

@@ -23,7 +23,7 @@
             <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" class="ql-image" multiple>
         </div>
         <div role="textbox" aria-multiline="true" aria-required="true" class="editor post full">{{ body | safe }}</div>
-        <input class="body" type="hidden" name="{{ name }}" required>
+        <input class="body" type="hidden" name="{{ name }}" value="{{ body }}" required>
         <div class="uploading-images mt-1-5 d-none">
             <span class="spinner x-sm"></span>
             <p>Uploading...</p>
@@ -44,7 +44,7 @@
             <button aria-label="Insert a link" type="button" class="ql-link"><i class="ri-link"></i></button>
         </div>
         <div role="textbox" aria-multiline="true" aria-required="true" class="editor post light">{{ body | safe }}</div>
-        <input class="body" type="hidden" name="{{ name }}" required>
+        <input class="body" type="hidden" name="{{ name }}" value="{{ body }}" required>
         {% if limit %}
             <p class="editor-limit" data-limit="{{ limit }}"><span>{{ body | to_plain_text | trim | length }}</span> / {{ limit }} characters</p>
         {% endif %}
