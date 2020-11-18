@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, g
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
+from hackerstash.lib.posts import Posts
 from hackerstash.models.goal import Goal
-from hackerstash.models.post import Post
 from hackerstash.utils.auth import login_required, published_project_required
 from hackerstash.utils.goals import Goals, GoalStates
 from hackerstash.utils.helpers import find_in_list
@@ -35,11 +35,11 @@ def index() -> str:
 
     # Create a post if they added that information
     if request.form['title'] and request.form['body']:
-        # TODO
-        pass
+        # Tag#2 is for 'Ask HackerStash'
+        Posts(title=request.form['title'], body=request.form['body'], tag_id='2').create()
 
     db.session.commit()
-    return redirect(url_for('goals.index'))
+    return redirect(url_for('goals.index', submitted=1))
 
 
 @goals.route('/goals/edit', methods=['GET', 'POST'])

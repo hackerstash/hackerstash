@@ -81,3 +81,43 @@
     }
   }
 }
+
+#submitted-modal {
+  .heading {
+    align-items: center;
+    color: $mauve-500;
+    display: flex;
+
+    span {
+      color: $mauve-1000;
+      margin-left: .5rem;
+    }
+
+    i {
+      color: $blue-500;
+      font-size: 1.25rem;
+      margin-right: .5rem;
+
+      &:nth-of-type(2) {
+        color: $mauve-500;
+        margin: 0 .25rem;
+      }
+    }
+  }
+
+  h3 {
+    align-items: center;
+    display: flex;
+
+    i {
+      color: $green-400;
+      margin-right: .5rem;
+    }
+  }
+
+  p {
+    span {
+      color: $blue-500;
+    }
+  }
+}

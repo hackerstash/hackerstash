@@ -9,12 +9,12 @@
             <div class="goal-badge tracking">
                 <i class="ri-focus-3-line"></i>
             </div>
-            <h2 role="heading">Weekly Goal Tracking</h2>
+            <h2 role="heading">Your Goals This Week</h2>
         </header>
 
         {% if project.active_goals %}
-            <h3 class="mb-1">Your goals this week</h3>
-            <p class="mb-1-5">You can edit your goals any time before 23:59 GMT this Tuesday</p>
+            <p class="mb-1-5 wrap-620">You can edit your goals any time before 23:59 GMT this Tuesday, after which time we will automatically submit them for you.</p>
+
             <ul>
                 <li class="mb-1">{{ project.active_goals[0].name }}</li>
                 <li class="mb-1">{{ project.active_goals[1].name }}</li>
@@ -27,7 +27,7 @@
                 <a href="{{ url_for('goals.edit') }}" class="button secondary">Edit</a>
             </div>
         {% else %}
-            <form class="form" method="post" action="{{ url_for('goals.index') }}">
+            <form data-editor="true" data-editor-name="editor-form" class="form editor-form" method="post" action="{{ url_for('goals.index') }}">
                 <fieldset>
                     <div class="split">
                         <div class="left">
@@ -47,8 +47,8 @@
                         <div class="right">
                             <label class="label">💡 How Goals Work</label>
                             <p class="small">Goal tracking helps you monitor your progress and helps community members effectively review each other’s progress each week.</p>
-                            <p class="small">You’ll earn <span>50 points</span> by submitting your goals and a further <span>50 points</span> when you update your progress at the end of the week.</p>
-                            <p class="small">On Sunday each week HackerStash community members review a random selection of updates and award points to those they feel have made the most impressive progress.</p>
+                            <p class="small">You’ll earn <span>25 points</span> by submitting your goals and a further <span>25 points</span> when you update your progress at the end of the week.</p>
+                            <p class="small">On Sunday each week HackerStash community members review a random selection of updates and award points to those they feel have made the most impressive progress. You will earn an additional <span>25 points</span> for reviewing your peers.</p>
                         </div>
                     </div>
 
@@ -72,5 +72,49 @@
                 </fieldset>
             </form>
         {% endif %}
+    </div>
+
+    <div id="submitted-modal" class="modal {{ 'open' if request.args.get('submitted') }}">
+        <div class="modal-body md" role="dialog" aria-labelledby="submitted-modal-header">
+            <header>
+                <h3 id="submitted-header">
+                    <i class="ri-checkbox-circle-line"></i>
+                    Goals Submitted
+                </h3>
+                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close evidence modal"></i>
+            </header>
+            <main>
+                <h4 class="mt-2 mb-2">What now?</h4>
+
+                <p class="heading mb-1">
+                    <i class="ri-calendar-2-line"></i>
+                    Tuesday 23:59 <span>(GMT)</span>
+                </p>
+                <p class="mb-2">Between now and the end of Tuesday (GMT) you can edit your goals, after which point they are automatically submitted. If you have saved goals by this point you will earn <span>25 points</span> for your project.</p>
+
+                <p class="heading mb-1">
+                    <i class="ri-calendar-2-line"></i>
+                    Wednesday 00:00 <i class="ri-arrow-right-line"></i> Saturday 23:59 <span>(GMT)</span>
+                </p>
+                <p>From Wednesday to Saturday (GMT) you can record your progress in completing you goals, after which point they are automatically submitted for peer review.</p>
+                <p class="mb-2">All community members who update their goal progress will earn <span>25 points</span>, regardless of whether they achieve their goals. If you fail to submit a progress update you will not be included in the peer review or earn these additional points.</p>
+
+                <p class="heading mb-1">
+                    <i class="ri-calendar-2-line"></i>
+                    Sunday 00:00 <i class="ri-arrow-right-line"></i> Monday 10:00 <span>(GMT)</span>
+                </p>
+                <p class="mb-2">You will be invited to review a selection of updates from other community members. You’ll rank them according to those that impressed you most, and points will be awarded the higher they are ranked. Likewise, you could earn points for your update if other community members are impressd by your progress. You will also earn <span>25 points</span> for your project by submitting your reviews.</p>
+
+                <p class="heading mb-1">
+                    <i class="ri-calendar-2-line"></i>
+                    Monday 10:15 <span>(GMT)</span>
+                </p>
+                <p class="mb-3">Results from peers reviews will be tabulated and points awarded to the most successful projects. These points are added to your overall project score for the month.</p>
+
+                <footer class="mt-2">
+                    <button class="button secondary modal-close">Close</button>
+                </footer>
+            </main>
+        </div>
     </div>
 {% endblock %}

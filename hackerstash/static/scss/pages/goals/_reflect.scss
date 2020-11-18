@@ -11,7 +11,18 @@
         display: flex;
 
         .label {
+          flex: 1;
           margin: 0 0 0 .5rem;
+        }
+
+        .arrow {
+          cursor: pointer;
+          font-size: 1.5rem;
+          transform: rotate(180deg);
+
+          &.toggle {
+            transform: rotate(0deg);
+          }
         }
       }
 
