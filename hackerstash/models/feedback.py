@@ -2,23 +2,22 @@ from hackerstash.db import db
 from hackerstash.utils.contest import get_week_and_year
 
 
-class Goal(db.Model):
-    __tablename__ = 'goals'
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
 
     id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String, nullable=False)
-    completed = db.Column(db.Boolean)
-    evidence = db.Column(db.String)
+    feedback = db.Column(db.String)
+    position = db.Column(db.String)
 
+    goals = db.relationship('Goal', backref='goals', cascade='all,delete')
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-    feedback_id = db.Column(db.Integer, db.ForeignKey('feedback.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __repr__(self) -> str:
-        return f'<Goal {self.id}>'
+        return f'<Feedback {self.id}>'
 
     @property
     def week(self):

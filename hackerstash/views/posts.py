@@ -91,7 +91,7 @@ def new() -> str:
 def create() -> str:
     log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.project.id, 'post_data': request.form})
 
-    if 'title' not in request.form or 'body' not in request.form or request.form['body'] == '<p><br></p>':
+    if 'title' not in request.form or 'body' not in request.form:
         log.warn('Not all fields were submitted during post create', {'request_data': request.form})
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
@@ -186,7 +186,7 @@ def create_comment(post_id: str) -> str:
 
     log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
 
-    if 'body' in request.form and request.form['body'] != '<p><br></p>':
+    if 'body' in request.form:
         mentions = Mentions(request.form['body'])
         parent_comment_id = request.form.get('parent_comment_id')
         # Some weirdness going on with bad values trying to get added

@@ -19,89 +19,95 @@
             <p class="wrap-745">You can save your reviews at any time, and whichever order you have established by Monday 10:00 <span class="tz">(GMT)</span> will be submitted. If you don’t leave feedback for the peers you are reviewing your review will not be submitted. By reviewing your peers you will earn <span>25 points</span> for your project.</p>
         </div>
 
-        <form class="form" method="post" action="{{ url_for(request.endpoint) }}">
-            <fieldset>
-                <div class="review-container">
-                    <ul class="left sortable-list">
-                        {% for project in projects_to_review %}
-                            <li class="{{ 'active' if loop.index == 1 }}" data-project-id="{{ project.id }}">
-                                <div class="position">
-                                    <span>{{ loop.index }}</span>
-                                </div>
-                                <div class="card" data-project-id="{{ project.id }}">
-                                    <div class="grab">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
+        {% if project.reviews_given %}
+            <form class="form" method="post" action="{{ url_for(request.endpoint) }}">
+                <fieldset>
+                    <div class="review-container">
+                        <ul class="left sortable-list">
+                            {% for review in project.reviews_given %}
+                                <li class="{{ 'active' if loop.index == 1 }}" data-project-id="{{ review.project.id }}">
+                                    <div class="position">
+                                        <span>{{ loop.index }}</span>
                                     </div>
-                                    {{ avatar(project, size='md') }}
-                                    <p class="mb-0 truncate">{{ project.name }}</p>
-                                    <div class="indicator"></div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="right">
-                        {% for project in projects_to_review %}
-                            <div class="review-body {{ 'd-none' if loop.index != 1 }}" id="{{ project.id }}">
-                                <div class="title-container">
-                                    <div class="title">
-                                        {{ avatar(project, size='md') }}
-                                        <h3>{{ project.name }}</h3>
+                                    <div class="card" data-project-id="{{ review.project.id }}">
+                                        <div class="grab">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        {{ avatar(review.project, size='md') }}
+                                        <p class="mb-0 truncate">{{ review.project.name }}</p>
+                                        <div class="indicator"></div>
                                     </div>
-                                    <a href="{{ project.url if project.url.startswith('http') else '//' + project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
-                                </div>
-                                <div class="rich-text mt-1-5">
-                                    {{ project.description | to_safe_html | safe }}
-                                </div>
-
-                                <hr class="divider mt-1-5 mb-3">
-
-                                {% for goal in project.active_goals %}
-                                    <div class="goal">
-                                        <h4 class="goal-title">
-                                            {% if goal.completed %}
-                                                <i class="completed ri-check-line"></i>
-                                            {% else %}
-                                                <i class="failed ri-close-line"></i>
-                                            {% endif %}
-
-                                            {{ goal.name }}
-                                        </h4>
-                                        <p class="goal-body">
-                                            {% if goal.evidence %}
-                                                <div class="rich-text">
-                                                    {{ goal.evidence | to_safe_html | safe }}
-                                                </div>
-                                            {% else %}
-                                                <p class="mb-0 small no-evidence">
-                                                    <i>No further information provided.</i>
-                                                </p>
-                                            {% endif %}
-                                        </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="right">
+                            {% for review in project.reviews_given %}
+                                <div class="review-body {{ 'd-none' if loop.index != 1 }}" id="{{ review.project.id }}">
+                                    <div class="title-container">
+                                        <div class="title">
+                                            {{ avatar(review.project, size='md') }}
+                                            <h3>{{ review.project.name }}</h3>
+                                        </div>
+                                        <a href="{{ review.project.url if review.project.url.startswith('http') else '//' + review.project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
                                     </div>
-                                {% endfor %}
+                                    <div class="rich-text mt-1-5">
+                                        {{ review.project.description | to_safe_html | safe }}
+                                    </div>
 
-                                <hr class="divider mt-2 mb-2">
+                                    <hr class="divider mt-1-5 mb-3">
 
-                                <label class="label" for="project-{{ project.id }}-feedback">Your feedback for Codefree</label>
-                                <textarea class="input textarea mb-0" rows="3" id="project-{{ project.id }}-feedback" name="project-{{ project.id }}-feedback"></textarea>
-                                <input type="hidden" class="position-number" name="project-{{ project.id }}-position" value="{{ loop.index - 1 }}">
-                            </div>
-                        {% endfor %}
+                                    {% for goal in review.project.active_goals %}
+                                        <div class="goal">
+                                            <h4 class="goal-title">
+                                                {% if goal.completed %}
+                                                    <i class="completed ri-check-line"></i>
+                                                {% else %}
+                                                    <i class="failed ri-close-line"></i>
+                                                {% endif %}
+
+                                                {{ goal.name }}
+                                            </h4>
+                                            <p class="goal-body">
+                                                {% if goal.evidence %}
+                                                    <div class="rich-text">
+                                                        {{ goal.evidence | to_safe_html | safe }}
+                                                    </div>
+                                                {% else %}
+                                                    <p class="mb-0 small no-evidence">
+                                                        <i>No further information provided.</i>
+                                                    </p>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+
+                                    <hr class="divider mt-2 mb-2">
+
+                                    <label class="label" for="project-{{ review.project.id }}-feedback">Your feedback for Codefree</label>
+                                    <textarea class="input textarea mb-0" rows="3" id="project-{{ review.project.id }}-feedback" name="project-{{ review.project.id }}-feedback"></textarea>
+                                    <input type="hidden" class="position-number" name="project-{{ review.project.id }}-position" value="{{ loop.index - 1 }}">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
 
-                <hr class="divider mt-3 mb-1-5">
+                    <hr class="divider mt-3 mb-1-5">
 
-                <div class="button-group">
-                    <button type="submit" class="button">Save Reviews</button>
-                    <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
-                </div>
-            </fieldset>
-        </form>
+                    <div class="button-group">
+                        <button type="submit" class="button">Save Reviews</button>
+                        <a class="button secondary" href="{{ url_for('projects.show', project_id=project.id) }}">Cancel</a>
+                    </div>
+                </fieldset>
+            </form>
+        {% else %}
+            <div class="wrap-745 mt-4">
+                {% include "partials/no_results.html" %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

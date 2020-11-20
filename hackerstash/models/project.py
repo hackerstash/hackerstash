@@ -45,6 +45,9 @@ class Project(db.Model):
     winners = db.relationship('Winner', backref='project', cascade='all,delete')
     goals = db.relationship('Goal', backref='project', cascade='all,delete', order_by='Goal.id.asc()')
 
+    # Need both given and recieved
+    reviews_given = db.relationship('Feedback', backref='project', cascade='all,delete')
+
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
 

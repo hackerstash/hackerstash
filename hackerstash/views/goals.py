@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, g
 from hackerstash.db import db
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.posts import Posts
+from hackerstash.models.feedback import Feedback
 from hackerstash.models.goal import Goal
 from hackerstash.models.project import Project
 from hackerstash.utils.auth import login_required, published_project_required
@@ -89,15 +90,15 @@ def reflect() -> str:
 @login_required
 def review() -> str:
     project = g.user.project
-    projects_to_review = Project.query.limit(10).all()
 
     if request.method == 'GET':
-        return render_template('goals/review/index.html', project=project, projects_to_review=projects_to_review)
+        return render_template('goals/review/index.html', project=project)
 
-    for project in projects_to_review:
-        position = request.form.get(f'project-{project.id}-position')
-        feedback = request.form.get(f'project-{project.id}-feedback')
+    log.info('Reviewing goals', {'project_id': project.id, 'payload': request.form})
 
-        print(project.id, position, feedback)
+    # for project in weekly_reviews:
+    #     position = request.form.get(f'project-{project.id}-position')
+    #     feedback = request.form.get(f'project-{project.id}-feedback')
+    #     print(position, feedback)
 
     return redirect(url_for(request.endpoint))

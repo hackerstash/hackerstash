@@ -87,7 +87,9 @@ function createEditor(container, options = {}) {
     }
 
     editor.on('editor-change', () => {
-        selector('input.body').value = editor.root.innerHTML;
+        const value = editor.root.innerHTML;
+        const length = editor.root.innerText.trim().length;
+        selector('input.body').value = length === 0 ? '' : value;
     });
 
     document.addEventListener('click', event => {
