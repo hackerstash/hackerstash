@@ -44,9 +44,7 @@ class Project(db.Model):
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
     winners = db.relationship('Winner', backref='project', cascade='all,delete')
     goals = db.relationship('Goal', backref='project', cascade='all,delete', order_by='Goal.id.asc()')
-
-    # Need both given and recieved
-    reviews_given = db.relationship('Feedback', backref='project', cascade='all,delete')
+    feedback = db.relationship('Feedback', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
@@ -195,3 +193,8 @@ class Project(db.Model):
     @property
     def goal_status(self):
         return Goals(self).status()
+
+    @property
+    def reviews_to_give(self):
+        current = [feedback for feedback in self.feedback if feedback.current]
+        return sorted(current, key=lambda x: x.position, reverse=True)

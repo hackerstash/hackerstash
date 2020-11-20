@@ -23,10 +23,12 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('feedback', sa.String(), nullable=True),
         sa.Column('position', sa.Integer(), nullable=True),
-        sa.Column('project_id', sa.Integer(), nullable=False),
+        sa.Column('reviewee_id', sa.Integer(), nullable=True),
+        sa.Column('reviewer_id', sa.Integer(), nullable=True),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
         sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-        sa.ForeignKeyConstraint(['project_id'], ['project.id'], ),
+        sa.ForeignKeyConstraint(['reviewer_id'], ['projects.id'], ),
+        sa.ForeignKeyConstraint(['reviewee_id'], ['projects.id'], ),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_table(

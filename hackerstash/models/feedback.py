@@ -11,7 +11,8 @@ class Feedback(db.Model):
     position = db.Column(db.String)
 
     goals = db.relationship('Goal', backref='goals', cascade='all,delete')
-    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -31,3 +32,11 @@ class Feedback(db.Model):
     def current(self):
         week, year = get_week_and_year()
         return week == self.week and year and self.year
+
+    @property
+    def reviewer(self):
+        return self.project
+
+    @property
+    def reviewee(self):
+        return self.goals[0].project

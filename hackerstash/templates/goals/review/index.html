@@ -19,17 +19,19 @@
             <p class="wrap-745">You can save your reviews at any time, and whichever order you have established by Monday 10:00 <span class="tz">(GMT)</span> will be submitted. If you don’t leave feedback for the peers you are reviewing your review will not be submitted. By reviewing your peers you will earn <span>25 points</span> for your project.</p>
         </div>
 
-        {% if project.reviews_given %}
+        {% if project.reviews_to_give %}
             <form class="form" method="post" action="{{ url_for(request.endpoint) }}">
                 <fieldset>
                     <div class="review-container">
                         <ul class="left sortable-list">
-                            {% for review in project.reviews_given %}
-                                <li class="{{ 'active' if loop.index == 1 }}" data-project-id="{{ review.project.id }}">
+                            {% for review in project.reviews_to_give %}
+                                {% set index = review.position + 1 if review.position else loop.index %}
+
+                                <li class="{{ 'active' if index == 1 }}" data-project-id="{{ review.reviewee.id }}">
                                     <div class="position">
-                                        <span>{{ loop.index }}</span>
+                                        <span>{{ index }}</span>
                                     </div>
-                                    <div class="card" data-project-id="{{ review.project.id }}">
+                                    <div class="card" data-project-id="{{ review.reviewee.id }}">
                                         <div class="grab">
                                             <span></span>
                                             <span></span>
@@ -38,30 +40,32 @@
                                             <span></span>
                                             <span></span>
                                         </div>
-                                        {{ avatar(review.project, size='md') }}
-                                        <p class="mb-0 truncate">{{ review.project.name }}</p>
+                                        {{ avatar(review.reviewee, size='md') }}
+                                        <p class="mb-0 truncate">{{ review.reviewee.name }}</p>
                                         <div class="indicator"></div>
                                     </div>
                                 </li>
                             {% endfor %}
                         </ul>
                         <div class="right">
-                            {% for review in project.reviews_given %}
-                                <div class="review-body {{ 'd-none' if loop.index != 1 }}" id="{{ review.project.id }}">
+                            {% for review in project.reviews_to_give %}
+                                {% set index = review.position + 1 if review.position else loop.index %}
+
+                                <div class="review-body {{ 'd-none' if index != 1 }}" id="{{ review.reviewee.id }}">
                                     <div class="title-container">
                                         <div class="title">
-                                            {{ avatar(review.project, size='md') }}
-                                            <h3>{{ review.project.name }}</h3>
+                                            {{ avatar(review.reviewee, size='md') }}
+                                            <h3>{{ review.reviewee.name }}</h3>
                                         </div>
-                                        <a href="{{ review.project.url if review.project.url.startswith('http') else '//' + review.project.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
+                                        <a href="{{ review.reviewee.url if review.reviewee.url.startswith('http') else '//' + review.reviewee.url }}" target="_blank" rel="noreferrer nofollow" class="button secondary has-icon view-website"><i class="ri-global-line"></i> Website</a>
                                     </div>
                                     <div class="rich-text mt-1-5">
-                                        {{ review.project.description | to_safe_html | safe }}
+                                        {{ review.reviewee.description | to_safe_html | safe }}
                                     </div>
 
                                     <hr class="divider mt-1-5 mb-3">
 
-                                    {% for goal in review.project.active_goals %}
+                                    {% for goal in review.reviewee.active_goals %}
                                         <div class="goal">
                                             <h4 class="goal-title">
                                                 {% if goal.completed %}
@@ -88,9 +92,9 @@
 
                                     <hr class="divider mt-2 mb-2">
 
-                                    <label class="label" for="project-{{ review.project.id }}-feedback">Your feedback for Codefree</label>
-                                    <textarea class="input textarea mb-0" rows="3" id="project-{{ review.project.id }}-feedback" name="project-{{ review.project.id }}-feedback"></textarea>
-                                    <input type="hidden" class="position-number" name="project-{{ review.project.id }}-position" value="{{ loop.index - 1 }}">
+                                    <label class="label" for="project-{{ review.id }}-feedback">Your feedback for Codefree</label>
+                                    <textarea class="input textarea mb-0" rows="3" id="project-{{ review.id }}-feedback" name="project-{{ review.id }}-feedback">{{ review.feedback or '' }}</textarea>
+                                    <input type="hidden" class="position-number" name="project-{{ review.id }}-position" value="{{ index - 1 }}">
                                 </div>
                             {% endfor %}
                         </div>

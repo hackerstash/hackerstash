@@ -96,9 +96,9 @@ def review() -> str:
 
     log.info('Reviewing goals', {'project_id': project.id, 'payload': request.form})
 
-    # for project in weekly_reviews:
-    #     position = request.form.get(f'project-{project.id}-position')
-    #     feedback = request.form.get(f'project-{project.id}-feedback')
-    #     print(position, feedback)
+    for feedback in project.reviews_to_give:
+        feedback.feedback = request.form.get(f'project-{feedback.id}-feedback')
+        feedback.position = int(request.form.get(f'project-{feedback.id}-position'))
+        db.session.commit()
 
     return redirect(url_for(request.endpoint))
