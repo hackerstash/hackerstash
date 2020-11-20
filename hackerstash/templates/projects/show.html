@@ -8,10 +8,11 @@
 {% from "partials/winners.html" import winner_badge %}
 
 {% set project_show = request.args.getlist('show') or ['posts', 'polls', 'comments'] %}
+{% set project_banner = project.banner if project.banner else 'hero/hero-' ~ range(1, 8) | random + '.jpg' %}
 
 {% block body %}
     <div class="page project">
-        <div class="project-header" style="{{ ('background-image: url(https://images.hackerstash.com/' + project.banner + ');') if project.banner }}"></div>
+        <div class="project-header" style="{{ ('background-image: url(https://images.hackerstash.com/' + project_banner + ');') }}"></div>
 
         <header class="header">
             <div role="heading" class="project-votes project-votes-{{ project.id }}">
