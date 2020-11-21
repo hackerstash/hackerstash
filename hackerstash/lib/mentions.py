@@ -1,4 +1,5 @@
 import re
+from re import Match
 from flask import render_template_string
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.logging import Logging
@@ -9,21 +10,40 @@ log = Logging(module='Mentions')
 
 class Mentions:
     def __init__(self, html: str) -> None:
+        """
+        Initialise a new mentions class
+        :param html: str
+        """
         self.html = html
         self.mentions = []
         self.replacement = re.sub(r'@([a-z0-9\_\-\.])+', self.extract, html, flags=re.IGNORECASE)
 
     @property
-    def body(self):
+    def body(self) -> str:
+        """
+        Return the update body with the substituted mentions
+        :return: str
+        """
         return self.replacement
 
-    def extract(self, match) -> str:
+    def extract(self, match: Match) -> str:
+        """
+        Extract the user from a partial match
+        :param match: Match
+        :return: str
+        """
         mention, user = self.get_user(match.group(0))
         if user:
             self.mentions.append(user)
         return mention
 
     def get_user(self, mention: str) -> [str, User]:
+        """
+        Get the user from the mention. It will return the updated
+        subscring of the HTML, as well as the User object
+        :param mention: str
+        :return: [str, User]
+        """
         try:
             log.info(f'Trying to extract a mention', {'mention': mention})
             # The mention is already wrapped in an <a> tag. This
@@ -44,6 +64,11 @@ class Mentions:
             return mention, None
 
     def publish_post(self, post) -> None:
+        """
+        Send notifications to all the users mentioned in the post
+        :param post: Post
+        :return: None
+        """
         mentioned = []
         for user in self.mentions:
             if user.id not in mentioned:
@@ -51,6 +76,11 @@ class Mentions:
                 notification_factory('mention_created', {'user': user, 'post': post}).publish()
 
     def publish_comment(self, comment) -> None:
+        """
+        Send notifications to all the users mentioned in the comment
+        :param comment: Comment
+        :return: None
+        """
         mentioned = []
         for user in self.mentions:
             if user.id not in mentioned:

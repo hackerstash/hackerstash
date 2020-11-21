@@ -10,6 +10,12 @@ from hackerstash.models.tag import Tag
 
 class Posts:
     def __init__(self, title: str, body: str, tag_id: str):
+        """
+        Initialise a new posts class
+        :param title: str
+        :param body: str
+        :param tag_id: str
+        """
         self.title = title
         self.body = body
         self.tag = Tag.query.get(tag_id) if tag_id else None
@@ -28,6 +34,11 @@ class Posts:
         )
 
     def create(self):
+        """
+        Create a new post and dipsatch the necessary notifications
+        and challenges
+        :return: None
+        """
         db.session.add(self.post)
         self.mentions.publish_post(self.post)
         challenge_factory('post_created', {'post': self.post})
@@ -35,5 +46,11 @@ class Posts:
         db.session.commit()
 
     def add_poll(self, question: str, choices):
+        """
+        Create a new poll and link it to the current post
+        :param question: str
+        :param choices:
+        :return: None
+        """
         self.poll = Poll(question, choices, self.post)
         db.session.add(self.poll)

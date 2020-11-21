@@ -4,9 +4,9 @@ from sqlalchemy.types import ARRAY, JSON
 from hackerstash.db import db
 from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
+from hackerstash.lib.goals import Goals
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
-from hackerstash.utils.goals import Goals
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
 
 log = Logging(module='Models::Project')

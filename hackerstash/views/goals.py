@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, g
 from hackerstash.db import db
+from hackerstash.lib.goals import Goals, GoalStates
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.posts import Posts
 from hackerstash.models.feedback import Feedback
 from hackerstash.models.goal import Goal
 from hackerstash.models.project import Project
 from hackerstash.utils.auth import login_required, published_project_required
-from hackerstash.utils.goals import Goals, GoalStates
 from hackerstash.utils.helpers import find_in_list
 
 log = Logging(module='Views::Goals')
