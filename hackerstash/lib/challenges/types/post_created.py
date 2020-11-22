@@ -7,6 +7,10 @@ log = Logging(module='Challenges::PostCreated')
 
 class PostCreated(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the PostCreated class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         project = g.user.project

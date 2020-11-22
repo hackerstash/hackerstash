@@ -15,13 +15,24 @@ challenge_types = [
 ]
 
 
-def mark_as_complete(challenge):
+def mark_as_complete(challenge) -> None:
+    """
+    Mark a challenge as complete. This can be picked up
+    and used to display the toast message for completion
+    :param challenge: Challenge
+    :return: None
+    """
     log.info('Challenge completed', {'challenge_id': challenge.id})
     message = get_completed_message_for_challenge(challenge)
     redis.set(f'{challenge.project.id}:challenge_completed', message)
 
 
 def get_score_for_key(key: str) -> int:
+    """
+    Get the correct score for a given challenge key
+    :param key: str
+    :return: int
+    """
     if key in ['comment_on_five_competitors_posts']:
         return 20
     if key in ['earn_twenty_five_points_for_three_seperate_posts', 'have_five_comments_upvoted', 'award_ponts_to_three_projects']:
@@ -35,6 +46,12 @@ def get_score_for_key(key: str) -> int:
 
 
 def get_max_count_for_key(key: str) -> int:
+    """
+    Get the max number of times you need to complete
+    this notification
+    :param key: str
+    :return: int
+    """
     if key in ['published_a_post', 'comment_on_a_competitors_post', 'earn_twenty_five_points_for_one_post']:
         return 1
     if key in ['award_points_to_three_posts', 'earn_twenty_five_points_for_three_seperate_posts', 'award_ponts_to_three_projects']:
@@ -45,6 +62,11 @@ def get_max_count_for_key(key: str) -> int:
 
 
 def get_completed_message_for_challenge(challenge) -> str:
+    """
+    Generate the message for the toast notification
+    :param challenge: Challenge
+    :return: str
+    """
     key = challenge.key
     points = get_score_for_key(key)
     if key == 'published_a_post':
