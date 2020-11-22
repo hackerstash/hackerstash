@@ -30,14 +30,28 @@ class Comment(db.Model):
     }
 
     @hybrid_property
-    def vote_score(self):
+    def vote_score(self) -> int:
+        """
+        Get the sum of all the votes
+        :return: int
+        """
         return sum(vote.score for vote in self.votes)
 
     @vote_score.expression
-    def vote_score(cls):
+    def vote_score(cls) -> int:
+        """
+        SQL Expression for calculating the vote score
+        :return: int
+        """
         return select([func.sum(Vote.score)]).where(Vote.post_id == cls.id).label('vote_score')
 
-    def get_existing_vote_for_user(self, user):
+    def get_existing_vote_for_user(self, user) -> Vote:
+        """
+        Work out if someone in the users project has already
+        voted for this comment
+        :param user: User
+        :return: Vote
+        """
         # Although a user clicked on the button, the
         # vote is actually made on behalf of the project
         # to stop people from creating 30 fake users and
@@ -45,6 +59,12 @@ class Comment(db.Model):
         return find_in_list(self.votes, lambda x: x.user.project.id == user.project.id)
 
     def vote(self, user, direction: str) -> None:
+        """
+        Vote on a comment
+        :param user: User
+        :param direction: str
+        :return: None
+        """
         # Comments have a score of 1 point
         score = 1 if direction == 'up' else -1
         existing_vote = self.get_existing_vote_for_user(user)
@@ -58,7 +78,13 @@ class Comment(db.Model):
             self.votes.append(vote)
         db.session.commit()
 
-    def vote_status(self, user):
+    def vote_status(self, user) -> str:
+        """
+        Get the set of class names that should be used
+        for the vote badges
+        :param user: User
+        :return: str
+        """
         if not user:
             return 'disabled logged-out'
         if not user.member or not user.project.published:

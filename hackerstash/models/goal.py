@@ -21,14 +21,26 @@ class Goal(db.Model):
         return f'<Goal {self.id}>'
 
     @property
-    def week(self):
+    def week(self) -> int:
+        """
+        Return the week this goal was created at
+        :return: int
+        """
         return self.created_at.isocalendar()[1]
 
     @property
-    def year(self):
+    def year(self) -> int:
+        """
+        Return the year this goal was created at
+        :return: int
+        """
         return self.created_at.year
 
     @property
-    def current(self):
+    def current(self) -> bool:
+        """
+        Return if the goal is from this week
+        :return: bool
+        """
         week, year = get_week_and_year()
         return week == self.week and year and self.year

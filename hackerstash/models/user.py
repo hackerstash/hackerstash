@@ -63,45 +63,78 @@ class User(db.Model):
     )
 
     def follow(self, user):
+        """
+        Follow a user
+        :param user: User
+        :return: User
+        """
         if not self.is_following(user):
             self.following.append(user)
             return self
 
     def unfollow(self, user):
+        """
+        Unfollow a user
+        :param user: User
+        :return: User
+        """
         if self.is_following(user):
             self.following.remove(user)
             return self
 
-    def is_following(self, user):
+    def is_following(self, user) -> bool:
+        """
+        Return whether or not this user follows a  user
+        :param user: User
+        :return: bool
+        """
         following = False
-
         for f in self.following:
             if f.id == user.id:
                 following = True
-
         return following
 
     @property
-    def plain_text_description(self):
+    def plain_text_description(self) -> str:
+        """
+        Get the plain text version of the users bio
+        :return: str
+        """
         return html_to_plain_text(self.bio, limit=240)
 
     @property
-    def unread_notifications(self):
+    def unread_notifications(self) -> list:
+        """
+        Get a list of unread notifications
+        :return: [Notification]
+        """
         return list(filter(lambda x: not x.read, self.notifications))
 
     @property
-    def can_post(self):
+    def can_post(self) -> bool:
+        """
+        Return whether or not a user is allowed to posta
+        :return: bool
+        """
         if self.admin:
             return True
         return self.member and self.member.project.published
 
     @property
     def project(self):
+        """
+        Return the users project
+        :return: Project
+        """
         if self.member:
             return self.member.project
 
     @property
     def preview_json(self) -> str:
+        """
+        Get the json string for the users preview card
+        :return: str
+        """
         data = {
             'name': f'{self.first_name} {self.last_name}',
             'avatar': self.avatar,
@@ -131,12 +164,21 @@ class User(db.Model):
         return json.dumps(data)
 
     @property
-    def recent_completed_challenge(self):
+    def recent_completed_challenge(self) -> str:
+        """
+        Return a recently completed challenge id
+        :return: str
+        """
         if self.member:
             challenge = redis.get(f'{self.member.project.id}:challenge_completed')
             return challenge.decode('utf-8') if challenge else None
 
     @classmethod
-    def username_exists(cls, username: str):
+    def username_exists(cls, username: str) -> bool:
+        """
+        Return whether or not a username is taken
+        :param username: str
+        :return: bool
+        """
         user = User.query.filter_by(username=username).first()
         return user is not None

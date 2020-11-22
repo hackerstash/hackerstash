@@ -29,17 +29,32 @@ class Tag(db.Model):
     def __repr__(self) -> str:
         return f'<Tag {self.name}>'
 
-    def has_user(self, user):
+    def has_user(self, user) -> bool:
+        """
+        Return whether this user is a member of this group
+        :param user: User
+        :return: bool
+        """
         following = False
         for f in self.members:
             if f.id == user.id:
                 following = True
         return following
 
-    def follow(self, user):
+    def follow(self, user) -> None:
+        """
+        Follow this group
+        :param user: User
+        :return: None
+        """
         if not self.has_user(user):
             self.members.append(user)
 
-    def unfollow(self, user):
+    def unfollow(self, user) -> None:
+        """
+        Unfollow this group
+        :param user: User
+        :return: None
+        """
         if self.has_user(user):
             self.members.remove(user)
