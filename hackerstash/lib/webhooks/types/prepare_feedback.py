@@ -10,6 +10,10 @@ log = Logging(module='Webhook::PrepareFeedback')
 
 class PrepareFeedback(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the PrepareFeedback class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         log.info('Preparing feedback for this weeks goals')

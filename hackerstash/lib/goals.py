@@ -79,5 +79,5 @@ class Goals:
         """
         start = arrow.utcnow().floor('week').shift(days=6)
         end = start.ceil('day')
-        reflected = self.goals and all([goal.completed for goal in self.goals])
+        reflected = self.goals and any([goal.completed for goal in self.goals])
         return reflected and start < self.now < end

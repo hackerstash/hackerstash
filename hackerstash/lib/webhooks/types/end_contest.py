@@ -12,6 +12,10 @@ log = Logging(module='Webhook::EndContest')
 
 
 class EndContest(Base):
+    """
+    Initialise an instance of the EndContest class
+    :param payload: dict
+    """
     def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 

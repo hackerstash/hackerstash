@@ -8,6 +8,10 @@ log = Logging('Webhook::DeleteUser')
 
 class DeleteUser(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the DeleteUser class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         user_id = payload.get('user_id')

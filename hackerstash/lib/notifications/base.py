@@ -8,12 +8,23 @@ log = Logging(module='Notifications')
 base_template_path = 'partials/notifications/'
 
 
-def notification_enabled(notification, notification_type: str) -> bool:
+def notification_enabled(notification: dict, notification_type: str) -> bool:
+    """
+    Check whether a notification type is enabled
+    :param notification: dict
+    :param notification_type: str
+    :return: bool
+    """
     key = f'{notification["notification_type"]}_{notification_type}'
     return getattr(notification['user'].notifications_settings, key, False)
 
 
-def create_web_notification(notification) -> None:
+def create_web_notification(notification: dict) -> None:
+    """
+    Create a new notification
+    :param notification: dict
+    :return: None
+    """
     notification = Notification(
         read=False,
         type=notification['notification_type'],
@@ -24,16 +35,29 @@ def create_web_notification(notification) -> None:
     db.session.commit()
 
 
-def create_email_notification(notification) -> None:
+def create_email_notification(notification: dict) -> None:
+    """
+    Create a new email notification
+    :param notification: dict
+    :return: None
+    """
     email_factory(notification['email_type'], notification['user'].email, notification['payload']).send()
 
 
 class Base:
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the Notification base class
+        :param payload: dict
+        """
         self.payload = payload
         self.notifications_to_send = []
 
     def publish(self) -> None:
+        """
+        Publish the notifications that have been created
+        :return: None
+        """
         notification_types = list(map(lambda x: x['notification_type'], self.notifications_to_send))
         log.info('Publishing notifications', {'types': notification_types})
 
@@ -47,5 +71,10 @@ class Base:
                 create_email_notification(notification)
 
     def render_notification_message(self, name: str) -> str:
+        """
+        Generate the message for the on site notification
+        :param name: str
+        :return: str
+        """
         file = f'{base_template_path}{name}.html'
         return render_template(file, **self.payload)
