@@ -16,6 +16,11 @@ users = Blueprint('users', __name__)
 
 @users.route('/users/<user_id>')
 def show(user_id: str) -> str:
+    """
+    Render the user profile page
+    :param user_id: srt
+    :return: str
+    """
     if user_id.isnumeric():
         user = User.query.get(user_id)
     else:
@@ -27,19 +32,35 @@ def show(user_id: str) -> str:
 
 @users.route('/users/<user_id>/followers')
 def followers(user_id: str) -> str:
+    """
+    Render the user followers page
+    :param user_id:
+    :return:
+    """
     user = User.query.get(user_id)
-    return render_template('users/followers/index.html', user=user)
+    return render_template('users/followers.html', user=user)
 
 
 @users.route('/users/<user_id>/following')
 def following(user_id: str) -> str:
+    """
+    Render the user following page
+    :param user_id: str
+    :return: str
+    """
     user = User.query.get(user_id)
-    return render_template('users/following/index.html', user=user)
+    return render_template('users/following.html', user=user)
 
 
 @users.route('/users/<user_id>/follow')
 @login_required
 def follow(user_id: str) -> str:
+    """
+    Follow a user if you don't follow them, otherwise
+    follow them
+    :param user_id: str
+    :return: str
+    """
     user = User.query.get(user_id)
     if g.user.is_following(user):
         log.info('Unfollowing user', {'user_id': g.user.id, 'follow_id': user.id})
@@ -55,6 +76,10 @@ def follow(user_id: str) -> str:
 @users.route('/users/destroy')
 @login_required
 def destroy() -> str:
+    """
+    Delete a user
+    :return: str
+    """
     log.info('Deleteing user', {'user_id': g.user.id})
 
     # Can't think of a way to cascade this at the db level
@@ -70,15 +95,16 @@ def destroy() -> str:
     return redirect(url_for('home.index'))
 
 
-@users.route('/users/settings')
+@users.route('/users/settings', methods=['GET', 'POST'])
 @login_required
-def edit_settings() -> str:
-    return render_template('users/settings/edit.html')
+def settings() -> str:
+    """
+    Render or update the users settings
+    :return: str
+    """
+    if request.method == 'GET':
+        return render_template('users/settings.html')
 
-
-@users.route('/users/settings/update', methods=['POST'])
-@login_required
-def update_settings() -> str:
     log.info('Updating user settings', {'user_id': g.user.id, 'user_data': request.form})
     g.user.email = request.form['email']
     g.user.telephone = request.form['telephone']
@@ -86,20 +112,21 @@ def update_settings() -> str:
     return redirect(url_for('users.show', user_id=g.user.id, saved=1))
 
 
-@users.route('/users/profile')
+@users.route('/users/profile', methods=['POST'])
 @login_required
-def edit_profile() -> str:
-    return render_template('users/profile/edit.html')
+def profile() -> str:
+    """
+    Render or update the users profile
+    :return: str
+    """
+    if request.method == 'GET':
+        return render_template('users/profile.html')
 
-
-@users.route('/users/profile/update', methods=['POST'])
-@login_required
-def update_profile() -> str:
     log.info('Updating user profile', {'user_id': g.user.id, 'user_data': request.form})
 
     if get_html_text_length(request.form['body']) > 240:
         flash('User bio exceeds 240 characters', 'failure')
-        return redirect(url_for('users.edit_profile'))
+        return redirect(url_for('users.profile'))
 
     # Flask adds the empty file for some reason
     if 'file' in request.files and request.files['file'].filename != '':
@@ -124,6 +151,10 @@ def update_profile() -> str:
 @users.route('/users/usernames')
 @login_required
 def get_usernames():
+    """
+    Get a list of usernames matching the query
+    :return: str
+    """
     query = request.args.get('q', '').lower()
     # You can search for users by their first name, last
     # name or by their username. A match in any of these

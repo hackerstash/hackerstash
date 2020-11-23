@@ -21,7 +21,7 @@
                      {% if active_tab == 'post' %}
                         {% include "partials/messages.html" %}
 
-                         <form role="form" aria-label="Create a new post" class="form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+                         <form role="form" aria-label="Create a new post" class="form mt-2" action="{{ url_for('posts.new') }}" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <input type="hidden" name="post_type" value="post">
                                 <div class="split">
@@ -71,7 +71,7 @@
                      {% if active_tab == 'poll' %}
                         {% include "partials/messages.html" %}
 
-                        <form role="form" aria-label="Create a new post" class="form mt-2" action="{{ url_for('posts.create') }}" method="post" enctype="multipart/form-data">
+                        <form role="form" aria-label="Create a new post" class="form mt-2" action="{{ url_for('posts.new') }}" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <input type="hidden" name="post_type" value="poll">
                                 <div class="split">

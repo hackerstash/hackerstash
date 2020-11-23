@@ -10,7 +10,7 @@
             <h2 role="heading">Update {{ 'Poll' if post.poll else 'Post' }}</h2>
         </header>
 
-        <form role="form" class="form" action="{{ url_for('posts.update', post_id=post.id) }}" method="post">
+        <form role="form" class="form" action="{{ url_for('posts.edit', post_id=post.id) }}" method="post">
             <fieldset>
                 <div class="split">
                     <div class="left">

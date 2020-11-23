@@ -22,7 +22,7 @@
             </div>
              <div class="tab-body">
                  <div class="tab {{ 'active' if active_tab == 'web' }}">
-                    <form class="form" action="{{ url_for('notifications.update') }}" method="post">
+                    <form class="form" action="{{ url_for('notifications.settings') }}" method="post">
                         <fieldset class="mt-2">
                             <label class="label">Followers &amp; Following</label>
                             <p class="mb-1-5">Send a notification when:</p>
@@ -191,7 +191,7 @@
                     </form>
                  </div>
                  <div class="tab {{ 'active' if active_tab == 'email' }}">
-                      <form class="form" action="{{ url_for('notifications.update') }}" method="post">
+                      <form class="form" action="{{ url_for('notifications.settings') }}" method="post">
                           <fieldset class="mt-2">
                                 <label class="label">Followers &amp; Following</label>
                                 <p class="mb-1-5">Send a notification when:</p>

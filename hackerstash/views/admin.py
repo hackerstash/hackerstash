@@ -9,6 +9,10 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin')
 @admin_login_required
 def index() -> str:
+    """
+    Render the admin page
+    :return: str
+    """
     tab = request.args.get('tab', 'users')
     page = request.args.get('page', 1, type=int)
     data = {

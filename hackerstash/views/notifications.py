@@ -11,6 +11,10 @@ notifications = Blueprint('notifications', __name__)
 @notifications.route('/notifications')
 @login_required
 def index() -> str:
+    """
+    Render the notifications page
+    :return: str
+    """
     all_notifications = g.user.notifications
     splits = {
         'all': all_notifications,
@@ -20,15 +24,16 @@ def index() -> str:
     return render_template('notifications/index.html', notifications=splits)
 
 
-@notifications.route('/notifications/settings')
+@notifications.route('/notifications/settings', methods=['GET', 'POST'])
 @login_required
 def settings() -> str:
-    return render_template('notifications/settings/index.html')
+    """
+    Render or update the notification settings
+    :return: str
+    """
+    if request.method == 'GET':
+        return render_template('notifications/settings.html')
 
-
-@notifications.route('/notifications/update', methods=['POST'])
-@login_required
-def update() -> str:
     log.info('Updating notifications', {'user_id': g.user.id})
 
     for key, value in request.form.items():
@@ -41,6 +46,10 @@ def update() -> str:
 @notifications.route('/notifications/mark_as_read')
 @login_required
 def mark_as_read() -> str:
+    """
+    Mark notifications as read
+    :return: str
+    """
     mark_all = request.args.get('all')
     now = db.func.now()
 
@@ -63,6 +72,10 @@ def mark_as_read() -> str:
 @notifications.route('/notifications/delete')
 @login_required
 def delete() -> str:
+    """
+    Delete a notification
+    :return: str
+    """
     delete_all = request.args.get('all')
 
     log.info('Deleting notifications', {'user_id': g.user.id, 'notification_data': request.form})
@@ -83,6 +96,11 @@ def delete() -> str:
 @notifications.route('/notifications/count')
 @login_required
 def notification_count():
+    """
+    Get the notification count to display in the badge
+    in the sidebar
+    :return: str
+    """
     if request.headers.get('X-Requested-With') == 'fetch':
         all_notifications = g.user.notifications
         unread_notifications = list(filter(lambda x: not x.read, all_notifications))

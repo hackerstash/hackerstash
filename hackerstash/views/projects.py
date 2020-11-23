@@ -24,6 +24,10 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/projects')
 def index() -> str:
+    """
+    Render the project list page
+    :return: str
+    """
     order_by = None
     sort = request.args.get('sorting', 'project_score_desc')
     page = request.args.get('page', 1, type=int)
@@ -55,6 +59,11 @@ def index() -> str:
 
 @projects.route('/projects/<project_id>')
 def show(project_id: str) -> str:
+    """
+    Render the project show page
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
 
     if not project:
@@ -69,6 +78,11 @@ def show(project_id: str) -> str:
 
 @projects.route('/projects/<project_id>/feed')
 def feed(project_id: str) -> str:
+    """
+    Render the feed partial for the project page
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     if request.headers.get('X-Requested-With') == 'fetch':
         return render_template('partials/feed.html', project=project, feed=Feed(project))
@@ -76,25 +90,30 @@ def feed(project_id: str) -> str:
         return redirect(url_for('projects.show', **request.args, **request.view_args))
 
 
-@projects.route('/projects/<project_id>/edit')
+@projects.route('/projects/<project_id>/posts')
+def all_posts(project_id: str) -> str:
+    """
+    Render all the posts for a project
+    :param project_id: str
+    :return: str
+    """
+    project = Project.query.get(project_id)
+    return render_template('projects/posts.html', project=project)
+
+
+@projects.route('/projects/<project_id>/edit', methods=['GET', 'POST'])
 @login_required
 @member_required
 def edit(project_id: str) -> str:
+    """
+    Render or update the project edit page
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
-    return render_template('projects/edit.html', project=project)
 
-
-@projects.route('/projects/<project_id>/posts')
-def all_posts(project_id: str) -> str:
-    project = Project.query.get(project_id)
-    return render_template('projects/posts/index.html', project=project)
-
-
-@projects.route('/projects/<project_id>/update', methods=['POST'])
-@login_required
-@member_required
-def update(project_id: str) -> str:
-    project = Project.query.get(project_id)
+    if request.method == 'GET':
+        return render_template('projects/edit.html', project=project)
 
     log.info('Updating project', {'project_id': project.id, 'user_id': g.user.id, 'project_data': request.form})
 
@@ -141,6 +160,11 @@ def update(project_id: str) -> str:
 @login_required
 @member_required
 def upload_header(project_id: str) -> str:
+    """
+    Update the project header banner
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     log.info('Updating project header', {'project_id': project.id, 'user_id': g.user.id})
 
@@ -155,6 +179,11 @@ def upload_header(project_id: str) -> str:
 @login_required
 @member_required
 def delete_header(project_id: str) -> str:
+    """
+    Remove a member from the project
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     log.info('Deleting project header', {'project_id': project.id, 'user_id': g.user.id})
 
@@ -165,31 +194,43 @@ def delete_header(project_id: str) -> str:
     return redirect(url_for('projects.edit', project_id=project.id))
 
 
-@projects.route('/projects/<project_id>/publish')
+@projects.route('/projects/publish')
 @login_required
 @member_required
-def publish(project_id: str) -> str:
-    project = Project.query.get(project_id)
+def publish() -> str:
+    """
+    Publish a project
+    :return: str
+    """
+    project = g.user.project
     project.published = True
     db.session.commit()
     return redirect(url_for('projects.show', project_id=project.id))
 
 
-@projects.route('/projects/<project_id>/unpublish')
+@projects.route('/projects/unpublish')
 @login_required
 @member_required
-def unpublish(project_id: str) -> str:
-    project = Project.query.get(project_id)
+def unpublish() -> str:
+    """
+    Unpublish a project
+    :return: str
+    """
+    project = g.user.project
     project.published = False
     db.session.commit()
     return redirect(url_for('projects.show', project_id=project.id))
 
 
-@projects.route('/projects/<project_id>/delete')
+@projects.route('/projects/delete')
 @login_required
 @member_required
-def destroy(project_id: str) -> str:
-    project = Project.query.get(project_id)
+def destroy() -> str:
+    """
+    Delete a project
+    :return:
+    """
+    project = g.user.project
     log.info('Deleting project', {'project_id': project.id, 'user_id': g.user.id})
     db.session.delete(project)
     db.session.commit()
@@ -200,6 +241,11 @@ def destroy(project_id: str) -> str:
 @login_required
 @member_required
 def add_members(project_id: str) -> str:
+    """
+    Render the new member page
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     return render_template('projects/members/add.html', project=project)
 
@@ -208,6 +254,12 @@ def add_members(project_id: str) -> str:
 @login_required
 @member_required
 def edit_member(project_id: str, member_id: str) -> str:
+    """
+    Render the member edit page
+    :param project_id: str
+    :param member_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     match = [m for m in project.members if m.id == int(member_id)]
     return render_template('projects/members/edit.html', project=project, member=match[0])
@@ -217,6 +269,12 @@ def edit_member(project_id: str, member_id: str) -> str:
 @login_required
 @member_required
 def update_member(project_id: str, member_id: str) -> str:
+    """
+    Update a member
+    :param project_id: str
+    :param member_id: str
+    :return: str
+    """
     member = Member.query.get(member_id)
     log.info('Updating team member', {'member_id': member.id, 'member_data': request.form})
     member.role = request.form['role']
@@ -228,6 +286,12 @@ def update_member(project_id: str, member_id: str) -> str:
 @login_required
 @member_required
 def delete_member(project_id: str, member_id: str) -> str:
+    """
+    Delete a member
+    :param project_id: str
+    :param member_id: str
+    :return:
+    """
     member = Member.query.get(member_id)
     log.info('Deleting team member', {'member_id': member.id, 'user_id': g.user.id})
 
@@ -251,6 +315,11 @@ def delete_member(project_id: str, member_id: str) -> str:
 @login_required
 @member_required
 def invite_member(project_id: str) -> str:
+    """
+    Invite a new member
+    :param project_id: str
+    :return: str
+    """
     email = request.form['email']
     link = Invites.generate(email)
     user = User.query.filter_by(email=email).first()
@@ -282,6 +351,12 @@ def invite_member(project_id: str) -> str:
 @login_required
 @member_required
 def remove_invite(project_id: str, invite_id: str) -> str:
+    """
+    Cancel an invite
+    :param project_id: str
+    :param invite_id: str
+    :return: str
+    """
     log.info('Removing invite', {'project_id': project_id, 'invite_id': invite_id})
     invite = Invite.query.get(invite_id)
     db.session.delete(invite)
@@ -293,6 +368,11 @@ def remove_invite(project_id: str, invite_id: str) -> str:
 @login_required
 @published_project_required
 def vote_project(project_id: str) -> str:
+    """
+    Vote for a project
+    :param project_id: str
+    :return: str
+    """
     project = Project.query.get(project_id)
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
@@ -312,6 +392,11 @@ def vote_project(project_id: str) -> str:
 
 @projects.route('/projects/invites/<invite_token>')
 def accept_invite(invite_token: str) -> str:
+    """
+    Accept an invite to a project
+    :param invite_token: str
+    :return: str
+    """
     data = Invites.decode(invite_token)
     user = User.query.filter_by(email=data['email']).first()
     invite = Invite.query.filter_by(email=data['email']).first()

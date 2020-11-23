@@ -16,7 +16,7 @@
 
         {% include "partials/messages.html" %}
 
-        <form class="form d-flex flex-column wrap-620" action="{{ url_for('users.update_profile') }}" method="post" enctype="multipart/form-data">
+        <form class="form d-flex flex-column wrap-620" action="{{ url_for('users.profile') }}" method="post" enctype="multipart/form-data">
             <fieldset>
                 {{ avatar_upload(g.user) }}
 

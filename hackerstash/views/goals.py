@@ -3,9 +3,7 @@ from hackerstash.db import db
 from hackerstash.lib.goals import Goals, GoalStates
 from hackerstash.lib.logging import Logging
 from hackerstash.lib.posts import Posts
-from hackerstash.models.feedback import Feedback
 from hackerstash.models.goal import Goal
-from hackerstash.models.project import Project
 from hackerstash.utils.auth import login_required, published_project_required
 from hackerstash.utils.helpers import find_in_list
 
@@ -17,6 +15,10 @@ goals = Blueprint('goals', __name__)
 @login_required
 @published_project_required
 def index() -> str:
+    """
+    Render or update the goals
+    :return: str
+    """
     project = g.user.project
     status = Goals(project).status()
 
@@ -50,6 +52,10 @@ def index() -> str:
 @login_required
 @published_project_required
 def edit() -> str:
+    """
+    Render the goals edit page
+    :return: str
+    """
     project = g.user.project
 
     if request.method == 'GET':
@@ -69,11 +75,15 @@ def edit() -> str:
 @goals.route('/goals/reflect', methods=['GET', 'POST'])
 @login_required
 def reflect() -> str:
+    """
+    Render or update the goal reflections
+    :return: str
+    """
     project = g.user.project
     complete = not request.args.get('edit') and any([goal.completed for goal in project.active_goals])
 
     if request.method == 'GET':
-        return render_template('goals/reflect/index.html', project=project, complete=complete)
+        return render_template('goals/reflect.html', project=project, complete=complete)
 
     log.info('Reflecting on goals', {'project_id': project.id, 'payload': request.form})
 
@@ -89,10 +99,14 @@ def reflect() -> str:
 @goals.route('/goals/review', methods=['GET', 'POST'])
 @login_required
 def review() -> str:
+    """
+    Render or update the goal reviews
+    :return: str
+    """
     project = g.user.project
 
     if request.method == 'GET':
-        return render_template('goals/review/index.html', project=project)
+        return render_template('goals/review.html', project=project)
 
     log.info('Reviewing goals', {'project_id': project.id, 'payload': request.form})
 

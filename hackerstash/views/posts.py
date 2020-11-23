@@ -7,7 +7,6 @@ from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.mentions import Mentions
 from hackerstash.lib.notifications.factory import notification_factory
 from hackerstash.lib.posts import Posts
-from hackerstash.models.poll import Poll
 from hackerstash.models.post import Post
 from hackerstash.models.comment import Comment
 from hackerstash.models.tag import Tag
@@ -19,6 +18,10 @@ posts = Blueprint('posts', __name__)
 
 @posts.route('/posts')
 def index() -> str:
+    """
+    Render the page list view
+    :return: str
+    """
     tab = request.args.get('tab', 'new')
     data = {'groups_list': None, 'paginated_posts': []}
 
@@ -36,17 +39,27 @@ def index() -> str:
 
 @posts.route('/posts/tags/<tag_id>')
 def tags(tag_id: str) -> str:
+    """
+    Render the page view showing individual tags
+    :param tag_id: str
+    :return: str
+    """
     tag = Tag.query.get(tag_id)
     if not tag:
         return redirect(url_for('posts.index'))
     page = request.args.get('page', 1, type=int)
     paginated_posts = Post.query.filter_by(tag_id=tag.id).paginate(page, 25, False)
-    return render_template('posts/tags/index.html', paginated_posts=paginated_posts, tag=tag)
+    return render_template('posts/tags.html', paginated_posts=paginated_posts, tag=tag)
 
 
 @posts.route('/posts/tags/<tag_id>/follow')
 @login_required
 def follow_tag(tag_id: str) -> str:
+    """
+    Follow a particular tag
+    :param tag_id: str
+    :return: str
+    """
     user = g.user
     tag = Tag.query.get(tag_id)
     if tag.has_user(user):
@@ -61,6 +74,11 @@ def follow_tag(tag_id: str) -> str:
 
 @posts.route('/posts/<post_id>')
 def show(post_id: str) -> str:
+    """
+    Show a post
+    :param post_id: str
+    :return: str
+    """
     # If they request the url with the id we should
     # attempt to redirect to the fancy url. This is
     # mostly for legacy and can probably be removed
@@ -78,17 +96,17 @@ def show(post_id: str) -> str:
     return render_template('posts/show.html', post=post)
 
 
-@posts.route('/posts/new')
+@posts.route('/posts/new', methods=['GET', 'POST'])
 @login_required
 @published_project_required
 def new() -> str:
-    return render_template('posts/new.html', tags=Tag.query.all())
+    """
+    Render or create a new post
+    :return: str
+    """
+    if request.method == 'GET':
+        return render_template('posts/new.html', tags=Tag.query.all())
 
-
-@posts.route('/posts/create', methods=['POST'])
-@login_required
-@published_project_required
-def create() -> str:
     log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.project.id, 'post_data': request.form})
 
     if 'title' not in request.form or 'body' not in request.form:
@@ -112,6 +130,10 @@ def create() -> str:
 @login_required
 @published_project_required
 def upload_images():
+    """
+    Upload some images
+    :return: str
+    """
     images = []
     for file in request.files.getlist('file'):
         images.append(Images.upload(file))
@@ -122,6 +144,10 @@ def upload_images():
 @login_required
 @published_project_required
 def request_group():
+    """
+    Request that we create a new group
+    :return: str
+    """
     tab = request.args.get('tab')
     payload = {
         'name': f'{g.user.first_name} {g.user.last_name}',
@@ -134,20 +160,20 @@ def request_group():
     return redirect(url_for('posts.new', tab=tab))
 
 
-@posts.route('/posts/<post_id>/edit')
+@posts.route('/posts/<post_id>/update', methods=['GET', 'POST'])
 @login_required
 @author_required
 def edit(post_id: str) -> str:
-    tags = Tag.query.all()
+    """
+    Render or update a post
+    :param post_id: str
+    :return: str
+    """
     post = Post.query.get(post_id)
-    return render_template('posts/edit.html', post=post, tags=tags)
 
+    if request.method == 'GET':
+        return render_template('posts/edit.html', post=post, tags=Tag.query.all())
 
-@posts.route('/posts/<post_id>/update', methods=['POST'])
-@login_required
-@author_required
-def update(post_id: str) -> str:
-    post = Post.query.get(post_id)
     title = request.form['title']
     tag_id = request.form.get('tag')
     mentions = Mentions(request.form['body'])
@@ -171,6 +197,11 @@ def update(post_id: str) -> str:
 @login_required
 @author_required
 def destroy(post_id: str) -> str:
+    """
+    Delete a post
+    :param post_id: str
+    :return: str
+    """
     log.info('Deleting post', {'post_id': post_id})
     post = Post.query.get(post_id)
     db.session.delete(post)
@@ -182,6 +213,11 @@ def destroy(post_id: str) -> str:
 @login_required
 @published_project_required
 def create_comment(post_id: str) -> str:
+    """
+    Create a comment
+    :param post_id: str
+    :return: str
+    """
     post = Post.query.get(post_id)
 
     log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
@@ -212,6 +248,12 @@ def create_comment(post_id: str) -> str:
 @posts.route('/posts/<post_id>/comment/<comment_id>/delete')
 @login_required
 def delete_comment(post_id: str, comment_id: str) -> str:
+    """
+    Delete a comment
+    :param post_id: str
+    :param comment_id: str
+    :return:
+    """
     comment = Comment.query.get(comment_id)
 
     log.info('Deleting comment', {'post_id': post_id, 'comment_id': comment.id, 'user_id': g.user.id})
@@ -236,6 +278,12 @@ def delete_comment(post_id: str, comment_id: str) -> str:
 @posts.route('/posts/<post_id>/comment/<comment_id>/edit', methods=['POST'])
 @login_required
 def edit_comment(post_id: str, comment_id: str) -> str:
+    """
+    Edit a comment
+    :param post_id: str
+    :param comment_id: str
+    :return: str
+    """
     comment = Comment.query.get(comment_id)
 
     log.info('Editing comment', {'post_id': post_id, 'comment_id': comment.id, 'user_id': g.user.id, 'comment_data': request.form})
@@ -257,6 +305,11 @@ def edit_comment(post_id: str, comment_id: str) -> str:
 @login_required
 @published_project_required
 def post_vote(post_id: str) -> str:
+    """
+    Vote on a post
+    :param post_id: str
+    :return: str
+    """
     post = Post.query.get(post_id)
     size = request.args.get('size', 'lg')
     direction = request.args.get('direction', 'up')
@@ -279,6 +332,12 @@ def post_vote(post_id: str) -> str:
 @login_required
 @published_project_required
 def comment_vote(post_id: str, comment_id: str) -> str:
+    """
+    Vote on a comment
+    :param post_id: str
+    :param comment_id: str
+    :return: str
+    """
     comment = Comment.query.get(comment_id)
     size = request.args.get('size', 'sm')
     direction = request.args.get('direction', 'up')
@@ -301,6 +360,11 @@ def comment_vote(post_id: str, comment_id: str) -> str:
 @login_required
 @published_project_required
 def answer_poll(post_id: str) -> str:
+    """
+    Response to a poll
+    :param post_id: str
+    :return: str
+    """
     post = Post.query.get(post_id)
     choice = request.form.get('poll_choice')
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g, session
+from flask import Blueprint, render_template, g
 from hackerstash.models.challenge import Challenge
 from hackerstash.lib.challenges.helpers import challenge_types, get_max_count_for_key, get_score_for_key
 from hackerstash.lib.logging import Logging
@@ -13,6 +13,10 @@ challenges = Blueprint('challenges', __name__)
 @challenges.route('/challenges')
 @login_required
 def index() -> str:
+    """
+    Render the challenges page
+    :return: str
+    """
     weekly_challenges = Challenge.get_weekly_challenges_for_project(g.user.project)
     challenge_status = {}
 
@@ -31,6 +35,10 @@ def index() -> str:
 @challenges.route('/challenges/dismiss')
 @login_required
 def dismiss():
+    """
+    Dismiss the challenge completed notification
+    :return: str
+    """
     log.info('Dismissing challenge notification', {'user_id': g.user.id})
     redis.delete(f'{g.user.project.id}:challenge_completed')
     return '', 204

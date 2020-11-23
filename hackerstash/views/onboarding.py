@@ -16,7 +16,12 @@ onboarding = Blueprint('onboarding', __name__)
 
 
 @onboarding.route('/onboarding')
-def index():
+def index() -> str:
+    """
+    Redirect to the correct tab based on their
+    progress so far
+    :return: str
+    """
     user = g.user
     if not user.username:
         return redirect(url_for('onboarding.user_tab'))
@@ -26,6 +31,10 @@ def index():
 @onboarding.route('/onboarding/user', methods=['GET', 'POST'])
 @login_required
 def user_tab() -> str:
+    """
+    Render or update the user onboarding tab
+    :return: str
+    """
     if request.method == 'GET':
         return render_template('onboarding/user/index.html')
 
@@ -63,6 +72,10 @@ def user_tab() -> str:
 @onboarding.route('/onboarding/project', methods=['GET', 'POST'])
 @login_required
 def project_tab() -> str:
+    """
+    Render or update the project onboarding tab
+    :return: str
+    """
     if g.user.member:
         project = g.user.member.project
     else:
