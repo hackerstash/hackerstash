@@ -7,8 +7,8 @@ phases:
 
   pre_build:
     commands:
+      - docker login -u hackerstash -p ryrnoh-8cuFge-rubbik
       - $(aws ecr get-login --no-include-email)
-
   build:
     commands:
       - ./bin/build.sh
