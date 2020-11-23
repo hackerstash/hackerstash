@@ -9,6 +9,10 @@ log = Logging(module='Webhook::ProjectVoteReminder')
 
 class ProjectVoteReminder(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the ProjectVoteReminder class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         log.info('Queuing up project vote reminders')

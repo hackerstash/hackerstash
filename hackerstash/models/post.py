@@ -40,27 +40,51 @@ class Post(db.Model):
 
     @hybrid_property
     def vote_score(self):
+        """
+        Get the sum of all the votes
+        :return: int
+        """
         return sum(vote.score for vote in self.votes)
 
     @vote_score.expression
     def vote_score(cls):
+        """
+        SQL Expression for calculating the vote score
+        :return: int
+        """
         return select([func.sum(Vote.score)]).where(Vote.post_id == cls.id).label('vote_score')
 
     @property
-    def day(self):
+    def day(self) -> int:
+        """
+        Return the day the post was created at
+        :return: int
+        """
         # Returns day of the week (1-7)
         return self.created_at.isocalendar()[2]
 
     @property
-    def week(self):
+    def week(self) -> int:
+        """
+        Return the week the post was created at
+        :return: int
+        """
         return self.created_at.isocalendar()[1]
 
     @property
-    def year(self):
+    def year(self) -> int:
+        """
+        Return the year the post was created at
+        :return: int
+        """
         return self.created_at.year
 
     @classmethod
     def following(cls):
+        """
+        Return the SQLAlchemy query for fetching the users following posts
+        :return:
+        """
         # Return a paginated set of posts that are authored
         # by users that the current user follows
         page = request.args.get('page', 1, type=int)
@@ -69,6 +93,10 @@ class Post(db.Model):
 
     @classmethod
     def newest(cls):
+        """
+        Return the SQLAlchemy query for fetching the newest posts
+        :return:
+        """
         # Return a paginated set of posts that are orederd by
         # their created date
         page = request.args.get('page', 1, type=int)
@@ -76,6 +104,10 @@ class Post(db.Model):
 
     @classmethod
     def top(cls):
+        """
+        Return the SQLAlchemy query for fetching the top posts
+        :return:
+        """
         # Return a paginated set of posts that are orederd by
         # the posts vote score
         page = request.args.get('page', 1, type=int)
@@ -83,13 +115,28 @@ class Post(db.Model):
 
     @classmethod
     def groups(cls) -> [(Tag, list)]:
+        """
+        Return a list of all groups
+        :return:
+        """
         # Return the list of groups in a tuple
         return db.session.query(Tag, func.count(Post.id)).join(Tag).group_by(Tag).order_by(Tag.name.asc()).all()
 
-    def has_author(self, user):
+    def has_author(self, user) -> bool:
+        """
+        Return whether or not the user is the author of the post
+        :param user: User
+        :return: bool
+        """
         return self.user.id == user.id if user else False
 
-    def get_existing_vote_for_user(self, user):
+    def get_existing_vote_for_user(self, user) -> Vote:
+        """
+        Work out if someone in the users project has already
+        voted for this post
+        :param user: User
+        :return: Vote
+        """
         # Although a user clicked on the button, the
         # vote is actually made on behalf of the project
         # to stop people from creating 30 fake users and
@@ -97,6 +144,12 @@ class Post(db.Model):
         return find_in_list(self.votes, lambda x: x.user.project.id == user.project.id)
 
     def vote_status(self, user):
+        """
+        Get the set of class names that should be used
+        for the vote badges
+        :param user: User
+        :return: str
+        """
         if not user:
             return 'disabled logged-out'
         if not user.member or not user.project.published:
@@ -108,6 +161,12 @@ class Post(db.Model):
         return ('upvoted' if existing_vote.score > 0 else 'downvoted') if existing_vote else ''
 
     def vote(self, user, direction: str) -> None:
+        """
+        Vote on a post
+        :param user: User
+        :param direction: str
+        :return: None
+        """
         # Posts have a score of 5 points
         score = 5 if direction == 'up' else -5
         existing_vote = self.get_existing_vote_for_user(user)
@@ -123,6 +182,12 @@ class Post(db.Model):
 
     @classmethod
     def generate_url_slug(cls, title: str) -> str:
+        """
+        Generate a url slug for the post that will be used for
+        SEO friendly urls
+        :param title: str
+        :return: str
+        """
         exists = cls.query.filter_by(url_slug=title).first()
 
         if exists:
@@ -138,5 +203,9 @@ class Post(db.Model):
         return title.lower()
 
     @property
-    def contains_code(self):
+    def contains_code(self) -> bool:
+        """
+        Return whether or not the post contains a code block
+        :return: bool
+        """
         return '</pre>' in self.body

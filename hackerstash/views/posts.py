@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for, get_template_attribute, flash, jsonify
-from sqlalchemy import func
 from hackerstash.db import db
 from hackerstash.lib.images import Images
 from hackerstash.lib.challenges.factory import challenge_factory
@@ -7,6 +6,7 @@ from hackerstash.lib.logging import Logging
 from hackerstash.lib.emails.factory import email_factory
 from hackerstash.lib.mentions import Mentions
 from hackerstash.lib.notifications.factory import notification_factory
+from hackerstash.lib.posts import Posts
 from hackerstash.models.poll import Poll
 from hackerstash.models.post import Post
 from hackerstash.models.comment import Comment
@@ -82,8 +82,7 @@ def show(post_id: str) -> str:
 @login_required
 @published_project_required
 def new() -> str:
-    tags = Tag.query.all()
-    return render_template('posts/new.html', tags=tags)
+    return render_template('posts/new.html', tags=Tag.query.all())
 
 
 @posts.route('/posts/create', methods=['POST'])
@@ -92,33 +91,21 @@ def new() -> str:
 def create() -> str:
     log.info('Creating new post', {'user_id': g.user.id, 'project_id': g.user.project.id, 'post_data': request.form})
 
-    if 'title' not in request.form or 'body' not in request.form or request.form['body'] == '<p><br></p>':
+    if 'title' not in request.form or 'body' not in request.form:
         log.warn('Not all fields were submitted during post create', {'request_data': request.form})
         flash('All fields are required', 'failure')
         return render_template('posts/new.html')
 
-    title = request.form['title']
-    tag_id = request.form.get('tag')
-    url_slug = Post.generate_url_slug(title)
-    mentions = Mentions(request.form['body'])
-    tag = Tag.query.get(tag_id) if tag_id else None
-
-    post = Post(title=title, body=mentions.body, user=g.user, url_slug=url_slug, tag=tag, project=g.user.project)
-    db.session.add(post)
+    p = Posts(title=request.form['title'], body=request.form['body'], tag_id=request.form.get('tag'))
 
     if request.form.get('post_type') == 'poll':
         question = request.form['question']
         choices = [x[1] for x in request.form.items() if x[0].startswith('choice_')]
-        poll = Poll(question, choices, post)
-        db.session.add(poll)
+        p.add_poll(question, choices)
 
-    db.session.commit()
+    p.create()
 
-    mentions.publish_post(post)
-    challenge_factory('post_created', {'post': post})
-    notification_factory('post_created', {'post': post}).publish()
-
-    return redirect(url_for('posts.show', post_id=post.url_slug))
+    return redirect(url_for('posts.show', post_id=p.url_slug))
 
 
 @posts.route('/posts/images', methods=['POST'])
@@ -199,7 +186,7 @@ def create_comment(post_id: str) -> str:
 
     log.info('Creating comment', {'user_id': g.user.id, 'post_id': post.id, 'comment_data': request.form})
 
-    if 'body' in request.form and request.form['body'] != '<p><br></p>':
+    if 'body' in request.form:
         mentions = Mentions(request.form['body'])
         parent_comment_id = request.form.get('parent_comment_id')
         # Some weirdness going on with bad values trying to get added

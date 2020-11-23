@@ -3,7 +3,11 @@ from hackerstash.utils.page import Page
 
 
 class Headers:
-    def __init__(self, response):
+    def __init__(self, response) -> None:
+        """
+        Initialise an instance of the Headers class
+        :param response:
+        """
         self.path = request.path
         self.public = 'id' not in session
         self.response = response
@@ -16,33 +20,66 @@ class Headers:
         self.response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
 
     @property
-    def cache_mode(self):
+    def cache_mode(self) -> str:
+        """
+        The cache mode header value
+        :return: str
+        """
         return 'public' if self.public else 'private'
 
     @property
-    def one_year(self):
+    def one_year(self) -> str:
+        """
+        The cache duration header value for one year
+        :return: str
+        """
         return 'public, max-age=31536000'
 
     @property
-    def one_hour(self):
+    def one_hour(self) -> str:
+        """
+        The cache duration header value for one hour
+        :return: str
+        """
         return f'{self.cache_mode}, max-age=3600'
 
     @property
-    def twelve_seconds(self):
+    def twelve_seconds(self) -> str:
+        """
+        The cache duration header value for twelve seconds
+        :return: str
+        """
         return f'{self.cache_mode}, max-age=12'
 
     @property
-    def five_seconds(self):
+    def five_seconds(self) -> str:
+        """
+        The cache duration header value for five seconds
+        :return: str
+        """
         return f'{self.cache_mode}, max-age=5'
 
     @property
-    def private(self):
+    def private(self) -> str:
+        """
+        The private cache value
+        :return: str
+        """
         return 'private, no-cache'
 
-    def set_cache_control(self, value: str):
+    def set_cache_control(self, value: str) -> None:
+        """
+        Set the cache control header
+        :param value: str
+        :return: None
+        """
         self.response.headers['Cache-Control'] = value
 
-    def set_cache_headers(self):
+    def set_cache_headers(self) -> None:
+        """
+        Set the cache headers
+        :return: None
+        """
         page = Page(self.path)
 
         if page.static:

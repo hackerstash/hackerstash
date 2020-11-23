@@ -5,6 +5,10 @@ from hackerstash.models.comment import Comment
 
 class CommentCreated(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the CommentCreated class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         comment = payload['comment']

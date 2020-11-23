@@ -10,7 +10,11 @@ log = Logging(module='Hooks')
 
 def init_app(app):
     @app.before_request
-    def before_request_func():
+    def before_request_func() -> None:
+        """
+        A function that gets excecuted before every request
+        :return: None
+        """
         page = Page(request.path)
 
         # Don't want to be hitting the database for images and whatnot
@@ -31,20 +35,40 @@ def init_app(app):
                 return redirect(url_for('onboarding.index'))
 
     @app.after_request
-    def after_request_func(response):
+    def after_request_func(response) -> None:
+        """
+        A function that is ran after every request
+        :param response:
+        :return: None
+        """
         headers = Headers(response)
         return headers.set_cache_headers()
 
     @app.errorhandler(401)
-    def unauthorized(_error):
+    def unauthorized(_error: Exception):
+        """
+        Render the 401 page on an unauthorized error
+        :param _error: Exception
+        :return: str
+        """
         return render_template('401.html'), 401
 
     @app.errorhandler(404)
-    def page_not_found(_error):
+    def page_not_found(_error: Exception):
+        """
+        Render the 404 page on an page_not_found error
+        :param _error: Exception
+        :return: str
+        """
         return render_template('404.html'), 404
 
     @app.errorhandler(Exception)
-    def handle_exception(error):
+    def handle_exception(error: Exception):
+        """
+        Render the 500 page on an handle_exception error
+        :param error: Exception
+        :return: str
+        """
         if isinstance(error, HTTPException):
             return error
         log.error('Unhandled exception caught', error)

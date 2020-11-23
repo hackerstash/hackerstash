@@ -1,10 +1,11 @@
-function createEditor(form, options = {}) {
+function createEditor(container, options = {}) {
     let usernameSearch = '';
-    const selector = s => document.querySelector(`${form} ${s}`);
 
-    if (!document.querySelector(form)) {
-        return;
-    }
+    // Create an id so we can localise the quill stuff
+    const id = `editor-${Math.random().toString().substr(2, 8)}`;
+    const selector = s => container.querySelector(s);
+
+    container.setAttribute('id', id);
 
     const Link = Quill.import('formats/link');
 
@@ -19,7 +20,7 @@ function createEditor(form, options = {}) {
 
     Quill.register(CustomLink);
 
-    const editor = new Quill(`${form} .editor`, {
+    const editor = new Quill(`#${id} .editor`, {
         formats: [
             'bold',
             'header',
@@ -35,7 +36,7 @@ function createEditor(form, options = {}) {
         ],
         modules: {
             toolbar: {
-                container: `${form} .toolbar`,
+                container: `#${id} .toolbar`,
                 handlers: {
                     image: function() {
                         selector('.ql-image[type=file]').click();
@@ -69,17 +70,6 @@ function createEditor(form, options = {}) {
     const headingPicker = selector('.heading-picker');
     const imageUpload = selector('.ql-image[type=file]');
 
-    document.querySelector(form).addEventListener('submit', event => {
-        event.preventDefault();
-        selector('.body').value = editor.root.innerHTML;
-
-        // Comments are submitted with fetch so we should not
-        // submit here
-        if (!event.target.classList.contains('comment-form')) {
-            event.target.submit();
-        }
-    });
-
     if (imageUpload) {
         imageUpload.addEventListener('change', event => {
             const files = Array.from(event.target.files);
@@ -95,6 +85,12 @@ function createEditor(form, options = {}) {
             event.target.closest('.popup-container').querySelector('.popup').classList.toggle('d-none');
         });
     }
+
+    editor.on('editor-change', () => {
+        const value = editor.root.innerHTML;
+        const length = editor.root.innerText.trim().length;
+        selector('input.body').value = length === 0 ? '' : value;
+    });
 
     document.addEventListener('click', event => {
         if (event.target.closest('.ql-header')) {
@@ -134,7 +130,7 @@ function createEditor(form, options = {}) {
             }
         };
 
-        fetch(`/users/usernames?q=${username}`)
+        fetch(`/users/usernames?q=${username}`, options)
             .then((response) => {
                 if (response.ok) {
                     return response.json();
@@ -316,19 +312,29 @@ function createEditor(form, options = {}) {
 
     function setUploadingStart() {
         selector('.uploading-images').classList.remove('d-none');
-        selector('button[type="submit"]').setAttribute('disabled', 'true');
+
+        const form = container.closest('form');
+
+        if (form) {
+            form.querySelector('button[type="submit"]').setAttribute('disabled', 'true');
+        }
     }
 
     function setUploadingEnd() {
         selector('.uploading-images').classList.add('d-none');
-        selector('button[type="submit"]').removeAttribute('disabled');
+
+        const form = container.closest('form');
+
+        if (form) {
+            form.querySelector('button[type="submit"]').removeAttribute('disabled');
+        }
     }
 
     return editor;
 }
 
-function destroyEditor(form) {
-  const selector = s => document.querySelector(`${form} ${s}`);
+function destroyEditor(container) {
+  const selector = s => document.querySelector(`${container} ${s}`);
 
   const toolbar = selector('.toolbar');
   const toolbarContents = toolbar.innerHTML;
@@ -343,15 +349,15 @@ function destroyEditor(form) {
   editor.innerHTML = editorContents;
 }
 
-window.addEventListener('load', event => {
-    document.querySelectorAll('*[data-editor]').forEach(form => {
-        const name = form.getAttribute('data-editor-name');
-        const options = form.getAttribute('data-editor-options') || '';
+window.addEventListener('load', () => {
+    document.querySelectorAll('.editor-container').forEach(container => {
+        const options = container.getAttribute('data-editor-options') || '';
+        const light = container.classList.contains('light');
 
-        const selector = `.${name}`;
         const params = options.split(',').reduce((acc, key) => ({ ...acc, [key]: true }), {});
+        if (light) params.light = true;
 
-        createEditor(selector, params);
+        createEditor(container, params);
     });
 
     document.querySelectorAll('*[data-contains-code] pre').forEach(block => {

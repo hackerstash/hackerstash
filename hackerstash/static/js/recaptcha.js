@@ -1,3 +1,3 @@
-function handleCaptchaSubmit(token) {
+function handleCaptchaSubmit() {
     document.getElementById('recatpcha-form').submit();
 }

@@ -2,9 +2,6 @@ from flask_assets import Environment, Bundle
 
 assets = Environment()
 
-# We may want to set this if we keep getting weird 404s due to the assets
-# assets.auto_build = config['app_environment'] == 'production'
-
 styles = [
     'scss/main.scss'
 ]
@@ -14,6 +11,7 @@ scripts = [
     'js/buttons.js',
     'js/comments.js',
     'js/editor.js',
+    'js/goals.js',
     'js/home.js',
     'js/menu.js',
     'js/messages.js',

@@ -3,6 +3,10 @@ from hackerstash.lib.notifications.base import Base
 
 class MemberVerified(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the MemberVerified class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         member = payload['member']

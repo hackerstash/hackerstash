@@ -6,11 +6,22 @@ log = Logging(module='Challenges::CommentVoted')
 
 
 def is_not_members_comment(user, comment):
+    """
+    Return whether or not this user, or any member of this
+    users project was the author
+    :param user: User
+    :param comment: Comment
+    :return: bool
+    """
     return user.project.id != comment.user.project.id
 
 
 class CommentVoted(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the CommentVoted class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         user = g.user

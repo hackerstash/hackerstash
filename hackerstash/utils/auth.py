@@ -9,6 +9,11 @@ log = Logging(module='Auth')
 
 
 def login_required(f):
+    """
+    A decorator that checks that a user exists in this request
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'login_required'}
@@ -22,6 +27,11 @@ def login_required(f):
 
 
 def member_required(f):
+    """
+    A decorator that checks that a user is a member of this project
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'member_required', 'project_id': int(kwargs['project_id'])}
@@ -39,6 +49,11 @@ def member_required(f):
 
 
 def published_project_required(f):
+    """
+    A decorator that checks that a user has a published project
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'published_project_required'}
@@ -57,6 +72,11 @@ def published_project_required(f):
 
 
 def author_required(f):
+    """
+    A decorator that checks that a user is the author of this post
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'author_required', 'post_id': int(kwargs['post_id'])}
@@ -76,6 +96,11 @@ def author_required(f):
 
 
 def admin_api_key_required(f):
+    """
+    A decorator that checks that the admin api is given
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'admin_api_key_required'}
@@ -93,6 +118,11 @@ def admin_api_key_required(f):
 
 
 def admin_login_required(f):
+    """
+    A decorator that checks that a user is an admin
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logging_info = {'path': request.path, 'type': 'admin_login_required'}
