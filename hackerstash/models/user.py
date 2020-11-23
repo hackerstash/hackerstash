@@ -3,6 +3,7 @@ import arrow
 from flask import url_for
 from hackerstash.db import db
 from hackerstash.lib.redis import redis
+from hackerstash.models.tag import groups
 from hackerstash.utils.helpers import html_to_plain_text
 
 follow = db.Table(
@@ -182,3 +183,14 @@ class User(db.Model):
         """
         user = User.query.filter_by(username=username).first()
         return user is not None
+
+    @property
+    def group_ids(self) -> list[int]:
+        """
+        Return a list of group ids that a user belongs to
+        :return: list[int]
+        """
+        # Get a list of tuples like (tag_id, user_id)
+        results = db.session.query(groups).filter(groups.c.user_id == self.id).all()
+        # Return only the tag ids
+        return [x[0] for x in results]

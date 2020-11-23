@@ -1,7 +1,7 @@
 import re
 from random import randint
 from flask import g, request
-from sqlalchemy import func, select
+from sqlalchemy import func, select, or_
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.hybrid import hybrid_property
 from hackerstash.db import db
@@ -82,36 +82,44 @@ class Post(db.Model):
     @classmethod
     def following(cls):
         """
-        Return the SQLAlchemy query for fetching the users following posts
+        Return a paginated set of posts that are authored
+        by users that the current user follows, or belong to
+        groups that the user follows
         :return:
         """
-        # Return a paginated set of posts that are authored
-        # by users that the current user follows
         page = request.args.get('page', 1, type=int)
         following_ids = [x.id for x in g.user.following]
-        return cls.query.options(joinedload(Post.user)).filter(Post.user_id.in_(following_ids)).paginate(page, 25, False)
+        return cls.query\
+            .options(joinedload(Post.user))\
+            .filter(or_(Post.user_id.in_(following_ids), Post.tag_id.in_(g.user.group_ids))) \
+            .order_by(Post.created_at.desc()) \
+            .paginate(page, 25, False)
 
     @classmethod
     def newest(cls):
         """
-        Return the SQLAlchemy query for fetching the newest posts
+        Return a paginated set of posts that are orederd by
+        their created date
         :return:
         """
-        # Return a paginated set of posts that are orederd by
-        # their created date
         page = request.args.get('page', 1, type=int)
-        return cls.query.options(joinedload(Post.user)).order_by(Post.created_at.desc()).paginate(page, 25, False)
+        return cls.query\
+            .options(joinedload(Post.user))\
+            .order_by(Post.created_at.desc())\
+            .paginate(page, 25, False)
 
     @classmethod
     def top(cls):
         """
-        Return the SQLAlchemy query for fetching the top posts
+        Return a paginated set of posts that are orederd by
+        the posts vote score
         :return:
         """
-        # Return a paginated set of posts that are orederd by
-        # the posts vote score
         page = request.args.get('page', 1, type=int)
-        return cls.query.options(joinedload(Post.user)).order_by(Post.vote_score == 0, Post.vote_score.desc()).paginate(page, 25, False)
+        return cls.query\
+            .options(joinedload(Post.user))\
+            .order_by(Post.vote_score == 0, Post.vote_score.desc())\
+            .paginate(page, 25, False)
 
     @classmethod
     def groups(cls) -> [(Tag, list)]:
@@ -120,7 +128,12 @@ class Post(db.Model):
         :return:
         """
         # Return the list of groups in a tuple
-        return db.session.query(Tag, func.count(Post.id)).join(Tag).group_by(Tag).order_by(Tag.name.asc()).all()
+        return db.session\
+            .query(Tag, func.count(Post.id))\
+            .join(Tag)\
+            .group_by(Tag)\
+            .order_by(Tag.name.asc())\
+            .all()
 
     def has_author(self, user) -> bool:
         """
