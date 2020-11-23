@@ -1,5 +1,11 @@
 # Changelog
 
+### 23/10/20:
+- Added posts from followed groups to the following tab
+
+### 21/10/20:
+- Added goal tracking functionality
+
 ### 13/10/20:
 - Fixed an issue that caused 'None' to appear in long pagination
 - Updated the post row styles to remove some weird spacing
