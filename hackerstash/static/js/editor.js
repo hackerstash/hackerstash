@@ -113,7 +113,7 @@ function createEditor(container, options = {}) {
 
     selector('.ql-editor').addEventListener('keyup', event => {
         const input = event.target;
-        const text = input.innerText;
+        const text = input.innerText.trim();
         const match = text.match(/@([a-z0-9\_\-\.])+$/);
 
         if (!match) {

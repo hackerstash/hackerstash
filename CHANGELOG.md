@@ -1,5 +1,8 @@
 # Changelog
 
+### 25/10/20:
+- Fixed an issue where Safari users could not search for usernames
+
 ### 23/10/20:
 - Added posts from followed groups to the following tab
 
