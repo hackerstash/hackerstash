@@ -3,7 +3,7 @@ import arrow
 from flask import url_for
 from hackerstash.db import db
 from hackerstash.lib.redis import redis
-from hackerstash.models.tag import groups
+from hackerstash.models.tag import Tag, groups
 from hackerstash.utils.helpers import html_to_plain_text
 
 follow = db.Table(
@@ -46,6 +46,21 @@ class User(db.Model):
 
     def __repr__(self) -> str:
         return f'<User {self.username or self.email}>'
+
+    def __init__(self,  email: str, first_name: str = None, last_name: str = None, avatar: str = None) -> None:
+        """
+        Create a new user
+        :param email: str
+        :param first_name: str | None
+        :param last_name: str | None
+        :param avatar: str | None
+        """
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.avatar = avatar
+        # Follow a bunch of default tags
+        [Tag.query.get(i).follow(self) for i in [1, 2, 3, 4]]
 
     following = db.relationship(
         'User',

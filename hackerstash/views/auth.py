@@ -12,7 +12,12 @@ log = Logging(module='Views::Auth')
 auth = Blueprint('auth', __name__)
 
 
-def set_session(user):
+def set_session(user: User) -> None:
+    """
+    Set the users session
+    :param user: User
+    :return: None
+    """
     session['id'] = user.id
     session.permanent = True
 

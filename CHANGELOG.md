@@ -1,6 +1,7 @@
 # Changelog
 
 ### 25/10/20:
+- Update user create flow so that users are automatically subscribed to some default groups
 - Fixed an issue where Safari users could not search for usernames
 
 ### 23/10/20:
