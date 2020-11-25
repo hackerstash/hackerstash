@@ -1,5 +1,6 @@
 import arrow
 from enum import Enum
+from hackerstash.config import config
 
 
 class GoalStates(Enum):
@@ -26,6 +27,10 @@ class Goals:
         goals stuff from them
         :return: GoalStates
         """
+        if config['app_environment'] == 'prod':
+            # TODO remove when we want to ship
+            return GoalStates.NONE
+
         if self.is_set:
             return GoalStates.SET
         if self.is_edit:
