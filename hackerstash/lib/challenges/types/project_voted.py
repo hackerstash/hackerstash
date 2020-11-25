@@ -7,6 +7,10 @@ log = Logging(module='Challenges::ProjectVoted')
 
 class ProjectVoted(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the ProjectVoted class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         user = g.user

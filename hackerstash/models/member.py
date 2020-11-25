@@ -1,4 +1,3 @@
-from sqlalchemy.types import JSON
 from hackerstash.db import db
 
 

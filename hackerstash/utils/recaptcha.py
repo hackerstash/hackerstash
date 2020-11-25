@@ -9,6 +9,12 @@ log = Logging(module='Recaptcha')
 
 
 def recaptcha_required(f):
+    """
+    A decorator that checks if the incoming form submitter
+    can be trusted
+    :param f: function
+    :return: function
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if request.method != 'GET':

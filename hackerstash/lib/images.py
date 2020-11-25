@@ -12,8 +12,15 @@ client = boto3.client('s3', region_name='eu-west-1')
 class Images:
     @classmethod
     def upload(cls, image: BinaryIO) -> str:
+        """
+        Upload an image to S3 adn return the key that it was
+        stored agaist
+        :param image: BinaryIO
+        :return: str
+        """
         key = str(uuid.uuid4())
-
+        # Prefix the key with the stage so that we have an easier
+        # time seperating dev data from prod
         if environment := config['app_environment']:
             key = f'{environment}/{key}'
 
@@ -28,6 +35,13 @@ class Images:
 
     @classmethod
     def upload_from_url(cls, url: str) -> str:
+        """
+        Upload an image from a remote url. This is useful when a user
+        signs up with Google/Twitter as we can carry their profile image
+        over
+        :param url: str
+        :return: str
+        """
         try:
             r = requests.get(url, stream=True)
             r.raise_for_status()
@@ -37,6 +51,12 @@ class Images:
 
     @classmethod
     def delete(cls, key: str) -> None:
+        """
+        Delete an image from S3. It should not raise so that we don't block
+        form submissions
+        :param key: str
+        :return: None
+        """
         try:
             params = {
                 'Bucket': 'images.hackerstash.com',

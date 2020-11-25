@@ -7,10 +7,21 @@ log = Logging(module='Challenges::PostVoted')
 
 
 def is_not_members_post(user, post):
+    """
+    Return whether or not this user, or any member of this
+    users project was the author
+    :param user: User
+    :param post: Post
+    :return: bool
+    """
     return user.project.id != post.project.id
 
 
 class PostVoted(Base):
+    """
+    Initialise an instance of the PostCreated class
+    :param payload: dict
+    """
     def __init__(self, payload: dict) -> None:
         super().__init__(payload)
 

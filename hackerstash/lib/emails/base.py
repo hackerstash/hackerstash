@@ -6,17 +6,31 @@ ses = boto3.client('ses', region_name='eu-west-1')
 
 
 class Base:
-    def __init__(self, email: str, payload: dict, sender='noreply'):
+    def __init__(self, email: str, payload: dict, sender='noreply') -> None:
+        """
+        Initialise an instance of the Email base class
+        :param email: str
+        :param payload: dict
+        :param sender: str
+        """
         self.email = email
         self.payload = payload
         self.sender = sender
 
     def send(self) -> None:
+        """
+        Send the email
+        :return: None
+        """
         log.info('Sending email', {'type': self.type, 'email': self.email})
         ses.send_email(**self.message)
 
     @property
     def message(self) -> dict:
+        """
+        Build the SES payload
+        :return: dict
+        """
         return {
             'Destination': {
                 'ToAddresses': [self.email]

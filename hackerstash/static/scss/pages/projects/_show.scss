@@ -354,6 +354,24 @@
           }
         }
       }
+
+      .priorities {
+        ul {
+          margin: 0;
+          padding: 0;
+
+          li {
+            list-style: none;
+            margin-bottom: .5rem;
+
+            i {
+              color: $green-500;
+              margin-right: .5rem;
+              vertical-align: middle;
+            }
+          }
+        }
+      }
     }
   }
 }

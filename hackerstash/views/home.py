@@ -8,21 +8,32 @@ log = Logging(module='Views::Home')
 home = Blueprint('home', __name__)
 
 
-@home.route('/', methods=['GET', 'POST'])
+@home.route('/')
 def index() -> str:
+    """
+    Render the home page
+    :return: str
+    """
     return render_template('home/index.html')
 
 
 @home.route('/favicon.ico')
 def favicon():
-    # Not sure where else to put this, but Chrome insists
+    """
+    Not sure where else to put this, but Chrome insists
     # on requesting it from here regardless of what I put
     # in the <head> tag
+    :return: Response
+    """
     return redirect(url_for('static', filename='images/favicon.ico'))
 
 
 @home.route('/changelog')
 def changelog():
+    """
+    Render the changelog page
+    :return: str
+    """
     if cache := redis.get('changelog'):
         html = cache.decode('utf-8')
     else:
@@ -30,11 +41,15 @@ def changelog():
             md = f.read()
             html = markdown(md)
             redis.set('changelog', html, ex=86400)
-    return render_template('home/changelog/index.html', changelog=html)
+    return render_template('home/changelog.html', changelog=html)
 
 
 @home.route('/__ping')
 def ping():
+    """
+    Test that the app can talk to redis and the database
+    :return: str
+    """
     try:
         db.engine.execute('SELECT 1')
         redis.keys('*')

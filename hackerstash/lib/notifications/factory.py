@@ -1,3 +1,4 @@
+from typing import Union
 from hackerstash.lib.notifications.types.comment_created import CommentCreated
 from hackerstash.lib.notifications.types.comment_voted import CommentVoted
 from hackerstash.lib.notifications.types.follower_created import FollowerCreated
@@ -10,8 +11,28 @@ from hackerstash.lib.notifications.types.post_voted import PostVoted
 from hackerstash.lib.notifications.types.prize_awarded import PrizeAwarded
 from hackerstash.lib.notifications.types.project_vote_reminder import ProjectVoteReminder
 
+notification_factory_response = Union[
+    CommentCreated,
+    CommentVoted,
+    FollowerCreated,
+    MemberInvited,
+    MemberRemoved,
+    MemberVerified,
+    MentionCreated,
+    PostCreated,
+    PostVoted,
+    PrizeAwarded,
+    ProjectVoteReminder
+]
 
-def notification_factory(notification_type, payload):
+
+def notification_factory(notification_type: str, payload: dict) -> notification_factory_response:
+    """
+    Process a notification event
+    :param notification_type: str
+    :param payload: dict
+    :return: notification_factory_response
+    """
     if notification_type == 'comment_created':
         return CommentCreated(payload)
     if notification_type == 'comment_voted':

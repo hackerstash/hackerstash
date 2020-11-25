@@ -3,6 +3,10 @@ from hackerstash.lib.notifications.base import Base
 
 class PrizeAwarded(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the PrizeAwarded class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         project = payload['project']

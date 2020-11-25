@@ -28,14 +28,26 @@ class Vote(db.Model):
     }
 
     @property
-    def month(self):
+    def month(self) -> int:
+        """
+        Return the month this vote was created at
+        :return: int
+        """
         return self.created_at.month
 
     @property
-    def year(self):
+    def year(self) -> int:
+        """
+        Return the year this vote was created at
+        :return: int
+        """
         return self.created_at.year
 
     @property
-    def is_current_contest(self):
+    def is_current_contest(self) -> bool:
+        """
+        Return whether this vote is from the current tournament
+        :return: bool
+        """
         now = datetime.datetime.now()
         return now.month == self.month and now.year == self.year

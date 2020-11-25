@@ -10,18 +10,10 @@ document.addEventListener('click', event => {
 
         if (badge.classList.contains('detailed')) {
             badge.classList.remove('detailed');
-            const html = `
-                <i class="ri-trophy-line"></i> x ${first + second + third}
-            `;
-            badge.innerHTML = html;
+            badge.innerHTML = `<i class="ri-trophy-line"></i> x ${first + second + third}`;
         } else {
             badge.classList.add('detailed');
-            const html = `
-                <span>🥇 x ${first}</span>
-                <span>🥈 x ${second}</span>
-                <span>🥉 x ${third}</span>
-            `;
-            badge.innerHTML = html;
+            badge.innerHTML = `<span>🥇 x ${first}</span> <span>🥈 x ${second}</span> <span>🥉 x ${third}</span>`;
         }
     }
 });

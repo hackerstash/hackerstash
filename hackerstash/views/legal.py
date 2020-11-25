@@ -5,9 +5,17 @@ legal = Blueprint('legal', __name__)
 
 @legal.route('/terms')
 def terms() -> str:
-    return render_template('legal/terms/index.html')
+    """
+    Render the terms page
+    :return: str
+    """
+    return render_template('legal/terms.html')
 
 
 @legal.route('/privacy')
 def privacy() -> str:
-    return render_template('legal/privacy/index.html')
+    """
+    Render the privacy page
+    :return: str
+    """
+    return render_template('legal/privacy.html')

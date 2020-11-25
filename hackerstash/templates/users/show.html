@@ -23,8 +23,8 @@
             </div>
             <div class="profile-actions">
                 {% if is_self %}
-                    <a href="{{ url_for('users.edit_settings') }}" class="button secondary">Settings</a>
-                    <a href="{{ url_for('users.edit_profile') }}" class="button secondary">Edit Profile</a>
+                    <a href="{{ url_for('users.settings') }}" class="button secondary">Settings</a>
+                    <a href="{{ url_for('users.profile') }}" class="button secondary">Edit Profile</a>
                 {% else %}
                     {% if g.user %}
                         <a href="{{ url_for('users.follow', user_id=user.id) }}" class="button {{ 'secondary' if g.user.is_following(user) }}">

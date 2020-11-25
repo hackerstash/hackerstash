@@ -1,3 +1,4 @@
+from typing import Union
 from hackerstash.lib.emails.types.close_account import CloseAccount
 from hackerstash.lib.emails.types.commented_on_post import CommentedOnPost
 from hackerstash.lib.emails.types.contact import Contact
@@ -17,8 +18,36 @@ from hackerstash.lib.emails.types.voted_on_comment import VotedOnComment
 from hackerstash.lib.emails.types.voted_on_post import VotedOnPost
 from hackerstash.lib.emails.types.invite_to_project import InviteToProject
 
+email_factory_response = Union[
+    CloseAccount,
+    CommentedOnPost,
+    Contact,
+    FollowerCreatedPost,
+    LoginToken,
+    MemberJoinedProject,
+    MemberLeftProject,
+    MentionedInComment,
+    MentionedInPost,
+    NewFollower,
+    PrizeAwarded,
+    ProjectVoteReminder,
+    RemovedFromProject,
+    RepliedToComment,
+    SignupToken,
+    VotedOnComment,
+    VotedOnPost,
+    InviteToProject
+]
 
-def email_factory(email_type, email, payload):
+
+def email_factory(email_type: str, email: str, payload: dict) -> email_factory_response:
+    """
+    Process an email event
+    :param email_type: str
+    :param email: str
+    :param payload: dict
+    :return: email_factory_response
+    """
     if email_type == 'close_account':
         return CloseAccount(email, payload)
     if email_type == 'commented_on_post':

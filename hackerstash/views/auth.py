@@ -19,9 +19,13 @@ def set_session(user):
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login() -> str:
+    """
+    Render the login page
+    :return: str
+    """
     if request.method == 'GET':
         step = 1 if 'use_email' in request.args else 0
-        return render_template('auth/login/index.html', step=step)
+        return render_template('auth/login.html', step=step)
 
     email = request.form.get('email')
     code = request.form.get('code')
@@ -45,14 +49,18 @@ def login() -> str:
             code = Tokens.generate(email)
             email_factory('login_token', email, {'token': code}).send()
 
-    return render_template('auth/login/index.html', step=step, email=email)
+    return render_template('auth/login.html', step=step, email=email)
 
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup() -> str:
+    """
+    Render the sign up page
+    :return: str
+    """
     if request.method == 'GET':
         step = 1 if 'use_email' in request.args else 0
-        return render_template('auth/signup/index.html', step=step)
+        return render_template('auth/signup.html', step=step)
 
     email = request.form['email']
     code = request.form.get('code')
@@ -79,27 +87,43 @@ def signup() -> str:
             code = Tokens.generate(email)
             email_factory('login_token', email, {'token': code}).send()
 
-    return render_template('auth/signup/index.html', step=step, email=email)
+    return render_template('auth/signup.html', step=step, email=email)
 
 
 @auth.route('/signout')
 def signout() -> str:
+    """
+    Sign the user and redirect to the home page
+    :return: str
+    """
     session.pop('id', None)
     return redirect(url_for('home.index'))
 
 
 @auth.route('/login/google')
 def google_login() -> str:
+    """
+    Redirect to the google login page
+    :return: str
+    """
     return redirect(url_for('google.login'))
 
 
 @auth.route('/login/twitter')
 def twitter_login() -> str:
+    """
+    Redirect to the twitter login page
+    :return: str
+    """
     return redirect(url_for('twitter.login'))
 
 
 @auth.route('/login/google/callback')
 def google_callback() -> str:
+    """
+    Handle the google callback
+    :return: str
+    """
     resp = google.get('/oauth2/v1/userinfo')
     google_user = resp.json()
 
@@ -132,6 +156,10 @@ def google_callback() -> str:
 
 @auth.route('/login/twitter/callback')
 def twitter_callback() -> str:
+    """
+    Handle the twitter callback
+    :return: str
+    """
     resp = twitter.get('account/verify_credentials.json?include_email=true')
     twitter_user = resp.json()
 

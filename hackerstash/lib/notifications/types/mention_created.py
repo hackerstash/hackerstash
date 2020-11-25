@@ -3,6 +3,10 @@ from hackerstash.lib.notifications.base import Base
 
 class MentionCreated(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the MentionCreated class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         user = payload['user']

@@ -8,6 +8,10 @@ leaderboard = Blueprint('leaderboard', __name__)
 
 @leaderboard.route('/leaderboard')
 def index() -> str:
+    """
+    Render the leaderboard page
+    :return: str
+    """
     page = request.args.get('page', 1, type=int)
 
     order = Leaderboard.order()

@@ -2,6 +2,12 @@ from hackerstash.lib.notifications.base import Base
 
 
 def get_notification_type(direction: str) -> str:
+    """
+    Get the correct notification type depending on whether
+    the vote was up or down
+    :param direction:
+    :return: str
+    """
     if direction == 'up':
         return 'someone_upvotes_your_comment'
     else:
@@ -10,6 +16,10 @@ def get_notification_type(direction: str) -> str:
 
 class CommentVoted(Base):
     def __init__(self, payload: dict) -> None:
+        """
+        Initialise an instance of the CommentVoted class
+        :param payload: dict
+        """
         super().__init__(payload)
 
         comment = payload['comment']

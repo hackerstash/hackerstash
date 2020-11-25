@@ -14,9 +14,9 @@
 
             {% if g.user.member.owner %}
                 {% if project.published %}
-                    <a class="button tertiary" href="{{ url_for('projects.unpublish', project_id=project.id) }}">Unpublish Project</a>
+                    <a class="button tertiary" href="{{ url_for('projects.unpublish') }}">Unpublish Project</a>
                 {% else %}
-                    <a class="button success" href="{{ url_for('projects.publish', project_id=project.id) }}">Publish Project</a>
+                    <a class="button success" href="{{ url_for('projects.publish') }}">Publish Project</a>
                 {% endif %}
             {% endif %}
         </header>
@@ -41,7 +41,7 @@
 
             <div class="tab-body">
                 <div class="tab {{ 'active' if active_tab == 'details' }}">
-                    <form data-editor="true" data-editor-name="editor-form" class="form editor-form pt-2" action="{{ url_for('projects.update', project_id=project.id) }}" method="post" enctype="multipart/form-data">
+                    <form class="form pt-2" action="{{ url_for('projects.edit', project_id=project.id) }}" method="post" enctype="multipart/form-data">
                         {% include "partials/messages.html" %}
 
                         <fieldset>
@@ -56,13 +56,13 @@
 
                             <hr class="divider mb-2 mt-2">
 
-                            <a href="{{ url_for('projects.destroy', project_id=project.id) }}" class="button tertiary" type="button">Delete project</a>
+                            <a href="{{ url_for('projects.destroy') }}" class="button tertiary" type="button">Delete project</a>
                         </fieldset>
                     </form>
                 </div>
 
                 <div class="tab {{ 'active' if active_tab == 'team' }}">
-                    <form class="form" action="{{ url_for('projects.update', project_id=project.id) }}" method="post">
+                    <form class="form" action="{{ url_for('projects.edit', project_id=project.id) }}" method="post">
                         <fieldset>
                             <label class="label mt-1" for="team_size">Team size</label>
                             <input class="input wrap-216 mb-2" type="text" id="team_size" name="team_size" placeholder="e.g. 13" value="{{ project.team_size or 1 }}">
