@@ -35,11 +35,12 @@ class Posts:
 
     def create(self):
         """
-        Create a new post and dipsatch the necessary notifications
+        Create a new post and dispatch the necessary notifications
         and challenges
         :return: None
         """
         db.session.add(self.post)
+        db.session.commit()
         self.mentions.publish_post(self.post)
         challenge_factory('post_created', {'post': self.post})
         notification_factory('post_created', {'post': self.post}).publish()
