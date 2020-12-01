@@ -72,6 +72,7 @@ class Leaderboard:
         :param amount: int
         :return: int
         """
-        score = redis.zincrby(self.key(), amount, self.project.id)
-        log.info('Updating leaderboard', {'key': self.key(), 'amount': amount, 'new_score': int(score), 'project_id': self.project.id})
-        return int(score)
+        if not self.project.ghost:
+            score = redis.zincrby(self.key(), amount, self.project.id)
+            log.info('Updating leaderboard', {'key': self.key(), 'amount': amount, 'new_score': int(score), 'project_id': self.project.id})
+            return int(score)
