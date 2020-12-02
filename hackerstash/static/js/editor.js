@@ -351,7 +351,7 @@ function destroyEditor(container) {
 
 window.addEventListener('load', () => {
     document.querySelectorAll('.editor-container').forEach(container => {
-        const options = container.getAttribute('data-editor-options') || '';
+        const options = container.getAttribute('data-options') || '';
         const light = container.classList.contains('light');
 
         const params = options.split(',').reduce((acc, key) => ({ ...acc, [key]: true }), {});

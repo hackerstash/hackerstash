@@ -112,7 +112,7 @@ def settings() -> str:
     return redirect(url_for('users.show', user_id=g.user.id, saved=1))
 
 
-@users.route('/users/profile', methods=['POST'])
+@users.route('/users/profile', methods=['GET', 'POST'])
 @login_required
 def profile() -> str:
     """
