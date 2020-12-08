@@ -3,13 +3,16 @@ from hackerstash.lib.emails.types.close_account import CloseAccount
 from hackerstash.lib.emails.types.commented_on_post import CommentedOnPost
 from hackerstash.lib.emails.types.contact import Contact
 from hackerstash.lib.emails.types.follower_created_post import FollowerCreatedPost
+from hackerstash.lib.emails.types.goal_setting import GoalSetting
 from hackerstash.lib.emails.types.login_token import LoginToken
 from hackerstash.lib.emails.types.member_joined_project import MemberJoinedProject
 from hackerstash.lib.emails.types.member_left_project import MemberLeftProject
 from hackerstash.lib.emails.types.mentioned_in_comment import MentionedInComment
 from hackerstash.lib.emails.types.mentioned_in_post import MentionedInPost
 from hackerstash.lib.emails.types.new_follower import NewFollower
+from hackerstash.lib.emails.types.peer_review import PeerReview
 from hackerstash.lib.emails.types.prize_awarded import PrizeAwarded
+from hackerstash.lib.emails.types.progress_update import ProgressUpdate
 from hackerstash.lib.emails.types.project_vote_reminder import ProjectVoteReminder
 from hackerstash.lib.emails.types.removed_from_project import RemovedFromProject
 from hackerstash.lib.emails.types.replied_to_comment import RepliedToComment
@@ -23,13 +26,16 @@ email_factory_response = Union[
     CommentedOnPost,
     Contact,
     FollowerCreatedPost,
+    GoalSetting,
     LoginToken,
     MemberJoinedProject,
     MemberLeftProject,
     MentionedInComment,
     MentionedInPost,
     NewFollower,
+    PeerReview,
     PrizeAwarded,
+    ProgressUpdate,
     ProjectVoteReminder,
     RemovedFromProject,
     RepliedToComment,
@@ -56,6 +62,8 @@ def email_factory(email_type: str, email: str, payload: dict) -> email_factory_r
         return Contact(email, payload)
     if email_type == 'follower_created_post':
         return FollowerCreatedPost(email, payload)
+    if email_type == 'goal_setting':
+        return GoalSetting(email, payload)
     if email_type == 'login_token':
         return LoginToken(email, payload)
     if email_type == 'member_joined_project':
@@ -68,8 +76,12 @@ def email_factory(email_type: str, email: str, payload: dict) -> email_factory_r
         return MentionedInPost(email, payload)
     if email_type == 'new_follower':
         return NewFollower(email, payload)
+    if email_type == 'peer_review':
+        return PeerReview(email, payload)
     if email_type == 'prize_awarded':
         return PrizeAwarded(email, payload)
+    if email_type == 'progress_update':
+        return ProgressUpdate(email, payload)
     if email_type == 'project_vote_reminder':
         return ProjectVoteReminder(email, payload)
     if email_type == 'removed_from_project':

@@ -1,0 +1,10 @@
+{% extends "layouts/email.html" %}
+{% from "partials/manage_notifications.html" import manage_notifications %}
+
+{% block body %}
+    <p>Hey {{ member.user.first_name }},</p>
+    <p>You have {{ time_remaining }} hour{{ 's' if time_remaining > 1 }} remaining to set {{ member.project.name }}'s top 3 priorities for the week ahead. Simply log into HackerStash and visit the Goals page in the navigation to set your goals.</p>
+    <p>Good luck for the week ahead, you've got this! 💪</p>
+    <p>The HackerStash Team</p>
+    {{ manage_notifications(host) }}
+{% endblock %}
