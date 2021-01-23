@@ -170,26 +170,6 @@
         }
       }
 
-      &.goals {
-        .menu-icon {
-          background: $red-500;
-
-          i {
-            color: white;
-          }
-        }
-      }
-
-      &.review {
-        .menu-icon {
-          background: $green-400;
-
-          i {
-            color: $gray-800;
-          }
-        }
-      }
-
       &.challenges {
         .menu-icon {
           background: $yellow-400;
@@ -226,8 +206,7 @@
       .button:nth-of-type(2),
       .user,
       .project,
-      .challenges,
-      .goals {
+      .challenges {
         display: none;
       }
 
@@ -240,8 +219,7 @@
       .user-actions .user,
       .routes,
       .project,
-      .challenges,
-      .goals {
+      .challenges {
         display: flex;
       }
 

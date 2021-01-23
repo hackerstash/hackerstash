@@ -52,25 +52,6 @@
                     <p class="truncate">{{ g.user.project.name }}</p>
                 </a>
 
-
-                {% if g.user.project.published and g.user.project.goal_status.value != 'NONE' %}
-                    {% if g.user.project.goal_status.value == 'REVIEW' %}
-                        <a aria-label="View the review page" class="user-action-item goals {{ 'active' if request.path.startswith('/goals') }}" href="{{ url_for('goals.index') }}">
-                            <span class="menu-icon">
-                                 <i class="ri-sort-asc"></i>
-                            </span>
-                            <p>Review</p>
-                        </a>
-                    {% else %}
-                        <a aria-label="View the review page" class="user-action-item goals review {{ 'active' if request.path.startswith('/goals') }}" href="{{ url_for('goals.index') }}">
-                            <span class="menu-icon">
-                                 <i class="ri-focus-3-line"></i>
-                            </span>
-                            <p>Goals</p>
-                        </a>
-                    {% endif %}
-                {% endif %}
-
                 <a aria-label="View your challenges" class="user-action-item challenges {{ 'active' if request.path.startswith('/challenges') }}" href="{{ url_for('challenges.index') }}">
                     <span class="menu-icon">
                         <i class="ri-medal-2-line"></i>

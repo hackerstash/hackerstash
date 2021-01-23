@@ -16,7 +16,6 @@
 @import './components/error';
 @import './components/footer';
 @import './components/form';
-@import './components/groups';
 @import './components/header';
 @import './components/icon';
 @import './components/input';
@@ -47,9 +46,6 @@
 @import './components/winners';
 
 // Pages
-@import './pages/goals/index';
-@import './pages/goals/reflect';
-@import './pages/goals/review';
 @import './pages/posts/index';
 @import './pages/posts/new';
 @import './pages/posts/show';
@@ -63,7 +59,6 @@
 @import './pages/users/show';
 @import './pages/admin';
 @import './pages/challenges';
-@import './pages/changelog';
 @import './pages/contact';
 @import './pages/index';
 @import './pages/leaderboard';

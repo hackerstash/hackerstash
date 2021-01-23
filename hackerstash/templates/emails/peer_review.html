@@ -1,9 +1,0 @@
-{% extends "layouts/email.html" %}
-{% from "partials/manage_notifications.html" import manage_notifications %}
-
-{% block body %}
-    <p>Hey {{ member.user.first_name }},</p>
-    <p>You have {{ time_remaining }} hour{{ 's' if time_remaining > 1 }} remaining to review and vote for your favourite projects on HackerStash. Simply log into HackerStash and visit the Reviews page in the navigation to submit your reviews.</p>
-    <p>The HackerStash Team</p>
-    {{ manage_notifications(host) }}
-{% endblock %}

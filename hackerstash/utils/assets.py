@@ -11,7 +11,6 @@ scripts = [
     'js/buttons.js',
     'js/comments.js',
     'js/editor.js',
-    'js/goals.js',
     'js/home.js',
     'js/menu.js',
     'js/messages.js',

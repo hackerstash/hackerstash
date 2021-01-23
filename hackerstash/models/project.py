@@ -4,7 +4,6 @@ from sqlalchemy.types import ARRAY, JSON
 from hackerstash.db import db
 from hackerstash.lib.leaderboard import Leaderboard
 from hackerstash.lib.logging import Logging
-from hackerstash.lib.goals import Goals, GoalStates
 from hackerstash.models.challenge import Challenge
 from hackerstash.models.vote import Vote
 from hackerstash.utils.helpers import find_in_list, html_to_plain_text
@@ -43,8 +42,6 @@ class Project(db.Model):
     challenges = db.relationship('Challenge', backref='project', cascade='all,delete')
     reviews = db.relationship('Review', backref='project', cascade='all,delete')
     winners = db.relationship('Winner', backref='project', cascade='all,delete')
-    goals = db.relationship('Goal', backref='project', cascade='all,delete', order_by='Goal.id.asc()')
-    feedback = db.relationship('Feedback', backref='project', cascade='all,delete')
 
     ghost = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
@@ -262,27 +259,3 @@ class Project(db.Model):
         completed = Challenge.get_completed_challenges_for_project(self)
         return len(completed)
 
-    @property
-    def active_goals(self) -> list:
-        """
-        Return the active goals for this week
-        :return: [Goal]
-        """
-        return [goal for goal in self.goals if goal.current]
-
-    @property
-    def goal_status(self) -> GoalStates:
-        """
-        Return the enum for the current goal state
-        :return: GoalStates
-        """
-        return Goals(self).status()
-
-    @property
-    def reviews_to_give(self) -> list:
-        """
-        Return which reviews this project needs to give this week
-        :return: [Feedback]
-        """
-        current = [feedback for feedback in self.feedback if feedback.current]
-        return sorted(current, key=lambda x: x.position, reverse=True)

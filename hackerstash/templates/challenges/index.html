@@ -49,7 +49,6 @@
                                 <span class="icon">{{ challenge_status.award_ponts_to_three_projects.count }}/{{ challenge_status.award_ponts_to_three_projects.max }}</span>
                             {% endif %}
                             <span class="text">Award points to 3 projects</span>
-                             <i role="button" aria-label="Show voting information" class="ri-information-line info-icon modal-open" data-modal="voting-info"></i>
                         </p>
                         <p class="points">
                             {{ challenge_status.award_ponts_to_three_projects.points }} points
@@ -114,28 +113,6 @@
                     <li>Challenges are designed to help you get the most out of the community. Aim to learn from your peers, share your knowledge, share your wins or losses.</li>
                 </ul>
             </aside>
-        </div>
-    </div>
-
-    <div id="voting-info" class="modal voting-info-modal">
-        <div class="modal-body md" role="dialog" aria-labelledby="voting-info-modal-header">
-            <header>
-                <h3 id="voting-info-modal-header">Voting on projects</h3>
-                <i class="icon ri-close-line modal-close" role="button" tabindex="0" aria-label="Close voting info modal"></i>
-            </header>
-            <main>
-                <p class="mt-1">You can vote on any project by visiting their project page and using the voting ticket by their project name.</p>
-                <p class="mb-1-5">Note: We’ll be adding a more structured process around voting for competitors in the coming weeks, but in the mean time, here are some ideas and questions to help you choose:</p>
-                <ul>
-                    <li>Which competing project impresses you most?</li>
-                    <li>Is there a project that you’d love to see receive funds that will support their business?</li>
-                    <li>Did a community member offer you valuable feedback this week? You can share the love by upvoting their project.</li>
-                </ul>
-
-                <footer class="mt-2">
-                    <button class="button secondary modal-close">Close</button>
-                </footer>
-            </main>
         </div>
     </div>
 {% endblock %}
