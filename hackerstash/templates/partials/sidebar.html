@@ -39,7 +39,7 @@
         </a>
     </nav>
     <hr class="divider">
-    <div class="user-actions {% 'squeaky-hide' if g.user %}">
+    <div class="user-actions {{ 'squeaky-hide' if g.user }}">
         {% if g.user %}
             <a aria-label="View your profile" class="user-action-item user {{ 'active' if request.path.startswith('/users') }}" href="{{ url_for('users.show', user_id=g.user.id) }}">
                 {{ avatar(g.user, 'x-sm') }}
