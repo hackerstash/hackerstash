@@ -61,5 +61,15 @@
     {%- assets "js_all" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {%- endassets %}
+    {% if g.user %}
+        <script type="text/javascript">
+            window.addEventListener('load', () => {
+                squeaky.identify('{{ g.user.id }}', {
+                    name: '{{ g.user.first_name }} {{ g.user.last_name }}',
+                    email: '{{ g.user.email }}'
+                });
+            });
+        </script>
+        {% endif %}
 </body>
 </html>
